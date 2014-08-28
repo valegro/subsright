@@ -80,6 +80,6 @@ test:
 #
 production:
   <<: *default
-  database: subsright_production
-  username: subsright
+  database: apps
+  username: apps
   password: <%= ENV['SUBSRIGHT_DATABASE_PASSWORD'] %>
