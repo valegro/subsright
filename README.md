@@ -1,4 +1,0 @@
-subsright
-=========
-
-Doing it right

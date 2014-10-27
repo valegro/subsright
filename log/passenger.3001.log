@@ -1,7 +1,0 @@
-
-App 30539 stdout: 
-[ 2014-08-28 22:33:46.1414 21250/7f1a90147700 Pool2/SmartSpawner.h:298 ]: Preloader for /home/apps/subsright started on PID 30539, listening on unix:/tmp/passenger.1.0.21246/generation-0/backends/preloader.1hyp4js
-App 30574 stdout: 
-App 32660 stdout: 
-[ 2014-08-28 22:48:01.2868 21250/7f1a91ed3700 Pool2/SmartSpawner.h:298 ]: Preloader for /home/apps/subsright started on PID 32660, listening on unix:/tmp/passenger.1.0.21246/generation-0/backends/preloader.hueqyr
-App 32678 stdout: 
