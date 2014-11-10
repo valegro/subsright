@@ -1,16 +1,15 @@
 source 'https://rubygems.org'
 
-
 # Bundle edge Rails instead: gem 'rails', github: 'rails/rails'
-gem 'rails', '~> 4.1.6'
+gem 'rails', '~> 4.1.7'
 # Use postgresql as the database for Active Record
 gem 'pg'
 # Use SCSS for stylesheets
-gem 'sass-rails', '~> 4.0.3'
+gem 'sass-rails', '~> 4.0.4'
 # Use Uglifier as compressor for JavaScript assets
 gem 'uglifier', '>= 1.3.0'
 # Use CoffeeScript for .js.coffee assets and views
-gem 'coffee-rails', '~> 4.0.0'
+gem 'coffee-rails', '~> 4.1.0'
 # See https://github.com/sstephenson/execjs#readme for more supported runtimes
 # gem 'therubyracer',  platforms: :ruby
 
@@ -27,10 +26,16 @@ gem 'sdoc', '~> 0.4.0',          group: :doc
 gem 'spring',        group: :development
 
 # Use ActiveModel has_secure_password
-# gem 'bcrypt', '~> 3.1.7'
+gem 'bcrypt', '~> 3.1.9'
 
 # Use Rails Html Sanitizer for HTML sanitization
 gem 'rails-html-sanitizer', '~> 1.0'
+
+# Use Devise for authentication
+gem 'devise'
+
+# Use ActiveAdmin framework from github for Rails 4 support
+gem 'activeadmin', github: 'activeadmin'
 
 # Use unicorn as the app server
 # gem 'unicorn'
