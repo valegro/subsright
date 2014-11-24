@@ -4,7 +4,7 @@
 <head>
 <meta charset="utf-8">
 
-<title>class ApplicationController - Rails Application Documentation</title>
+<title>class WelcomeController - Rails Application Documentation</title>
 
 <link href="./fonts.css" rel="stylesheet">
 <link href="./rdoc.css" rel="stylesheet">
@@ -61,7 +61,7 @@
   <h3>Parent</h3>
 
   
-  <p class="link">ActionController::Base
+  <p class="link"><a href="ApplicationController.html">ApplicationController</a>
   
 </div>
 
@@ -73,7 +73,7 @@
 
   <ul class="link-list" role="directory">
     
-    <li ><a href="#method-i-configure_permitted_parameters">#configure_permitted_parameters</a>
+    <li ><a href="#method-i-index">#index</a>
     
   </ul>
 </div>
@@ -81,9 +81,9 @@
   </div>
 </nav>
 
-<main role="main" aria-labelledby="class-ApplicationController">
-  <h1 id="class-ApplicationController" class="class">
-    class ApplicationController
+<main role="main" aria-labelledby="class-WelcomeController">
+  <h1 id="class-WelcomeController" class="class">
+    class WelcomeController
   </h1>
 
   <section class="description">
@@ -103,16 +103,16 @@
     
 
     
-     <section id="protected-instance-5Buntitled-5D-method-details" class="method-section">
+     <section id="public-instance-5Buntitled-5D-method-details" class="method-section">
        <header>
-         <h3>Protected Instance Methods</h3>
+         <h3>Public Instance Methods</h3>
        </header>
 
     
-      <div id="method-i-configure_permitted_parameters" class="method-detail ">
+      <div id="method-i-index" class="method-detail ">
         
         <div class="method-heading">
-          <span class="method-name">configure_permitted_parameters</span><span
+          <span class="method-name">index</span><span
             class="method-args">()</span>
           
           <span class="method-click-advice">click to toggle source</span>
@@ -127,11 +127,9 @@
           
 
           
-          <div class="method-source-code" id="configure_permitted_parameters-source">
-            <pre><span class="ruby-comment"># File app/controllers/application_controller.rb, line 10</span>
-<span class="ruby-keyword">def</span> <span class="ruby-identifier">configure_permitted_parameters</span>
-  <span class="ruby-identifier">devise_parameter_sanitizer</span>.<span class="ruby-identifier">for</span>(<span class="ruby-value">:sign_up</span>) <span class="ruby-operator">&lt;&lt;</span> <span class="ruby-value">:name</span>
-  <span class="ruby-identifier">devise_parameter_sanitizer</span>.<span class="ruby-identifier">for</span>(<span class="ruby-value">:account_update</span>) <span class="ruby-operator">&lt;&lt;</span> <span class="ruby-value">:name</span>
+          <div class="method-source-code" id="index-source">
+            <pre><span class="ruby-comment"># File app/controllers/welcome_controller.rb, line 2</span>
+<span class="ruby-keyword">def</span> <span class="ruby-identifier">index</span>
 <span class="ruby-keyword">end</span></pre>
           </div>
           
