@@ -34,6 +34,9 @@ gem 'rails-html-sanitizer', '~> 1.0'
 # Use Devise for authentication
 gem 'devise'
 
+# Use the Rails 4.2 branch of inherited_resources
+gem 'inherited_resources', github: 'josevalim/inherited_resources', branch: 'rails-4-2'
+
 # Use ActiveAdmin framework from github for Rails 4 support
 gem 'activeadmin', github: 'activeadmin'
 
