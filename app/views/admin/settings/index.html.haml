@@ -1,6 +1,0 @@
-= semantic_form_for :update_configuration, :url => admin_configuration_path(0), :method => :put do |form|
-  = form.inputs do
-    - Configuration.all.each do |record|
-      = form.input record.key.to_sym, as: record.form_type.to_sym, input_html: {value: record.value}, include_blank: false, collection: (options_from_collection_for_select(eval(record.form_collection_command), 'id', 'to_s', record.value) if record.form_collection_command.present?)
-  = form.actions do
-    = form.submit "Update Configuration"
