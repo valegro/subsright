@@ -1,0 +1,5 @@
+* Image uploads: paperclip
+* HTTPS
+* Two-factor authentication
+* I18N: globalize
+* Auditing: paper_trail
