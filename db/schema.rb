@@ -68,4 +68,6 @@ ActiveRecord::Schema.define(version: 20150107131931) do
     t.datetime "updated_at",              null: false
   end
 
+  add_index "configurations", ["key"], name: "index_configurations_on_key", unique: true, using: :btree
+
 end

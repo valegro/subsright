@@ -251,6 +251,13 @@ CREATE UNIQUE INDEX index_admin_users_on_unlock_token ON admin_users USING btree
 
 
 --
+-- Name: index_configurations_on_key; Type: INDEX; Schema: public; Owner: -; Tablespace: 
+--
+
+CREATE UNIQUE INDEX index_configurations_on_key ON configurations USING btree (key);
+
+
+--
 -- Name: unique_schema_migrations; Type: INDEX; Schema: public; Owner: -; Tablespace: 
 --
 

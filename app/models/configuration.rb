@@ -14,22 +14,18 @@ class Configuration < ActiveRecord::Base
     class_eval <<-EOC
       self.settings << "#{name}"
       def self.#{name}
-        @#{name} ||= self.find_or_create_by(
-          key: "#{name}",
-          value: #{default},
-          form_type: "#{form_type}",
-          form_collection_command: "#{form_collection_command}"
+        @#{name} ||= (
+          self.find_or_create_by(key: "#{name}") do |config|
+            config.value = #{default}
+            config.form_type = "#{form_type}"
+            config.form_collection_command = "#{form_collection_command}"
+          end
         ).value
       end
       def self.#{name}=(value)
-        record = self.find_or_create_by(
-          key: "#{name}",
-          value: #{default},
-          form_type: "#{form_type}",
-          form_collection_command: "#{form_collection_command}"
-        )
-        record.value = value
-        record.save!
+        config = self.find_or_create_by(key: "#{name}")
+        config.value = value
+        config.save!
         @#{name} = value
       end
     EOC

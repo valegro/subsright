@@ -8,5 +8,7 @@ class CreateConfigurations < ActiveRecord::Migration
 
       t.timestamps null: false
     end
+
+    add_index :configurations, :key, unique: true
   end
 end
