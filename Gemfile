@@ -49,3 +49,5 @@ gem 'activeadmin', github: 'activeadmin'
 # Use debugger
 # gem 'debugger', group: [:development, :test]
 
+# Use Paperclip for images
+gem 'paperclip', '~> 4.2'

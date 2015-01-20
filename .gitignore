@@ -11,5 +11,6 @@
 /log/*.log
 /tmp
 
-# Ignore automatically generated public assets
+# Ignore automatically generated and uploaded public assets
 /public/assets
+/public/system
