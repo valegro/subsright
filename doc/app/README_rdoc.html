@@ -51,6 +51,16 @@
   </div>
 
   
+<div class="nav-section">
+  <h3>Table of Contents</h3>
+
+  <ul class="link-list" role="directory">
+    <li><a href="#label-Prerequisites">Prerequisites</a>
+    <li><a href="#label-Installation">Installation</a>
+    <li><a href="#label-TODO">TODO</a>
+  </ul>
+</div>
+
 
   <div id="project-metadata">
     <div id="fileindex-section" class="nav-section">
@@ -68,7 +78,74 @@
 
 <main role="main" aria-label="Page README.rdoc">
 
-<h2 id="label-README"><a href="README_rdoc.html">README</a><span><a href="#label-README">&para;</a> <a href="#top">&uarr;</a></span></h2>
+<h2 id="label-Prerequisites">Prerequisites<span><a href="#label-Prerequisites">&para;</a> <a href="#top">&uarr;</a></span></h2>
+<ul><li>
+<p>bundler</p>
+</li><li>
+<p>git</p>
+</li><li>
+<p>Node.js</p>
+</li><li>
+<p>PostgreSQL</p>
+</li><li>
+<p>Ruby 2.x</p>
+</li></ul>
+
+<h2 id="label-Installation">Installation<span><a href="#label-Installation">&para;</a> <a href="#top">&uarr;</a></span></h2>
+
+<p>On Debian 8 (Jessie) or later and Ubuntu 14.10 (Utopic Unicorn) or later:</p>
+
+<p><code># apt-get install bundler git nodejs postgresql
+postgresql-server-dev-9.4 ruby ruby-dev</code></p>
+
+<p>On Ubuntu 14.04 (Trusty Tahr):</p>
+
+<p><code># apt-get install bundler git nodejs postgresql
+postgresql-server-dev-9.3 ruby2.0 ruby2.0-dev</code></p>
+
+<p><code># rm /usr/bin/ruby /usr/bin/gem /usr/bin/irb /usr/bin/rdoc
+/usr/bin/erb</code></p>
+
+<p><code># for f in ruby gem irb rdoc erb; do ln -s /usr/bin/${f}2.0
+/usr/bin/$f; done</code></p>
+
+<p><code># gem update --system</code></p>
+
+<p><code># gem pristine --all</code></p>
+
+<p>Then, on all systems:</p>
+
+<p><code>$ git clone
+https://[username]@github.com/valegro/subsright.git</code></p>
+
+<p><code>$ cd subsright</code></p>
+
+<p><code>$ git checkout andrew</code></p>
+
+<p><code>$ bundle install</code></p>
+
+<p><code>$ sudo gem pristine --all</code></p>
+
+<p><code>$ sudo -u postgres createuser -d $USER</code></p>
+
+<p><code>$ rake db:create</code></p>
+
+<p><code>$ rake db:migrate</code></p>
+
+<p><code>$ rake test</code></p>
+
+<p><code>$ rails s</code></p>
+
+<p>You can now visit <a href="http://localhost:3000">localhost:3000</a> which
+will initialise the default configuration.</p>
+
+<p>Check log/development.log for the text of the outbound mail to
+admin@example.com and follow the “confirm your account email” link
+provided. You can then log in with that email and the initial default
+password “password”.  You can now create and edit admin users and the site
+configuration.</p>
+
+<h2 id="label-TODO">TODO<span><a href="#label-TODO">&para;</a> <a href="#top">&uarr;</a></span></h2>
 
 <p>This <a href="README_rdoc.html">README</a> would normally document whatever
 steps are necessary to get the application up and running.</p>
@@ -93,9 +170,6 @@ steps are necessary to get the application up and running.</p>
 </li><li>
 <p>…</p>
 </li></ul>
-
-<p>Please feel free to use a different markup language if you do not plan to
-run <code>rake doc:app</code>.</p>
 </main>
 
 

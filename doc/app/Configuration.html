@@ -72,7 +72,15 @@
     
     <li ><a href="#method-c-ensure_created">::ensure_created</a>
     
+    <li ><a href="#method-c-provider_logo">::provider_logo</a>
+    
+    <li ><a href="#method-c-provider_logo-3D">::provider_logo=</a>
+    
     <li ><a href="#method-c-setting">::setting</a>
+    
+    <li ><a href="#method-i-provider_logo_file_name">#provider_logo_file_name</a>
+    
+    <li ><a href="#method-i-provider_logo_file_name-3D">#provider_logo_file_name=</a>
     
   </ul>
 </div>
@@ -127,11 +135,83 @@
 
           
           <div class="method-source-code" id="ensure_created-source">
-            <pre><span class="ruby-comment"># File app/models/configuration.rb, line 7</span>
+            <pre><span class="ruby-comment"># File app/models/configuration.rb, line 9</span>
 <span class="ruby-keyword">def</span> <span class="ruby-keyword">self</span>.<span class="ruby-identifier">ensure_created</span>
   <span class="ruby-keyword">self</span>.<span class="ruby-identifier">settings</span>.<span class="ruby-identifier">each</span> <span class="ruby-keyword">do</span> <span class="ruby-operator">|</span><span class="ruby-identifier">setting</span><span class="ruby-operator">|</span>
     <span class="ruby-keyword">self</span>.<span class="ruby-identifier">send</span>(<span class="ruby-identifier">setting</span>)
   <span class="ruby-keyword">end</span>
+  <span class="ruby-identifier">provider_logo</span>
+<span class="ruby-keyword">end</span></pre>
+          </div>
+          
+        </div>
+
+        
+
+        
+      </div>
+
+    
+      <div id="method-c-provider_logo" class="method-detail ">
+        
+        <div class="method-heading">
+          <span class="method-name">provider_logo</span><span
+            class="method-args">()</span>
+          
+          <span class="method-click-advice">click to toggle source</span>
+          
+        </div>
+        
+
+        <div class="method-description">
+          
+          <p>Accessors for <a
+href="Configuration.html#method-c-provider_logo">::provider_logo</a> class
+attribute</p>
+          
+          
+
+          
+          <div class="method-source-code" id="provider_logo-source">
+            <pre><span class="ruby-comment"># File app/models/configuration.rb, line 38</span>
+<span class="ruby-keyword">def</span> <span class="ruby-keyword">self</span>.<span class="ruby-identifier">provider_logo</span>
+  <span class="ruby-identifier">find_or_create_by</span>(<span class="ruby-identifier">key</span><span class="ruby-operator">:</span> <span class="ruby-string">&#39;provider_logo&#39;</span>, <span class="ruby-identifier">form_type</span><span class="ruby-operator">:</span> <span class="ruby-string">&#39;file&#39;</span>).<span class="ruby-identifier">provider_logo</span>
+<span class="ruby-keyword">end</span></pre>
+          </div>
+          
+        </div>
+
+        
+
+        
+      </div>
+
+    
+      <div id="method-c-provider_logo-3D" class="method-detail ">
+        
+        <div class="method-heading">
+          <span class="method-name">provider_logo=</span><span
+            class="method-args">(attachment)</span>
+          
+          <span class="method-click-advice">click to toggle source</span>
+          
+        </div>
+        
+
+        <div class="method-description">
+          
+          
+          
+          
+
+          
+          <div class="method-source-code" id="provider_logo-3D-source">
+            <pre><span class="ruby-comment"># File app/models/configuration.rb, line 42</span>
+<span class="ruby-keyword">def</span> <span class="ruby-keyword">self</span>.<span class="ruby-identifier">provider_logo=</span>(<span class="ruby-identifier">attachment</span>)
+  <span class="ruby-identifier">config</span> = <span class="ruby-identifier">find_by</span>(<span class="ruby-identifier">key</span><span class="ruby-operator">:</span> <span class="ruby-string">&#39;provider_logo&#39;</span>)
+  <span class="ruby-identifier">config</span>.<span class="ruby-identifier">provider_logo</span> = <span class="ruby-identifier">attachment</span>
+  <span class="ruby-identifier">config</span>.<span class="ruby-identifier">value</span> = <span class="ruby-identifier">config</span>.<span class="ruby-identifier">provider_logo</span>.<span class="ruby-identifier">original_filename</span>
+  <span class="ruby-identifier">config</span>.<span class="ruby-identifier">save!</span>
 <span class="ruby-keyword">end</span></pre>
           </div>
           
@@ -162,30 +242,106 @@
 
           
           <div class="method-source-code" id="setting-source">
-            <pre><span class="ruby-comment"># File app/models/configuration.rb, line 13</span>
+            <pre><span class="ruby-comment"># File app/models/configuration.rb, line 16</span>
 <span class="ruby-keyword">def</span> <span class="ruby-keyword">self</span>.<span class="ruby-identifier">setting</span>(<span class="ruby-identifier">name</span>, <span class="ruby-identifier">default</span>, <span class="ruby-identifier">form_type</span>, <span class="ruby-identifier">form_collection_command</span>=<span class="ruby-string">&quot;&quot;</span>)
   <span class="ruby-identifier">class_eval</span> <span class="ruby-value">&lt;&lt;-EOC
     self.settings &lt;&lt; &quot;#{name}&quot;
     def self.#{name}
-      @#{name} ||= self.find_or_create_by(
-        key: &quot;#{name}&quot;,
-        value: #{default},
-        form_type: &quot;#{form_type}&quot;,
-        form_collection_command: &quot;#{form_collection_command}&quot;
+      @#{name} ||= (
+        self.find_or_create_by(key: &quot;#{name}&quot;) do |config|
+          config.value = #{default}
+          config.form_type = &quot;#{form_type}&quot;
+          config.form_collection_command = &quot;#{form_collection_command}&quot;
+        end
       ).value
     end
     def self.#{name}=(value)
-      record = self.find_or_create_by(
-        key: &quot;#{name}&quot;,
-        value: #{default},
-        form_type: &quot;#{form_type}&quot;,
-        form_collection_command: &quot;#{form_collection_command}&quot;
-      )
-      record.value = value
-      record.save!
+      config = self.find_or_create_by(key: &quot;#{name}&quot;)
+      config.value = value
+      config.save!
       @#{name} = value
     end
   EOC</span>
+<span class="ruby-keyword">end</span></pre>
+          </div>
+          
+        </div>
+
+        
+
+        
+      </div>
+
+    
+    </section>
+  
+     <section id="public-instance-5Buntitled-5D-method-details" class="method-section">
+       <header>
+         <h3>Public Instance Methods</h3>
+       </header>
+
+    
+      <div id="method-i-provider_logo_file_name" class="method-detail ">
+        
+        <div class="method-heading">
+          <span class="method-name">provider_logo_file_name</span><span
+            class="method-args">()</span>
+          
+          <span class="method-click-advice">click to toggle source</span>
+          
+        </div>
+        
+
+        <div class="method-description">
+          
+          <p>Accessors for <a
+href="Configuration.html#method-i-provider_logo_file_name">#provider_logo_file_name</a>
+instance attribute</p>
+          
+          
+
+          
+          <div class="method-source-code" id="provider_logo_file_name-source">
+            <pre><span class="ruby-comment"># File app/models/configuration.rb, line 50</span>
+<span class="ruby-keyword">def</span> <span class="ruby-identifier">provider_logo_file_name</span>
+  <span class="ruby-identifier">config</span> = <span class="ruby-constant">Configuration</span>.<span class="ruby-identifier">find_by</span>(<span class="ruby-identifier">key</span><span class="ruby-operator">:</span> <span class="ruby-string">&#39;provider_logo&#39;</span>)
+  <span class="ruby-identifier">config</span>.<span class="ruby-identifier">value</span> <span class="ruby-keyword">if</span> <span class="ruby-identifier">config</span>
+<span class="ruby-keyword">end</span></pre>
+          </div>
+          
+        </div>
+
+        
+
+        
+      </div>
+
+    
+      <div id="method-i-provider_logo_file_name-3D" class="method-detail ">
+        
+        <div class="method-heading">
+          <span class="method-name">provider_logo_file_name=</span><span
+            class="method-args">(file_name)</span>
+          
+          <span class="method-click-advice">click to toggle source</span>
+          
+        </div>
+        
+
+        <div class="method-description">
+          
+          
+          
+          
+
+          
+          <div class="method-source-code" id="provider_logo_file_name-3D-source">
+            <pre><span class="ruby-comment"># File app/models/configuration.rb, line 55</span>
+<span class="ruby-keyword">def</span> <span class="ruby-identifier">provider_logo_file_name=</span>(<span class="ruby-identifier">file_name</span>)
+  <span class="ruby-identifier">config</span> = <span class="ruby-constant">Configuration</span>.<span class="ruby-identifier">find_by</span>(<span class="ruby-identifier">key</span><span class="ruby-operator">:</span> <span class="ruby-string">&#39;provider_logo&#39;</span>)
+  <span class="ruby-identifier">config</span>.<span class="ruby-identifier">value</span> = <span class="ruby-identifier">file_name</span>
+  <span class="ruby-identifier">config</span>.<span class="ruby-identifier">save!</span>
+  <span class="ruby-keyword">return</span> <span class="ruby-identifier">file_name</span>
 <span class="ruby-keyword">end</span></pre>
           </div>
           
