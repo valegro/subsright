@@ -147,6 +147,16 @@ ALTER SEQUENCE campaigns_id_seq OWNED BY campaigns.id;
 
 
 --
+-- Name: campaigns_offers; Type: TABLE; Schema: public; Owner: -; Tablespace: 
+--
+
+CREATE TABLE campaigns_offers (
+    campaign_id integer NOT NULL,
+    offer_id integer NOT NULL
+);
+
+
+--
 -- Name: configurations; Type: TABLE; Schema: public; Owner: -; Tablespace: 
 --
 
@@ -346,6 +356,13 @@ CREATE UNIQUE INDEX index_admin_users_on_unlock_token ON admin_users USING btree
 
 
 --
+-- Name: index_campaigns_offers_on_campaign_id_and_offer_id; Type: INDEX; Schema: public; Owner: -; Tablespace: 
+--
+
+CREATE UNIQUE INDEX index_campaigns_offers_on_campaign_id_and_offer_id ON campaigns_offers USING btree (campaign_id, offer_id);
+
+
+--
 -- Name: index_configurations_on_key; Type: INDEX; Schema: public; Owner: -; Tablespace: 
 --
 
@@ -374,4 +391,6 @@ INSERT INTO schema_migrations (version) VALUES ('20150107131931');
 INSERT INTO schema_migrations (version) VALUES ('20150210013631');
 
 INSERT INTO schema_migrations (version) VALUES ('20150210051847');
+
+INSERT INTO schema_migrations (version) VALUES ('20150210060735');
 

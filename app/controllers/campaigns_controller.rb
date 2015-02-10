@@ -6,4 +6,3 @@ class CampaignsController < InheritedResources::Base
       params.require(:campaign).permit(:name, :start, :finish)
     end
 end
-

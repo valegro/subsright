@@ -6,4 +6,3 @@ class OffersController < InheritedResources::Base
       params.require(:offer).permit(:name, :expires)
     end
 end
-
