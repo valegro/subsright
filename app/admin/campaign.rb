@@ -8,6 +8,7 @@ ActiveAdmin.register Campaign do
     column :start
     column :finish
     column :created_at
+    column :updated_at
     actions
   end
 
@@ -15,5 +16,6 @@ ActiveAdmin.register Campaign do
   filter :start
   filter :finish
   filter :created_at
+  filter :updated_at
 
 end
