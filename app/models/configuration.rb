@@ -39,17 +39,15 @@ class Configuration < ActiveRecord::Base
   # Accessors for provider_logo class attribute
   def self.provider_logo
     config = find_or_create_by(key: 'provider_logo', form_type: 'file')
-    if (config.value)
-      @@provider_logo_file_name = config.value[:file_name]
-      @@provider_logo_content_type = config.value[:content_type]
-    end
+    @@provider_logo_file_name = config.value.presence
+    @@provider_logo_content_type = nil
     config.provider_logo
   end
 
   def self.provider_logo=(attachment)
     config = find_by(key: 'provider_logo')
     config.provider_logo = attachment
-    config.value = { file_name: @@provider_logo_file_name, content_type: @@provider_logo_content_type }
+    config.value = @@provider_logo_file_name
     config.save!
   end
 
