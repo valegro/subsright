@@ -1,10 +1,12 @@
 class Configuration < ActiveRecord::Base
   serialize :value
   has_attached_file :provider_logo
-  do_not_validate_attachment_file_type :provider_logo
+  validates_attachment_content_type :provider_logo, :content_type => /\Aimage\//
 
   class_attribute :settings
   self.settings = []
+
+  cattr_accessor :provider_logo_file_name, :provider_logo_content_type
 
   def self.ensure_created
     self.settings.each do |setting|
@@ -36,27 +38,19 @@ class Configuration < ActiveRecord::Base
 
   # Accessors for provider_logo class attribute
   def self.provider_logo
-    find_or_create_by(key: 'provider_logo', form_type: 'file').provider_logo
+    config = find_or_create_by(key: 'provider_logo', form_type: 'file')
+    if (config.value)
+      @@provider_logo_file_name = config.value[:file_name]
+      @@provider_logo_content_type = config.value[:content_type]
+    end
+    config.provider_logo
   end
 
   def self.provider_logo=(attachment)
     config = find_by(key: 'provider_logo')
     config.provider_logo = attachment
-    config.value = config.provider_logo.original_filename
+    config.value = { file_name: @@provider_logo_file_name, content_type: @@provider_logo_content_type }
     config.save!
-  end
-
-  # Accessors for provider_logo_file_name instance attribute
-  def provider_logo_file_name
-    config = Configuration.find_by(key: 'provider_logo')
-    config.value if config
-  end
-
-  def provider_logo_file_name=(file_name)
-    config = Configuration.find_by(key: 'provider_logo')
-    config.value = file_name
-    config.save!
-    return file_name
   end
 
   # Define settings by listing them here
