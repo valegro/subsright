@@ -1,4 +1,5 @@
 Rails.application.routes.draw do
+  resources :offers
   resources :campaigns
 
   devise_for :admin_users, ActiveAdmin::Devise.config

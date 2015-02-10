@@ -181,6 +181,38 @@ ALTER SEQUENCE configurations_id_seq OWNED BY configurations.id;
 
 
 --
+-- Name: offers; Type: TABLE; Schema: public; Owner: -; Tablespace: 
+--
+
+CREATE TABLE offers (
+    id integer NOT NULL,
+    name text NOT NULL,
+    expires date,
+    created_at timestamp without time zone NOT NULL,
+    updated_at timestamp without time zone NOT NULL
+);
+
+
+--
+-- Name: offers_id_seq; Type: SEQUENCE; Schema: public; Owner: -
+--
+
+CREATE SEQUENCE offers_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+--
+-- Name: offers_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: -
+--
+
+ALTER SEQUENCE offers_id_seq OWNED BY offers.id;
+
+
+--
 -- Name: schema_migrations; Type: TABLE; Schema: public; Owner: -; Tablespace: 
 --
 
@@ -218,6 +250,13 @@ ALTER TABLE ONLY configurations ALTER COLUMN id SET DEFAULT nextval('configurati
 
 
 --
+-- Name: id; Type: DEFAULT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY offers ALTER COLUMN id SET DEFAULT nextval('offers_id_seq'::regclass);
+
+
+--
 -- Name: active_admin_comments_pkey; Type: CONSTRAINT; Schema: public; Owner: -; Tablespace: 
 --
 
@@ -247,6 +286,14 @@ ALTER TABLE ONLY campaigns
 
 ALTER TABLE ONLY configurations
     ADD CONSTRAINT configurations_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: offers_pkey; Type: CONSTRAINT; Schema: public; Owner: -; Tablespace: 
+--
+
+ALTER TABLE ONLY offers
+    ADD CONSTRAINT offers_pkey PRIMARY KEY (id);
 
 
 --
@@ -325,4 +372,6 @@ INSERT INTO schema_migrations (version) VALUES ('20141110091053');
 INSERT INTO schema_migrations (version) VALUES ('20150107131931');
 
 INSERT INTO schema_migrations (version) VALUES ('20150210013631');
+
+INSERT INTO schema_migrations (version) VALUES ('20150210051847');
 
