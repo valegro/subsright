@@ -223,6 +223,48 @@ ALTER SEQUENCE offers_id_seq OWNED BY offers.id;
 
 
 --
+-- Name: offers_products; Type: TABLE; Schema: public; Owner: -; Tablespace: 
+--
+
+CREATE TABLE offers_products (
+    product_id integer NOT NULL,
+    offer_id integer NOT NULL
+);
+
+
+--
+-- Name: products; Type: TABLE; Schema: public; Owner: -; Tablespace: 
+--
+
+CREATE TABLE products (
+    id integer NOT NULL,
+    name text NOT NULL,
+    stock integer,
+    created_at timestamp without time zone NOT NULL,
+    updated_at timestamp without time zone NOT NULL
+);
+
+
+--
+-- Name: products_id_seq; Type: SEQUENCE; Schema: public; Owner: -
+--
+
+CREATE SEQUENCE products_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+--
+-- Name: products_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: -
+--
+
+ALTER SEQUENCE products_id_seq OWNED BY products.id;
+
+
+--
 -- Name: schema_migrations; Type: TABLE; Schema: public; Owner: -; Tablespace: 
 --
 
@@ -267,6 +309,13 @@ ALTER TABLE ONLY offers ALTER COLUMN id SET DEFAULT nextval('offers_id_seq'::reg
 
 
 --
+-- Name: id; Type: DEFAULT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY products ALTER COLUMN id SET DEFAULT nextval('products_id_seq'::regclass);
+
+
+--
 -- Name: active_admin_comments_pkey; Type: CONSTRAINT; Schema: public; Owner: -; Tablespace: 
 --
 
@@ -304,6 +353,14 @@ ALTER TABLE ONLY configurations
 
 ALTER TABLE ONLY offers
     ADD CONSTRAINT offers_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: products_pkey; Type: CONSTRAINT; Schema: public; Owner: -; Tablespace: 
+--
+
+ALTER TABLE ONLY products
+    ADD CONSTRAINT products_pkey PRIMARY KEY (id);
 
 
 --
@@ -370,6 +427,13 @@ CREATE UNIQUE INDEX index_configurations_on_key ON configurations USING btree (k
 
 
 --
+-- Name: index_offers_products_on_offer_id_and_product_id; Type: INDEX; Schema: public; Owner: -; Tablespace: 
+--
+
+CREATE UNIQUE INDEX index_offers_products_on_offer_id_and_product_id ON offers_products USING btree (offer_id, product_id);
+
+
+--
 -- Name: unique_schema_migrations; Type: INDEX; Schema: public; Owner: -; Tablespace: 
 --
 
@@ -393,4 +457,8 @@ INSERT INTO schema_migrations (version) VALUES ('20150210013631');
 INSERT INTO schema_migrations (version) VALUES ('20150210051847');
 
 INSERT INTO schema_migrations (version) VALUES ('20150210060735');
+
+INSERT INTO schema_migrations (version) VALUES ('20150224061319');
+
+INSERT INTO schema_migrations (version) VALUES ('20150224061651');
 

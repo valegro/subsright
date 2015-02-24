@@ -1,18 +1,23 @@
-Tue, 10 Feb 2015 16:23:23 +1100
+Tue, 24 Feb 2015 17:52:36 +1100
 README.rdoc	Wed, 21 Jan 2015 14:56:35 +1100
 app/admin/admin_user.rb	Tue, 10 Feb 2015 16:07:17 +1100
-app/admin/campaign.rb	Tue, 10 Feb 2015 16:07:05 +1100
+app/admin/campaign.rb	Tue, 24 Feb 2015 17:08:56 +1100
 app/admin/configuration.rb	Thu, 08 Jan 2015 01:21:40 +1100
 app/admin/dashboard.rb	Mon, 10 Nov 2014 20:10:50 +1100
+app/admin/offer.rb	Tue, 24 Feb 2015 17:30:29 +1100
+app/admin/product.rb	Tue, 24 Feb 2015 17:28:55 +1100
 app/controllers/application_controller.rb	Mon, 24 Nov 2014 23:49:51 +1100
-app/controllers/campaigns_controller.rb	Tue, 10 Feb 2015 12:36:31 +1100
-app/controllers/offers_controller.rb	Tue, 10 Feb 2015 16:18:47 +1100
+app/controllers/campaigns_controller.rb	Tue, 10 Feb 2015 19:25:38 +1100
+app/controllers/offers_controller.rb	Tue, 10 Feb 2015 19:25:34 +1100
+app/controllers/products_controller.rb	Tue, 24 Feb 2015 17:13:19 +1100
 app/controllers/welcome_controller.rb	Mon, 10 Nov 2014 20:08:32 +1100
 app/helpers/application_helper.rb	Mon, 27 Oct 2014 16:28:23 +1100
 app/helpers/campaigns_helper.rb	Tue, 10 Feb 2015 12:36:31 +1100
 app/helpers/offers_helper.rb	Tue, 10 Feb 2015 16:18:47 +1100
+app/helpers/products_helper.rb	Tue, 24 Feb 2015 17:13:19 +1100
 app/helpers/welcome_helper.rb	Mon, 10 Nov 2014 20:08:32 +1100
 app/models/admin_user.rb	Tue, 25 Nov 2014 00:25:51 +1100
-app/models/campaign.rb	Tue, 10 Feb 2015 12:48:36 +1100
-app/models/configuration.rb	Tue, 10 Feb 2015 11:49:33 +1100
-app/models/offer.rb	Tue, 10 Feb 2015 16:19:47 +1100
+app/models/campaign.rb	Tue, 24 Feb 2015 17:01:13 +1100
+app/models/configuration.rb	Wed, 11 Feb 2015 02:38:44 +1100
+app/models/offer.rb	Tue, 24 Feb 2015 17:20:50 +1100
+app/models/product.rb	Tue, 24 Feb 2015 17:20:31 +1100

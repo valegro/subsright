@@ -172,10 +172,8 @@ attribute</p>
             <pre><span class="ruby-comment"># File app/models/configuration.rb, line 40</span>
 <span class="ruby-keyword">def</span> <span class="ruby-keyword">self</span>.<span class="ruby-identifier">provider_logo</span>
   <span class="ruby-identifier">config</span> = <span class="ruby-identifier">find_or_create_by</span>(<span class="ruby-identifier">key</span><span class="ruby-operator">:</span> <span class="ruby-string">&#39;provider_logo&#39;</span>, <span class="ruby-identifier">form_type</span><span class="ruby-operator">:</span> <span class="ruby-string">&#39;file&#39;</span>)
-  <span class="ruby-keyword">if</span> (<span class="ruby-identifier">config</span>.<span class="ruby-identifier">value</span>)
-    <span class="ruby-identifier">@@provider_logo_file_name</span> = <span class="ruby-identifier">config</span>.<span class="ruby-identifier">value</span>[<span class="ruby-value">:file_name</span>]
-    <span class="ruby-identifier">@@provider_logo_content_type</span> = <span class="ruby-identifier">config</span>.<span class="ruby-identifier">value</span>[<span class="ruby-value">:content_type</span>]
-  <span class="ruby-keyword">end</span>
+  <span class="ruby-identifier">@@provider_logo_file_name</span> = <span class="ruby-identifier">config</span>.<span class="ruby-identifier">value</span>.<span class="ruby-identifier">presence</span>
+  <span class="ruby-identifier">@@provider_logo_content_type</span> = <span class="ruby-keyword">nil</span>
   <span class="ruby-identifier">config</span>.<span class="ruby-identifier">provider_logo</span>
 <span class="ruby-keyword">end</span></pre>
           </div>
@@ -207,11 +205,11 @@ attribute</p>
 
           
           <div class="method-source-code" id="provider_logo-3D-source">
-            <pre><span class="ruby-comment"># File app/models/configuration.rb, line 49</span>
+            <pre><span class="ruby-comment"># File app/models/configuration.rb, line 47</span>
 <span class="ruby-keyword">def</span> <span class="ruby-keyword">self</span>.<span class="ruby-identifier">provider_logo=</span>(<span class="ruby-identifier">attachment</span>)
   <span class="ruby-identifier">config</span> = <span class="ruby-identifier">find_by</span>(<span class="ruby-identifier">key</span><span class="ruby-operator">:</span> <span class="ruby-string">&#39;provider_logo&#39;</span>)
   <span class="ruby-identifier">config</span>.<span class="ruby-identifier">provider_logo</span> = <span class="ruby-identifier">attachment</span>
-  <span class="ruby-identifier">config</span>.<span class="ruby-identifier">value</span> = { <span class="ruby-identifier">file_name</span><span class="ruby-operator">:</span> <span class="ruby-identifier">@@provider_logo_file_name</span>, <span class="ruby-identifier">content_type</span><span class="ruby-operator">:</span> <span class="ruby-identifier">@@provider_logo_content_type</span> }
+  <span class="ruby-identifier">config</span>.<span class="ruby-identifier">value</span> = <span class="ruby-identifier">@@provider_logo_file_name</span>
   <span class="ruby-identifier">config</span>.<span class="ruby-identifier">save!</span>
 <span class="ruby-keyword">end</span></pre>
           </div>
