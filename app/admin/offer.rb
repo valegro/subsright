@@ -7,7 +7,8 @@ ActiveAdmin.register Offer do
     column :name
     column :expires
     column 'Campaigns' do |offer|
-      (offer.campaigns.map { |campaign| campaign.name }).join(', ').html_safe
+      (offer.campaigns.map { |campaign| link_to campaign.name, admin_campaign_path(campaign) }).
+      join(', ').html_safe
     end
     column :created_at
     column :updated_at
@@ -19,7 +20,8 @@ ActiveAdmin.register Offer do
       row :name
       row :expires
       row 'Campaigns' do |offer|
-        (offer.campaigns.map { |campaign| campaign.name }).join(', ').html_safe
+        (offer.campaigns.map { |campaign| link_to campaign.name, admin_campaign_path(campaign) }).
+        join(', ').html_safe
       end
       row :created_at
       row :updated_at
@@ -35,5 +37,4 @@ ActiveAdmin.register Offer do
     end
     f.actions
   end
-
 end

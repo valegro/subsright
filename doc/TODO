@@ -2,6 +2,4 @@
 * Two-factor authentication
 * I18N: globalize
 * Auditing: paper_trail
-* Make "offers" and "campaigns" columns sortable in ActiveAdmin
-* Make offer and campaign names links in ActiveAdmin
 * Add tests
