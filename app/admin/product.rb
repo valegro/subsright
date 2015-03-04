@@ -1,10 +1,17 @@
 ActiveAdmin.register Product do
-  permit_params :name, :stock, offer_ids: []
+  permit_params :name, :image, :stock, offer_ids: []
 
   index do
     selectable_column
     id_column
     column :name
+    column :image do |product|
+      if product.image?
+        image_tag(product.image.url(:thumb), height: '100')
+      else
+        content_tag(:span, 'None')
+      end
+    end
     column :stock
     column 'Offers' do |product|
       (product.offers.map { |offer| link_to offer.name, admin_offer_path(offer) }).
@@ -18,6 +25,13 @@ ActiveAdmin.register Product do
   show do
     attributes_table do
       row :name
+      row :image do
+        if product.image?
+          image_tag(product.image.url)
+        else
+          content_tag(:span, 'None')
+        end
+      end
       row :stock
       row 'Offers' do |product|
         (product.offers.map { |offer| link_to offer.name, admin_offer_path(offer) }).
@@ -32,6 +46,11 @@ ActiveAdmin.register Product do
   form do |f|
     f.inputs "Product Details" do
       f.input :name, input_html: { rows: 1 }
+      f.input :image, as: :file, hint: if f.product.image?
+        image_tag(f.product.image.url)
+      else
+        content_tag(:span, 'Please upload an image')
+      end
       f.input :stock
       f.input :offers
     end

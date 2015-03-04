@@ -241,7 +241,11 @@ CREATE TABLE products (
     name text NOT NULL,
     stock integer,
     created_at timestamp without time zone NOT NULL,
-    updated_at timestamp without time zone NOT NULL
+    updated_at timestamp without time zone NOT NULL,
+    image_file_name character varying,
+    image_content_type character varying,
+    image_file_size integer,
+    image_updated_at timestamp without time zone
 );
 
 
@@ -461,4 +465,6 @@ INSERT INTO schema_migrations (version) VALUES ('20150210060735');
 INSERT INTO schema_migrations (version) VALUES ('20150224061319');
 
 INSERT INTO schema_migrations (version) VALUES ('20150224061651');
+
+INSERT INTO schema_migrations (version) VALUES ('20150304043851');
 
