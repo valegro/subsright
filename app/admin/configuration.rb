@@ -21,5 +21,4 @@ ActiveAdmin.register Configuration do
       redirect_to :back, notice: "Settings Saved"
     end
   end
-
 end

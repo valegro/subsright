@@ -4,3 +4,5 @@
 * Auditing: paper_trail
 * Add tests
 * Add product images
+* Add description fields
+* Implement optional products

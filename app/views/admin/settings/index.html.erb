@@ -1,7 +1,7 @@
 <%= semantic_form_for :update_configuration, :url => admin_configuration_path(0), :method => :put do |form| %>
   <%= form.inputs do %>
     <%  Configuration.all.sort_by(&:key).each do |record| %>
-      <%= image_tag record.provider_logo.url if record.key == 'provider_logo' and record.provider_logo.present? %>
+      <%= image_tag record.provider_logo.url if record.key == 'provider_logo' and Configuration.provider_logo.present? %>
       <%= form.input(
             record.key.to_sym,
         	  as: record.form_type.to_sym,

@@ -39,7 +39,7 @@ ActiveAdmin.register Offer do
 
   form do |f|
     f.inputs "Offer Details" do
-      f.input :name
+      f.input :name, input_html: { rows: 1 }
       f.input :expires
       f.input :campaigns
       f.input :products

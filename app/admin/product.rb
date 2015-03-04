@@ -31,7 +31,7 @@ ActiveAdmin.register Product do
 
   form do |f|
     f.inputs "Product Details" do
-      f.input :name
+      f.input :name, input_html: { rows: 1 }
       f.input :stock
       f.input :offers
     end
