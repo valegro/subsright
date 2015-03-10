@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150304043851) do
+ActiveRecord::Schema.define(version: 20150224061651) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -60,11 +60,12 @@ ActiveRecord::Schema.define(version: 20150304043851) do
   add_index "admin_users", ["unlock_token"], name: "index_admin_users_on_unlock_token", unique: true, using: :btree
 
   create_table "campaigns", force: :cascade do |t|
-    t.text     "name",       null: false
+    t.text     "name",        null: false
     t.date     "start"
     t.date     "finish"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
+    t.text     "description"
+    t.datetime "created_at",  null: false
+    t.datetime "updated_at",  null: false
   end
 
   create_table "campaigns_offers", id: false, force: :cascade do |t|
@@ -86,10 +87,11 @@ ActiveRecord::Schema.define(version: 20150304043851) do
   add_index "configurations", ["key"], name: "index_configurations_on_key", unique: true, using: :btree
 
   create_table "offers", force: :cascade do |t|
-    t.text     "name",       null: false
+    t.text     "name",        null: false
     t.date     "expires"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
+    t.text     "description"
+    t.datetime "created_at",  null: false
+    t.datetime "updated_at",  null: false
   end
 
   create_table "offers_products", id: false, force: :cascade do |t|
@@ -102,12 +104,13 @@ ActiveRecord::Schema.define(version: 20150304043851) do
   create_table "products", force: :cascade do |t|
     t.text     "name",               null: false
     t.integer  "stock"
-    t.datetime "created_at",         null: false
-    t.datetime "updated_at",         null: false
     t.string   "image_file_name"
     t.string   "image_content_type"
     t.integer  "image_file_size"
     t.datetime "image_updated_at"
+    t.text     "description"
+    t.datetime "created_at",         null: false
+    t.datetime "updated_at",         null: false
   end
 
 end

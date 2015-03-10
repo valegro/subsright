@@ -4,6 +4,7 @@ class CreateCampaigns < ActiveRecord::Migration
       t.text :name, null: false
       t.date :start
       t.date :finish
+      t.text :description
 
       t.timestamps null: false
     end

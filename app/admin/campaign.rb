@@ -1,5 +1,5 @@
 ActiveAdmin.register Campaign do
-  permit_params :name, :start, :finish, offer_ids: []
+  permit_params :name, :start, :finish, :description, offer_ids: []
 
   index do
     selectable_column
@@ -21,9 +21,12 @@ ActiveAdmin.register Campaign do
       row :name
       row :start
       row :finish
-      row 'Offers' do |campaign|
+      row 'Offers' do
         (campaign.offers.map { |offer| link_to offer.name, admin_offer_path(offer) }).
         join(', ').html_safe
+      end
+      row :description do
+        campaign.description.html_safe
       end
       row :created_at
       row :updated_at
@@ -37,6 +40,7 @@ ActiveAdmin.register Campaign do
       f.input :start
       f.input :finish
       f.input :offers
+      f.input :description, input_html: { :class => 'tinymce' }
     end
     f.actions
   end

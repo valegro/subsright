@@ -1,5 +1,5 @@
 ActiveAdmin.register Product do
-  permit_params :name, :image, :stock, offer_ids: []
+  permit_params :name, :image, :stock, :description, offer_ids: []
 
   index do
     selectable_column
@@ -33,9 +33,12 @@ ActiveAdmin.register Product do
         end
       end
       row :stock
-      row 'Offers' do |product|
+      row 'Offers' do
         (product.offers.map { |offer| link_to offer.name, admin_offer_path(offer) }).
         join(', ').html_safe
+      end
+      row :description do
+        product.description.html_safe
       end
       row :created_at
       row :updated_at
@@ -53,6 +56,7 @@ ActiveAdmin.register Product do
       end
       f.input :stock
       f.input :offers
+      f.input :description, input_html: { :class => 'tinymce' }
     end
     f.actions
   end

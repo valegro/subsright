@@ -48,3 +48,6 @@ gem 'activeadmin', github: 'activeadmin'
 
 # Use Paperclip for images
 gem 'paperclip', '~> 4.2'
+
+# Use TinyMCE for rich text fields
+gem 'tinymce-rails'

@@ -3,6 +3,7 @@ class CreateOffers < ActiveRecord::Migration
     create_table :offers do |t|
       t.text :name, null: false
       t.date :expires
+      t.text :description
 
       t.timestamps null: false
     end
