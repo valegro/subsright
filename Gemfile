@@ -51,3 +51,6 @@ gem 'paperclip', '~> 4.2'
 
 # Use TinyMCE for rich text fields
 gem 'tinymce-rails'
+
+# User mocha for mocking and stubbing in tests
+gem 'mocha'
