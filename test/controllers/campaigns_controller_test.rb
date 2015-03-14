@@ -2,6 +2,12 @@ require 'test_helper'
 
 class CampaignsControllerTest < ActionController::TestCase
   setup do
+    # Creates a reference to the admin controller
+    @controller = ::Admin::CampaignsController.new
+
+    # Prevents checking for a valid user session (pretends we're logged in)
+    @controller.stubs(:authenticate_active_admin_user)
+
     @campaign = campaigns(:one)
   end
 
@@ -21,7 +27,7 @@ class CampaignsControllerTest < ActionController::TestCase
       post :create, campaign: { finish: @campaign.finish, name: @campaign.name, start: @campaign.start }
     end
 
-    assert_redirected_to campaign_path(assigns(:campaign))
+    assert_redirected_to admin_campaign_path(assigns(:campaign))
   end
 
   test "should show campaign" do
@@ -36,7 +42,7 @@ class CampaignsControllerTest < ActionController::TestCase
 
   test "should update campaign" do
     patch :update, id: @campaign, campaign: { finish: @campaign.finish, name: @campaign.name, start: @campaign.start }
-    assert_redirected_to campaign_path(assigns(:campaign))
+    assert_redirected_to admin_campaign_path(assigns(:campaign))
   end
 
   test "should destroy campaign" do
@@ -44,6 +50,6 @@ class CampaignsControllerTest < ActionController::TestCase
       delete :destroy, id: @campaign
     end
 
-    assert_redirected_to campaigns_path
+    assert_redirected_to admin_campaigns_path
   end
 end

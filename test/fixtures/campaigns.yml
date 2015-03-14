@@ -4,8 +4,10 @@ one:
   name: MyText
   start: 2015-02-10
   finish: 2015-02-10
+  description: MyText
 
 two:
   name: MyText
   start: 2015-02-10
   finish: 2015-02-10
+  description: MyText

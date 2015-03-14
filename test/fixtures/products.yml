@@ -3,7 +3,9 @@
 one:
   name: MyText
   stock: 1
+  description: MyText
 
 two:
   name: MyText
   stock: 1
+  description: MyText

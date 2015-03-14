@@ -2,6 +2,12 @@ require 'test_helper'
 
 class ProductsControllerTest < ActionController::TestCase
   setup do
+    # Creates a reference to the admin controller
+    @controller = ::Admin::ProductsController.new
+
+    # Prevents checking for a valid user session (pretends we're logged in)
+    @controller.stubs(:authenticate_active_admin_user)
+
     @product = products(:one)
   end
 
@@ -21,7 +27,7 @@ class ProductsControllerTest < ActionController::TestCase
       post :create, product: { name: @product.name, stock: @product.stock }
     end
 
-    assert_redirected_to product_path(assigns(:product))
+    assert_redirected_to admin_product_path(assigns(:product))
   end
 
   test "should show product" do
@@ -36,7 +42,7 @@ class ProductsControllerTest < ActionController::TestCase
 
   test "should update product" do
     patch :update, id: @product, product: { name: @product.name, stock: @product.stock }
-    assert_redirected_to product_path(assigns(:product))
+    assert_redirected_to admin_product_path(assigns(:product))
   end
 
   test "should destroy product" do
@@ -44,6 +50,6 @@ class ProductsControllerTest < ActionController::TestCase
       delete :destroy, id: @product
     end
 
-    assert_redirected_to products_path
+    assert_redirected_to admin_products_path
   end
 end

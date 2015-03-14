@@ -2,6 +2,12 @@ require 'test_helper'
 
 class OffersControllerTest < ActionController::TestCase
   setup do
+    # Creates a reference to the admin controller
+    @controller = ::Admin::OffersController.new
+
+    # Prevents checking for a valid user session (pretends we're logged in)
+    @controller.stubs(:authenticate_active_admin_user)
+
     @offer = offers(:one)
   end
 
@@ -21,7 +27,7 @@ class OffersControllerTest < ActionController::TestCase
       post :create, offer: { expires: @offer.expires, name: @offer.name }
     end
 
-    assert_redirected_to offer_path(assigns(:offer))
+    assert_redirected_to admin_offer_path(assigns(:offer))
   end
 
   test "should show offer" do
@@ -36,7 +42,7 @@ class OffersControllerTest < ActionController::TestCase
 
   test "should update offer" do
     patch :update, id: @offer, offer: { expires: @offer.expires, name: @offer.name }
-    assert_redirected_to offer_path(assigns(:offer))
+    assert_redirected_to admin_offer_path(assigns(:offer))
   end
 
   test "should destroy offer" do
@@ -44,6 +50,6 @@ class OffersControllerTest < ActionController::TestCase
       delete :destroy, id: @offer
     end
 
-    assert_redirected_to offers_path
+    assert_redirected_to admin_offers_path
   end
 end
