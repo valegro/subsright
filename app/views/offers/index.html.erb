@@ -1,21 +1,12 @@
 <p id="notice"><%= notice %></p>
 
-<h1>Offers</h1>
+<h3>Offers</h3>
 
-<table>
-  <thead>
-    <tr>
-      <th>Name</th>
-      <th>Expires</th>
-    </tr>
-  </thead>
-
-  <tbody>
+<ul>
     <% @offers.each do |offer| %>
-      <tr>
-        <td><%= link_to offer.name, offer %></td>
-        <td><%= offer.expires %></td>
-      </tr>
+      <li>
+        <%= link_to offer.name, offer %>
+    	<%= " (expires #{offer.expires})" if offer.expires %>
+      </li>
     <% end %>
-  </tbody>
-</table>
+</ul>

@@ -1,18 +1,25 @@
 <p id="notice"><%= notice %></p>
 
-<p>
-  <strong>Name:</strong>
-  <%= @offer.name %>
-</p>
+<h3><%= @offer.name %></h3>
 
-<p>
-  <strong>Expires:</strong>
-  <%= @offer.expires %>
-</p>
+<% if @offer.expires then %>
+	<div><strong>Expires:</strong> <%= @offer.expires %></div>
+<% end %>
 
-<p>
+<div>
   <strong>Description:</strong>
   <%= @offer.description.html_safe %>
-</p>
+</div>
 
-<%= link_to 'Back', offers_path %>
+<% if @offer.products.present? then %>
+	<div>
+	<% @offer.products.each do |product| %>
+	<figure>
+		<%= link_to (image_tag product.image.url(:thumb)), product %>
+		<figcaption><%= link_to product.name, product %></figcaption>
+	</figure>
+	<% end %>
+	</div>
+<% end %>
+
+<div><%= link_to 'Offers', offers_path %></div>

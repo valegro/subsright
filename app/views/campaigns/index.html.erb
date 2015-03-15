@@ -1,23 +1,12 @@
 <p id="notice"><%= notice %></p>
 
-<h1>Campaigns</h1>
+<h3>Campaigns</h3>
 
-<table>
-  <thead>
-    <tr>
-      <th>Name</th>
-      <th>Start</th>
-      <th>Finish</th>
-    </tr>
-  </thead>
-
-  <tbody>
-    <% @campaigns.each do |campaign| %>
-      <tr>
-        <td><%= link_to campaign.name, campaign %></td>
-        <td><%= campaign.start %></td>
-        <td><%= campaign.finish %></td>
-      </tr>
+<ul>
+	<% @campaigns.each do |campaign| %>
+	    <li>
+	    	<%= link_to campaign.name, campaign %>
+	    	<%= " (ends #{campaign.finish})" if campaign.finish %>
+	    </li>
     <% end %>
-  </tbody>
-</table>
+</ul>

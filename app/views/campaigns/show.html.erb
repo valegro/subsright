@@ -1,23 +1,30 @@
 <p id="notice"><%= notice %></p>
 
-<p>
-  <strong>Name:</strong>
-  <%= @campaign.name %>
-</p>
+<h3><%= @campaign.name %></h3>
 
-<p>
-  <strong>Start:</strong>
-  <%= @campaign.start %>
-</p>
+<% if @campaign.start then %>
+	<div><strong>Start:</strong> <%= @campaign.start %></div>
+<% end %>
 
-<p>
-  <strong>Finish:</strong>
-  <%= @campaign.finish %>
-</p>
+<% if @campaign.finish then %>
+	<div><strong>Finish:</strong> <%= @campaign.finish %></div>
+<% end %>
 
-<p>
+<div>
   <strong>Description:</strong>
   <%= @campaign.description.html_safe %>
-</p>
+</div>
 
-<%= link_to 'Back', campaigns_path %>
+<div><strong>Offers:</strong>
+	<% if @campaign.offers.empty? then %>
+		<p>None</p>
+	<% else %>
+		<ul>
+			<% @campaign.offers.each do |offer| %>
+			<li><%= link_to offer.name, offer_path(offer) %></li>
+			<% end %>
+		</ul>
+	<% end %>
+</div>
+
+<div><%= link_to 'Campaigns', campaigns_path %></div>

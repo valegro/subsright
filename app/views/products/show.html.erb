@@ -1,18 +1,24 @@
 <p id="notice"><%= notice %></p>
 
-<p>
-  <strong>Name:</strong>
-  <%= @product.name %>
-</p>
+<h3><%= @product.name %></h3>
 
-<p>
-  <strong>Stock:</strong>
-  <%= @product.stock %>
-</p>
+<%= image_tag @product.image.url %>
 
-<p>
+<div>
   <strong>Description:</strong>
   <%= @product.description.html_safe %>
-</p>
+</div>
 
-<%= link_to 'Back', products_path %>
+<div><strong>Offers:</strong>
+	<% if @product.offers.empty? then %>
+		<p>None</p>
+	<% else %>
+		<ul>
+			<% @product.offers.each do |offer| %>
+			<li><%= link_to offer.name, offer_path(offer) %></li>
+			<% end %>
+		</ul>
+	<% end %>
+</div>
+
+<div><%= link_to 'Products', products_path %></div>

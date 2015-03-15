@@ -1,1 +1,15 @@
-<p>Welcome to Subscriptus.</p>
+<% @campaigns.each do |campaign| %>
+	<h3>
+    	<%= link_to campaign.name, campaign %>
+    	<%= " (ends #{campaign.finish})" if campaign.finish %>
+    </h3>
+  	<div><%= campaign.description.html_safe %></div>
+  	<ul>
+  		<% campaign.offers.where('expires IS NULL OR expires >= NOW()').order(:expires, :name).each do |offer| %>
+	    	<li>
+        		<%= link_to offer.name, offer %>
+	    		<%= " (expires #{offer.expires})" if offer.expires %>
+      		</li>
+  		<% end %>
+  	</ul>
+<% end %>
