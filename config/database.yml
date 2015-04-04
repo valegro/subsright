@@ -80,6 +80,7 @@ test:
 #
 production:
   <<: *default
+  host: localhost
   database: subsright_production
   username: subsright
   password: <%= ENV['SUBSRIGHT_DATABASE_PASSWORD'] %>

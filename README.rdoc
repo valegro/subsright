@@ -34,11 +34,13 @@ Then, on all systems:
 
 <tt>$ cd subsright</tt>
 
-<tt>$ git checkout andrew</tt>
+<tt>$ git checkout master</tt>
 
 <tt>$ bundle install</tt>
 
 <tt>$ sudo gem pristine --all</tt>
+
+=== Development
 
 <tt>$ sudo -u postgres createuser -d $USER</tt>
 
@@ -52,32 +54,29 @@ Then, on all systems:
 
 You can now visit http://localhost:3000 which will initialise the default configuration.
 
-Check log/development.log for the text of the outbound mail to
-admin@example.com and follow the "confirm your account email" link provided.
-You can then log in with that email and the initial default password
+Check log/development.log for the text of the outbound mail to admin@example.com and follow the
+"confirm your account email" link provided.  You can then log in with that email and the initial
+default password "password".  You can now create and edit admin users and the site configuration.
+
+=== Production
+
+<tt>$ sudo -u postgres createuser -d -P subsright</tt>
+
+<tt>$ SUBSRIGHT_DATABASE_PASSWORD='<em>password</em>' RAILS_ENV=production rake db:create</tt>
+
+<tt>$ SUBSRIGHT_DATABASE_PASSWORD='<em>password</em>' RAILS_ENV=production rake db:migrate</tt>
+
+<tt>$ psql -h localhost subsright_production subsright -c "update admin_users set email='<em>email</em>' where id=1;"</tt>
+
+<tt>$ SUBSRIGHT_DATABASE_PASSWORD='<em>password</em>' RAILS_ENV=production rake assets:precompile</tt>
+
+<tt>$ rake secret</tt>
+
+<tt>$ SECRET_KEY_BASE='<em>secret</em> SUBSRIGHT_DATABASE_PASSWORD='<em>password</em>' RAILS_ENV=production bundle exec rackup -E production</tt>
+
+You can now visit http://localhost:9292 which will initialise the default configuration.
+
+Then visit http://localhost:9292/admin/confirmation/new and enter the admin email address you
+configured above.  When you receive the confirmation email and follow the "confirm your account
+email" link provided, you can then log in with that email and the initial default password
 "password".  You can now create and edit admin users and the site configuration.
-
-== TODO
-
-This README would normally document whatever steps are necessary to get the
-application up and running.
-
-Things you may want to cover:
-
-* Ruby version
-
-* System dependencies
-
-* Configuration
-
-* Database creation
-
-* Database initialization
-
-* How to run the test suite
-
-* Services (job queues, cache servers, search engines, etc.)
-
-* Deployment instructions
-
-* ...
