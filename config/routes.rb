@@ -8,6 +8,8 @@ Rails.application.routes.draw do
   get 'offers/:id' => 'offers#show', as: :offer
   get 'products' => 'products#index'
   get 'products/:id' => 'products#show', as: :product
+  get 'publications' => 'publications#index'
+  get 'publications/:id' => 'publications#show', as: :publication
 
   devise_for :admin_users, ActiveAdmin::Devise.config
   ActiveAdmin.routes(self)

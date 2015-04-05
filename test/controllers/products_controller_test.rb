@@ -9,6 +9,7 @@ class ProductsControllerTest < ActionController::TestCase
     @controller.stubs(:authenticate_active_admin_user)
 
     @product = products(:one)
+    @product.name = 'New Product'
   end
 
   test "should get index" do

@@ -1,5 +1,5 @@
 ActiveAdmin.register Offer do
-  permit_params :name, :expires, :description, campaign_ids: [], product_ids: []
+  permit_params :name, :expires, :description, campaign_ids: [], publication_ids: [], product_ids: []
 
   index do
     selectable_column
@@ -8,6 +8,10 @@ ActiveAdmin.register Offer do
     column :expires
     column 'Campaigns' do |offer|
       (offer.campaigns.map { |campaign| link_to campaign.name, admin_campaign_path(campaign) }).
+      join(', ').html_safe
+    end
+    column 'Publications' do |offer|
+      (offer.publications.map { |publication| link_to publication.name, admin_publication_path(publication) }).
       join(', ').html_safe
     end
     column 'Products' do |offer|
@@ -25,6 +29,10 @@ ActiveAdmin.register Offer do
       row :expires
       row 'Campaigns' do
         (offer.campaigns.map { |campaign| link_to campaign.name, admin_campaign_path(campaign) }).
+        join(', ').html_safe
+      end
+      row 'Publications' do
+        (offer.publications.map { |publication| link_to publication.name, admin_publication_path(publication) }).
         join(', ').html_safe
       end
       row 'Products' do
@@ -45,6 +53,7 @@ ActiveAdmin.register Offer do
       f.input :name, input_html: { rows: 1 }
       f.input :expires
       f.input :campaigns
+      f.input :publications
       f.input :products
       f.input :description, input_html: { :class => 'tinymce' }
     end

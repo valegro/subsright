@@ -127,6 +127,11 @@
           <div class="method-source-code" id="index-source">
             <pre><span class="ruby-comment"># File app/controllers/welcome_controller.rb, line 2</span>
 <span class="ruby-keyword">def</span> <span class="ruby-identifier">index</span>
+  <span class="ruby-ivar">@campaigns</span> = <span class="ruby-constant">Campaign</span>.<span class="ruby-identifier">joins</span>(<span class="ruby-value">:offers</span>).<span class="ruby-identifier">where</span>(
+    <span class="ruby-string">&#39;(start IS NULL OR start &lt;= NOW()) AND (finish IS NULL OR finish &gt;= NOW())&#39;</span>
+  ).<span class="ruby-identifier">group</span>(<span class="ruby-string">&#39;campaigns.id&#39;</span>).<span class="ruby-identifier">having</span>(
+    <span class="ruby-string">&#39;COUNT( offers.expires IS NULL OR offers.expires &gt;= NOW() ) &gt; 0&#39;</span>
+  ).<span class="ruby-identifier">order</span>(<span class="ruby-value">:finish</span>, <span class="ruby-value">:name</span>)
 <span class="ruby-keyword">end</span></pre>
           </div>
           

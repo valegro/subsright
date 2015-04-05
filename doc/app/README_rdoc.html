@@ -57,7 +57,8 @@
   <ul class="link-list" role="directory">
     <li><a href="#label-Prerequisites">Prerequisites</a>
     <li><a href="#label-Installation">Installation</a>
-    <li><a href="#label-TODO">TODO</a>
+    <li><a href="#label-Development">Development</a>
+    <li><a href="#label-Production">Production</a>
   </ul>
 </div>
 
@@ -120,11 +121,13 @@ https://[username]@github.com/valegro/subsright.git</code></p>
 
 <p><code>$ cd subsright</code></p>
 
-<p><code>$ git checkout andrew</code></p>
+<p><code>$ git checkout master</code></p>
 
 <p><code>$ bundle install</code></p>
 
 <p><code>$ sudo gem pristine --all</code></p>
+
+<h3 id="label-Development">Development<span><a href="#label-Development">&para;</a> <a href="#top">&uarr;</a></span></h3>
 
 <p><code>$ sudo -u postgres createuser -d $USER</code></p>
 
@@ -141,35 +144,42 @@ will initialise the default configuration.</p>
 
 <p>Check log/development.log for the text of the outbound mail to
 admin@example.com and follow the “confirm your account email” link
-provided. You can then log in with that email and the initial default
+provided.  You can then log in with that email and the initial default
 password “password”.  You can now create and edit admin users and the site
 configuration.</p>
 
-<h2 id="label-TODO">TODO<span><a href="#label-TODO">&para;</a> <a href="#top">&uarr;</a></span></h2>
+<h3 id="label-Production">Production<span><a href="#label-Production">&para;</a> <a href="#top">&uarr;</a></span></h3>
 
-<p>This <a href="README_rdoc.html">README</a> would normally document whatever
-steps are necessary to get the application up and running.</p>
+<p><code>$ sudo -u postgres createuser -d -P subsright</code></p>
 
-<p>Things you may want to cover:</p>
-<ul><li>
-<p>Ruby version</p>
-</li><li>
-<p>System dependencies</p>
-</li><li>
-<p><a href="Configuration.html">Configuration</a></p>
-</li><li>
-<p>Database creation</p>
-</li><li>
-<p>Database initialization</p>
-</li><li>
-<p>How to run the test suite</p>
-</li><li>
-<p>Services (job queues, cache servers, search engines, etc.)</p>
-</li><li>
-<p>Deployment instructions</p>
-</li><li>
-<p>…</p>
-</li></ul>
+<p><code>$ SUBSRIGHT_DATABASE_PASSWORD=&#39;<em>password</em>&#39;
+RAILS_ENV=production rake db:create</code></p>
+
+<p><code>$ SUBSRIGHT_DATABASE_PASSWORD=&#39;<em>password</em>&#39;
+RAILS_ENV=production rake db:migrate</code></p>
+
+<p><code>$ psql -h localhost subsright_production subsright -c &quot;update
+admin_users set email=&#39;<em>email</em>&#39; where id=1;&quot;</code></p>
+
+<p><code>$ SUBSRIGHT_DATABASE_PASSWORD=&#39;<em>password</em>&#39;
+RAILS_ENV=production rake assets:precompile</code></p>
+
+<p><code>$ rake secret</code></p>
+
+<p><code>$ SECRET_KEY_BASE=&#39;<em>secret</em>
+SUBSRIGHT_DATABASE_PASSWORD=&#39;<em>password</em>&#39;
+RAILS_ENV=production bundle exec rackup -E production</code></p>
+
+<p>You can now visit <a href="http://localhost:9292">localhost:9292</a> which
+will initialise the default configuration.</p>
+
+<p>Then visit <a
+href="http://localhost:9292/admin/confirmation/new">localhost:9292/admin/confirmation/new</a>
+and enter the admin email address you configured above.  When you receive
+the confirmation email and follow the “confirm your account email” link
+provided, you can then log in with that email and the initial default
+password “password”.  You can now create and edit admin users and the site
+configuration.</p>
 </main>
 
 

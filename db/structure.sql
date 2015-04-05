@@ -230,7 +230,20 @@ ALTER SEQUENCE offers_id_seq OWNED BY offers.id;
 
 CREATE TABLE offers_products (
     product_id integer NOT NULL,
-    offer_id integer NOT NULL
+    offer_id integer NOT NULL,
+    is_option boolean
+);
+
+
+--
+-- Name: offers_publications; Type: TABLE; Schema: public; Owner: -; Tablespace: 
+--
+
+CREATE TABLE offers_publications (
+    publication_id integer NOT NULL,
+    offer_id integer NOT NULL,
+    quantity integer,
+    unit character varying
 );
 
 
@@ -269,6 +282,43 @@ CREATE SEQUENCE products_id_seq
 --
 
 ALTER SEQUENCE products_id_seq OWNED BY products.id;
+
+
+--
+-- Name: publications; Type: TABLE; Schema: public; Owner: -; Tablespace: 
+--
+
+CREATE TABLE publications (
+    id integer NOT NULL,
+    name text NOT NULL,
+    website text NOT NULL,
+    image_file_name character varying,
+    image_content_type character varying,
+    image_file_size integer,
+    image_updated_at timestamp without time zone,
+    description text,
+    created_at timestamp without time zone NOT NULL,
+    updated_at timestamp without time zone NOT NULL
+);
+
+
+--
+-- Name: publications_id_seq; Type: SEQUENCE; Schema: public; Owner: -
+--
+
+CREATE SEQUENCE publications_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+--
+-- Name: publications_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: -
+--
+
+ALTER SEQUENCE publications_id_seq OWNED BY publications.id;
 
 
 --
@@ -323,6 +373,13 @@ ALTER TABLE ONLY products ALTER COLUMN id SET DEFAULT nextval('products_id_seq':
 
 
 --
+-- Name: id; Type: DEFAULT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY publications ALTER COLUMN id SET DEFAULT nextval('publications_id_seq'::regclass);
+
+
+--
 -- Name: active_admin_comments_pkey; Type: CONSTRAINT; Schema: public; Owner: -; Tablespace: 
 --
 
@@ -368,6 +425,14 @@ ALTER TABLE ONLY offers
 
 ALTER TABLE ONLY products
     ADD CONSTRAINT products_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: publications_pkey; Type: CONSTRAINT; Schema: public; Owner: -; Tablespace: 
+--
+
+ALTER TABLE ONLY publications
+    ADD CONSTRAINT publications_pkey PRIMARY KEY (id);
 
 
 --
@@ -441,6 +506,27 @@ CREATE UNIQUE INDEX index_offers_products_on_offer_id_and_product_id ON offers_p
 
 
 --
+-- Name: index_offers_publications_on_offer_id_and_publication_id; Type: INDEX; Schema: public; Owner: -; Tablespace: 
+--
+
+CREATE UNIQUE INDEX index_offers_publications_on_offer_id_and_publication_id ON offers_publications USING btree (offer_id, publication_id);
+
+
+--
+-- Name: index_products_on_name; Type: INDEX; Schema: public; Owner: -; Tablespace: 
+--
+
+CREATE UNIQUE INDEX index_products_on_name ON products USING btree (name);
+
+
+--
+-- Name: index_publications_on_name; Type: INDEX; Schema: public; Owner: -; Tablespace: 
+--
+
+CREATE UNIQUE INDEX index_publications_on_name ON publications USING btree (name);
+
+
+--
 -- Name: unique_schema_migrations; Type: INDEX; Schema: public; Owner: -; Tablespace: 
 --
 
@@ -468,4 +554,8 @@ INSERT INTO schema_migrations (version) VALUES ('20150210060735');
 INSERT INTO schema_migrations (version) VALUES ('20150224061319');
 
 INSERT INTO schema_migrations (version) VALUES ('20150224061651');
+
+INSERT INTO schema_migrations (version) VALUES ('20150405024749');
+
+INSERT INTO schema_migrations (version) VALUES ('20150405040201');
 

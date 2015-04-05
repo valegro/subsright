@@ -1,0 +1,10 @@
+<p id="notice"><%= notice %></p>
+
+<h3>Publications</h3>
+
+<% @publications.each do |publication| %>
+<figure>
+	<%= link_to (image_tag publication.image.url(:thumb)), publication %>
+	<figcaption><%= link_to publication.name, publication %></figcaption>
+</figure>
+<% end %>

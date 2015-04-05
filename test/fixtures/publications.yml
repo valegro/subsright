@@ -1,11 +1,11 @@
 # Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
 
 one:
-  name: "Product One"
-  stock: 1
+  name: "Publication One"
+  website: http://localhost/
   description: MyText
 
 two:
-  name: "Product Two"
-  stock: 1
+  name: "Publication Two"
+  website: http://localhost/
   description: MyText

@@ -1,0 +1,24 @@
+<p id="notice"><%= notice %></p>
+
+<h3><%= @publication.name %></h3>
+
+<%= link_to image_tag(@publication.image.url), @publication.website %>
+
+<div>
+  <strong>Description:</strong>
+  <%= @publication.description.html_safe %>
+</div>
+
+<div><strong>Offers:</strong>
+	<% if @publication.offers.empty? then %>
+		<p>None</p>
+	<% else %>
+		<ul>
+			<% @publication.offers.each do |offer| %>
+			<li><%= link_to offer.name, offer_path(offer) %></li>
+			<% end %>
+		</ul>
+	<% end %>
+</div>
+
+<div><%= link_to 'Publications', publications_path %></div>

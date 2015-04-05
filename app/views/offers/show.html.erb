@@ -11,6 +11,17 @@
   <%= @offer.description.html_safe %>
 </div>
 
+<% if @offer.publications.present? then %>
+	<div>
+	<% @offer.publications.each do |publication| %>
+	<figure>
+		<%= link_to (image_tag publication.image.url(:thumb)), publication %>
+		<figcaption><%= link_to publication.name, publication %></figcaption>
+	</figure>
+	<% end %>
+	</div>
+<% end %>
+
 <% if @offer.products.present? then %>
 	<div>
 	<% @offer.products.each do |product| %>
