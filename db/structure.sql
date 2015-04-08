@@ -158,6 +158,37 @@ CREATE TABLE campaigns_offers (
 
 
 --
+-- Name: categories; Type: TABLE; Schema: public; Owner: -; Tablespace: 
+--
+
+CREATE TABLE categories (
+    id integer NOT NULL,
+    name character varying NOT NULL,
+    created_at timestamp without time zone NOT NULL,
+    updated_at timestamp without time zone NOT NULL
+);
+
+
+--
+-- Name: categories_id_seq; Type: SEQUENCE; Schema: public; Owner: -
+--
+
+CREATE SEQUENCE categories_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+--
+-- Name: categories_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: -
+--
+
+ALTER SEQUENCE categories_id_seq OWNED BY categories.id;
+
+
+--
 -- Name: configurations; Type: TABLE; Schema: public; Owner: -; Tablespace: 
 --
 
@@ -355,6 +386,13 @@ ALTER TABLE ONLY campaigns ALTER COLUMN id SET DEFAULT nextval('campaigns_id_seq
 -- Name: id; Type: DEFAULT; Schema: public; Owner: -
 --
 
+ALTER TABLE ONLY categories ALTER COLUMN id SET DEFAULT nextval('categories_id_seq'::regclass);
+
+
+--
+-- Name: id; Type: DEFAULT; Schema: public; Owner: -
+--
+
 ALTER TABLE ONLY configurations ALTER COLUMN id SET DEFAULT nextval('configurations_id_seq'::regclass);
 
 
@@ -401,6 +439,14 @@ ALTER TABLE ONLY admin_users
 
 ALTER TABLE ONLY campaigns
     ADD CONSTRAINT campaigns_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: categories_pkey; Type: CONSTRAINT; Schema: public; Owner: -; Tablespace: 
+--
+
+ALTER TABLE ONLY categories
+    ADD CONSTRAINT categories_pkey PRIMARY KEY (id);
 
 
 --
@@ -492,6 +538,13 @@ CREATE UNIQUE INDEX index_campaigns_offers_on_campaign_id_and_offer_id ON campai
 
 
 --
+-- Name: index_categories_on_name; Type: INDEX; Schema: public; Owner: -; Tablespace: 
+--
+
+CREATE UNIQUE INDEX index_categories_on_name ON categories USING btree (name);
+
+
+--
 -- Name: index_configurations_on_key; Type: INDEX; Schema: public; Owner: -; Tablespace: 
 --
 
@@ -558,4 +611,6 @@ INSERT INTO schema_migrations (version) VALUES ('20150224061651');
 INSERT INTO schema_migrations (version) VALUES ('20150405024749');
 
 INSERT INTO schema_migrations (version) VALUES ('20150405040201');
+
+INSERT INTO schema_migrations (version) VALUES ('20150408070342');
 
