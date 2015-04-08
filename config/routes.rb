@@ -4,6 +4,7 @@ Rails.application.routes.draw do
 
   get 'campaigns' => 'campaigns#index'
   get 'campaigns/:id' => 'campaigns#show', as: :campaign
+  get 'categories' => 'categories#index'
   get 'offers' => 'offers#index'
   get 'offers/:id' => 'offers#show', as: :offer
   get 'products' => 'products#index'
