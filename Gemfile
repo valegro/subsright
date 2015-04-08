@@ -37,6 +37,9 @@ gem 'devise'
 # Use ActiveAdmin framework from github for Rails 4 support
 gem 'activeadmin', github: 'activeadmin'
 
+# Use country_select plugin
+gem 'country_select'
+
 # Use unicorn as the app server
 # gem 'unicorn'
 

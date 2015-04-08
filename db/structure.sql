@@ -170,6 +170,16 @@ CREATE TABLE categories (
 
 
 --
+-- Name: categories_customers; Type: TABLE; Schema: public; Owner: -; Tablespace: 
+--
+
+CREATE TABLE categories_customers (
+    category_id integer NOT NULL,
+    customer_id integer NOT NULL
+);
+
+
+--
 -- Name: categories_id_seq; Type: SEQUENCE; Schema: public; Owner: -
 --
 
@@ -220,6 +230,54 @@ CREATE SEQUENCE configurations_id_seq
 --
 
 ALTER SEQUENCE configurations_id_seq OWNED BY configurations.id;
+
+
+--
+-- Name: customers; Type: TABLE; Schema: public; Owner: -; Tablespace: 
+--
+
+CREATE TABLE customers (
+    id integer NOT NULL,
+    name text NOT NULL,
+    email text,
+    phone text,
+    address text,
+    country text,
+    postcode text,
+    created_at timestamp without time zone NOT NULL,
+    updated_at timestamp without time zone NOT NULL
+);
+
+
+--
+-- Name: customers_id_seq; Type: SEQUENCE; Schema: public; Owner: -
+--
+
+CREATE SEQUENCE customers_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+--
+-- Name: customers_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: -
+--
+
+ALTER SEQUENCE customers_id_seq OWNED BY customers.id;
+
+
+--
+-- Name: customers_publications; Type: TABLE; Schema: public; Owner: -; Tablespace: 
+--
+
+CREATE TABLE customers_publications (
+    publication_id integer NOT NULL,
+    customer_id integer NOT NULL,
+    subscribed date NOT NULL,
+    expires date
+);
 
 
 --
@@ -400,6 +458,13 @@ ALTER TABLE ONLY configurations ALTER COLUMN id SET DEFAULT nextval('configurati
 -- Name: id; Type: DEFAULT; Schema: public; Owner: -
 --
 
+ALTER TABLE ONLY customers ALTER COLUMN id SET DEFAULT nextval('customers_id_seq'::regclass);
+
+
+--
+-- Name: id; Type: DEFAULT; Schema: public; Owner: -
+--
+
 ALTER TABLE ONLY offers ALTER COLUMN id SET DEFAULT nextval('offers_id_seq'::regclass);
 
 
@@ -455,6 +520,14 @@ ALTER TABLE ONLY categories
 
 ALTER TABLE ONLY configurations
     ADD CONSTRAINT configurations_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: customers_pkey; Type: CONSTRAINT; Schema: public; Owner: -; Tablespace: 
+--
+
+ALTER TABLE ONLY customers
+    ADD CONSTRAINT customers_pkey PRIMARY KEY (id);
 
 
 --
@@ -538,6 +611,13 @@ CREATE UNIQUE INDEX index_campaigns_offers_on_campaign_id_and_offer_id ON campai
 
 
 --
+-- Name: index_categories_customers_on_customer_id_and_category_id; Type: INDEX; Schema: public; Owner: -; Tablespace: 
+--
+
+CREATE UNIQUE INDEX index_categories_customers_on_customer_id_and_category_id ON categories_customers USING btree (customer_id, category_id);
+
+
+--
 -- Name: index_categories_on_name; Type: INDEX; Schema: public; Owner: -; Tablespace: 
 --
 
@@ -549,6 +629,13 @@ CREATE UNIQUE INDEX index_categories_on_name ON categories USING btree (name);
 --
 
 CREATE UNIQUE INDEX index_configurations_on_key ON configurations USING btree (key);
+
+
+--
+-- Name: index_customers_publications_on_customer_id_and_publication_id; Type: INDEX; Schema: public; Owner: -; Tablespace: 
+--
+
+CREATE UNIQUE INDEX index_customers_publications_on_customer_id_and_publication_id ON customers_publications USING btree (customer_id, publication_id);
 
 
 --
@@ -613,4 +700,10 @@ INSERT INTO schema_migrations (version) VALUES ('20150405024749');
 INSERT INTO schema_migrations (version) VALUES ('20150405040201');
 
 INSERT INTO schema_migrations (version) VALUES ('20150408070342');
+
+INSERT INTO schema_migrations (version) VALUES ('20150408080305');
+
+INSERT INTO schema_migrations (version) VALUES ('20150408083056');
+
+INSERT INTO schema_migrations (version) VALUES ('20150408083121');
 

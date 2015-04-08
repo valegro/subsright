@@ -1,0 +1,15 @@
+<p id="notice"><%= notice %></p>
+
+<h3>Customers</h3>
+
+<ul>
+    <% @customers.each do |customer| %>
+      <li>
+        <%= link_to customer.name, customer %>
+      </li>
+    <% end %>
+</ul>
+
+<br>
+
+<%= link_to 'New Customer', new_customer_path %>
