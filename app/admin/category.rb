@@ -21,7 +21,7 @@ ActiveAdmin.register Category do
 
   form do |f|
     f.inputs "Category Details" do
-      f.input :name, input_html: { rows: 1 }
+      f.input :name, as: :string
     end
     f.actions
   end

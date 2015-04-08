@@ -52,7 +52,7 @@ ActiveAdmin.register Publication do
 
   form do |f|
     f.inputs "Product Details" do
-      f.input :name, input_html: { rows: 1 }
+      f.input :name, as: :string
       f.input :image, as: :file, hint: if f.publication.image?
         image_tag(f.publication.image.url)
       else
