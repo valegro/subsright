@@ -1,11 +1,11 @@
 ActiveAdmin.register Offer do
-  permit_params :name, :expires, :description, campaign_ids: [], publication_ids: [], product_ids: []
+  permit_params :name, :expiry, :description, campaign_ids: [], publication_ids: [], product_ids: []
 
   index do
     selectable_column
     id_column
     column :name
-    column :expires
+    column :expiry
     column 'Campaigns' do |offer|
       (offer.campaigns.map { |campaign| link_to campaign.name, admin_campaign_path(campaign) }).
       join(', ').html_safe
@@ -26,7 +26,7 @@ ActiveAdmin.register Offer do
   show do
     attributes_table do
       row :name
-      row :expires
+      row :expiry
       row 'Campaigns' do
         (offer.campaigns.map { |campaign| link_to campaign.name, admin_campaign_path(campaign) }).
         join(', ').html_safe
@@ -51,7 +51,7 @@ ActiveAdmin.register Offer do
   form do |f|
     f.inputs "Offer Details" do
       f.input :name, as: :string
-      f.input :expires
+      f.input :expiry
       f.input :campaigns
       f.input :publications
       f.input :products

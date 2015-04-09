@@ -158,47 +158,6 @@ CREATE TABLE campaigns_offers (
 
 
 --
--- Name: categories; Type: TABLE; Schema: public; Owner: -; Tablespace: 
---
-
-CREATE TABLE categories (
-    id integer NOT NULL,
-    name character varying NOT NULL,
-    created_at timestamp without time zone NOT NULL,
-    updated_at timestamp without time zone NOT NULL
-);
-
-
---
--- Name: categories_customers; Type: TABLE; Schema: public; Owner: -; Tablespace: 
---
-
-CREATE TABLE categories_customers (
-    category_id integer NOT NULL,
-    customer_id integer NOT NULL
-);
-
-
---
--- Name: categories_id_seq; Type: SEQUENCE; Schema: public; Owner: -
---
-
-CREATE SEQUENCE categories_id_seq
-    START WITH 1
-    INCREMENT BY 1
-    NO MINVALUE
-    NO MAXVALUE
-    CACHE 1;
-
-
---
--- Name: categories_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: -
---
-
-ALTER SEQUENCE categories_id_seq OWNED BY categories.id;
-
-
---
 -- Name: configurations; Type: TABLE; Schema: public; Owner: -; Tablespace: 
 --
 
@@ -250,6 +209,18 @@ CREATE TABLE customers (
 
 
 --
+-- Name: customers_discounts; Type: TABLE; Schema: public; Owner: -; Tablespace: 
+--
+
+CREATE TABLE customers_discounts (
+    discount_id integer NOT NULL,
+    customer_id integer NOT NULL,
+    reference text,
+    expiry date
+);
+
+
+--
 -- Name: customers_id_seq; Type: SEQUENCE; Schema: public; Owner: -
 --
 
@@ -276,8 +247,40 @@ CREATE TABLE customers_publications (
     publication_id integer NOT NULL,
     customer_id integer NOT NULL,
     subscribed date NOT NULL,
-    expires date
+    expiry date
 );
+
+
+--
+-- Name: discounts; Type: TABLE; Schema: public; Owner: -; Tablespace: 
+--
+
+CREATE TABLE discounts (
+    id integer NOT NULL,
+    name character varying NOT NULL,
+    requestable boolean,
+    created_at timestamp without time zone NOT NULL,
+    updated_at timestamp without time zone NOT NULL
+);
+
+
+--
+-- Name: discounts_id_seq; Type: SEQUENCE; Schema: public; Owner: -
+--
+
+CREATE SEQUENCE discounts_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+--
+-- Name: discounts_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: -
+--
+
+ALTER SEQUENCE discounts_id_seq OWNED BY discounts.id;
 
 
 --
@@ -287,7 +290,7 @@ CREATE TABLE customers_publications (
 CREATE TABLE offers (
     id integer NOT NULL,
     name text NOT NULL,
-    expires date,
+    expiry date,
     description text,
     created_at timestamp without time zone NOT NULL,
     updated_at timestamp without time zone NOT NULL
@@ -320,7 +323,7 @@ ALTER SEQUENCE offers_id_seq OWNED BY offers.id;
 CREATE TABLE offers_products (
     product_id integer NOT NULL,
     offer_id integer NOT NULL,
-    is_option boolean
+    optional boolean
 );
 
 
@@ -444,13 +447,6 @@ ALTER TABLE ONLY campaigns ALTER COLUMN id SET DEFAULT nextval('campaigns_id_seq
 -- Name: id; Type: DEFAULT; Schema: public; Owner: -
 --
 
-ALTER TABLE ONLY categories ALTER COLUMN id SET DEFAULT nextval('categories_id_seq'::regclass);
-
-
---
--- Name: id; Type: DEFAULT; Schema: public; Owner: -
---
-
 ALTER TABLE ONLY configurations ALTER COLUMN id SET DEFAULT nextval('configurations_id_seq'::regclass);
 
 
@@ -459,6 +455,13 @@ ALTER TABLE ONLY configurations ALTER COLUMN id SET DEFAULT nextval('configurati
 --
 
 ALTER TABLE ONLY customers ALTER COLUMN id SET DEFAULT nextval('customers_id_seq'::regclass);
+
+
+--
+-- Name: id; Type: DEFAULT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY discounts ALTER COLUMN id SET DEFAULT nextval('discounts_id_seq'::regclass);
 
 
 --
@@ -507,14 +510,6 @@ ALTER TABLE ONLY campaigns
 
 
 --
--- Name: categories_pkey; Type: CONSTRAINT; Schema: public; Owner: -; Tablespace: 
---
-
-ALTER TABLE ONLY categories
-    ADD CONSTRAINT categories_pkey PRIMARY KEY (id);
-
-
---
 -- Name: configurations_pkey; Type: CONSTRAINT; Schema: public; Owner: -; Tablespace: 
 --
 
@@ -528,6 +523,14 @@ ALTER TABLE ONLY configurations
 
 ALTER TABLE ONLY customers
     ADD CONSTRAINT customers_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: discounts_pkey; Type: CONSTRAINT; Schema: public; Owner: -; Tablespace: 
+--
+
+ALTER TABLE ONLY discounts
+    ADD CONSTRAINT discounts_pkey PRIMARY KEY (id);
 
 
 --
@@ -611,20 +614,6 @@ CREATE UNIQUE INDEX index_campaigns_offers_on_campaign_id_and_offer_id ON campai
 
 
 --
--- Name: index_categories_customers_on_customer_id_and_category_id; Type: INDEX; Schema: public; Owner: -; Tablespace: 
---
-
-CREATE UNIQUE INDEX index_categories_customers_on_customer_id_and_category_id ON categories_customers USING btree (customer_id, category_id);
-
-
---
--- Name: index_categories_on_name; Type: INDEX; Schema: public; Owner: -; Tablespace: 
---
-
-CREATE UNIQUE INDEX index_categories_on_name ON categories USING btree (name);
-
-
---
 -- Name: index_configurations_on_key; Type: INDEX; Schema: public; Owner: -; Tablespace: 
 --
 
@@ -632,10 +621,24 @@ CREATE UNIQUE INDEX index_configurations_on_key ON configurations USING btree (k
 
 
 --
+-- Name: index_customers_discounts_on_customer_id_and_discount_id; Type: INDEX; Schema: public; Owner: -; Tablespace: 
+--
+
+CREATE UNIQUE INDEX index_customers_discounts_on_customer_id_and_discount_id ON customers_discounts USING btree (customer_id, discount_id);
+
+
+--
 -- Name: index_customers_publications_on_customer_id_and_publication_id; Type: INDEX; Schema: public; Owner: -; Tablespace: 
 --
 
 CREATE UNIQUE INDEX index_customers_publications_on_customer_id_and_publication_id ON customers_publications USING btree (customer_id, publication_id);
+
+
+--
+-- Name: index_discounts_on_name; Type: INDEX; Schema: public; Owner: -; Tablespace: 
+--
+
+CREATE UNIQUE INDEX index_discounts_on_name ON discounts USING btree (name);
 
 
 --

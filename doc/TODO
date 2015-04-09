@@ -5,6 +5,6 @@
 * Add tests
 * Implement optional products
 * Implement publication quantities and units
-* Implement display of customer categories and publications
-* Implement customer subscribed and expires fields
+* Implement display of customer discounts and publications
+* Implement customer subscribed and expiry fields
 * Implement customer authentication

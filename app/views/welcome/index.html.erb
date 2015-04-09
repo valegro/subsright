@@ -5,10 +5,10 @@
     </h3>
   	<div><%= campaign.description.html_safe %></div>
   	<ul>
-  		<% campaign.offers.where('expires IS NULL OR expires >= NOW()').order(:expires, :name).each do |offer| %>
+		<% campaign.offers.where('expiry IS NULL OR expiry >= NOW()').order(:expiry, :name).each do |offer| %>
 	    	<li>
-        		<%= link_to offer.name, offer %>
-	    		<%= " (expires #{offer.expires})" if offer.expires %>
+                <%= link_to offer.name, offer %>
+                <%= " (expires #{offer.expiry})" if offer.expiry %>
       		</li>
   		<% end %>
   	</ul>

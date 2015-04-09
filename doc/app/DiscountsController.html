@@ -4,7 +4,7 @@
 <head>
 <meta charset="utf-8">
 
-<title>class Category - Rails Application Documentation</title>
+<title>class DiscountsController - Rails Application Documentation</title>
 
 <script type="text/javascript">
   var rdoc_rel_prefix = "./";
@@ -58,19 +58,29 @@
   <h3>Parent</h3>
 
   
-  <p class="link">ActiveRecord::Base
+  <p class="link">InheritedResources::Base
   
 </div>
 
     
     
+    <!-- Method Quickref -->
+<div id="method-list-section" class="nav-section">
+  <h3>Methods</h3>
+
+  <ul class="link-list" role="directory">
     
+    <li ><a href="#method-i-index">#index</a>
+    
+  </ul>
+</div>
+
   </div>
 </nav>
 
-<main role="main" aria-labelledby="class-Category">
-  <h1 id="class-Category" class="class">
-    class Category
+<main role="main" aria-labelledby="class-DiscountsController">
+  <h1 id="class-DiscountsController" class="class">
+    class DiscountsController
   </h1>
 
   <section class="description">
@@ -90,6 +100,47 @@
     
 
     
+     <section id="public-instance-5Buntitled-5D-method-details" class="method-section">
+       <header>
+         <h3>Public Instance Methods</h3>
+       </header>
+
+    
+      <div id="method-i-index" class="method-detail ">
+        
+        <div class="method-heading">
+          <span class="method-name">index</span><span
+            class="method-args">()</span>
+          
+          <span class="method-click-advice">click to toggle source</span>
+          
+        </div>
+        
+
+        <div class="method-description">
+          
+          
+          
+          
+
+          
+          <div class="method-source-code" id="index-source">
+            <pre><span class="ruby-comment"># File app/controllers/discounts_controller.rb, line 4</span>
+<span class="ruby-keyword">def</span> <span class="ruby-identifier">index</span>
+  <span class="ruby-ivar">@discounts</span> = <span class="ruby-constant">Discount</span>.<span class="ruby-identifier">where</span>(<span class="ruby-string">&#39;requestable = TRUE&#39;</span>).<span class="ruby-identifier">order</span>(<span class="ruby-value">:name</span>)
+<span class="ruby-keyword">end</span></pre>
+          </div>
+          
+        </div>
+
+        
+
+        
+      </div>
+
+    
+    </section>
+  
   </section>
 </main>
 

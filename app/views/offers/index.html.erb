@@ -6,7 +6,7 @@
     <% @offers.each do |offer| %>
       <li>
         <%= link_to offer.name, offer %>
-    	<%= " (expires #{offer.expires})" if offer.expires %>
+        <%= " (expires #{offer.expiry})" if offer.expiry %>
       </li>
     <% end %>
 </ul>

@@ -1,0 +1,9 @@
+<p id="notice"><%= notice %></p>
+
+<h3>Discounts</h3>
+
+<ul>
+    <% @discounts.each do |discount| %>
+      <li><%= discount.name %></li>
+    <% end %>
+</ul>

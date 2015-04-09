@@ -24,7 +24,7 @@ class OffersControllerTest < ActionController::TestCase
 
   test "should create offer" do
     assert_difference('Offer.count') do
-      post :create, offer: { expires: @offer.expires, name: @offer.name }
+      post :create, offer: { expiry: @offer.expiry, name: @offer.name }
     end
 
     assert_redirected_to admin_offer_path(assigns(:offer))
@@ -41,7 +41,7 @@ class OffersControllerTest < ActionController::TestCase
   end
 
   test "should update offer" do
-    patch :update, id: @offer, offer: { expires: @offer.expires, name: @offer.name }
+    patch :update, id: @offer, offer: { expiry: @offer.expiry, name: @offer.name }
     assert_redirected_to admin_offer_path(assigns(:offer))
   end
 

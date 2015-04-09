@@ -75,21 +75,6 @@ ActiveRecord::Schema.define(version: 20150408083121) do
 
   add_index "campaigns_offers", ["campaign_id", "offer_id"], name: "index_campaigns_offers_on_campaign_id_and_offer_id", unique: true, using: :btree
 
-  create_table "categories", force: :cascade do |t|
-    t.string   "name",       null: false
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-  end
-
-  add_index "categories", ["name"], name: "index_categories_on_name", unique: true, using: :btree
-
-  create_table "categories_customers", id: false, force: :cascade do |t|
-    t.integer "category_id", null: false
-    t.integer "customer_id", null: false
-  end
-
-  add_index "categories_customers", ["customer_id", "category_id"], name: "index_categories_customers_on_customer_id_and_category_id", unique: true, using: :btree
-
   create_table "configurations", force: :cascade do |t|
     t.string   "key",                     null: false
     t.text     "value"
@@ -112,18 +97,36 @@ ActiveRecord::Schema.define(version: 20150408083121) do
     t.datetime "updated_at", null: false
   end
 
+  create_table "customers_discounts", id: false, force: :cascade do |t|
+    t.integer "discount_id", null: false
+    t.integer "customer_id", null: false
+    t.text    "reference"
+    t.date    "expiry"
+  end
+
+  add_index "customers_discounts", ["customer_id", "discount_id"], name: "index_customers_discounts_on_customer_id_and_discount_id", unique: true, using: :btree
+
   create_table "customers_publications", id: false, force: :cascade do |t|
     t.integer "publication_id", null: false
     t.integer "customer_id",    null: false
     t.date    "subscribed",     null: false
-    t.date    "expires"
+    t.date    "expiry"
   end
 
   add_index "customers_publications", ["customer_id", "publication_id"], name: "index_customers_publications_on_customer_id_and_publication_id", unique: true, using: :btree
 
+  create_table "discounts", force: :cascade do |t|
+    t.string   "name",        null: false
+    t.boolean  "requestable"
+    t.datetime "created_at",  null: false
+    t.datetime "updated_at",  null: false
+  end
+
+  add_index "discounts", ["name"], name: "index_discounts_on_name", unique: true, using: :btree
+
   create_table "offers", force: :cascade do |t|
     t.text     "name",        null: false
-    t.date     "expires"
+    t.date     "expiry"
     t.text     "description"
     t.datetime "created_at",  null: false
     t.datetime "updated_at",  null: false
@@ -132,7 +135,7 @@ ActiveRecord::Schema.define(version: 20150408083121) do
   create_table "offers_products", id: false, force: :cascade do |t|
     t.integer "product_id", null: false
     t.integer "offer_id",   null: false
-    t.boolean "is_option"
+    t.boolean "optional"
   end
 
   add_index "offers_products", ["offer_id", "product_id"], name: "index_offers_products_on_offer_id_and_product_id", unique: true, using: :btree

@@ -1,10 +1,11 @@
-ActiveAdmin.register Category do
-  permit_params :name
+ActiveAdmin.register Discount do
+  permit_params :name, :requestable
 
   index do
     selectable_column
     id_column
     column :name
+    column :requestable
     column :created_at
     column :updated_at
     actions
@@ -13,6 +14,7 @@ ActiveAdmin.register Category do
   show do
     attributes_table do
       row :name
+      row :requestable
       row :created_at
       row :updated_at
     end
@@ -20,8 +22,9 @@ ActiveAdmin.register Category do
   end
 
   form do |f|
-    f.inputs "Category Details" do
+    f.inputs "Discount Details" do
       f.input :name, as: :string
+      f.input :requestable
     end
     f.actions
   end

@@ -4,7 +4,7 @@ xml.offers do
     xml.offer do
       xml.id offer.id
       xml.name offer.name
-      xml.expires offer.expires
+      xml.expiry offer.expiry
       xml.url offer_url(offer, format: :xml)
     end
   end
