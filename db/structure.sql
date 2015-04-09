@@ -119,7 +119,7 @@ ALTER SEQUENCE admin_users_id_seq OWNED BY admin_users.id;
 
 CREATE TABLE campaigns (
     id integer NOT NULL,
-    name text NOT NULL,
+    name character varying NOT NULL,
     start date,
     finish date,
     description text,
@@ -197,12 +197,12 @@ ALTER SEQUENCE configurations_id_seq OWNED BY configurations.id;
 
 CREATE TABLE customers (
     id integer NOT NULL,
-    name text NOT NULL,
-    email text,
-    phone text,
+    name character varying NOT NULL,
+    email character varying,
+    phone character varying,
     address text,
-    country text,
-    postcode text,
+    country character varying,
+    postcode character varying,
     created_at timestamp without time zone NOT NULL,
     updated_at timestamp without time zone NOT NULL
 );
@@ -215,7 +215,7 @@ CREATE TABLE customers (
 CREATE TABLE customers_discounts (
     discount_id integer NOT NULL,
     customer_id integer NOT NULL,
-    reference text,
+    reference character varying,
     expiry date
 );
 
@@ -289,7 +289,7 @@ ALTER SEQUENCE discounts_id_seq OWNED BY discounts.id;
 
 CREATE TABLE offers (
     id integer NOT NULL,
-    name text NOT NULL,
+    name character varying NOT NULL,
     expiry date,
     description text,
     created_at timestamp without time zone NOT NULL,
@@ -345,7 +345,7 @@ CREATE TABLE offers_publications (
 
 CREATE TABLE products (
     id integer NOT NULL,
-    name text NOT NULL,
+    name character varying NOT NULL,
     stock integer,
     image_file_name character varying,
     image_content_type character varying,
@@ -382,8 +382,8 @@ ALTER SEQUENCE products_id_seq OWNED BY products.id;
 
 CREATE TABLE publications (
     id integer NOT NULL,
-    name text NOT NULL,
-    website text NOT NULL,
+    name character varying NOT NULL,
+    website character varying NOT NULL,
     image_file_name character varying,
     image_content_type character varying,
     image_file_size integer,

@@ -1,7 +1,7 @@
 class CreateCampaigns < ActiveRecord::Migration
   def change
     create_table :campaigns do |t|
-      t.text :name, null: false
+      t.string :name, null: false
       t.date :start
       t.date :finish
       t.text :description

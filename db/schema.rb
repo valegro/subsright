@@ -60,7 +60,7 @@ ActiveRecord::Schema.define(version: 20150408083121) do
   add_index "admin_users", ["unlock_token"], name: "index_admin_users_on_unlock_token", unique: true, using: :btree
 
   create_table "campaigns", force: :cascade do |t|
-    t.text     "name",        null: false
+    t.string   "name",        null: false
     t.date     "start"
     t.date     "finish"
     t.text     "description"
@@ -87,12 +87,12 @@ ActiveRecord::Schema.define(version: 20150408083121) do
   add_index "configurations", ["key"], name: "index_configurations_on_key", unique: true, using: :btree
 
   create_table "customers", force: :cascade do |t|
-    t.text     "name",       null: false
-    t.text     "email"
-    t.text     "phone"
+    t.string   "name",       null: false
+    t.string   "email"
+    t.string   "phone"
     t.text     "address"
-    t.text     "country"
-    t.text     "postcode"
+    t.string   "country"
+    t.string   "postcode"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
   end
@@ -100,7 +100,7 @@ ActiveRecord::Schema.define(version: 20150408083121) do
   create_table "customers_discounts", id: false, force: :cascade do |t|
     t.integer "discount_id", null: false
     t.integer "customer_id", null: false
-    t.text    "reference"
+    t.string  "reference"
     t.date    "expiry"
   end
 
@@ -125,7 +125,7 @@ ActiveRecord::Schema.define(version: 20150408083121) do
   add_index "discounts", ["name"], name: "index_discounts_on_name", unique: true, using: :btree
 
   create_table "offers", force: :cascade do |t|
-    t.text     "name",        null: false
+    t.string   "name",        null: false
     t.date     "expiry"
     t.text     "description"
     t.datetime "created_at",  null: false
@@ -150,7 +150,7 @@ ActiveRecord::Schema.define(version: 20150408083121) do
   add_index "offers_publications", ["offer_id", "publication_id"], name: "index_offers_publications_on_offer_id_and_publication_id", unique: true, using: :btree
 
   create_table "products", force: :cascade do |t|
-    t.text     "name",               null: false
+    t.string   "name",               null: false
     t.integer  "stock"
     t.string   "image_file_name"
     t.string   "image_content_type"
@@ -164,8 +164,8 @@ ActiveRecord::Schema.define(version: 20150408083121) do
   add_index "products", ["name"], name: "index_products_on_name", unique: true, using: :btree
 
   create_table "publications", force: :cascade do |t|
-    t.text     "name",               null: false
-    t.text     "website",            null: false
+    t.string   "name",               null: false
+    t.string   "website",            null: false
     t.string   "image_file_name"
     t.string   "image_content_type"
     t.integer  "image_file_size"

@@ -1,8 +1,8 @@
 class CreatePublications < ActiveRecord::Migration
   def change
     create_table :publications do |t|
-      t.text :name, null: false
-      t.text :website, null: false
+      t.string :name, null: false
+      t.string :website, null: false
       t.attachment :image
       t.text :description
 
