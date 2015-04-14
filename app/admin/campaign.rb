@@ -36,7 +36,7 @@ ActiveAdmin.register Campaign do
 
   form do |f|
     f.inputs "Campaign Details" do
-      f.input :name, as: :string
+      f.input :name
       f.input :start
       f.input :finish
       f.input :offers

@@ -47,12 +47,12 @@ ActiveAdmin.register Customer do
 
   form do |f|
     f.inputs "Customer Details" do
-      f.input :name, as: :string
-      f.input :email, as: :email
-      f.input :phone, as: :phone
+      f.input :name
+      f.input :email
+      f.input :phone
       f.input :address
-      f.input :country, as: :country
-      f.input :postcode, as: :string
+      f.input :country
+      f.input :postcode
       f.input :discounts
       f.input :publications
     end

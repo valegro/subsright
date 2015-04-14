@@ -52,13 +52,13 @@ ActiveAdmin.register Publication do
 
   form do |f|
     f.inputs "Product Details" do
-      f.input :name, as: :string
+      f.input :name
       f.input :image, as: :file, hint: if f.publication.image?
         image_tag(f.publication.image.url)
       else
         content_tag(:span, 'Please upload an image')
       end
-      f.input :website, as: :url, input_html: { rows: 1 }
+      f.input :website, input_html: { rows: 1 }
       f.input :offers
       f.input :description, input_html: { :class => 'tinymce' }
     end

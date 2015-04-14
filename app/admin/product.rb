@@ -48,7 +48,7 @@ ActiveAdmin.register Product do
 
   form do |f|
     f.inputs "Product Details" do
-      f.input :name, as: :string
+      f.input :name
       f.input :image, as: :file, hint: if f.product.image?
         image_tag(f.product.image.url)
       else
