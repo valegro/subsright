@@ -131,9 +131,7 @@ https://[username]@github.com/valegro/subsright.git</code></p>
 
 <p><code>$ sudo -u postgres createuser -d $USER</code></p>
 
-<p><code>$ rake db:create</code></p>
-
-<p><code>$ rake db:migrate</code></p>
+<p><code>$ rake db:setup</code></p>
 
 <p><code>$ rake test</code></p>
 
@@ -142,24 +140,17 @@ https://[username]@github.com/valegro/subsright.git</code></p>
 <p>You can now visit <a href="http://localhost:3000">localhost:3000</a> which
 will initialise the default configuration.</p>
 
-<p>Check log/development.log for the text of the outbound mail to
-admin@example.com and follow the “confirm your account email” link
-provided.  You can then log in with that email and the initial default
-password “password”.  You can now create and edit admin users and the site
-configuration.</p>
+<p>You can then log at <a
+href="http://localhost:3000/admin">localhost:3000/admin</a> as
+admin@example.com with the initial default password “password”.  You can
+now create and edit admin users and the site configuration.</p>
 
 <h3 id="label-Production">Production<span><a href="#label-Production">&para;</a> <a href="#top">&uarr;</a></span></h3>
 
 <p><code>$ sudo -u postgres createuser -d -P subsright</code></p>
 
 <p><code>$ SUBSRIGHT_DATABASE_PASSWORD=&#39;<em>password</em>&#39;
-RAILS_ENV=production rake db:create</code></p>
-
-<p><code>$ SUBSRIGHT_DATABASE_PASSWORD=&#39;<em>password</em>&#39;
-RAILS_ENV=production rake db:migrate</code></p>
-
-<p><code>$ psql -h localhost subsright_production subsright -c &quot;update
-admin_users set email=&#39;<em>email</em>&#39; where id=1;&quot;</code></p>
+RAILS_ENV=production rake db:setup</code></p>
 
 <p><code>$ SUBSRIGHT_DATABASE_PASSWORD=&#39;<em>password</em>&#39;
 RAILS_ENV=production rake assets:precompile</code></p>
@@ -173,13 +164,10 @@ RAILS_ENV=production bundle exec rackup -E production</code></p>
 <p>You can now visit <a href="http://localhost:9292">localhost:9292</a> which
 will initialise the default configuration.</p>
 
-<p>Then visit <a
-href="http://localhost:9292/admin/confirmation/new">localhost:9292/admin/confirmation/new</a>
-and enter the admin email address you configured above.  When you receive
-the confirmation email and follow the “confirm your account email” link
-provided, you can then log in with that email and the initial default
-password “password”.  You can now create and edit admin users and the site
-configuration.</p>
+<p>You can then log at <a
+href="http://localhost:9292/admin">localhost:9292/admin</a> as
+admin@example.com with the initial default password “password”.  You can
+now create and edit admin users and the site configuration.</p>
 </main>
 
 

@@ -284,6 +284,16 @@ ALTER SEQUENCE discounts_id_seq OWNED BY discounts.id;
 
 
 --
+-- Name: discounts_prices; Type: TABLE; Schema: public; Owner: -; Tablespace: 
+--
+
+CREATE TABLE discounts_prices (
+    discount_id integer NOT NULL,
+    price_id integer NOT NULL
+);
+
+
+--
 -- Name: offers; Type: TABLE; Schema: public; Owner: -; Tablespace: 
 --
 
@@ -317,6 +327,16 @@ ALTER SEQUENCE offers_id_seq OWNED BY offers.id;
 
 
 --
+-- Name: offers_prices; Type: TABLE; Schema: public; Owner: -; Tablespace: 
+--
+
+CREATE TABLE offers_prices (
+    offer_id integer NOT NULL,
+    price_id integer NOT NULL
+);
+
+
+--
 -- Name: offers_products; Type: TABLE; Schema: public; Owner: -; Tablespace: 
 --
 
@@ -337,6 +357,39 @@ CREATE TABLE offers_publications (
     quantity integer,
     unit character varying
 );
+
+
+--
+-- Name: prices; Type: TABLE; Schema: public; Owner: -; Tablespace: 
+--
+
+CREATE TABLE prices (
+    id integer NOT NULL,
+    currency character varying NOT NULL,
+    name character varying NOT NULL,
+    amount integer NOT NULL,
+    created_at timestamp without time zone NOT NULL,
+    updated_at timestamp without time zone NOT NULL
+);
+
+
+--
+-- Name: prices_id_seq; Type: SEQUENCE; Schema: public; Owner: -
+--
+
+CREATE SEQUENCE prices_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+--
+-- Name: prices_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: -
+--
+
+ALTER SEQUENCE prices_id_seq OWNED BY prices.id;
 
 
 --
@@ -475,6 +528,13 @@ ALTER TABLE ONLY offers ALTER COLUMN id SET DEFAULT nextval('offers_id_seq'::reg
 -- Name: id; Type: DEFAULT; Schema: public; Owner: -
 --
 
+ALTER TABLE ONLY prices ALTER COLUMN id SET DEFAULT nextval('prices_id_seq'::regclass);
+
+
+--
+-- Name: id; Type: DEFAULT; Schema: public; Owner: -
+--
+
 ALTER TABLE ONLY products ALTER COLUMN id SET DEFAULT nextval('products_id_seq'::regclass);
 
 
@@ -539,6 +599,14 @@ ALTER TABLE ONLY discounts
 
 ALTER TABLE ONLY offers
     ADD CONSTRAINT offers_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: prices_pkey; Type: CONSTRAINT; Schema: public; Owner: -; Tablespace: 
+--
+
+ALTER TABLE ONLY prices
+    ADD CONSTRAINT prices_pkey PRIMARY KEY (id);
 
 
 --
@@ -642,6 +710,20 @@ CREATE UNIQUE INDEX index_discounts_on_name ON discounts USING btree (name);
 
 
 --
+-- Name: index_discounts_prices_on_discount_id_and_price_id; Type: INDEX; Schema: public; Owner: -; Tablespace: 
+--
+
+CREATE UNIQUE INDEX index_discounts_prices_on_discount_id_and_price_id ON discounts_prices USING btree (discount_id, price_id);
+
+
+--
+-- Name: index_offers_prices_on_offer_id_and_price_id; Type: INDEX; Schema: public; Owner: -; Tablespace: 
+--
+
+CREATE UNIQUE INDEX index_offers_prices_on_offer_id_and_price_id ON offers_prices USING btree (offer_id, price_id);
+
+
+--
 -- Name: index_offers_products_on_offer_id_and_product_id; Type: INDEX; Schema: public; Owner: -; Tablespace: 
 --
 
@@ -653,6 +735,13 @@ CREATE UNIQUE INDEX index_offers_products_on_offer_id_and_product_id ON offers_p
 --
 
 CREATE UNIQUE INDEX index_offers_publications_on_offer_id_and_publication_id ON offers_publications USING btree (offer_id, publication_id);
+
+
+--
+-- Name: index_prices_on_currency_and_name; Type: INDEX; Schema: public; Owner: -; Tablespace: 
+--
+
+CREATE UNIQUE INDEX index_prices_on_currency_and_name ON prices USING btree (currency, name);
 
 
 --
@@ -709,4 +798,10 @@ INSERT INTO schema_migrations (version) VALUES ('20150408080305');
 INSERT INTO schema_migrations (version) VALUES ('20150408083056');
 
 INSERT INTO schema_migrations (version) VALUES ('20150408083121');
+
+INSERT INTO schema_migrations (version) VALUES ('20150414055657');
+
+INSERT INTO schema_migrations (version) VALUES ('20150414055940');
+
+INSERT INTO schema_migrations (version) VALUES ('20150414071040');
 

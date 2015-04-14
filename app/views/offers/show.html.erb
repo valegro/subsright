@@ -33,4 +33,12 @@
 	</div>
 <% end %>
 
+<% if @offer.prices.present? then %>
+    <ul>
+    <% @offer.prices.each do |price| %>
+      <li><%= price.name %> <%= price.amount %> <%= price.currency %></li>
+    <% end %>
+    </ul>
+<% end %>
+
 <div><%= link_to 'Offers', offers_path %></div>

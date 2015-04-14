@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150408083121) do
+ActiveRecord::Schema.define(version: 20150414071040) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -124,6 +124,13 @@ ActiveRecord::Schema.define(version: 20150408083121) do
 
   add_index "discounts", ["name"], name: "index_discounts_on_name", unique: true, using: :btree
 
+  create_table "discounts_prices", id: false, force: :cascade do |t|
+    t.integer "discount_id", null: false
+    t.integer "price_id",    null: false
+  end
+
+  add_index "discounts_prices", ["discount_id", "price_id"], name: "index_discounts_prices_on_discount_id_and_price_id", unique: true, using: :btree
+
   create_table "offers", force: :cascade do |t|
     t.string   "name",        null: false
     t.date     "expiry"
@@ -131,6 +138,13 @@ ActiveRecord::Schema.define(version: 20150408083121) do
     t.datetime "created_at",  null: false
     t.datetime "updated_at",  null: false
   end
+
+  create_table "offers_prices", id: false, force: :cascade do |t|
+    t.integer "offer_id", null: false
+    t.integer "price_id", null: false
+  end
+
+  add_index "offers_prices", ["offer_id", "price_id"], name: "index_offers_prices_on_offer_id_and_price_id", unique: true, using: :btree
 
   create_table "offers_products", id: false, force: :cascade do |t|
     t.integer "product_id", null: false
@@ -148,6 +162,16 @@ ActiveRecord::Schema.define(version: 20150408083121) do
   end
 
   add_index "offers_publications", ["offer_id", "publication_id"], name: "index_offers_publications_on_offer_id_and_publication_id", unique: true, using: :btree
+
+  create_table "prices", force: :cascade do |t|
+    t.string   "currency",   null: false
+    t.string   "name",       null: false
+    t.integer  "amount",     null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
+  add_index "prices", ["currency", "name"], name: "index_prices_on_currency_and_name", unique: true, using: :btree
 
   create_table "products", force: :cascade do |t|
     t.string   "name",               null: false

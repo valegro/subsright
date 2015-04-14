@@ -8,6 +8,7 @@ Rails.application.routes.draw do
   get 'discounts' => 'discounts#index'
   get 'offers' => 'offers#index'
   get 'offers/:id' => 'offers#show', as: :offer
+  get 'prices' => 'prices#index'
   get 'products' => 'products#index'
   get 'products/:id' => 'products#show', as: :product
   get 'publications' => 'publications#index'

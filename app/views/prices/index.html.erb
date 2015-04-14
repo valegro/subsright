@@ -1,0 +1,9 @@
+<p id="notice"><%= notice %></p>
+
+<h3>Prices</h3>
+
+<ul>
+    <% @prices.each do |price| %>
+      <li><%= price.name %> <%= price.amount %> <%= price.currency %></li>
+    <% end %>
+</ul>

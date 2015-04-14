@@ -38,13 +38,6 @@ Comments are created and viewed when viewing (but not when editing) other record
 This is where you enter settings that affect the entire system.  Currently this includes your
 name and logo which will appear on all pages.
 
-== Currencies
-
-You can choose which currencies you are able to accept payments in, and set the display format
-for each.
-
-Not implemented yet.
-
 == Customers
 
 Customers can fill in and update their own contact information, but discounts need to be approved
@@ -63,9 +56,9 @@ Discounts that are not requestable can only be manually assigned to customers by
 == Offers
 
 Each offer consists of subscriptions to some number of publications (or none) for a specified
-number of issues or period of time together with some number of products (or none).  Offers need
-not have any publications or products if you wish to use them to ask for donations.  They can
-optionally have an expiry date after which the offer will no longer be shown.
+period of time together with some number of products (or none).  Offers need not have any
+publications or products if you wish to use them to ask for donations.  They can optionally have
+an expiry date after which the offer will no longer be shown.
 
 Offers can be part of more than one campaign, and offers that are not part of any active campaign
 will not be shown on the Subscriptus home page but can still be accessed directly on their own
@@ -95,5 +88,5 @@ are always included with an offer if they are in stock.
 
 Each publication must include a link to the website for that publication.  Customers who purchase
 an offer including a publication will be recorded as subscribed to that publication for the
-specified number of issues or period of time.  Customers will be contacted to encourage them to
-take up a new offer to renew their subscription when their expiry date is imminent.
+period of time.  Customers will be contacted to encourage them to take up a new offer to renew
+their subscription when their expiry date is imminent.
