@@ -32,7 +32,7 @@ ActiveAdmin.register Customer do
       row :address
       row :country
       row :postcode
-      row :currency
+      row :currency do customer.currency_name end
       row 'Discounts' do |customer|
         (customer.discounts.map { |discount| discount.name }).
         join(', ').html_safe
@@ -55,7 +55,7 @@ ActiveAdmin.register Customer do
       f.input :address
       f.input :country
       f.input :postcode
-      f.input :currency
+      f.input :currency, as: :select, :collection => options_for_select(customer.currencies, 'AUD')
       f.input :discounts
       f.input :publications
     end

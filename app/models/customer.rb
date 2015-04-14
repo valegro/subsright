@@ -11,4 +11,13 @@ class Customer < ActiveRecord::Base
     c = ISO3166::Country[country]
     c.translations[I18n.locale.to_s] || c.name
   end
+
+  def currencies
+    Money::Currency.table.map { |m| [ "#{m[1][:name]} (#{m[1][:iso_code]})", m[1][:iso_code] ] }
+  end
+
+  def currency_name
+    m = Money::Currency.new(currency)
+    "#{m.name} (#{m.iso_code})"
+  end
 end

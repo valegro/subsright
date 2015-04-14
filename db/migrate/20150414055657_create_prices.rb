@@ -3,7 +3,7 @@ class CreatePrices < ActiveRecord::Migration
     create_table :prices do |t|
       t.string :currency, null: false
       t.string :name, null: false
-      t.integer :amount, null: false
+      t.integer :amount_cents, null: false
 
       t.timestamps null: false
     end

@@ -165,11 +165,11 @@ ActiveRecord::Schema.define(version: 20150414071040) do
   add_index "offers_publications", ["offer_id", "publication_id"], name: "index_offers_publications_on_offer_id_and_publication_id", unique: true, using: :btree
 
   create_table "prices", force: :cascade do |t|
-    t.string   "currency",   null: false
-    t.string   "name",       null: false
-    t.integer  "amount",     null: false
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
+    t.string   "currency",     null: false
+    t.string   "name",         null: false
+    t.integer  "amount_cents", null: false
+    t.datetime "created_at",   null: false
+    t.datetime "updated_at",   null: false
   end
 
   add_index "prices", ["currency", "name"], name: "index_prices_on_currency_and_name", unique: true, using: :btree

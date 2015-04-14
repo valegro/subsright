@@ -40,6 +40,9 @@ gem 'activeadmin', github: 'activeadmin'
 # Use country_select plugin
 gem 'country_select'
 
+# Use Money
+gem 'money'
+
 # Use unicorn as the app server
 # gem 'unicorn'
 

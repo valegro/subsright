@@ -368,7 +368,7 @@ CREATE TABLE prices (
     id integer NOT NULL,
     currency character varying NOT NULL,
     name character varying NOT NULL,
-    amount integer NOT NULL,
+    amount_cents integer NOT NULL,
     created_at timestamp without time zone NOT NULL,
     updated_at timestamp without time zone NOT NULL
 );
