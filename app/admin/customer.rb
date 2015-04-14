@@ -1,5 +1,5 @@
 ActiveAdmin.register Customer do
-  permit_params :name, :email, :phone, :address, :country, :postcode, discount_ids: [], publication_ids: []
+  permit_params :name, :email, :phone, :address, :country, :postcode, :currency, discount_ids: [], publication_ids: []
 
   index do
     selectable_column
@@ -10,6 +10,7 @@ ActiveAdmin.register Customer do
     column :address
     column :country
     column :postcode
+    column :currency
     column 'Discounts' do |customer|
       (customer.discounts.map { |discount| discount.name }).
       join(', ').html_safe
@@ -31,6 +32,7 @@ ActiveAdmin.register Customer do
       row :address
       row :country
       row :postcode
+      row :currency
       row 'Discounts' do |customer|
         (customer.discounts.map { |discount| discount.name }).
         join(', ').html_safe
@@ -53,6 +55,7 @@ ActiveAdmin.register Customer do
       f.input :address
       f.input :country
       f.input :postcode
+      f.input :currency
       f.input :discounts
       f.input :publications
     end

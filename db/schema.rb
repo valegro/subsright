@@ -93,13 +93,14 @@ ActiveRecord::Schema.define(version: 20150414071040) do
     t.text     "address"
     t.string   "country"
     t.string   "postcode"
+    t.string   "currency"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
   end
 
   create_table "customers_discounts", id: false, force: :cascade do |t|
-    t.integer "discount_id", null: false
     t.integer "customer_id", null: false
+    t.integer "discount_id", null: false
     t.string  "reference"
     t.date    "expiry"
   end
@@ -107,8 +108,8 @@ ActiveRecord::Schema.define(version: 20150414071040) do
   add_index "customers_discounts", ["customer_id", "discount_id"], name: "index_customers_discounts_on_customer_id_and_discount_id", unique: true, using: :btree
 
   create_table "customers_publications", id: false, force: :cascade do |t|
-    t.integer "publication_id", null: false
     t.integer "customer_id",    null: false
+    t.integer "publication_id", null: false
     t.date    "subscribed",     null: false
     t.date    "expiry"
   end
@@ -147,16 +148,16 @@ ActiveRecord::Schema.define(version: 20150414071040) do
   add_index "offers_prices", ["offer_id", "price_id"], name: "index_offers_prices_on_offer_id_and_price_id", unique: true, using: :btree
 
   create_table "offers_products", id: false, force: :cascade do |t|
-    t.integer "product_id", null: false
     t.integer "offer_id",   null: false
+    t.integer "product_id", null: false
     t.boolean "optional"
   end
 
   add_index "offers_products", ["offer_id", "product_id"], name: "index_offers_products_on_offer_id_and_product_id", unique: true, using: :btree
 
   create_table "offers_publications", id: false, force: :cascade do |t|
-    t.integer "publication_id", null: false
     t.integer "offer_id",       null: false
+    t.integer "publication_id", null: false
     t.integer "quantity"
     t.string  "unit"
   end

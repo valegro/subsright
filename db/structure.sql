@@ -203,6 +203,7 @@ CREATE TABLE customers (
     address text,
     country character varying,
     postcode character varying,
+    currency character varying,
     created_at timestamp without time zone NOT NULL,
     updated_at timestamp without time zone NOT NULL
 );
@@ -213,8 +214,8 @@ CREATE TABLE customers (
 --
 
 CREATE TABLE customers_discounts (
-    discount_id integer NOT NULL,
     customer_id integer NOT NULL,
+    discount_id integer NOT NULL,
     reference character varying,
     expiry date
 );
@@ -244,8 +245,8 @@ ALTER SEQUENCE customers_id_seq OWNED BY customers.id;
 --
 
 CREATE TABLE customers_publications (
-    publication_id integer NOT NULL,
     customer_id integer NOT NULL,
+    publication_id integer NOT NULL,
     subscribed date NOT NULL,
     expiry date
 );
@@ -341,8 +342,8 @@ CREATE TABLE offers_prices (
 --
 
 CREATE TABLE offers_products (
-    product_id integer NOT NULL,
     offer_id integer NOT NULL,
+    product_id integer NOT NULL,
     optional boolean
 );
 
@@ -352,8 +353,8 @@ CREATE TABLE offers_products (
 --
 
 CREATE TABLE offers_publications (
-    publication_id integer NOT NULL,
     offer_id integer NOT NULL,
+    publication_id integer NOT NULL,
     quantity integer,
     unit character varying
 );

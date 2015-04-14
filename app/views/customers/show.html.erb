@@ -30,5 +30,10 @@
   <%= @customer.postcode %>
 </p>
 
+<p>
+  <strong>Preferred currency:</strong>
+  <%= @customer.currency %>
+</p>
+
 <%= link_to 'Edit', edit_customer_path(@customer) %> |
 <%= link_to 'Back', customers_path %>
