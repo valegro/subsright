@@ -1,11 +1,11 @@
 # Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
 
 one:
-  currency: One
-  name: MyString
-  amount: 1
+  currency: AUD
+  name: Price one
+  amount_cents: '100'
 
 two:
-  currency: Two
-  name: MyString
-  amount: 1
+  currency: AUD
+  name: Price two
+  amount_cents: '100'
