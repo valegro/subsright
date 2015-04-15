@@ -15,7 +15,7 @@
 	<div>
 	<% @offer.publications.each do |publication| %>
 	<figure>
-		<%= link_to (image_tag publication.image.url(:thumb)), publication %>
+		<%= link_to (image_tag publication.image.url(:thumb), alt: publication.name, size: '100'), publication %>
 		<figcaption><%= link_to publication.name, publication %></figcaption>
 	</figure>
 	<% end %>
@@ -26,7 +26,7 @@
 	<div>
 	<% @offer.products.each do |product| %>
 	<figure>
-		<%= link_to (image_tag product.image.url(:thumb)), product %>
+		<%= link_to (image_tag product.image.url(:thumb), alt: product.name, size: '100'), product %>
 		<figcaption><%= link_to product.name, product %></figcaption>
 	</figure>
 	<% end %>
