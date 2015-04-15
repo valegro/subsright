@@ -60,10 +60,10 @@ ActiveAdmin.register Offer do
     f.inputs "Offer Details" do
       f.input :name
       f.input :expiry, as: :datepicker
-      f.input :campaigns
-      f.input :publications
-      f.input :products
-      f.input :prices
+      f.input :campaigns, as: :check_boxes
+      f.input :publications, as: :check_boxes
+      f.input :products, as: :check_boxes
+      f.input :prices, as: :check_boxes
       f.input :description, input_html: { :class => 'tinymce' }
     end
     f.actions

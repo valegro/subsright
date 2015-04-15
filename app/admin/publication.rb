@@ -7,7 +7,7 @@ ActiveAdmin.register Publication do
     column :name
     column :image do |publication|
       if publication.image?
-        image_tag(publication.image.url(:thumb), height: '100')
+        image_tag(publication.image.url(:thumb), size: '100')
       else
         content_tag(:span, 'None')
       end
@@ -59,7 +59,7 @@ ActiveAdmin.register Publication do
         content_tag(:span, 'Please upload an image')
       end
       f.input :website, input_html: { rows: 1 }
-      f.input :offers
+      f.input :offers, as: :check_boxes
       f.input :description, input_html: { :class => 'tinymce' }
     end
     f.actions

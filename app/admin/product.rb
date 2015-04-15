@@ -7,7 +7,7 @@ ActiveAdmin.register Product do
     column :name
     column :image do |product|
       if product.image?
-        image_tag(product.image.url(:thumb), height: '100')
+        image_tag(product.image.url(:thumb), size: '100')
       else
         content_tag(:span, 'None')
       end
@@ -55,7 +55,7 @@ ActiveAdmin.register Product do
         content_tag(:span, 'Please upload an image')
       end
       f.input :stock
-      f.input :offers
+      f.input :offers, as: :check_boxes
       f.input :description, input_html: { :class => 'tinymce' }
     end
     f.actions

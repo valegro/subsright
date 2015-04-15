@@ -56,8 +56,8 @@ ActiveAdmin.register Customer do
       f.input :country
       f.input :postcode
       f.input :currency, as: :select, :collection => options_for_select(customer.currencies, 'AUD')
-      f.input :discounts
-      f.input :publications
+      f.input :discounts, as: :check_boxes
+      f.input :publications, as: :check_boxes
     end
     f.actions
   end

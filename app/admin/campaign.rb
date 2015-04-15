@@ -39,7 +39,7 @@ ActiveAdmin.register Campaign do
       f.input :name
       f.input :start, as: :datepicker
       f.input :finish, as: :datepicker
-      f.input :offers
+      f.input :offers, as: :check_boxes
       f.input :description, input_html: { :class => 'tinymce' }
     end
     f.actions
