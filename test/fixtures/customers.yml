@@ -7,6 +7,7 @@ one:
   address: MyText
   country: MyText
   postcode: MyText
+  currency: AUD
 
 two:
   name: MyText
@@ -15,3 +16,4 @@ two:
   address: MyText
   country: MyText
   postcode: MyText
+  currency: AUD
