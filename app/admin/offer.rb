@@ -59,7 +59,7 @@ ActiveAdmin.register Offer do
   form do |f|
     f.inputs "Offer Details" do
       f.input :name
-      f.input :expiry
+      f.input :expiry, as: :datepicker
       f.input :campaigns
       f.input :publications
       f.input :products

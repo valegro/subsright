@@ -37,8 +37,8 @@ ActiveAdmin.register Campaign do
   form do |f|
     f.inputs "Campaign Details" do
       f.input :name
-      f.input :start
-      f.input :finish
+      f.input :start, as: :datepicker
+      f.input :finish, as: :datepicker
       f.input :offers
       f.input :description, input_html: { :class => 'tinymce' }
     end
