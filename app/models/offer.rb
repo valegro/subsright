@@ -3,8 +3,10 @@ class Offer < ActiveRecord::Base
   accepts_nested_attributes_for :campaigns
   has_and_belongs_to_many :products
   accepts_nested_attributes_for :products
-  has_and_belongs_to_many :publications
+  has_many :publications, :through => :offer_publications
   accepts_nested_attributes_for :publications
+  has_many :offer_publications
+  accepts_nested_attributes_for :offer_publications, allow_destroy: true
   has_and_belongs_to_many :prices
   accepts_nested_attributes_for :prices
   validates_presence_of :name

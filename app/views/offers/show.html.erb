@@ -11,12 +11,15 @@
   <%= @offer.description.html_safe %>
 </div>
 
-<% if @offer.publications.present? then %>
+<% if @offer.offer_publications.present? then %>
 	<div>
-	<% @offer.publications.each do |publication| %>
+	<% @offer.offer_publications.by_publication_name.each do |op| %>
 	<figure>
-		<%= link_to (image_tag publication.image.url(:thumb), alt: publication.name, size: '100'), publication %>
-		<figcaption><%= link_to publication.name, publication %></figcaption>
+		<%= link_to image_tag( op.publication.image.url(:thumb), alt: op.publication.name, size: '100' ),
+		    op.publication %>
+		<figcaption>
+		    <%= link_to op.publication.name, op.publication %> for <%= pluralize(op.quantity, op.unit) %>
+		</figcaption>
 	</figure>
 	<% end %>
 	</div>

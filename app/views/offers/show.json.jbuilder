@@ -1,1 +1,5 @@
-json.extract! @offer, :id, :name, :expiry, :description, :created_at, :updated_at
+json.extract! @offer, :id, :name, :expiry, :description
+json.array(@offer.offer_publications) do |op|
+  json.extract! op, :publication_id, :quantity, :unit
+end
+json.extract! @offer, :created_at, :updated_at

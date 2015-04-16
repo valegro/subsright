@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150414071040) do
+ActiveRecord::Schema.define(version: 20150416101046) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -132,6 +132,17 @@ ActiveRecord::Schema.define(version: 20150414071040) do
 
   add_index "discounts_prices", ["discount_id", "price_id"], name: "index_discounts_prices_on_discount_id_and_price_id", unique: true, using: :btree
 
+  create_table "offer_publications", force: :cascade do |t|
+    t.integer  "offer_id"
+    t.integer  "publication_id"
+    t.integer  "quantity",       null: false
+    t.string   "unit",           null: false
+    t.datetime "created_at",     null: false
+    t.datetime "updated_at",     null: false
+  end
+
+  add_index "offer_publications", ["offer_id", "publication_id"], name: "index_offer_publications_on_offer_id_and_publication_id", unique: true, using: :btree
+
   create_table "offers", force: :cascade do |t|
     t.string   "name",        null: false
     t.date     "expiry"
@@ -154,15 +165,6 @@ ActiveRecord::Schema.define(version: 20150414071040) do
   end
 
   add_index "offers_products", ["offer_id", "product_id"], name: "index_offers_products_on_offer_id_and_product_id", unique: true, using: :btree
-
-  create_table "offers_publications", id: false, force: :cascade do |t|
-    t.integer "offer_id",       null: false
-    t.integer "publication_id", null: false
-    t.integer "quantity"
-    t.string  "unit"
-  end
-
-  add_index "offers_publications", ["offer_id", "publication_id"], name: "index_offers_publications_on_offer_id_and_publication_id", unique: true, using: :btree
 
   create_table "prices", force: :cascade do |t|
     t.string   "currency",     null: false
@@ -202,4 +204,6 @@ ActiveRecord::Schema.define(version: 20150414071040) do
 
   add_index "publications", ["name"], name: "index_publications_on_name", unique: true, using: :btree
 
+  add_foreign_key "offer_publications", "offers"
+  add_foreign_key "offer_publications", "publications"
 end

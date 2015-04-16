@@ -1,6 +1,9 @@
 ActiveAdmin.register Publication do
   permit_params :name, :image, :website, :description, offer_ids: []
 
+  preserve_default_filters!
+  filter :offer_publications, :if => false
+
   index do
     selectable_column
     id_column
@@ -16,7 +19,7 @@ ActiveAdmin.register Publication do
       link_to publication.website, publication.website
     end
     column 'Offers' do |publication|
-      (publication.offers.map { |offer| link_to offer.name, admin_offer_path(offer) }).
+      (publication.offers.order('name').map { |offer| link_to offer.name, admin_offer_path(offer) }).
       join(', ').html_safe
     end
     column :created_at
@@ -38,7 +41,7 @@ ActiveAdmin.register Publication do
         link_to publication.website, publication.website
       end
       row 'Offers' do
-        (publication.offers.map { |offer| link_to offer.name, admin_offer_path(offer) }).
+        (publication.offers.order('name').map { |offer| link_to offer.name, admin_offer_path(offer) }).
         join(', ').html_safe
       end
       row :description do
@@ -59,7 +62,6 @@ ActiveAdmin.register Publication do
         content_tag(:span, 'Please upload an image')
       end
       f.input :website, input_html: { rows: 1 }
-      f.input :offers, as: :check_boxes
       f.input :description, input_html: { :class => 'tinymce' }
     end
     f.actions

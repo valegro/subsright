@@ -4,7 +4,6 @@
 * Auditing: paper_trail
 * Add tests
 * Implement optional products
-* Implement publication quantities and units
 * Implement display of customer discounts and publications
 * Implement customer subscribed and expiry fields
 * Implement customer authentication

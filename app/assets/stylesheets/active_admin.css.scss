@@ -16,4 +16,10 @@
 //
 //   .status_tag { background: #6090DB; }
 
+// Show radio buttons horizontally
+.formtastic fieldset > ol > li.radio fieldset ol li {
+  margin: 0.1em 0.5em 0.5em 0;
+  display: inline-block;
+}
+
 .mce-tinymce { margin-top: 2em !important }

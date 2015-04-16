@@ -295,6 +295,40 @@ CREATE TABLE discounts_prices (
 
 
 --
+-- Name: offer_publications; Type: TABLE; Schema: public; Owner: -; Tablespace: 
+--
+
+CREATE TABLE offer_publications (
+    id integer NOT NULL,
+    offer_id integer,
+    publication_id integer,
+    quantity integer NOT NULL,
+    unit character varying NOT NULL,
+    created_at timestamp without time zone NOT NULL,
+    updated_at timestamp without time zone NOT NULL
+);
+
+
+--
+-- Name: offer_publications_id_seq; Type: SEQUENCE; Schema: public; Owner: -
+--
+
+CREATE SEQUENCE offer_publications_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+--
+-- Name: offer_publications_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: -
+--
+
+ALTER SEQUENCE offer_publications_id_seq OWNED BY offer_publications.id;
+
+
+--
 -- Name: offers; Type: TABLE; Schema: public; Owner: -; Tablespace: 
 --
 
@@ -345,18 +379,6 @@ CREATE TABLE offers_products (
     offer_id integer NOT NULL,
     product_id integer NOT NULL,
     optional boolean
-);
-
-
---
--- Name: offers_publications; Type: TABLE; Schema: public; Owner: -; Tablespace: 
---
-
-CREATE TABLE offers_publications (
-    offer_id integer NOT NULL,
-    publication_id integer NOT NULL,
-    quantity integer,
-    unit character varying
 );
 
 
@@ -522,6 +544,13 @@ ALTER TABLE ONLY discounts ALTER COLUMN id SET DEFAULT nextval('discounts_id_seq
 -- Name: id; Type: DEFAULT; Schema: public; Owner: -
 --
 
+ALTER TABLE ONLY offer_publications ALTER COLUMN id SET DEFAULT nextval('offer_publications_id_seq'::regclass);
+
+
+--
+-- Name: id; Type: DEFAULT; Schema: public; Owner: -
+--
+
 ALTER TABLE ONLY offers ALTER COLUMN id SET DEFAULT nextval('offers_id_seq'::regclass);
 
 
@@ -592,6 +621,14 @@ ALTER TABLE ONLY customers
 
 ALTER TABLE ONLY discounts
     ADD CONSTRAINT discounts_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: offer_publications_pkey; Type: CONSTRAINT; Schema: public; Owner: -; Tablespace: 
+--
+
+ALTER TABLE ONLY offer_publications
+    ADD CONSTRAINT offer_publications_pkey PRIMARY KEY (id);
 
 
 --
@@ -718,6 +755,13 @@ CREATE UNIQUE INDEX index_discounts_prices_on_discount_id_and_price_id ON discou
 
 
 --
+-- Name: index_offer_publications_on_offer_id_and_publication_id; Type: INDEX; Schema: public; Owner: -; Tablespace: 
+--
+
+CREATE UNIQUE INDEX index_offer_publications_on_offer_id_and_publication_id ON offer_publications USING btree (offer_id, publication_id);
+
+
+--
 -- Name: index_offers_prices_on_offer_id_and_price_id; Type: INDEX; Schema: public; Owner: -; Tablespace: 
 --
 
@@ -729,13 +773,6 @@ CREATE UNIQUE INDEX index_offers_prices_on_offer_id_and_price_id ON offers_price
 --
 
 CREATE UNIQUE INDEX index_offers_products_on_offer_id_and_product_id ON offers_products USING btree (offer_id, product_id);
-
-
---
--- Name: index_offers_publications_on_offer_id_and_publication_id; Type: INDEX; Schema: public; Owner: -; Tablespace: 
---
-
-CREATE UNIQUE INDEX index_offers_publications_on_offer_id_and_publication_id ON offers_publications USING btree (offer_id, publication_id);
 
 
 --
@@ -767,6 +804,22 @@ CREATE UNIQUE INDEX unique_schema_migrations ON schema_migrations USING btree (v
 
 
 --
+-- Name: fk_rails_8de0e6694c; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY offer_publications
+    ADD CONSTRAINT fk_rails_8de0e6694c FOREIGN KEY (publication_id) REFERENCES publications(id);
+
+
+--
+-- Name: fk_rails_9b76ac0276; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY offer_publications
+    ADD CONSTRAINT fk_rails_9b76ac0276 FOREIGN KEY (offer_id) REFERENCES offers(id);
+
+
+--
 -- PostgreSQL database dump complete
 --
 
@@ -790,8 +843,6 @@ INSERT INTO schema_migrations (version) VALUES ('20150224061651');
 
 INSERT INTO schema_migrations (version) VALUES ('20150405024749');
 
-INSERT INTO schema_migrations (version) VALUES ('20150405040201');
-
 INSERT INTO schema_migrations (version) VALUES ('20150408070342');
 
 INSERT INTO schema_migrations (version) VALUES ('20150408080305');
@@ -805,4 +856,6 @@ INSERT INTO schema_migrations (version) VALUES ('20150414055657');
 INSERT INTO schema_migrations (version) VALUES ('20150414055940');
 
 INSERT INTO schema_migrations (version) VALUES ('20150414071040');
+
+INSERT INTO schema_migrations (version) VALUES ('20150416101046');
 
