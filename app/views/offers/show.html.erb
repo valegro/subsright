@@ -18,7 +18,7 @@
 		<%= link_to image_tag( op.publication.image.url(:thumb), alt: op.publication.name, size: '100' ),
 		    op.publication %>
 		<figcaption>
-		    <%= link_to op.publication.name, op.publication %> for <%= pluralize(op.quantity, op.unit) %>
+		    <%= link_to op.publication.name, op.publication %> for <%= pluralize(op.quantity, op.unit.downcase) %>
 		</figcaption>
 	</figure>
 	<% end %>

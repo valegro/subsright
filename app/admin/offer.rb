@@ -44,7 +44,7 @@ ActiveAdmin.register Offer do
         ul do
           offer.offer_publications.by_publication_name.each do |op|
             li link_to( op.publication.name, admin_publication_path(op.publication) ) +
-              " for " + pluralize(op.quantity, op.unit)
+              " for " + pluralize(op.quantity, op.unit.downcase)
           end
         end
       end
