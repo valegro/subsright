@@ -11,6 +11,12 @@ xml.offer do
       xml.unit op.unit
     end
   end
+  @offer.offer_products.each do |op|
+    xml.offer_product do
+      xml.product_id op.product_id
+      xml.optional op.optional
+    end
+  end
   xml.created_at @offer.created_at
   xml.updated_at @offer.updated_at
 end

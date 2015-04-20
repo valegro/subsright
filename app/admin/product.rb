@@ -1,5 +1,8 @@
 ActiveAdmin.register Product do
-  permit_params :name, :image, :stock, :description, offer_ids: []
+  permit_params :name, :image, :stock, :description
+
+  preserve_default_filters!
+  filter :offer_products, :if => false
 
   index do
     selectable_column
@@ -14,7 +17,7 @@ ActiveAdmin.register Product do
     end
     column :stock
     column 'Offers' do |product|
-      (product.offers.map { |offer| link_to offer.name, admin_offer_path(offer) }).
+      (product.offers.order('name').map { |offer| link_to offer.name, admin_offer_path(offer) }).
       join(', ').html_safe
     end
     column :created_at
@@ -34,7 +37,7 @@ ActiveAdmin.register Product do
       end
       row :stock
       row 'Offers' do
-        (product.offers.map { |offer| link_to offer.name, admin_offer_path(offer) }).
+        (product.offers.order('name').map { |offer| link_to offer.name, admin_offer_path(offer) }).
         join(', ').html_safe
       end
       row :description do
@@ -55,7 +58,6 @@ ActiveAdmin.register Product do
         content_tag(:span, 'Please upload an image')
       end
       f.input :stock
-      f.input :offers, as: :check_boxes
       f.input :description, input_html: { :class => 'tinymce' }
     end
     f.actions

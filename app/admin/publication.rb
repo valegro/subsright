@@ -1,5 +1,5 @@
 ActiveAdmin.register Publication do
-  permit_params :name, :image, :website, :description, offer_ids: []
+  permit_params :name, :image, :website, :description
 
   preserve_default_filters!
   filter :offer_publications, :if => false

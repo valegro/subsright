@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150416101046) do
+ActiveRecord::Schema.define(version: 20150420081806) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -132,6 +132,16 @@ ActiveRecord::Schema.define(version: 20150416101046) do
 
   add_index "discounts_prices", ["discount_id", "price_id"], name: "index_discounts_prices_on_discount_id_and_price_id", unique: true, using: :btree
 
+  create_table "offer_products", force: :cascade do |t|
+    t.integer  "offer_id"
+    t.integer  "product_id"
+    t.boolean  "optional",   default: false, null: false
+    t.datetime "created_at",                 null: false
+    t.datetime "updated_at",                 null: false
+  end
+
+  add_index "offer_products", ["offer_id", "product_id"], name: "index_offer_products_on_offer_id_and_product_id", unique: true, using: :btree
+
   create_table "offer_publications", force: :cascade do |t|
     t.integer  "offer_id"
     t.integer  "publication_id"
@@ -158,14 +168,6 @@ ActiveRecord::Schema.define(version: 20150416101046) do
   end
 
   add_index "offers_prices", ["offer_id", "price_id"], name: "index_offers_prices_on_offer_id_and_price_id", unique: true, using: :btree
-
-  create_table "offers_products", id: false, force: :cascade do |t|
-    t.integer "offer_id",   null: false
-    t.integer "product_id", null: false
-    t.boolean "optional"
-  end
-
-  add_index "offers_products", ["offer_id", "product_id"], name: "index_offers_products_on_offer_id_and_product_id", unique: true, using: :btree
 
   create_table "prices", force: :cascade do |t|
     t.string   "currency",     null: false
@@ -205,6 +207,8 @@ ActiveRecord::Schema.define(version: 20150416101046) do
 
   add_index "publications", ["name"], name: "index_publications_on_name", unique: true, using: :btree
 
+  add_foreign_key "offer_products", "offers"
+  add_foreign_key "offer_products", "products"
   add_foreign_key "offer_publications", "offers"
   add_foreign_key "offer_publications", "publications"
 end

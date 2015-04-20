@@ -13,7 +13,7 @@
 
 <% if @offer.offer_publications.present? then %>
 	<div>
-	<% @offer.offer_publications.by_publication_name.each do |op| %>
+	<% @offer.offer_publications.by_name.each do |op| %>
 	<figure>
 		<%= link_to image_tag( op.publication.image.url(:thumb), alt: op.publication.name, size: '100' ),
 		    op.publication %>
@@ -27,12 +27,21 @@
 
 <% if @offer.products.present? then %>
 	<div>
-	<% @offer.products.each do |product| %>
-	<figure>
-		<%= link_to (image_tag product.image.url(:thumb), alt: product.name, size: '100'), product %>
-		<figcaption><%= link_to product.name, product %></figcaption>
-	</figure>
-	<% end %>
+	  <% @offer.offer_products.where('optional = FALSE').by_name.each do |op| %>
+	  <figure>
+		<%= link_to (image_tag op.product.image.url(:thumb), alt: op.product.name, size: '100'), op.product %>
+		<figcaption><%= link_to op.product.name, op.product %></figcaption>
+      </figure>
+	  <% end %>
+    </div>
+    <p>Plus one of:</p>
+    <div>
+      <% @offer.offer_products.where('optional = TRUE').by_name.each do |op| %>
+      <figure>
+        <%= link_to (image_tag op.product.image.url(:thumb), alt: op.product.name, size: '100'), op.product %>
+        <figcaption><%= link_to op.product.name, op.product %></figcaption>
+      </figure>
+      <% end %>
 	</div>
 <% end %>
 

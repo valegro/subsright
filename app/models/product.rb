@@ -1,6 +1,8 @@
 class Product < ActiveRecord::Base
-  has_and_belongs_to_many :offers
+  has_many :offers, :through => :offer_products
   accepts_nested_attributes_for :offers
+  has_many :offer_products
+  accepts_nested_attributes_for :offer_products
   validates :name, presence: true, uniqueness: true
   has_attached_file :image, styles: { thumb: '100x100#' }, convert_options: { thumb: '-strip -quality 75' }
   validates_attachment_content_type :image, :content_type => /\Aimage\//
