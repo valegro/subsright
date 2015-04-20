@@ -4,7 +4,6 @@ xml.campaigns do
     xml.campaign do
       xml.id campaign.id
       xml.name campaign.name
-      xml.start campaign.start
       xml.finish campaign.finish
       xml.url campaign_url(campaign, format: :xml)
     end

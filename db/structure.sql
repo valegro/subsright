@@ -335,7 +335,8 @@ ALTER SEQUENCE offer_publications_id_seq OWNED BY offer_publications.id;
 CREATE TABLE offers (
     id integer NOT NULL,
     name character varying NOT NULL,
-    expiry date,
+    start date,
+    finish date,
     description text,
     created_at timestamp without time zone NOT NULL,
     updated_at timestamp without time zone NOT NULL

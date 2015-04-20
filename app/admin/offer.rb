@@ -1,5 +1,5 @@
 ActiveAdmin.register Offer do
-  permit_params :name, :expiry, :description, campaign_ids: [],
+  permit_params :name, :start, :finish, :description, campaign_ids: [],
     offer_publications_attributes: [:id, :publication_id, :quantity, :unit, :_destroy],
     publication_ids: [], product_ids: [], price_ids: []
 
@@ -10,7 +10,8 @@ ActiveAdmin.register Offer do
     selectable_column
     id_column
     column :name
-    column :expiry
+    column :start
+    column :finish
     column 'Campaigns' do |offer|
       (offer.campaigns.map { |campaign| link_to campaign.name, admin_campaign_path(campaign) }).
       join(', ').html_safe
@@ -35,7 +36,8 @@ ActiveAdmin.register Offer do
   show do
     attributes_table do
       row :name
-      row :expiry
+      row :start
+      row :finish
       row 'Campaigns' do
         (offer.campaigns.map { |campaign| link_to campaign.name, admin_campaign_path(campaign) }).
         join(', ').html_safe
@@ -68,7 +70,8 @@ ActiveAdmin.register Offer do
   form do |f|
     f.inputs "Offer Details" do
       f.input :name
-      f.input :expiry, as: :datepicker
+      f.input :start, as: :datepicker
+      f.input :finish, as: :datepicker
       f.input :campaigns, as: :check_boxes
       f.has_many :offer_publications, allow_destroy: true, heading: 'Offer publications',
         :for => [:offer_publications, f.object.offer_publications.by_publication_name] do |fop|

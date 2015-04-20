@@ -2,7 +2,7 @@ xml.instruct!
 xml.offer do
   xml.id @offer.id
   xml.name @offer.name
-  xml.expiry @offer.expiry
+  xml.finish @offer.finish
   xml.description @offer.description
   @offer.offer_publications.each do |op|
     xml.offer_publication do

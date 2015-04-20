@@ -2,8 +2,8 @@
 
 <h3><%= @offer.name %></h3>
 
-<% if @offer.expiry then %>
-	<div><strong>Expires:</strong> <%= @offer.expiry %></div>
+<% if @offer.finish then %>
+	<div><strong>End date:</strong> <%= @offer.finish %></div>
 <% end %>
 
 <div>

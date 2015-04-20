@@ -2,10 +2,8 @@
 
 one:
   name: MyText
-  expiry: 2015-02-10
   description: MyText
 
 two:
   name: MyText
-  expiry: 2015-02-10
   description: MyText

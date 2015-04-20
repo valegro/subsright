@@ -64,7 +64,23 @@
 
     
     
+    <!-- Method Quickref -->
+<div id="method-list-section" class="nav-section">
+  <h3>Methods</h3>
+
+  <ul class="link-list" role="directory">
     
+    <li ><a href="#method-i-amount">#amount</a>
+    
+    <li ><a href="#method-i-amount-3D">#amount=</a>
+    
+    <li ><a href="#method-i-currencies">#currencies</a>
+    
+    <li ><a href="#method-i-currency_name">#currency_name</a>
+    
+  </ul>
+</div>
+
   </div>
 </nav>
 
@@ -90,6 +106,147 @@
     
 
     
+     <section id="public-instance-5Buntitled-5D-method-details" class="method-section">
+       <header>
+         <h3>Public Instance Methods</h3>
+       </header>
+
+    
+      <div id="method-i-amount" class="method-detail ">
+        
+        <div class="method-heading">
+          <span class="method-name">amount</span><span
+            class="method-args">()</span>
+          
+          <span class="method-click-advice">click to toggle source</span>
+          
+        </div>
+        
+
+        <div class="method-description">
+          
+          
+          
+          
+
+          
+          <div class="method-source-code" id="amount-source">
+            <pre><span class="ruby-comment"># File app/models/price.rb, line 9</span>
+<span class="ruby-keyword">def</span> <span class="ruby-identifier">amount</span>
+  <span class="ruby-constant">Money</span>.<span class="ruby-identifier">new</span>( <span class="ruby-identifier">amount_cents</span>, <span class="ruby-identifier">currency</span> ).<span class="ruby-identifier">format</span>
+<span class="ruby-keyword">end</span></pre>
+          </div>
+          
+        </div>
+
+        
+
+        
+      </div>
+
+    
+      <div id="method-i-amount-3D" class="method-detail ">
+        
+        <div class="method-heading">
+          <span class="method-name">amount=</span><span
+            class="method-args">(amount)</span>
+          
+          <span class="method-click-advice">click to toggle source</span>
+          
+        </div>
+        
+
+        <div class="method-description">
+          
+          
+          
+          
+
+          
+          <div class="method-source-code" id="amount-3D-source">
+            <pre><span class="ruby-comment"># File app/models/price.rb, line 13</span>
+<span class="ruby-keyword">def</span> <span class="ruby-identifier">amount=</span>(<span class="ruby-identifier">amount</span>)
+  <span class="ruby-keyword">self</span>.<span class="ruby-identifier">amount_cents</span> = <span class="ruby-identifier">amount</span>.<span class="ruby-identifier">tr</span>(<span class="ruby-string">&#39;^0-9&#39;</span>,<span class="ruby-string">&#39;&#39;</span>)
+<span class="ruby-keyword">end</span></pre>
+          </div>
+          
+        </div>
+
+        
+
+        
+      </div>
+
+    
+      <div id="method-i-currencies" class="method-detail ">
+        
+        <div class="method-heading">
+          <span class="method-name">currencies</span><span
+            class="method-args">()</span>
+          
+          <span class="method-click-advice">click to toggle source</span>
+          
+        </div>
+        
+
+        <div class="method-description">
+          
+          
+          
+          
+
+          
+          <div class="method-source-code" id="currencies-source">
+            <pre><span class="ruby-comment"># File app/models/price.rb, line 17</span>
+<span class="ruby-keyword">def</span> <span class="ruby-identifier">currencies</span>
+  <span class="ruby-constant">Money</span><span class="ruby-operator">::</span><span class="ruby-constant">Currency</span>.<span class="ruby-identifier">table</span>.<span class="ruby-identifier">map</span> { <span class="ruby-operator">|</span><span class="ruby-identifier">m</span><span class="ruby-operator">|</span> [ <span class="ruby-node">&quot;#{m[1][:name]} (#{m[1][:iso_code]})&quot;</span>, <span class="ruby-identifier">m</span>[<span class="ruby-value">1</span>][<span class="ruby-value">:iso_code</span>] ] }
+<span class="ruby-keyword">end</span></pre>
+          </div>
+          
+        </div>
+
+        
+
+        
+      </div>
+
+    
+      <div id="method-i-currency_name" class="method-detail ">
+        
+        <div class="method-heading">
+          <span class="method-name">currency_name</span><span
+            class="method-args">()</span>
+          
+          <span class="method-click-advice">click to toggle source</span>
+          
+        </div>
+        
+
+        <div class="method-description">
+          
+          
+          
+          
+
+          
+          <div class="method-source-code" id="currency_name-source">
+            <pre><span class="ruby-comment"># File app/models/price.rb, line 21</span>
+<span class="ruby-keyword">def</span> <span class="ruby-identifier">currency_name</span>
+  <span class="ruby-identifier">m</span> = <span class="ruby-constant">Money</span><span class="ruby-operator">::</span><span class="ruby-constant">Currency</span>.<span class="ruby-identifier">new</span>(<span class="ruby-identifier">currency</span>)
+  <span class="ruby-node">&quot;#{m.name} (#{m.iso_code})&quot;</span>
+<span class="ruby-keyword">end</span></pre>
+          </div>
+          
+        </div>
+
+        
+
+        
+      </div>
+
+    
+    </section>
+  
   </section>
 </main>
 

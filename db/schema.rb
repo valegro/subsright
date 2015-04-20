@@ -145,7 +145,8 @@ ActiveRecord::Schema.define(version: 20150416101046) do
 
   create_table "offers", force: :cascade do |t|
     t.string   "name",        null: false
-    t.date     "expiry"
+    t.date     "start"
+    t.date     "finish"
     t.text     "description"
     t.datetime "created_at",  null: false
     t.datetime "updated_at",  null: false

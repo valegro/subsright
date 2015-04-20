@@ -2,12 +2,8 @@
 
 <h3><%= @campaign.name %></h3>
 
-<% if @campaign.start then %>
-	<div><strong>Start:</strong> <%= @campaign.start %></div>
-<% end %>
-
 <% if @campaign.finish then %>
-	<div><strong>Finish:</strong> <%= @campaign.finish %></div>
+	<div><strong>End date:</strong> <%= @campaign.finish %></div>
 <% end %>
 
 <div>
