@@ -14,20 +14,21 @@ ActiveAdmin.register Offer do
     column :start
     column :finish
     column 'Campaigns' do |offer|
-      (offer.campaigns.map { |campaign| link_to campaign.name, admin_campaign_path(campaign) }).
-      join(', ').html_safe
+      ( offer.campaigns.map { |campaign| link_to campaign.name, admin_campaign_path(campaign) }
+      ).join(', ').html_safe
     end
     column 'Publications' do |offer|
-      (offer.publications.order('name').map { |publication| link_to publication.name, admin_publication_path(publication) }).
-      join(', ').html_safe
+      ( offer.publications.order('name').map { |publication|
+          link_to publication.name, admin_publication_path(publication) }
+      ).join(', ').html_safe
     end
     column 'Products' do |offer|
-      (offer.products.order('name').map { |product| link_to product.name, admin_product_path(product) }).
-      join(', ').html_safe
+      ( offer.products.order('name').map { |product| link_to product.name, admin_product_path(product) }
+      ).join(', ').html_safe
     end
     column 'Prices' do |offer|
-      (offer.prices.map { |price| link_to "#{price.currency} #{price.name}", admin_price_path(price) }).
-      join(', ').html_safe
+      ( offer.prices.map { |price| link_to "#{price.currency} #{price.name}", admin_price_path(price) }
+      ).join(', ').html_safe
     end
     column :created_at
     column :updated_at
@@ -40,8 +41,8 @@ ActiveAdmin.register Offer do
       row :start
       row :finish
       row 'Campaigns' do
-        (offer.campaigns.map { |campaign| link_to campaign.name, admin_campaign_path(campaign) }).
-        join(', ').html_safe
+        ( offer.campaigns.map { |campaign| link_to campaign.name, admin_campaign_path(campaign) }
+        ).join(', ').html_safe
       end
       row 'Publications' do
         ul do
@@ -62,8 +63,8 @@ ActiveAdmin.register Offer do
         end
       end
       row 'Prices' do
-        (offer.prices.map { |price| link_to "#{price.currency} #{price.name}", admin_price_path(price) }).
-        join(', ').html_safe
+        ( offer.prices.map { |price| link_to "#{price.currency} #{price.name}", admin_price_path(price) }
+        ).join(', ').html_safe
       end
       row :description do
         offer.description.html_safe

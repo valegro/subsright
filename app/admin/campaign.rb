@@ -8,8 +8,8 @@ ActiveAdmin.register Campaign do
     column :start
     column :finish
     column 'Offers' do |campaign|
-      (campaign.offers.map { |offer| link_to offer.name, admin_offer_path(offer) }).
-      join(', ').html_safe
+      ( campaign.offers.map { |offer| link_to offer.name, admin_offer_path(offer) }
+      ).join(', ').html_safe
     end
     column :created_at
     column :updated_at
@@ -22,8 +22,8 @@ ActiveAdmin.register Campaign do
       row :start
       row :finish
       row 'Offers' do
-        (campaign.offers.map { |offer| link_to offer.name, admin_offer_path(offer) }).
-        join(', ').html_safe
+        ( campaign.offers.map { |offer| link_to offer.name, admin_offer_path(offer) }
+        ).join(', ').html_safe
       end
       row :description do
         campaign.description.html_safe

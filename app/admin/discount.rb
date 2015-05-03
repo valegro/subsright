@@ -7,8 +7,8 @@ ActiveAdmin.register Discount do
     column :name
     column :requestable
     column 'Prices' do |discount|
-      (discount.prices.map { |price| link_to "#{price.currency} #{price.name}", admin_price_path(price) }).
-      join(', ').html_safe
+      ( discount.prices.map { |price| link_to "#{price.currency} #{price.name}", admin_price_path(price) }
+      ).join(', ').html_safe
     end
     column :created_at
     column :updated_at
@@ -20,8 +20,8 @@ ActiveAdmin.register Discount do
       row :name
       row :requestable
       row 'Prices' do
-        (discount.prices.map { |price| link_to "#{price.currency} #{price.name}", admin_price_path(price) }).
-        join(', ').html_safe
+        ( discount.prices.map { |price| link_to "#{price.currency} #{price.name}", admin_price_path(price) }
+        ).join(', ').html_safe
       end
       row :created_at
       row :updated_at

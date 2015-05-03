@@ -1,5 +1,5 @@
 class Publication < ActiveRecord::Base
-  has_many :offers, :through => :offer_publications
+  has_many :offers, through: :offer_publications
   accepts_nested_attributes_for :offers
   has_many :offer_publications
   accepts_nested_attributes_for :offer_publications

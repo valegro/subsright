@@ -1,5 +1,5 @@
 class Product < ActiveRecord::Base
-  has_many :offers, :through => :offer_products
+  has_many :offers, through: :offer_products
   accepts_nested_attributes_for :offers
   has_many :offer_products
   accepts_nested_attributes_for :offer_products
