@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150420081806) do
+ActiveRecord::Schema.define(version: 20150503140739) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -86,6 +86,17 @@ ActiveRecord::Schema.define(version: 20150420081806) do
 
   add_index "configurations", ["key"], name: "index_configurations_on_key", unique: true, using: :btree
 
+  create_table "customer_discounts", force: :cascade do |t|
+    t.integer  "customer_id"
+    t.integer  "discount_id"
+    t.string   "reference"
+    t.date     "expiry"
+    t.datetime "created_at",  null: false
+    t.datetime "updated_at",  null: false
+  end
+
+  add_index "customer_discounts", ["customer_id", "discount_id"], name: "index_customer_discounts_on_customer_id_and_discount_id", unique: true, using: :btree
+
   create_table "customers", force: :cascade do |t|
     t.string   "name",       null: false
     t.string   "email"
@@ -97,15 +108,6 @@ ActiveRecord::Schema.define(version: 20150420081806) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
   end
-
-  create_table "customers_discounts", id: false, force: :cascade do |t|
-    t.integer "customer_id", null: false
-    t.integer "discount_id", null: false
-    t.string  "reference"
-    t.date    "expiry"
-  end
-
-  add_index "customers_discounts", ["customer_id", "discount_id"], name: "index_customers_discounts_on_customer_id_and_discount_id", unique: true, using: :btree
 
   create_table "customers_publications", id: false, force: :cascade do |t|
     t.integer "customer_id",    null: false
@@ -207,6 +209,8 @@ ActiveRecord::Schema.define(version: 20150420081806) do
 
   add_index "publications", ["name"], name: "index_publications_on_name", unique: true, using: :btree
 
+  add_foreign_key "customer_discounts", "customers"
+  add_foreign_key "customer_discounts", "discounts"
   add_foreign_key "offer_products", "offers"
   add_foreign_key "offer_products", "products"
   add_foreign_key "offer_publications", "offers"

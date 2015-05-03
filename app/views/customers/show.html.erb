@@ -35,5 +35,17 @@
   <%= @customer.currency_name %>
 </p>
 
+
+<% if @customer.customer_discounts.present? then %>
+  <div>
+    <strong>Discounts:</strong>
+    <ul>
+    <% @customer.customer_discounts.by_name.each do |cd| %>
+      <li><%= cd.discount.name %><%= " (expires #{cd.expiry})" if cd.expiry %></li>
+    <% end %>
+    </ul>
+  </div>
+<% end %>
+
 <%= link_to 'Edit', edit_customer_path(@customer) %> |
 <%= link_to 'Back', customers_path %>

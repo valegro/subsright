@@ -192,6 +192,40 @@ ALTER SEQUENCE configurations_id_seq OWNED BY configurations.id;
 
 
 --
+-- Name: customer_discounts; Type: TABLE; Schema: public; Owner: -; Tablespace: 
+--
+
+CREATE TABLE customer_discounts (
+    id integer NOT NULL,
+    customer_id integer,
+    discount_id integer,
+    reference character varying,
+    expiry date,
+    created_at timestamp without time zone NOT NULL,
+    updated_at timestamp without time zone NOT NULL
+);
+
+
+--
+-- Name: customer_discounts_id_seq; Type: SEQUENCE; Schema: public; Owner: -
+--
+
+CREATE SEQUENCE customer_discounts_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+--
+-- Name: customer_discounts_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: -
+--
+
+ALTER SEQUENCE customer_discounts_id_seq OWNED BY customer_discounts.id;
+
+
+--
 -- Name: customers; Type: TABLE; Schema: public; Owner: -; Tablespace: 
 --
 
@@ -206,18 +240,6 @@ CREATE TABLE customers (
     currency character varying,
     created_at timestamp without time zone NOT NULL,
     updated_at timestamp without time zone NOT NULL
-);
-
-
---
--- Name: customers_discounts; Type: TABLE; Schema: public; Owner: -; Tablespace: 
---
-
-CREATE TABLE customers_discounts (
-    customer_id integer NOT NULL,
-    discount_id integer NOT NULL,
-    reference character varying,
-    expiry date
 );
 
 
@@ -553,6 +575,13 @@ ALTER TABLE ONLY configurations ALTER COLUMN id SET DEFAULT nextval('configurati
 -- Name: id; Type: DEFAULT; Schema: public; Owner: -
 --
 
+ALTER TABLE ONLY customer_discounts ALTER COLUMN id SET DEFAULT nextval('customer_discounts_id_seq'::regclass);
+
+
+--
+-- Name: id; Type: DEFAULT; Schema: public; Owner: -
+--
+
 ALTER TABLE ONLY customers ALTER COLUMN id SET DEFAULT nextval('customers_id_seq'::regclass);
 
 
@@ -635,6 +664,14 @@ ALTER TABLE ONLY campaigns
 
 ALTER TABLE ONLY configurations
     ADD CONSTRAINT configurations_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: customer_discounts_pkey; Type: CONSTRAINT; Schema: public; Owner: -; Tablespace: 
+--
+
+ALTER TABLE ONLY customer_discounts
+    ADD CONSTRAINT customer_discounts_pkey PRIMARY KEY (id);
 
 
 --
@@ -765,10 +802,10 @@ CREATE UNIQUE INDEX index_configurations_on_key ON configurations USING btree (k
 
 
 --
--- Name: index_customers_discounts_on_customer_id_and_discount_id; Type: INDEX; Schema: public; Owner: -; Tablespace: 
+-- Name: index_customer_discounts_on_customer_id_and_discount_id; Type: INDEX; Schema: public; Owner: -; Tablespace: 
 --
 
-CREATE UNIQUE INDEX index_customers_discounts_on_customer_id_and_discount_id ON customers_discounts USING btree (customer_id, discount_id);
+CREATE UNIQUE INDEX index_customer_discounts_on_customer_id_and_discount_id ON customer_discounts USING btree (customer_id, discount_id);
 
 
 --
@@ -866,6 +903,22 @@ ALTER TABLE ONLY offer_products
 
 
 --
+-- Name: fk_rails_e472f80643; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY customer_discounts
+    ADD CONSTRAINT fk_rails_e472f80643 FOREIGN KEY (discount_id) REFERENCES discounts(id);
+
+
+--
+-- Name: fk_rails_f08974d62d; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY customer_discounts
+    ADD CONSTRAINT fk_rails_f08974d62d FOREIGN KEY (customer_id) REFERENCES customers(id);
+
+
+--
 -- Name: fk_rails_f8c9422a0e; Type: FK CONSTRAINT; Schema: public; Owner: -
 --
 
@@ -899,8 +952,6 @@ INSERT INTO schema_migrations (version) VALUES ('20150408070342');
 
 INSERT INTO schema_migrations (version) VALUES ('20150408080305');
 
-INSERT INTO schema_migrations (version) VALUES ('20150408083056');
-
 INSERT INTO schema_migrations (version) VALUES ('20150408083121');
 
 INSERT INTO schema_migrations (version) VALUES ('20150414055657');
@@ -912,4 +963,6 @@ INSERT INTO schema_migrations (version) VALUES ('20150414071040');
 INSERT INTO schema_migrations (version) VALUES ('20150416101046');
 
 INSERT INTO schema_migrations (version) VALUES ('20150420081806');
+
+INSERT INTO schema_migrations (version) VALUES ('20150503140739');
 
