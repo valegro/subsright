@@ -197,8 +197,8 @@ ALTER SEQUENCE configurations_id_seq OWNED BY configurations.id;
 
 CREATE TABLE customer_discounts (
     id integer NOT NULL,
-    customer_id integer,
-    discount_id integer,
+    customer_id integer NOT NULL,
+    discount_id integer NOT NULL,
     reference character varying,
     expiry date,
     created_at timestamp without time zone NOT NULL,
@@ -231,8 +231,8 @@ ALTER SEQUENCE customer_discounts_id_seq OWNED BY customer_discounts.id;
 
 CREATE TABLE customer_publications (
     id integer NOT NULL,
-    customer_id integer,
-    publication_id integer,
+    customer_id integer NOT NULL,
+    publication_id integer NOT NULL,
     subscribed date NOT NULL,
     expiry date,
     created_at timestamp without time zone NOT NULL,
@@ -344,8 +344,8 @@ CREATE TABLE discounts_prices (
 
 CREATE TABLE offer_products (
     id integer NOT NULL,
-    offer_id integer,
-    product_id integer,
+    offer_id integer NOT NULL,
+    product_id integer NOT NULL,
     optional boolean DEFAULT false NOT NULL,
     created_at timestamp without time zone NOT NULL,
     updated_at timestamp without time zone NOT NULL
@@ -377,8 +377,8 @@ ALTER SEQUENCE offer_products_id_seq OWNED BY offer_products.id;
 
 CREATE TABLE offer_publications (
     id integer NOT NULL,
-    offer_id integer,
-    publication_id integer,
+    offer_id integer NOT NULL,
+    publication_id integer NOT NULL,
     quantity integer NOT NULL,
     unit character varying NOT NULL,
     created_at timestamp without time zone NOT NULL,
@@ -932,6 +932,14 @@ ALTER TABLE ONLY customer_publications
 
 
 --
+-- Name: fk_rails_82814ea6c7; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY offers_prices
+    ADD CONSTRAINT fk_rails_82814ea6c7 FOREIGN KEY (price_id) REFERENCES prices(id);
+
+
+--
 -- Name: fk_rails_8de0e6694c; Type: FK CONSTRAINT; Schema: public; Owner: -
 --
 
@@ -948,11 +956,43 @@ ALTER TABLE ONLY offer_publications
 
 
 --
+-- Name: fk_rails_a14f06721e; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY offers_prices
+    ADD CONSTRAINT fk_rails_a14f06721e FOREIGN KEY (offer_id) REFERENCES offers(id);
+
+
+--
 -- Name: fk_rails_a9ae35ca88; Type: FK CONSTRAINT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY offer_products
     ADD CONSTRAINT fk_rails_a9ae35ca88 FOREIGN KEY (offer_id) REFERENCES offers(id);
+
+
+--
+-- Name: fk_rails_aba2be40a4; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY discounts_prices
+    ADD CONSTRAINT fk_rails_aba2be40a4 FOREIGN KEY (discount_id) REFERENCES discounts(id);
+
+
+--
+-- Name: fk_rails_beaddbe013; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY campaigns_offers
+    ADD CONSTRAINT fk_rails_beaddbe013 FOREIGN KEY (campaign_id) REFERENCES campaigns(id);
+
+
+--
+-- Name: fk_rails_d30bc7a030; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY campaigns_offers
+    ADD CONSTRAINT fk_rails_d30bc7a030 FOREIGN KEY (offer_id) REFERENCES offers(id);
 
 
 --
@@ -969,6 +1009,14 @@ ALTER TABLE ONLY customer_discounts
 
 ALTER TABLE ONLY customer_discounts
     ADD CONSTRAINT fk_rails_f08974d62d FOREIGN KEY (customer_id) REFERENCES customers(id);
+
+
+--
+-- Name: fk_rails_f60819046f; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY discounts_prices
+    ADD CONSTRAINT fk_rails_f60819046f FOREIGN KEY (price_id) REFERENCES prices(id);
 
 
 --

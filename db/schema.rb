@@ -87,8 +87,8 @@ ActiveRecord::Schema.define(version: 20150510060753) do
   add_index "configurations", ["key"], name: "index_configurations_on_key", unique: true, using: :btree
 
   create_table "customer_discounts", force: :cascade do |t|
-    t.integer  "customer_id"
-    t.integer  "discount_id"
+    t.integer  "customer_id", null: false
+    t.integer  "discount_id", null: false
     t.string   "reference"
     t.date     "expiry"
     t.datetime "created_at",  null: false
@@ -98,8 +98,8 @@ ActiveRecord::Schema.define(version: 20150510060753) do
   add_index "customer_discounts", ["customer_id", "discount_id"], name: "index_customer_discounts_on_customer_id_and_discount_id", unique: true, using: :btree
 
   create_table "customer_publications", force: :cascade do |t|
-    t.integer  "customer_id"
-    t.integer  "publication_id"
+    t.integer  "customer_id",    null: false
+    t.integer  "publication_id", null: false
     t.date     "subscribed",     null: false
     t.date     "expiry"
     t.datetime "created_at",     null: false
@@ -137,8 +137,8 @@ ActiveRecord::Schema.define(version: 20150510060753) do
   add_index "discounts_prices", ["discount_id", "price_id"], name: "index_discounts_prices_on_discount_id_and_price_id", unique: true, using: :btree
 
   create_table "offer_products", force: :cascade do |t|
-    t.integer  "offer_id"
-    t.integer  "product_id"
+    t.integer  "offer_id",                   null: false
+    t.integer  "product_id",                 null: false
     t.boolean  "optional",   default: false, null: false
     t.datetime "created_at",                 null: false
     t.datetime "updated_at",                 null: false
@@ -147,8 +147,8 @@ ActiveRecord::Schema.define(version: 20150510060753) do
   add_index "offer_products", ["offer_id", "product_id"], name: "index_offer_products_on_offer_id_and_product_id", unique: true, using: :btree
 
   create_table "offer_publications", force: :cascade do |t|
-    t.integer  "offer_id"
-    t.integer  "publication_id"
+    t.integer  "offer_id",       null: false
+    t.integer  "publication_id", null: false
     t.integer  "quantity",       null: false
     t.string   "unit",           null: false
     t.datetime "created_at",     null: false
@@ -211,12 +211,18 @@ ActiveRecord::Schema.define(version: 20150510060753) do
 
   add_index "publications", ["name"], name: "index_publications_on_name", unique: true, using: :btree
 
+  add_foreign_key "campaigns_offers", "campaigns"
+  add_foreign_key "campaigns_offers", "offers"
   add_foreign_key "customer_discounts", "customers"
   add_foreign_key "customer_discounts", "discounts"
   add_foreign_key "customer_publications", "customers"
   add_foreign_key "customer_publications", "publications"
+  add_foreign_key "discounts_prices", "discounts"
+  add_foreign_key "discounts_prices", "prices"
   add_foreign_key "offer_products", "offers"
   add_foreign_key "offer_products", "products"
   add_foreign_key "offer_publications", "offers"
   add_foreign_key "offer_publications", "publications"
+  add_foreign_key "offers_prices", "offers"
+  add_foreign_key "offers_prices", "prices"
 end
