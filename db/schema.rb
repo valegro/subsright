@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150503140739) do
+ActiveRecord::Schema.define(version: 20150510060753) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -97,6 +97,17 @@ ActiveRecord::Schema.define(version: 20150503140739) do
 
   add_index "customer_discounts", ["customer_id", "discount_id"], name: "index_customer_discounts_on_customer_id_and_discount_id", unique: true, using: :btree
 
+  create_table "customer_publications", force: :cascade do |t|
+    t.integer  "customer_id"
+    t.integer  "publication_id"
+    t.date     "subscribed",     null: false
+    t.date     "expiry"
+    t.datetime "created_at",     null: false
+    t.datetime "updated_at",     null: false
+  end
+
+  add_index "customer_publications", ["customer_id", "publication_id"], name: "index_customer_publications_on_customer_id_and_publication_id", unique: true, using: :btree
+
   create_table "customers", force: :cascade do |t|
     t.string   "name",       null: false
     t.string   "email"
@@ -108,15 +119,6 @@ ActiveRecord::Schema.define(version: 20150503140739) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
   end
-
-  create_table "customers_publications", id: false, force: :cascade do |t|
-    t.integer "customer_id",    null: false
-    t.integer "publication_id", null: false
-    t.date    "subscribed",     null: false
-    t.date    "expiry"
-  end
-
-  add_index "customers_publications", ["customer_id", "publication_id"], name: "index_customers_publications_on_customer_id_and_publication_id", unique: true, using: :btree
 
   create_table "discounts", force: :cascade do |t|
     t.string   "name",        null: false
@@ -211,6 +213,8 @@ ActiveRecord::Schema.define(version: 20150503140739) do
 
   add_foreign_key "customer_discounts", "customers"
   add_foreign_key "customer_discounts", "discounts"
+  add_foreign_key "customer_publications", "customers"
+  add_foreign_key "customer_publications", "publications"
   add_foreign_key "offer_products", "offers"
   add_foreign_key "offer_products", "products"
   add_foreign_key "offer_publications", "offers"

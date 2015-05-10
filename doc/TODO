@@ -3,7 +3,6 @@
 * I18N: globalize
 * Auditing: paper_trail
 * Add tests
-* Implement display of customer discounts and publications
-* Implement customer subscribed and expiry fields
 * Implement customer authentication
+* Add subscription cancellation requests
 * Don't show offers where products are out of stock

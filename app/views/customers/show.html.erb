@@ -35,13 +35,24 @@
   <%= @customer.currency_name %>
 </p>
 
-
 <% if @customer.customer_discounts.present? then %>
   <div>
     <strong>Discounts:</strong>
     <ul>
     <% @customer.customer_discounts.by_name.each do |cd| %>
       <li><%= cd.discount.name %><%= " (expires #{cd.expiry})" if cd.expiry %></li>
+    <% end %>
+    </ul>
+  </div>
+<% end %>
+
+<% if @customer.customer_publications.present? then %>
+  <div>
+    <strong>Publications:</strong>
+    <ul>
+    <% @customer.customer_publications.by_name.each do |cp| %>
+      <li><a href="<%= cp.publication.website %>"><%= cp.publication.name %></a>
+        <%= " (expires #{cp.expiry})" if cp.expiry %></li>
     <% end %>
     </ul>
   </div>

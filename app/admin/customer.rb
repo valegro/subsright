@@ -1,9 +1,11 @@
 ActiveAdmin.register Customer do
   permit_params :name, :email, :phone, :address, :country, :postcode, :currency,
-    customer_discounts_attributes: [:id, :discount_id, :reference, :expiry, :_destroy], publication_ids: []
+    customer_discounts_attributes: [:id, :discount_id, :reference, :expiry, :_destroy],
+    customer_publications_attributes: [:id, :publication_id, :subscribed, :expiry, :_destroy]
 
   preserve_default_filters!
   filter :customer_discounts, :if => false
+  filter :customer_publications, :if => false
 
   index do
     selectable_column
@@ -16,7 +18,8 @@ ActiveAdmin.register Customer do
     column :postcode
     column :currency
     column 'Discounts' do |customer|
-      ( customer.discounts.order('name').map { |discount| discount.name }
+      ( customer.discounts.order('name').map { |discount|
+        link_to discount.name, admin_discount_path(discount) }
       ).join(', ').html_safe
     end
     column 'Publications' do |customer|
@@ -39,7 +42,8 @@ ActiveAdmin.register Customer do
       row :postcode
       row :currency do customer.currency_name end
       row 'Discounts' do |customer|
-        ( customer.discounts.order('name').map { |discount| discount.name }
+        ( customer.discounts.order('name').map { |discount|
+          link_to discount.name, admin_discount_path(discount) }
         ).join(', ').html_safe
       end
       row 'Publications' do
@@ -67,8 +71,13 @@ ActiveAdmin.register Customer do
         fcd.input :discount
         fcd.input :reference
         fcd.input :expiry, as: :datepicker
-        end
-      f.input :publications, as: :check_boxes
+      end
+      f.has_many :customer_publications, allow_destroy: true, heading: 'Customer publications',
+        :for => [:customer_publications, f.object.customer_publications.by_name] do |fcp|
+        fcp.input :publication
+        fcp.input :subscribed, as: :datepicker
+        fcp.input :expiry, as: :datepicker
+      end
     end
     f.actions
   end

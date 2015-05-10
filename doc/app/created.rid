@@ -1,15 +1,15 @@
-Mon, 20 Apr 2015 19:56:44 +1000
+Sun, 10 May 2015 16:37:09 +1000
 README.rdoc	Fri, 10 Apr 2015 00:00:44 +1000
 app/admin/admin_user.rb	Sun, 15 Mar 2015 17:40:18 +1100
-app/admin/campaign.rb	Wed, 15 Apr 2015 22:39:20 +1000
+app/admin/campaign.rb	Mon, 04 May 2015 00:28:01 +1000
 app/admin/configuration.rb	Sun, 15 Mar 2015 17:40:18 +1100
-app/admin/customer.rb	Wed, 15 Apr 2015 23:12:57 +1000
+app/admin/customer.rb	Sun, 10 May 2015 16:16:40 +1000
 app/admin/dashboard.rb	Sun, 15 Mar 2015 17:40:18 +1100
-app/admin/discount.rb	Wed, 15 Apr 2015 23:12:38 +1000
-app/admin/offer.rb	Mon, 20 Apr 2015 19:49:10 +1000
+app/admin/discount.rb	Mon, 04 May 2015 02:34:33 +1000
+app/admin/offer.rb	Mon, 04 May 2015 00:18:22 +1000
 app/admin/price.rb	Wed, 15 Apr 2015 01:08:16 +1000
-app/admin/product.rb	Mon, 20 Apr 2015 19:49:30 +1000
-app/admin/publication.rb	Mon, 20 Apr 2015 18:30:28 +1000
+app/admin/product.rb	Mon, 04 May 2015 00:28:19 +1000
+app/admin/publication.rb	Mon, 04 May 2015 02:35:07 +1000
 app/controllers/application_controller.rb	Sun, 15 Mar 2015 17:40:18 +1100
 app/controllers/campaigns_controller.rb	Sun, 15 Mar 2015 17:40:18 +1100
 app/controllers/customers_controller.rb	Tue, 14 Apr 2015 19:25:37 +1000
@@ -31,11 +31,13 @@ app/helpers/welcome_helper.rb	Mon, 10 Nov 2014 20:08:32 +1100
 app/models/admin_user.rb	Sun, 15 Mar 2015 17:40:18 +1100
 app/models/campaign.rb	Sun, 15 Mar 2015 17:40:18 +1100
 app/models/configuration.rb	Sun, 15 Mar 2015 17:40:18 +1100
-app/models/customer.rb	Wed, 15 Apr 2015 01:36:53 +1000
+app/models/customer.rb	Sun, 10 May 2015 16:31:02 +1000
+app/models/customer_discount.rb	Mon, 04 May 2015 03:03:45 +1000
+app/models/customer_publication.rb	Sun, 10 May 2015 16:36:38 +1000
 app/models/discount.rb	Tue, 14 Apr 2015 16:23:20 +1000
-app/models/offer.rb	Mon, 20 Apr 2015 19:40:52 +1000
+app/models/offer.rb	Mon, 04 May 2015 02:57:46 +1000
 app/models/offer_product.rb	Mon, 20 Apr 2015 19:42:31 +1000
 app/models/offer_publication.rb	Mon, 20 Apr 2015 18:49:06 +1000
 app/models/price.rb	Wed, 15 Apr 2015 01:37:00 +1000
-app/models/product.rb	Mon, 20 Apr 2015 19:41:30 +1000
-app/models/publication.rb	Fri, 17 Apr 2015 01:49:33 +1000
+app/models/product.rb	Mon, 04 May 2015 02:59:10 +1000
+app/models/publication.rb	Mon, 04 May 2015 02:59:29 +1000

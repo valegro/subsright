@@ -226,6 +226,40 @@ ALTER SEQUENCE customer_discounts_id_seq OWNED BY customer_discounts.id;
 
 
 --
+-- Name: customer_publications; Type: TABLE; Schema: public; Owner: -; Tablespace: 
+--
+
+CREATE TABLE customer_publications (
+    id integer NOT NULL,
+    customer_id integer,
+    publication_id integer,
+    subscribed date NOT NULL,
+    expiry date,
+    created_at timestamp without time zone NOT NULL,
+    updated_at timestamp without time zone NOT NULL
+);
+
+
+--
+-- Name: customer_publications_id_seq; Type: SEQUENCE; Schema: public; Owner: -
+--
+
+CREATE SEQUENCE customer_publications_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+--
+-- Name: customer_publications_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: -
+--
+
+ALTER SEQUENCE customer_publications_id_seq OWNED BY customer_publications.id;
+
+
+--
 -- Name: customers; Type: TABLE; Schema: public; Owner: -; Tablespace: 
 --
 
@@ -260,18 +294,6 @@ CREATE SEQUENCE customers_id_seq
 --
 
 ALTER SEQUENCE customers_id_seq OWNED BY customers.id;
-
-
---
--- Name: customers_publications; Type: TABLE; Schema: public; Owner: -; Tablespace: 
---
-
-CREATE TABLE customers_publications (
-    customer_id integer NOT NULL,
-    publication_id integer NOT NULL,
-    subscribed date NOT NULL,
-    expiry date
-);
 
 
 --
@@ -582,6 +604,13 @@ ALTER TABLE ONLY customer_discounts ALTER COLUMN id SET DEFAULT nextval('custome
 -- Name: id; Type: DEFAULT; Schema: public; Owner: -
 --
 
+ALTER TABLE ONLY customer_publications ALTER COLUMN id SET DEFAULT nextval('customer_publications_id_seq'::regclass);
+
+
+--
+-- Name: id; Type: DEFAULT; Schema: public; Owner: -
+--
+
 ALTER TABLE ONLY customers ALTER COLUMN id SET DEFAULT nextval('customers_id_seq'::regclass);
 
 
@@ -672,6 +701,14 @@ ALTER TABLE ONLY configurations
 
 ALTER TABLE ONLY customer_discounts
     ADD CONSTRAINT customer_discounts_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: customer_publications_pkey; Type: CONSTRAINT; Schema: public; Owner: -; Tablespace: 
+--
+
+ALTER TABLE ONLY customer_publications
+    ADD CONSTRAINT customer_publications_pkey PRIMARY KEY (id);
 
 
 --
@@ -809,10 +846,10 @@ CREATE UNIQUE INDEX index_customer_discounts_on_customer_id_and_discount_id ON c
 
 
 --
--- Name: index_customers_publications_on_customer_id_and_publication_id; Type: INDEX; Schema: public; Owner: -; Tablespace: 
+-- Name: index_customer_publications_on_customer_id_and_publication_id; Type: INDEX; Schema: public; Owner: -; Tablespace: 
 --
 
-CREATE UNIQUE INDEX index_customers_publications_on_customer_id_and_publication_id ON customers_publications USING btree (customer_id, publication_id);
+CREATE UNIQUE INDEX index_customer_publications_on_customer_id_and_publication_id ON customer_publications USING btree (customer_id, publication_id);
 
 
 --
@@ -876,6 +913,22 @@ CREATE UNIQUE INDEX index_publications_on_name ON publications USING btree (name
 --
 
 CREATE UNIQUE INDEX unique_schema_migrations ON schema_migrations USING btree (version);
+
+
+--
+-- Name: fk_rails_233b827326; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY customer_publications
+    ADD CONSTRAINT fk_rails_233b827326 FOREIGN KEY (publication_id) REFERENCES publications(id);
+
+
+--
+-- Name: fk_rails_7f4e35a9b6; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY customer_publications
+    ADD CONSTRAINT fk_rails_7f4e35a9b6 FOREIGN KEY (customer_id) REFERENCES customers(id);
 
 
 --
@@ -952,8 +1005,6 @@ INSERT INTO schema_migrations (version) VALUES ('20150408070342');
 
 INSERT INTO schema_migrations (version) VALUES ('20150408080305');
 
-INSERT INTO schema_migrations (version) VALUES ('20150408083121');
-
 INSERT INTO schema_migrations (version) VALUES ('20150414055657');
 
 INSERT INTO schema_migrations (version) VALUES ('20150414055940');
@@ -965,4 +1016,6 @@ INSERT INTO schema_migrations (version) VALUES ('20150416101046');
 INSERT INTO schema_migrations (version) VALUES ('20150420081806');
 
 INSERT INTO schema_migrations (version) VALUES ('20150503140739');
+
+INSERT INTO schema_migrations (version) VALUES ('20150510060753');
 

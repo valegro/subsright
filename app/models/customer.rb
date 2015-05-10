@@ -3,8 +3,12 @@ class Customer < ActiveRecord::Base
   accepts_nested_attributes_for :discounts
   has_many :customer_discounts
   accepts_nested_attributes_for :customer_discounts, allow_destroy: true
-  has_and_belongs_to_many :publications
+
+  has_many :publications, through: :customer_publications
   accepts_nested_attributes_for :publications
+  has_many :customer_publications
+  accepts_nested_attributes_for :customer_publications, allow_destroy: true
+
   validates_presence_of :name
 
   # This will attempt to translate the country name and use the default
