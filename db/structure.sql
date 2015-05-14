@@ -414,6 +414,7 @@ CREATE TABLE offers (
     name character varying NOT NULL,
     start date,
     finish date,
+    trial_period integer,
     description text,
     created_at timestamp without time zone NOT NULL,
     updated_at timestamp without time zone NOT NULL

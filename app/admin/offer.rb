@@ -1,5 +1,5 @@
 ActiveAdmin.register Offer do
-  permit_params :name, :start, :finish, :description, campaign_ids: [],
+  permit_params :name, :start, :finish, :trial_period, :description, campaign_ids: [],
     offer_publications_attributes: [:id, :publication_id, :quantity, :unit, :_destroy],
     offer_products_attributes: [:id, :product_id, :optional, :_destroy], price_ids: []
 
@@ -13,6 +13,7 @@ ActiveAdmin.register Offer do
     column :name
     column :start
     column :finish
+    column(:trial_period) { |offer| pluralize(offer.trial_period, 'day') unless offer.trial_period.nil? }
     column 'Campaigns' do |offer|
       ( offer.campaigns.map { |campaign| link_to campaign.name, admin_campaign_path(campaign) }
       ).join(', ').html_safe
@@ -40,6 +41,7 @@ ActiveAdmin.register Offer do
       row :name
       row :start
       row :finish
+      row(:trial_period) { pluralize(offer.trial_period, 'day') unless offer.trial_period.nil? }
       row 'Campaigns' do
         ( offer.campaigns.map { |campaign| link_to campaign.name, admin_campaign_path(campaign) }
         ).join(', ').html_safe
@@ -66,9 +68,7 @@ ActiveAdmin.register Offer do
         ( offer.prices.map { |price| link_to "#{price.currency} #{price.name}", admin_price_path(price) }
         ).join(', ').html_safe
       end
-      row :description do
-        offer.description.html_safe
-      end
+      row(:description) { offer.description.html_safe }
       row :created_at
       row :updated_at
     end
@@ -80,6 +80,7 @@ ActiveAdmin.register Offer do
       f.input :name
       f.input :start, as: :datepicker
       f.input :finish, as: :datepicker
+      f.input :trial_period, label: 'Trial period (days)'
       f.input :campaigns, as: :check_boxes
       f.has_many :offer_publications, allow_destroy: true, heading: 'Offer publications',
         :for => [:offer_publications, f.object.offer_publications.by_name] do |fop|

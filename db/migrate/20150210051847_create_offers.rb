@@ -4,6 +4,7 @@ class CreateOffers < ActiveRecord::Migration
       t.string :name, null: false
       t.date :start
       t.date :finish
+      t.integer :trial_period
       t.text :description
 
       t.timestamps null: false

@@ -51,6 +51,11 @@
       <li><%= price.name %> <%= price.amount %> <%= price.currency %></li>
     <% end %>
     </ul>
+    <% trial_period = @offer.trial_period %>
+    <% unless trial_period.nil? or trial_period.zero? then %>
+      <p><%= trial_period %> day free trial.  You will not be charged if you cancel before
+      <%= Date.today + trial_period %>.</p>
+    <% end %>
 <% end %>
 
 <div><%= link_to 'New Customer', new_customer_path %></div>

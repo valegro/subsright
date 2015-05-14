@@ -158,12 +158,13 @@ ActiveRecord::Schema.define(version: 20150510060753) do
   add_index "offer_publications", ["offer_id", "publication_id"], name: "index_offer_publications_on_offer_id_and_publication_id", unique: true, using: :btree
 
   create_table "offers", force: :cascade do |t|
-    t.string   "name",        null: false
+    t.string   "name",         null: false
     t.date     "start"
     t.date     "finish"
+    t.integer  "trial_period"
     t.text     "description"
-    t.datetime "created_at",  null: false
-    t.datetime "updated_at",  null: false
+    t.datetime "created_at",   null: false
+    t.datetime "updated_at",   null: false
   end
 
   create_table "offers_prices", id: false, force: :cascade do |t|

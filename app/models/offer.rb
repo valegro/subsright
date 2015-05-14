@@ -16,4 +16,5 @@ class Offer < ActiveRecord::Base
   accepts_nested_attributes_for :prices
 
   validates_presence_of :name
+  validates :trial_period, numericality: { allow_nil: true, only_integer: true, greater_than: 0 }
 end

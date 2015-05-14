@@ -3,6 +3,7 @@ xml.offer do
   xml.id @offer.id
   xml.name @offer.name
   xml.finish @offer.finish
+  xml.trial_period @offer.trial_period
   xml.description @offer.description
   @offer.offer_publications.each do |op|
     xml.offer_publication do
