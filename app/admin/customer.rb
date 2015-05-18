@@ -18,13 +18,13 @@ ActiveAdmin.register Customer do
     column :postcode
     column :currency
     column 'Discounts' do |customer|
-      ( customer.discounts.order('name').map { |discount|
-        link_to discount.name, admin_discount_path(discount) }
+      ( customer.discounts.order('name')
+        .map { |discount| link_to discount.name, admin_discount_path(discount) }
       ).join(', ').html_safe
     end
     column 'Publications' do |customer|
-      ( customer.publications.order('name').map { |publication|
-          link_to publication.name, admin_publication_path(publication) }
+      ( customer.publications.order('name')
+        .map { |publication| link_to publication.name, admin_publication_path(publication) }
       ).join(', ').html_safe
     end
     column :created_at
@@ -42,13 +42,13 @@ ActiveAdmin.register Customer do
       row :postcode
       row :currency do customer.currency_name end
       row 'Discounts' do |customer|
-        ( customer.discounts.order('name').map { |discount|
-          link_to discount.name, admin_discount_path(discount) }
+        ( customer.discounts.order('name')
+          .map { |discount| link_to discount.name, admin_discount_path(discount) }
         ).join(', ').html_safe
       end
       row 'Publications' do
-        ( customer.publications.order('name').map { |publication|
-            link_to publication.name, admin_publication_path(publication) }
+        ( customer.publications.order('name')
+          .map { |publication| link_to publication.name, admin_publication_path(publication) }
         ).join(', ').html_safe
       end
       row :created_at

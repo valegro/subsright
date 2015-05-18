@@ -48,27 +48,13 @@ Style/AlignParameters:
 Style/BlockDelimiters:
   Enabled: false
 
-# Offense count: 5
-# Cop supports --auto-correct.
-Style/BlockEndNewline:
-  Enabled: false
-
 # Offense count: 2
 # Configuration parameters: EnforcedStyle, SupportedStyles.
 Style/ClassAndModuleChildren:
   Enabled: false
 
-# Offense count: 2
-Style/ClassVars:
-  Enabled: false
-
 # Offense count: 55
 Style/Documentation:
-  Enabled: false
-
-# Offense count: 2
-# Cop supports --auto-correct.
-Style/ElseAlignment:
   Enabled: false
 
 # Offense count: 4

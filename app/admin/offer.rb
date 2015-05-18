@@ -19,8 +19,8 @@ ActiveAdmin.register Offer do
       ).join(', ').html_safe
     end
     column 'Publications' do |offer|
-      ( offer.publications.order('name').map { |publication|
-          link_to publication.name, admin_publication_path(publication) }
+      ( offer.publications.order('name')
+        .map { |publication| link_to publication.name, admin_publication_path(publication) }
       ).join(', ').html_safe
     end
     column 'Products' do |offer|
