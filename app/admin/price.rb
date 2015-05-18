@@ -14,7 +14,7 @@ ActiveAdmin.register Price do
 
   show do
     attributes_table do
-      row :currency do price.currency_name end
+      row(:currency) { price.currency_name }
       row :name
       row :amount
       row :created_at

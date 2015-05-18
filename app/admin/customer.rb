@@ -40,7 +40,7 @@ ActiveAdmin.register Customer do
       row :address
       row :country
       row :postcode
-      row :currency do customer.currency_name end
+      row(:currency) { customer.currency_name }
       row 'Discounts' do |customer|
         ( customer.discounts.order('name')
           .map { |discount| link_to discount.name, admin_discount_path(discount) }
