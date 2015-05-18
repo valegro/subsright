@@ -15,7 +15,7 @@ class Configuration < ActiveRecord::Base
     provider_logo
   end
 
-  def self.setting(name, default, form_type, form_collection_command='')
+  def self.setting(name, default, form_type, form_collection_command = '')
     class_eval <<-EOC
       self.settings << "#{name}"
       def self.#{name}

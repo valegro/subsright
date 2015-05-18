@@ -7,5 +7,5 @@ class OfferPublication < ActiveRecord::Base
   validates :quantity, numericality: { only_integer: true, greater_than: 0 }
   scope :by_name, lambda { joins(:publication).order('publications.name') }
 
-  UNITS = ['Week', ['Month', 'Month', {checked: true}], 'Year']
+  UNITS = ['Week', ['Month', 'Month', { checked: true }], 'Year']
 end

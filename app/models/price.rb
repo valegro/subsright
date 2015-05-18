@@ -11,7 +11,7 @@ class Price < ActiveRecord::Base
   end
 
   def amount=(amount)
-    self.amount_cents = amount.tr('^0-9','')
+    self.amount_cents = amount.tr('^0-9', '')
   end
 
   def currencies
