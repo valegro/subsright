@@ -1,7 +1,7 @@
 class Configuration < ActiveRecord::Base
   serialize :value
   has_attached_file :provider_logo
-  validates_attachment_content_type :provider_logo, :content_type => /\Aimage\//
+  validates_attachment_content_type :provider_logo, :content_type => %r{\Aimage/}
 
   class_attribute :settings
   self.settings = []

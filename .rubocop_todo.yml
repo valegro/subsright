@@ -116,12 +116,6 @@ Style/MethodCallParentheses:
 Style/RedundantSelf:
   Enabled: false
 
-# Offense count: 3
-# Cop supports --auto-correct.
-# Configuration parameters: EnforcedStyle, SupportedStyles, AllowInnerSlashes.
-Style/RegexpLiteral:
-  Enabled: false
-
 # Offense count: 4
 # Cop supports --auto-correct.
 Style/SpaceInsideBrackets:

@@ -5,5 +5,5 @@ class Product < ActiveRecord::Base
   accepts_nested_attributes_for :offer_products
   validates :name, presence: true, uniqueness: true
   has_attached_file :image, styles: { thumb: '100x100#' }, convert_options: { thumb: '-strip -quality 75' }
-  validates_attachment_content_type :image, :content_type => /\Aimage\//
+  validates_attachment_content_type :image, :content_type => %r{\Aimage/}
 end
