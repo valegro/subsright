@@ -4,5 +4,4 @@ class DiscountsController < InheritedResources::Base
   def index
     @discounts = Discount.where('requestable = TRUE').order(:name)
   end
-
 end

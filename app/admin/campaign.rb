@@ -44,5 +44,4 @@ ActiveAdmin.register Campaign do
     end
     f.actions
   end
-
 end

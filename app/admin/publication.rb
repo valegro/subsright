@@ -63,5 +63,4 @@ ActiveAdmin.register Publication do
     end
     f.actions
   end
-
 end
