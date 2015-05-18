@@ -103,11 +103,6 @@ Style/IndentationWidth:
 
 # Offense count: 4
 # Cop supports --auto-correct.
-Style/Lambda:
-  Enabled: false
-
-# Offense count: 4
-# Cop supports --auto-correct.
 Style/SpaceInsideBrackets:
   Enabled: false
 

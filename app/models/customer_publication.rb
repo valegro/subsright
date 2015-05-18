@@ -4,5 +4,5 @@ class CustomerPublication < ActiveRecord::Base
   belongs_to :publication
   accepts_nested_attributes_for :publication
   validates_presence_of :publication, :subscribed
-  scope :by_name, lambda { joins(:publication).order('publications.name') }
+  scope :by_name, -> { joins(:publication).order('publications.name') }
 end

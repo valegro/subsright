@@ -5,7 +5,7 @@ class OfferPublication < ActiveRecord::Base
   accepts_nested_attributes_for :publication
   validates_presence_of :publication, :quantity, :unit
   validates :quantity, numericality: { only_integer: true, greater_than: 0 }
-  scope :by_name, lambda { joins(:publication).order('publications.name') }
+  scope :by_name, -> { joins(:publication).order('publications.name') }
 
   UNITS = ['Week', ['Month', 'Month', { checked: true }], 'Year']
 end

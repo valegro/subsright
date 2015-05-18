@@ -4,5 +4,5 @@ class CustomerDiscount < ActiveRecord::Base
   belongs_to :discount
   accepts_nested_attributes_for :discount
   validates_presence_of :discount
-  scope :by_name, lambda { joins(:discount).order('discounts.name') }
+  scope :by_name, -> { joins(:discount).order('discounts.name') }
 end
