@@ -58,5 +58,8 @@ gem 'paperclip', '~> 4.2'
 # Use TinyMCE for rich text fields
 gem 'tinymce-rails'
 
-# User mocha for mocking and stubbing in tests
+# Use mocha for mocking and stubbing in tests
 gem 'mocha'
+
+# Use Rubocop in development to check Ruby and Rails style
+gem 'rubocop', group: :development, require: false

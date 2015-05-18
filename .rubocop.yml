@@ -1,0 +1,11 @@
+AllCops:
+  RunRailsCops: true
+  Include:
+    - '**/Rakefile'
+    - '**/config.ru'
+  Exclude:
+    - 'bin/**/*'
+    - 'config/initializers/*'
+    - 'db/**/*'
+
+inherit_from: .rubocop_todo.yml

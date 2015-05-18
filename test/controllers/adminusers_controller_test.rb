@@ -3,7 +3,7 @@ require 'test_helper'
 class AdminUsersControllerTest < ActionController::TestCase
   setup do
     # Creates a reference to the admin controller
-    @controller = ::Admin::AdminUsersController.new 
+    @controller = ::Admin::AdminUsersController.new
 
     # Prevents checking for a valid user session (pretends we're logged in)
     @controller.stubs(:authenticate_active_admin_user)
