@@ -37,8 +37,8 @@ class Configuration < ActiveRecord::Base
   # Accessors for provider_logo class attribute
   def self.provider_logo
     config = find_or_create_by(key: 'provider_logo', form_type: 'file')
-    @@provider_logo_file_name = config.value.presence
-    @@provider_logo_content_type = nil
+    @@provider_logo_file_name = config.value.presence # rubocop:disable Style/ClassVars
+    @@provider_logo_content_type = nil # rubocop:disable Style/ClassVars
     config.provider_logo
   end
 
