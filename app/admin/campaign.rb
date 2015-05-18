@@ -35,7 +35,7 @@ ActiveAdmin.register Campaign do
   end
 
   form do |f|
-    f.inputs "Campaign Details" do
+    f.inputs 'Campaign Details' do
       f.input :name
       f.input :start, as: :datepicker
       f.input :finish, as: :datepicker

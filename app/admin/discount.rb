@@ -30,7 +30,7 @@ ActiveAdmin.register Discount do
   end
 
   form do |f|
-    f.inputs "Discount Details" do
+    f.inputs 'Discount Details' do
       f.input :name
       f.input :requestable
       f.input :prices, as: :check_boxes

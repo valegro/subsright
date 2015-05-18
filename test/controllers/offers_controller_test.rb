@@ -11,18 +11,18 @@ class OffersControllerTest < ActionController::TestCase
     @offer = offers(:one)
   end
 
-  test "should get index" do
+  test 'should get index' do
     get :index
     assert_response :success
     assert_not_nil assigns(:offers)
   end
 
-  test "should get new" do
+  test 'should get new' do
     get :new
     assert_response :success
   end
 
-  test "should create offer" do
+  test 'should create offer' do
     assert_difference('Offer.count') do
       post :create, offer: { name: @offer.name }
     end
@@ -30,22 +30,22 @@ class OffersControllerTest < ActionController::TestCase
     assert_redirected_to admin_offer_path(assigns(:offer))
   end
 
-  test "should show offer" do
+  test 'should show offer' do
     get :show, id: @offer
     assert_response :success
   end
 
-  test "should get edit" do
+  test 'should get edit' do
     get :edit, id: @offer
     assert_response :success
   end
 
-  test "should update offer" do
+  test 'should update offer' do
     patch :update, id: @offer, offer: { name: @offer.name }
     assert_redirected_to admin_offer_path(assigns(:offer))
   end
 
-  test "should destroy offer" do
+  test 'should destroy offer' do
     assert_difference('Offer.count', -1) do
       delete :destroy, id: @offer
     end

@@ -12,18 +12,18 @@ class DiscountsControllerTest < ActionController::TestCase
     @discount.name = 'New discount'
   end
 
-  test "should get index" do
+  test 'should get index' do
     get :index
     assert_response :success
     assert_not_nil assigns(:discounts)
   end
 
-  test "should get new" do
+  test 'should get new' do
     get :new
     assert_response :success
   end
 
-  test "should create discount" do
+  test 'should create discount' do
     assert_difference('Discount.count') do
       post :create, discount: { name: @discount.name, requestable: @discount.requestable }
     end
@@ -31,22 +31,22 @@ class DiscountsControllerTest < ActionController::TestCase
     assert_redirected_to admin_discount_path(assigns(:discount))
   end
 
-  test "should show discount" do
+  test 'should show discount' do
     get :show, id: @discount
     assert_response :success
   end
 
-  test "should get edit" do
+  test 'should get edit' do
     get :edit, id: @discount
     assert_response :success
   end
 
-  test "should update discount" do
+  test 'should update discount' do
     patch :update, id: @discount, discount: { name: @discount.name }
     assert_redirected_to admin_discount_path(assigns(:discount))
   end
 
-  test "should destroy discount" do
+  test 'should destroy discount' do
     assert_difference('Discount.count', -1) do
       delete :destroy, id: @discount
     end

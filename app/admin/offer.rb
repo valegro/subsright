@@ -50,7 +50,7 @@ ActiveAdmin.register Offer do
         ul do
           offer.offer_publications.by_name.each do |op|
             li link_to( op.publication.name, admin_publication_path(op.publication) ) +
-              " for " + pluralize(op.quantity, op.unit.downcase)
+              ' for ' + pluralize(op.quantity, op.unit.downcase)
           end
         end
       end
@@ -76,7 +76,7 @@ ActiveAdmin.register Offer do
   end
 
   form do |f|
-    f.inputs "Offer Details" do
+    f.inputs 'Offer Details' do
       f.input :name
       f.input :start, as: :datepicker
       f.input :finish, as: :datepicker

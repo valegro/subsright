@@ -12,18 +12,18 @@ class PricesControllerTest < ActionController::TestCase
     @price.name = 'New price'
   end
 
-  test "should get index" do
+  test 'should get index' do
     get :index
     assert_response :success
     assert_not_nil assigns(:prices)
   end
 
-  test "should get new" do
+  test 'should get new' do
     get :new
     assert_response :success
   end
 
-  test "should create price" do
+  test 'should create price' do
     assert_difference('Price.count') do
       post :create, price: { amount: @price.amount, currency: @price.currency, name: @price.name }
     end
@@ -31,22 +31,22 @@ class PricesControllerTest < ActionController::TestCase
     assert_redirected_to admin_price_path(assigns(:price))
   end
 
-  test "should show price" do
+  test 'should show price' do
     get :show, id: @price
     assert_response :success
   end
 
-  test "should get edit" do
+  test 'should get edit' do
     get :edit, id: @price
     assert_response :success
   end
 
-  test "should update price" do
+  test 'should update price' do
     patch :update, id: @price, price: { amount: @price.amount, currency: @price.currency, name: @price.name }
     assert_redirected_to admin_price_path(assigns(:price))
   end
 
-  test "should destroy price" do
+  test 'should destroy price' do
     assert_difference('Price.count', -1) do
       delete :destroy, id: @price
     end

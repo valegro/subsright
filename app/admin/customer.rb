@@ -58,7 +58,7 @@ ActiveAdmin.register Customer do
   end
 
   form do |f|
-    f.inputs "Customer Details" do
+    f.inputs 'Customer Details' do
       f.input :name
       f.input :email
       f.input :phone

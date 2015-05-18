@@ -50,7 +50,7 @@ ActiveAdmin.register Product do
   end
 
   form do |f|
-    f.inputs "Product Details" do
+    f.inputs 'Product Details' do
       f.input :name
       hint = f.product.image? ? image_tag(f.product.image.url) : content_tag(:span, 'Please upload an image')
       f.input :image, as: :file, hint: hint

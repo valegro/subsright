@@ -10,7 +10,7 @@ ActiveAdmin.register Configuration do
 
   controller do
     def index
-      params[:action] = "Configuration" # for the active admin title
+      params[:action] = 'Configuration' # for the active admin title
       render 'admin/settings/index', layout: 'active_admin'
     end
 
@@ -18,7 +18,7 @@ ActiveAdmin.register Configuration do
       params[:update_configuration].each do |setting, value|
         Configuration.send("#{setting}=", value)
       end
-      redirect_to :back, notice: "Settings Saved"
+      redirect_to :back, notice: 'Settings Saved'
     end
   end
 end
