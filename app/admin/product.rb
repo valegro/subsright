@@ -52,11 +52,8 @@ ActiveAdmin.register Product do
   form do |f|
     f.inputs "Product Details" do
       f.input :name
-      f.input :image, as: :file, hint: if f.product.image?
-        image_tag(f.product.image.url)
-      else
-        content_tag(:span, 'Please upload an image')
-      end
+      hint = f.product.image? ? image_tag(f.product.image.url) : content_tag(:span, 'Please upload an image')
+      f.input :image, as: :file, hint: hint
       f.input :stock
       f.input :description, input_html: { :class => 'tinymce' }
     end
