@@ -1,8 +1,12 @@
 class Price < ActiveRecord::Base
-  has_and_belongs_to_many :offers
+  has_many :offer_prices
+  has_many :offers, through: :offer_prices
   accepts_nested_attributes_for :offers
-  has_and_belongs_to_many :discounts
+
+  has_many :discount_prices
+  has_many :discounts, through: :discount_prices
   accepts_nested_attributes_for :discounts
+
   validates :currency, presence: true
   validates :amount_cents, presence: true
   validates :name, presence: true, uniqueness: { scope: :currency }

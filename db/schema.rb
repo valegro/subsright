@@ -59,6 +59,13 @@ ActiveRecord::Schema.define(version: 20150510060753) do
   add_index "admin_users", ["reset_password_token"], name: "index_admin_users_on_reset_password_token", unique: true, using: :btree
   add_index "admin_users", ["unlock_token"], name: "index_admin_users_on_unlock_token", unique: true, using: :btree
 
+  create_table "campaign_offers", force: :cascade do |t|
+    t.integer "campaign_id", null: false
+    t.integer "offer_id",    null: false
+  end
+
+  add_index "campaign_offers", ["campaign_id", "offer_id"], name: "index_campaign_offers_on_campaign_id_and_offer_id", unique: true, using: :btree
+
   create_table "campaigns", force: :cascade do |t|
     t.string   "name",        null: false
     t.date     "start"
@@ -67,13 +74,6 @@ ActiveRecord::Schema.define(version: 20150510060753) do
     t.datetime "created_at",  null: false
     t.datetime "updated_at",  null: false
   end
-
-  create_table "campaigns_offers", id: false, force: :cascade do |t|
-    t.integer "campaign_id", null: false
-    t.integer "offer_id",    null: false
-  end
-
-  add_index "campaigns_offers", ["campaign_id", "offer_id"], name: "index_campaigns_offers_on_campaign_id_and_offer_id", unique: true, using: :btree
 
   create_table "configurations", force: :cascade do |t|
     t.string   "key",                     null: false
@@ -120,6 +120,13 @@ ActiveRecord::Schema.define(version: 20150510060753) do
     t.datetime "updated_at", null: false
   end
 
+  create_table "discount_prices", force: :cascade do |t|
+    t.integer "discount_id", null: false
+    t.integer "price_id",    null: false
+  end
+
+  add_index "discount_prices", ["discount_id", "price_id"], name: "index_discount_prices_on_discount_id_and_price_id", unique: true, using: :btree
+
   create_table "discounts", force: :cascade do |t|
     t.string   "name",        null: false
     t.boolean  "requestable"
@@ -129,12 +136,12 @@ ActiveRecord::Schema.define(version: 20150510060753) do
 
   add_index "discounts", ["name"], name: "index_discounts_on_name", unique: true, using: :btree
 
-  create_table "discounts_prices", id: false, force: :cascade do |t|
-    t.integer "discount_id", null: false
-    t.integer "price_id",    null: false
+  create_table "offer_prices", force: :cascade do |t|
+    t.integer "offer_id", null: false
+    t.integer "price_id", null: false
   end
 
-  add_index "discounts_prices", ["discount_id", "price_id"], name: "index_discounts_prices_on_discount_id_and_price_id", unique: true, using: :btree
+  add_index "offer_prices", ["offer_id", "price_id"], name: "index_offer_prices_on_offer_id_and_price_id", unique: true, using: :btree
 
   create_table "offer_products", force: :cascade do |t|
     t.integer  "offer_id",                   null: false
@@ -166,13 +173,6 @@ ActiveRecord::Schema.define(version: 20150510060753) do
     t.datetime "created_at",   null: false
     t.datetime "updated_at",   null: false
   end
-
-  create_table "offers_prices", id: false, force: :cascade do |t|
-    t.integer "offer_id", null: false
-    t.integer "price_id", null: false
-  end
-
-  add_index "offers_prices", ["offer_id", "price_id"], name: "index_offers_prices_on_offer_id_and_price_id", unique: true, using: :btree
 
   create_table "prices", force: :cascade do |t|
     t.string   "currency",     null: false
@@ -212,18 +212,18 @@ ActiveRecord::Schema.define(version: 20150510060753) do
 
   add_index "publications", ["name"], name: "index_publications_on_name", unique: true, using: :btree
 
-  add_foreign_key "campaigns_offers", "campaigns"
-  add_foreign_key "campaigns_offers", "offers"
+  add_foreign_key "campaign_offers", "campaigns"
+  add_foreign_key "campaign_offers", "offers"
   add_foreign_key "customer_discounts", "customers"
   add_foreign_key "customer_discounts", "discounts"
   add_foreign_key "customer_publications", "customers"
   add_foreign_key "customer_publications", "publications"
-  add_foreign_key "discounts_prices", "discounts"
-  add_foreign_key "discounts_prices", "prices"
+  add_foreign_key "discount_prices", "discounts"
+  add_foreign_key "discount_prices", "prices"
+  add_foreign_key "offer_prices", "offers"
+  add_foreign_key "offer_prices", "prices"
   add_foreign_key "offer_products", "offers"
   add_foreign_key "offer_products", "products"
   add_foreign_key "offer_publications", "offers"
   add_foreign_key "offer_publications", "publications"
-  add_foreign_key "offers_prices", "offers"
-  add_foreign_key "offers_prices", "prices"
 end

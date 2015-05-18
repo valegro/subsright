@@ -131,7 +131,7 @@
 
           
           <div class="method-source-code" id="amount-source">
-            <pre><span class="ruby-comment"># File app/models/price.rb, line 9</span>
+            <pre><span class="ruby-comment"># File app/models/price.rb, line 14</span>
 <span class="ruby-keyword">def</span> <span class="ruby-identifier">amount</span>
   <span class="ruby-constant">Money</span>.<span class="ruby-identifier">new</span>( <span class="ruby-identifier">amount_cents</span>, <span class="ruby-identifier">currency</span> ).<span class="ruby-identifier">format</span>
 <span class="ruby-keyword">end</span></pre>
@@ -164,9 +164,9 @@
 
           
           <div class="method-source-code" id="amount-3D-source">
-            <pre><span class="ruby-comment"># File app/models/price.rb, line 13</span>
+            <pre><span class="ruby-comment"># File app/models/price.rb, line 18</span>
 <span class="ruby-keyword">def</span> <span class="ruby-identifier">amount=</span>(<span class="ruby-identifier">amount</span>)
-  <span class="ruby-keyword">self</span>.<span class="ruby-identifier">amount_cents</span> = <span class="ruby-identifier">amount</span>.<span class="ruby-identifier">tr</span>(<span class="ruby-string">&#39;^0-9&#39;</span>,<span class="ruby-string">&#39;&#39;</span>)
+  <span class="ruby-keyword">self</span>.<span class="ruby-identifier">amount_cents</span> = <span class="ruby-identifier">amount</span>.<span class="ruby-identifier">tr</span>(<span class="ruby-string">&#39;^0-9&#39;</span>, <span class="ruby-string">&#39;&#39;</span>)
 <span class="ruby-keyword">end</span></pre>
           </div>
           
@@ -197,7 +197,7 @@
 
           
           <div class="method-source-code" id="currencies-source">
-            <pre><span class="ruby-comment"># File app/models/price.rb, line 17</span>
+            <pre><span class="ruby-comment"># File app/models/price.rb, line 22</span>
 <span class="ruby-keyword">def</span> <span class="ruby-identifier">currencies</span>
   <span class="ruby-constant">Money</span><span class="ruby-operator">::</span><span class="ruby-constant">Currency</span>.<span class="ruby-identifier">table</span>.<span class="ruby-identifier">map</span> { <span class="ruby-operator">|</span><span class="ruby-identifier">m</span><span class="ruby-operator">|</span> [ <span class="ruby-node">&quot;#{m[1][:name]} (#{m[1][:iso_code]})&quot;</span>, <span class="ruby-identifier">m</span>[<span class="ruby-value">1</span>][<span class="ruby-value">:iso_code</span>] ] }
 <span class="ruby-keyword">end</span></pre>
@@ -230,7 +230,7 @@
 
           
           <div class="method-source-code" id="currency_name-source">
-            <pre><span class="ruby-comment"># File app/models/price.rb, line 21</span>
+            <pre><span class="ruby-comment"># File app/models/price.rb, line 26</span>
 <span class="ruby-keyword">def</span> <span class="ruby-identifier">currency_name</span>
   <span class="ruby-identifier">m</span> = <span class="ruby-constant">Money</span><span class="ruby-operator">::</span><span class="ruby-constant">Currency</span>.<span class="ruby-identifier">new</span>(<span class="ruby-identifier">currency</span>)
   <span class="ruby-node">&quot;#{m.name} (#{m.iso_code})&quot;</span>

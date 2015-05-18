@@ -114,6 +114,36 @@ ALTER SEQUENCE admin_users_id_seq OWNED BY admin_users.id;
 
 
 --
+-- Name: campaign_offers; Type: TABLE; Schema: public; Owner: -; Tablespace: 
+--
+
+CREATE TABLE campaign_offers (
+    id integer NOT NULL,
+    campaign_id integer NOT NULL,
+    offer_id integer NOT NULL
+);
+
+
+--
+-- Name: campaign_offers_id_seq; Type: SEQUENCE; Schema: public; Owner: -
+--
+
+CREATE SEQUENCE campaign_offers_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+--
+-- Name: campaign_offers_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: -
+--
+
+ALTER SEQUENCE campaign_offers_id_seq OWNED BY campaign_offers.id;
+
+
+--
 -- Name: campaigns; Type: TABLE; Schema: public; Owner: -; Tablespace: 
 --
 
@@ -145,16 +175,6 @@ CREATE SEQUENCE campaigns_id_seq
 --
 
 ALTER SEQUENCE campaigns_id_seq OWNED BY campaigns.id;
-
-
---
--- Name: campaigns_offers; Type: TABLE; Schema: public; Owner: -; Tablespace: 
---
-
-CREATE TABLE campaigns_offers (
-    campaign_id integer NOT NULL,
-    offer_id integer NOT NULL
-);
 
 
 --
@@ -297,6 +317,36 @@ ALTER SEQUENCE customers_id_seq OWNED BY customers.id;
 
 
 --
+-- Name: discount_prices; Type: TABLE; Schema: public; Owner: -; Tablespace: 
+--
+
+CREATE TABLE discount_prices (
+    id integer NOT NULL,
+    discount_id integer NOT NULL,
+    price_id integer NOT NULL
+);
+
+
+--
+-- Name: discount_prices_id_seq; Type: SEQUENCE; Schema: public; Owner: -
+--
+
+CREATE SEQUENCE discount_prices_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+--
+-- Name: discount_prices_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: -
+--
+
+ALTER SEQUENCE discount_prices_id_seq OWNED BY discount_prices.id;
+
+
+--
 -- Name: discounts; Type: TABLE; Schema: public; Owner: -; Tablespace: 
 --
 
@@ -329,13 +379,33 @@ ALTER SEQUENCE discounts_id_seq OWNED BY discounts.id;
 
 
 --
--- Name: discounts_prices; Type: TABLE; Schema: public; Owner: -; Tablespace: 
+-- Name: offer_prices; Type: TABLE; Schema: public; Owner: -; Tablespace: 
 --
 
-CREATE TABLE discounts_prices (
-    discount_id integer NOT NULL,
+CREATE TABLE offer_prices (
+    id integer NOT NULL,
+    offer_id integer NOT NULL,
     price_id integer NOT NULL
 );
+
+
+--
+-- Name: offer_prices_id_seq; Type: SEQUENCE; Schema: public; Owner: -
+--
+
+CREATE SEQUENCE offer_prices_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+--
+-- Name: offer_prices_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: -
+--
+
+ALTER SEQUENCE offer_prices_id_seq OWNED BY offer_prices.id;
 
 
 --
@@ -438,16 +508,6 @@ CREATE SEQUENCE offers_id_seq
 --
 
 ALTER SEQUENCE offers_id_seq OWNED BY offers.id;
-
-
---
--- Name: offers_prices; Type: TABLE; Schema: public; Owner: -; Tablespace: 
---
-
-CREATE TABLE offers_prices (
-    offer_id integer NOT NULL,
-    price_id integer NOT NULL
-);
 
 
 --
@@ -584,6 +644,13 @@ ALTER TABLE ONLY admin_users ALTER COLUMN id SET DEFAULT nextval('admin_users_id
 -- Name: id; Type: DEFAULT; Schema: public; Owner: -
 --
 
+ALTER TABLE ONLY campaign_offers ALTER COLUMN id SET DEFAULT nextval('campaign_offers_id_seq'::regclass);
+
+
+--
+-- Name: id; Type: DEFAULT; Schema: public; Owner: -
+--
+
 ALTER TABLE ONLY campaigns ALTER COLUMN id SET DEFAULT nextval('campaigns_id_seq'::regclass);
 
 
@@ -619,7 +686,21 @@ ALTER TABLE ONLY customers ALTER COLUMN id SET DEFAULT nextval('customers_id_seq
 -- Name: id; Type: DEFAULT; Schema: public; Owner: -
 --
 
+ALTER TABLE ONLY discount_prices ALTER COLUMN id SET DEFAULT nextval('discount_prices_id_seq'::regclass);
+
+
+--
+-- Name: id; Type: DEFAULT; Schema: public; Owner: -
+--
+
 ALTER TABLE ONLY discounts ALTER COLUMN id SET DEFAULT nextval('discounts_id_seq'::regclass);
+
+
+--
+-- Name: id; Type: DEFAULT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY offer_prices ALTER COLUMN id SET DEFAULT nextval('offer_prices_id_seq'::regclass);
 
 
 --
@@ -681,6 +762,14 @@ ALTER TABLE ONLY admin_users
 
 
 --
+-- Name: campaign_offers_pkey; Type: CONSTRAINT; Schema: public; Owner: -; Tablespace: 
+--
+
+ALTER TABLE ONLY campaign_offers
+    ADD CONSTRAINT campaign_offers_pkey PRIMARY KEY (id);
+
+
+--
 -- Name: campaigns_pkey; Type: CONSTRAINT; Schema: public; Owner: -; Tablespace: 
 --
 
@@ -721,11 +810,27 @@ ALTER TABLE ONLY customers
 
 
 --
+-- Name: discount_prices_pkey; Type: CONSTRAINT; Schema: public; Owner: -; Tablespace: 
+--
+
+ALTER TABLE ONLY discount_prices
+    ADD CONSTRAINT discount_prices_pkey PRIMARY KEY (id);
+
+
+--
 -- Name: discounts_pkey; Type: CONSTRAINT; Schema: public; Owner: -; Tablespace: 
 --
 
 ALTER TABLE ONLY discounts
     ADD CONSTRAINT discounts_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: offer_prices_pkey; Type: CONSTRAINT; Schema: public; Owner: -; Tablespace: 
+--
+
+ALTER TABLE ONLY offer_prices
+    ADD CONSTRAINT offer_prices_pkey PRIMARY KEY (id);
 
 
 --
@@ -826,10 +931,10 @@ CREATE UNIQUE INDEX index_admin_users_on_unlock_token ON admin_users USING btree
 
 
 --
--- Name: index_campaigns_offers_on_campaign_id_and_offer_id; Type: INDEX; Schema: public; Owner: -; Tablespace: 
+-- Name: index_campaign_offers_on_campaign_id_and_offer_id; Type: INDEX; Schema: public; Owner: -; Tablespace: 
 --
 
-CREATE UNIQUE INDEX index_campaigns_offers_on_campaign_id_and_offer_id ON campaigns_offers USING btree (campaign_id, offer_id);
+CREATE UNIQUE INDEX index_campaign_offers_on_campaign_id_and_offer_id ON campaign_offers USING btree (campaign_id, offer_id);
 
 
 --
@@ -854,6 +959,13 @@ CREATE UNIQUE INDEX index_customer_publications_on_customer_id_and_publication_i
 
 
 --
+-- Name: index_discount_prices_on_discount_id_and_price_id; Type: INDEX; Schema: public; Owner: -; Tablespace: 
+--
+
+CREATE UNIQUE INDEX index_discount_prices_on_discount_id_and_price_id ON discount_prices USING btree (discount_id, price_id);
+
+
+--
 -- Name: index_discounts_on_name; Type: INDEX; Schema: public; Owner: -; Tablespace: 
 --
 
@@ -861,10 +973,10 @@ CREATE UNIQUE INDEX index_discounts_on_name ON discounts USING btree (name);
 
 
 --
--- Name: index_discounts_prices_on_discount_id_and_price_id; Type: INDEX; Schema: public; Owner: -; Tablespace: 
+-- Name: index_offer_prices_on_offer_id_and_price_id; Type: INDEX; Schema: public; Owner: -; Tablespace: 
 --
 
-CREATE UNIQUE INDEX index_discounts_prices_on_discount_id_and_price_id ON discounts_prices USING btree (discount_id, price_id);
+CREATE UNIQUE INDEX index_offer_prices_on_offer_id_and_price_id ON offer_prices USING btree (offer_id, price_id);
 
 
 --
@@ -879,13 +991,6 @@ CREATE UNIQUE INDEX index_offer_products_on_offer_id_and_product_id ON offer_pro
 --
 
 CREATE UNIQUE INDEX index_offer_publications_on_offer_id_and_publication_id ON offer_publications USING btree (offer_id, publication_id);
-
-
---
--- Name: index_offers_prices_on_offer_id_and_price_id; Type: INDEX; Schema: public; Owner: -; Tablespace: 
---
-
-CREATE UNIQUE INDEX index_offers_prices_on_offer_id_and_price_id ON offers_prices USING btree (offer_id, price_id);
 
 
 --
@@ -917,6 +1022,14 @@ CREATE UNIQUE INDEX unique_schema_migrations ON schema_migrations USING btree (v
 
 
 --
+-- Name: fk_rails_012c035366; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY discount_prices
+    ADD CONSTRAINT fk_rails_012c035366 FOREIGN KEY (price_id) REFERENCES prices(id);
+
+
+--
 -- Name: fk_rails_233b827326; Type: FK CONSTRAINT; Schema: public; Owner: -
 --
 
@@ -925,19 +1038,43 @@ ALTER TABLE ONLY customer_publications
 
 
 --
+-- Name: fk_rails_2ecfb4379d; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY discount_prices
+    ADD CONSTRAINT fk_rails_2ecfb4379d FOREIGN KEY (discount_id) REFERENCES discounts(id);
+
+
+--
+-- Name: fk_rails_659c6326fe; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY campaign_offers
+    ADD CONSTRAINT fk_rails_659c6326fe FOREIGN KEY (campaign_id) REFERENCES campaigns(id);
+
+
+--
+-- Name: fk_rails_7964ca9f30; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY campaign_offers
+    ADD CONSTRAINT fk_rails_7964ca9f30 FOREIGN KEY (offer_id) REFERENCES offers(id);
+
+
+--
+-- Name: fk_rails_7d7147a748; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY offer_prices
+    ADD CONSTRAINT fk_rails_7d7147a748 FOREIGN KEY (price_id) REFERENCES prices(id);
+
+
+--
 -- Name: fk_rails_7f4e35a9b6; Type: FK CONSTRAINT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY customer_publications
     ADD CONSTRAINT fk_rails_7f4e35a9b6 FOREIGN KEY (customer_id) REFERENCES customers(id);
-
-
---
--- Name: fk_rails_82814ea6c7; Type: FK CONSTRAINT; Schema: public; Owner: -
---
-
-ALTER TABLE ONLY offers_prices
-    ADD CONSTRAINT fk_rails_82814ea6c7 FOREIGN KEY (price_id) REFERENCES prices(id);
 
 
 --
@@ -957,14 +1094,6 @@ ALTER TABLE ONLY offer_publications
 
 
 --
--- Name: fk_rails_a14f06721e; Type: FK CONSTRAINT; Schema: public; Owner: -
---
-
-ALTER TABLE ONLY offers_prices
-    ADD CONSTRAINT fk_rails_a14f06721e FOREIGN KEY (offer_id) REFERENCES offers(id);
-
-
---
 -- Name: fk_rails_a9ae35ca88; Type: FK CONSTRAINT; Schema: public; Owner: -
 --
 
@@ -973,27 +1102,11 @@ ALTER TABLE ONLY offer_products
 
 
 --
--- Name: fk_rails_aba2be40a4; Type: FK CONSTRAINT; Schema: public; Owner: -
+-- Name: fk_rails_df0aa398e7; Type: FK CONSTRAINT; Schema: public; Owner: -
 --
 
-ALTER TABLE ONLY discounts_prices
-    ADD CONSTRAINT fk_rails_aba2be40a4 FOREIGN KEY (discount_id) REFERENCES discounts(id);
-
-
---
--- Name: fk_rails_beaddbe013; Type: FK CONSTRAINT; Schema: public; Owner: -
---
-
-ALTER TABLE ONLY campaigns_offers
-    ADD CONSTRAINT fk_rails_beaddbe013 FOREIGN KEY (campaign_id) REFERENCES campaigns(id);
-
-
---
--- Name: fk_rails_d30bc7a030; Type: FK CONSTRAINT; Schema: public; Owner: -
---
-
-ALTER TABLE ONLY campaigns_offers
-    ADD CONSTRAINT fk_rails_d30bc7a030 FOREIGN KEY (offer_id) REFERENCES offers(id);
+ALTER TABLE ONLY offer_prices
+    ADD CONSTRAINT fk_rails_df0aa398e7 FOREIGN KEY (offer_id) REFERENCES offers(id);
 
 
 --
@@ -1010,14 +1123,6 @@ ALTER TABLE ONLY customer_discounts
 
 ALTER TABLE ONLY customer_discounts
     ADD CONSTRAINT fk_rails_f08974d62d FOREIGN KEY (customer_id) REFERENCES customers(id);
-
-
---
--- Name: fk_rails_f60819046f; Type: FK CONSTRAINT; Schema: public; Owner: -
---
-
-ALTER TABLE ONLY discounts_prices
-    ADD CONSTRAINT fk_rails_f60819046f FOREIGN KEY (price_id) REFERENCES prices(id);
 
 
 --

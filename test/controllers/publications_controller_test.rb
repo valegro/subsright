@@ -25,7 +25,11 @@ class PublicationsControllerTest < ActionController::TestCase
 
   test 'should create publication' do
     assert_difference('Publication.count') do
-      post :create, publication: { website: @publication.website, description: @publication.description, name: @publication.name }
+      post :create, publication: {
+        website: @publication.website,
+        description: @publication.description,
+        name: @publication.name
+      }
     end
 
     assert_redirected_to admin_publication_path(assigns(:publication))
@@ -42,7 +46,11 @@ class PublicationsControllerTest < ActionController::TestCase
   end
 
   test 'should update publication' do
-    patch :update, id: @publication, publication: { website: @publication.website, description: @publication.description, name: @publication.name }
+    patch :update, id: @publication, publication: {
+      website: @publication.website,
+      description: @publication.description,
+      name: @publication.name
+    }
     assert_redirected_to admin_publication_path(assigns(:publication))
   end
 

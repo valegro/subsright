@@ -24,7 +24,12 @@ class AdminUsersControllerTest < ActionController::TestCase
 
   test 'should create admin user' do
     assert_difference('AdminUser.count') do
-      post :create, admin_user: { name: 'Test', email: 'test@example.com', password: 'password', password_confirmation: 'password' }
+      post :create, admin_user: {
+        name: 'Test',
+        email: 'test@example.com',
+        password: 'password',
+        password_confirmation: 'password'
+      }
     end
 
     assert_redirected_to admin_admin_user_path(assigns(:admin_user))

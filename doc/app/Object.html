@@ -129,7 +129,7 @@
           <div class="method-source-code" id="index-source">
             <pre><span class="ruby-comment"># File app/admin/configuration.rb, line 12</span>
 <span class="ruby-keyword">def</span> <span class="ruby-identifier">index</span>
-  <span class="ruby-identifier">params</span>[<span class="ruby-value">:action</span>] = <span class="ruby-string">&quot;Configuration&quot;</span> <span class="ruby-comment"># for the active admin title</span>
+  <span class="ruby-identifier">params</span>[<span class="ruby-value">:action</span>] = <span class="ruby-string">&#39;Configuration&#39;</span> <span class="ruby-comment"># for the active admin title</span>
   <span class="ruby-identifier">render</span> <span class="ruby-string">&#39;admin/settings/index&#39;</span>, <span class="ruby-identifier">layout</span><span class="ruby-operator">:</span> <span class="ruby-string">&#39;active_admin&#39;</span>
 <span class="ruby-keyword">end</span></pre>
           </div>
@@ -166,7 +166,7 @@
   <span class="ruby-identifier">params</span>[<span class="ruby-value">:update_configuration</span>].<span class="ruby-identifier">each</span> <span class="ruby-keyword">do</span> <span class="ruby-operator">|</span><span class="ruby-identifier">setting</span>, <span class="ruby-identifier">value</span><span class="ruby-operator">|</span>
     <span class="ruby-constant">Configuration</span>.<span class="ruby-identifier">send</span>(<span class="ruby-node">&quot;#{setting}=&quot;</span>, <span class="ruby-identifier">value</span>)
   <span class="ruby-keyword">end</span>
-  <span class="ruby-identifier">redirect_to</span> <span class="ruby-value">:back</span>, <span class="ruby-identifier">notice</span><span class="ruby-operator">:</span> <span class="ruby-string">&quot;Settings Saved&quot;</span>
+  <span class="ruby-identifier">redirect_to</span> <span class="ruby-value">:back</span>, <span class="ruby-identifier">notice</span><span class="ruby-operator">:</span> <span class="ruby-string">&#39;Settings Saved&#39;</span>
 <span class="ruby-keyword">end</span></pre>
           </div>
           
