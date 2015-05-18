@@ -83,24 +83,6 @@ Style/EmptyLinesAroundBlockBody:
 Style/EmptyLinesAroundClassBody:
   Enabled: false
 
-# Offense count: 22
-# Cop supports --auto-correct.
-# Configuration parameters: EnforcedStyle, SupportedStyles, UseHashRocketsWithSymbolValues.
-Style/HashSyntax:
-  Enabled: false
-
-# Offense count: 1
-# Cop supports --auto-correct.
-# Configuration parameters: EnforcedStyle, SupportedStyles.
-Style/IndentationConsistency:
-  Enabled: false
-
-# Offense count: 2
-# Cop supports --auto-correct.
-# Configuration parameters: Width.
-Style/IndentationWidth:
-  Enabled: false
-
 # Offense count: 4
 # Cop supports --auto-correct.
 Style/SpaceInsideBrackets:

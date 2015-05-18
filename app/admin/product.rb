@@ -2,7 +2,7 @@ ActiveAdmin.register Product do
   permit_params :name, :image, :stock, :description
 
   preserve_default_filters!
-  filter :offer_products, :if => false
+  filter :offer_products, if: false
 
   index do
     selectable_column
@@ -55,7 +55,7 @@ ActiveAdmin.register Product do
       hint = f.product.image? ? image_tag(f.product.image.url) : content_tag(:span, 'Please upload an image')
       f.input :image, as: :file, hint: hint
       f.input :stock
-      f.input :description, input_html: { :class => 'tinymce' }
+      f.input :description, input_html: { class: 'tinymce' }
     end
     f.actions
   end

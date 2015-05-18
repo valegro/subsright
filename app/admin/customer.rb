@@ -4,8 +4,8 @@ ActiveAdmin.register Customer do
     customer_publications_attributes: [:id, :publication_id, :subscribed, :expiry, :_destroy]
 
   preserve_default_filters!
-  filter :customer_discounts, :if => false
-  filter :customer_publications, :if => false
+  filter :customer_discounts, if: false
+  filter :customer_publications, if: false
 
   index do
     selectable_column
@@ -65,15 +65,15 @@ ActiveAdmin.register Customer do
       f.input :address
       f.input :country
       f.input :postcode
-      f.input :currency, as: :select, :collection => options_for_select(customer.currencies, 'AUD')
+      f.input :currency, as: :select, collection: options_for_select(customer.currencies, 'AUD')
       f.has_many :customer_discounts, allow_destroy: true, heading: 'Customer discounts',
-        :for => [:customer_discounts, f.object.customer_discounts.by_name] do |fcd|
+        for: [:customer_discounts, f.object.customer_discounts.by_name] do |fcd|
         fcd.input :discount
         fcd.input :reference
         fcd.input :expiry, as: :datepicker
       end
       f.has_many :customer_publications, allow_destroy: true, heading: 'Customer publications',
-        :for => [:customer_publications, f.object.customer_publications.by_name] do |fcp|
+        for: [:customer_publications, f.object.customer_publications.by_name] do |fcp|
         fcp.input :publication
         fcp.input :subscribed, as: :datepicker
         fcp.input :expiry, as: :datepicker

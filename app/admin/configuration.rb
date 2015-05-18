@@ -1,5 +1,5 @@
 ActiveAdmin.register Configuration do
-  actions :only => [:index, :update]
+  actions only: [:index, :update]
 
   before_filter do
     @skip_sidebar = true

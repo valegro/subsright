@@ -4,8 +4,8 @@ ActiveAdmin.register Offer do
     offer_products_attributes: [:id, :product_id, :optional, :_destroy], price_ids: []
 
   preserve_default_filters!
-  filter :offer_publications, :if => false
-  filter :offer_products, :if => false
+  filter :offer_publications, if: false
+  filter :offer_products, if: false
 
   index do
     selectable_column
@@ -83,18 +83,18 @@ ActiveAdmin.register Offer do
       f.input :trial_period, label: 'Trial period (days)'
       f.input :campaigns, as: :check_boxes
       f.has_many :offer_publications, allow_destroy: true, heading: 'Offer publications',
-        :for => [:offer_publications, f.object.offer_publications.by_name] do |fop|
+        for: [:offer_publications, f.object.offer_publications.by_name] do |fop|
         fop.input :publication
         fop.input :quantity
         fop.input :unit, as: :radio, collection: OfferPublication::UNITS
       end
       f.has_many :offer_products, allow_destroy: true, heading: 'Offer products',
-        :for => [:offer_products, f.object.offer_products.by_name] do |fop|
+        for: [:offer_products, f.object.offer_products.by_name] do |fop|
         fop.input :product
         fop.input :optional
       end
       f.input :prices, as: :check_boxes
-      f.input :description, input_html: { :class => 'tinymce' }
+      f.input :description, input_html: { class: 'tinymce' }
     end
     f.actions
   end

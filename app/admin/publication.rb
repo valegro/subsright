@@ -2,7 +2,7 @@ ActiveAdmin.register Publication do
   permit_params :name, :image, :website, :description
 
   preserve_default_filters!
-  filter :offer_publications, :if => false
+  filter :offer_publications, if: false
 
   index do
     selectable_column
@@ -59,7 +59,7 @@ ActiveAdmin.register Publication do
       hint = f.publication.image? ? image_tag(f.publication.image.url) : content_tag(:span, 'Please upload an image')
       f.input :image, as: :file, hint: hint
       f.input :website, input_html: { rows: 1 }
-      f.input :description, input_html: { :class => 'tinymce' }
+      f.input :description, input_html: { class: 'tinymce' }
     end
     f.actions
   end

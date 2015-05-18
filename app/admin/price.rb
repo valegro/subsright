@@ -25,7 +25,7 @@ ActiveAdmin.register Price do
 
   form do |f|
     f.inputs 'Price Details' do
-      f.input :currency, as: :select, :collection => options_for_select(price.currencies, 'AUD')
+      f.input :currency, as: :select, collection: options_for_select(price.currencies, 'AUD')
       f.input :name
       f.input :amount, required: true
     end
