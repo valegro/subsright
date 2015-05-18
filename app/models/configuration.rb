@@ -9,9 +9,7 @@ class Configuration < ActiveRecord::Base
   cattr_accessor :provider_logo_file_name, :provider_logo_content_type
 
   def self.ensure_created
-    self.settings.each do |setting|
-      self.send(setting)
-    end
+    settings.each { |setting| send(setting) }
     provider_logo
   end
 
@@ -55,5 +53,5 @@ class Configuration < ActiveRecord::Base
   setting :provider_name, "'Organisation Name'", :string
 
   # Ensure all the defaults are created when the class file is read
-  self.ensure_created if connection.table_exists? configurations
+  ensure_created if connection.table_exists? configurations
 end
