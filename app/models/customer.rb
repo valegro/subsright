@@ -9,7 +9,7 @@ class Customer < ActiveRecord::Base
   has_many :customer_publications
   accepts_nested_attributes_for :customer_publications, allow_destroy: true
 
-  validates_presence_of :name
+  validates :name, presence: true
 
   # This will attempt to translate the country name and use the default
   # (usually English) name if no translation is available

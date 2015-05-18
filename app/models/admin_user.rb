@@ -3,5 +3,5 @@ class AdminUser < ActiveRecord::Base
   devise :confirmable, :database_authenticatable, :lockable,
          :recoverable, :rememberable, :timeoutable, :trackable, :validatable
 
-  validates_presence_of :name
+  validates :name, presence: true
 end

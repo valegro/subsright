@@ -3,6 +3,6 @@ class CustomerDiscount < ActiveRecord::Base
   accepts_nested_attributes_for :customer
   belongs_to :discount
   accepts_nested_attributes_for :discount
-  validates_presence_of :discount
+  validates :discount, presence: true
   scope :by_name, -> { joins(:discount).order('discounts.name') }
 end

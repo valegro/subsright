@@ -3,6 +3,6 @@ class OfferProduct < ActiveRecord::Base
   accepts_nested_attributes_for :offer
   belongs_to :product
   accepts_nested_attributes_for :product
-  validates_presence_of :product
+  validates :product, presence: true
   scope :by_name, -> { joins(:product).order('products.name') }
 end

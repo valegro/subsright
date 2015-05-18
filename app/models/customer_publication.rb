@@ -3,6 +3,7 @@ class CustomerPublication < ActiveRecord::Base
   accepts_nested_attributes_for :customer
   belongs_to :publication
   accepts_nested_attributes_for :publication
-  validates_presence_of :publication, :subscribed
+  validates :publication, presence: true
+  validates :subscribed, presence: true
   scope :by_name, -> { joins(:publication).order('publications.name') }
 end

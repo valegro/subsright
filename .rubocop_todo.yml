@@ -20,11 +20,6 @@ Metrics/MethodLength:
 Rails/HasAndBelongsToMany:
   Enabled: false
 
-# Offense count: 11
-# Configuration parameters: Include.
-Rails/Validation:
-  Enabled: false
-
 # Offense count: 6
 # Cop supports --auto-correct.
 # Configuration parameters: EnforcedHashRocketStyle, EnforcedColonStyle, EnforcedLastArgumentHashStyle, SupportedLastArgumentHashStyles.
