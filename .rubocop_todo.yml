@@ -15,11 +15,6 @@ Metrics/LineLength:
 Metrics/MethodLength:
   Max: 18
 
-# Offense count: 2
-# Configuration parameters: EnforcedStyle, SupportedStyles.
-Rails/Date:
-  Enabled: false
-
 # Offense count: 6
 # Configuration parameters: Include.
 Rails/HasAndBelongsToMany:

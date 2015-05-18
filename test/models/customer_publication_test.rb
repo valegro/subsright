@@ -6,7 +6,7 @@ class CustomerPublicationTest < ActiveSupport::TestCase
   end
 
   test 'should not save a customer publication without a publication' do
-    cp = CustomerPublication.new( customer: @c, subscribed: Date.today )
+    cp = CustomerPublication.new( customer: @c, subscribed: Time.zone.today )
     assert_not cp.save
   end
   test 'should not save a customer publication without a subscribed date' do
@@ -16,7 +16,7 @@ class CustomerPublicationTest < ActiveSupport::TestCase
   end
   test 'should save a customer publication with a publication and subscribed date' do
     p = Publication.create!( name: 'Test', website: 'http://example.com/' )
-    cp = CustomerPublication.new( customer: @c, publication: p, subscribed: Date.today )
+    cp = CustomerPublication.new( customer: @c, publication: p, subscribed: Time.zone.today )
     assert cp.save
   end
 end
