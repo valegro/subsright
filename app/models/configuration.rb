@@ -1,6 +1,8 @@
 class Configuration < ActiveRecord::Base
   serialize :value
   has_attached_file :provider_logo
+  validates :key, presence: true, uniqueness: true
+  validates :form_type, presence: true
   validates_attachment_content_type :provider_logo, content_type: %r{\Aimage/}
 
   class_attribute :settings
