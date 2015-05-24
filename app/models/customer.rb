@@ -1,13 +1,13 @@
 class Customer < ActiveRecord::Base
-  has_many :discounts, through: :customer_discounts
-  accepts_nested_attributes_for :discounts
   has_many :customer_discounts
   accepts_nested_attributes_for :customer_discounts, allow_destroy: true
+  has_many :discounts, through: :customer_discounts
+  accepts_nested_attributes_for :discounts
 
-  has_many :publications, through: :customer_publications
-  accepts_nested_attributes_for :publications
   has_many :customer_publications
   accepts_nested_attributes_for :customer_publications, allow_destroy: true
+  has_many :publications, through: :customer_publications
+  accepts_nested_attributes_for :publications
 
   validates :name, presence: true
 
