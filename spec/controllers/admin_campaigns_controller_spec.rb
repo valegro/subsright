@@ -2,7 +2,7 @@ require 'rails_helper'
 include Devise::TestHelpers
 
 RSpec.describe Admin::CampaignsController, type: :controller do
-  before { sign_in create(:admin_user) }
+  before { sign_in AdminUser.first }
   let(:campaign) { create(:campaign) }
 
   describe 'GET #index' do
