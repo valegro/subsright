@@ -65,7 +65,7 @@ ActiveAdmin.register Customer do
       f.input :address
       f.input :country
       f.input :postcode
-      f.input :currency, as: :select, collection: options_for_select(Configuration.currencies, 'AUD')
+      f.input :currency, as: :select, collection: options_for_select(Configuration::CURRENCY_OPTIONS, 'AUD')
       f.has_many :customer_discounts, allow_destroy: true, heading: 'Customer discounts',
         for: [:customer_discounts, f.object.customer_discounts.by_name] do |fcd|
         fcd.input :discount

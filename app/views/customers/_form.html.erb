@@ -37,7 +37,7 @@
   </div>
   <div class="field">
     <%= f.label 'Preferred currency' %><br>
-    <%= f.select :currency, Configuration.currencies, selected: 'AUD' %>
+    <%= f.select :currency, Configuration::CURRENCY_OPTIONS, selected: 'AUD' %>
   </div>
   <div class="actions">
     <%= f.submit %>

@@ -31,6 +31,9 @@ Style/ClassAndModuleChildren:
 Style/Documentation:
   Enabled: false
 
+Style/MultilineOperationIndentation:
+  EnforcedStyle: indented
+
 Style/SpaceInsideBrackets:
   Enabled: false
 

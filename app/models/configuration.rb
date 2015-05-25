@@ -10,9 +10,12 @@ class Configuration < ActiveRecord::Base
 
   cattr_accessor :provider_logo_file_name, :provider_logo_content_type
 
-  def self.currencies
-    Money::Currency.table.map { |m| [ "#{m[1][:name]} (#{m[1][:iso_code]})", m[1][:iso_code] ] }
-  end
+  SUPPORTED_CURRENCIES = %w( AUD BTC CAD EUR USD )
+
+  CURRENCY_OPTIONS = Money::Currency.table
+    .select { |_, c| SUPPORTED_CURRENCIES.include? c[:iso_code] }
+    .sort { |a, b| a[1][:iso_code] <=> b[1][:iso_code] }
+    .map { |c| [ "#{c[1][:name]} (#{c[1][:iso_code]})", c[1][:iso_code] ] }
 
   def self.ensure_created
     settings.each { |setting| send(setting) }
