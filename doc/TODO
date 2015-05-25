@@ -6,3 +6,4 @@
 * Implement customer authentication
 * Add subscription cancellation requests
 * Don't show offers where products are out of stock
+* Add currency selection configuration

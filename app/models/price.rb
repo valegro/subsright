@@ -19,7 +19,7 @@ class Price < ActiveRecord::Base
     self.amount_cents = amount.tr('^0-9', '')
   end
 
-  def currencies
+  def self.currencies
     Money::Currency.table.map { |m| [ "#{m[1][:name]} (#{m[1][:iso_code]})", m[1][:iso_code] ] }
   end
 

@@ -23,7 +23,8 @@ RSpec.describe Customer, type: :model do
     customer.country = 'DE'
     expect(customer.country_name).to eq 'Germany'
   end
-  it('provides a currency selection list') { expect(customer.currencies).to be_an Array }
+  it('provides a currency selection list') { expect(Customer.currencies).to be_an Array }
+  it('currencies returns name and code') { expect(Customer.currencies).to include ['Bitcoin (BTC)', 'BTC'] }
   it('translates currency names') do
     customer.currency = 'BTC'
     expect(customer.currency_name).to eq 'Bitcoin (BTC)'

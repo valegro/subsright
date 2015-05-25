@@ -21,7 +21,8 @@ RSpec.describe Price, type: :model do
     price.amount = '123:456'
     expect(price.amount).to eq '$1,234.56'
   end
-  it('provides a currency selection list') { expect(price.currencies).to be_an Array }
+  it('provides a currency selection list') { expect(Price.currencies).to be_an Array }
+  it('currencies returns name and code') { expect(Price.currencies).to include ['Bitcoin (BTC)', 'BTC'] }
   it('translates currency names') do
     price.currency = 'BTC'
     expect(price.currency_name).to eq 'Bitcoin (BTC)'
