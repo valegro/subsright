@@ -13,4 +13,6 @@ RSpec.describe Configuration, type: :model do
   it { expect(configuration).to validate_presence_of :form_type }
   it { expect(configuration).not_to allow_value('invalid').for(:provider_logo_content_type) }
   it { expect(configuration).to be_valid }
+  it('provides a currency selection list') { expect(Configuration.currencies).to be_an Array }
+  it('currencies returns name and code') { expect(Configuration.currencies).to include ['Bitcoin (BTC)', 'BTC'] }
 end

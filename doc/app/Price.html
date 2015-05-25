@@ -74,8 +74,6 @@
     
     <li ><a href="#method-i-amount-3D">#amount=</a>
     
-    <li ><a href="#method-i-currencies">#currencies</a>
-    
     <li ><a href="#method-i-currency_name">#currency_name</a>
     
   </ul>
@@ -178,39 +176,6 @@
       </div>
 
     
-      <div id="method-i-currencies" class="method-detail ">
-        
-        <div class="method-heading">
-          <span class="method-name">currencies</span><span
-            class="method-args">()</span>
-          
-          <span class="method-click-advice">click to toggle source</span>
-          
-        </div>
-        
-
-        <div class="method-description">
-          
-          
-          
-          
-
-          
-          <div class="method-source-code" id="currencies-source">
-            <pre><span class="ruby-comment"># File app/models/price.rb, line 22</span>
-<span class="ruby-keyword">def</span> <span class="ruby-identifier">currencies</span>
-  <span class="ruby-constant">Money</span><span class="ruby-operator">::</span><span class="ruby-constant">Currency</span>.<span class="ruby-identifier">table</span>.<span class="ruby-identifier">map</span> { <span class="ruby-operator">|</span><span class="ruby-identifier">m</span><span class="ruby-operator">|</span> [ <span class="ruby-node">&quot;#{m[1][:name]} (#{m[1][:iso_code]})&quot;</span>, <span class="ruby-identifier">m</span>[<span class="ruby-value">1</span>][<span class="ruby-value">:iso_code</span>] ] }
-<span class="ruby-keyword">end</span></pre>
-          </div>
-          
-        </div>
-
-        
-
-        
-      </div>
-
-    
       <div id="method-i-currency_name" class="method-detail ">
         
         <div class="method-heading">
@@ -230,7 +195,7 @@
 
           
           <div class="method-source-code" id="currency_name-source">
-            <pre><span class="ruby-comment"># File app/models/price.rb, line 26</span>
+            <pre><span class="ruby-comment"># File app/models/price.rb, line 22</span>
 <span class="ruby-keyword">def</span> <span class="ruby-identifier">currency_name</span>
   <span class="ruby-identifier">m</span> = <span class="ruby-constant">Money</span><span class="ruby-operator">::</span><span class="ruby-constant">Currency</span>.<span class="ruby-identifier">new</span>(<span class="ruby-identifier">currency</span>)
   <span class="ruby-node">&quot;#{m.name} (#{m.iso_code})&quot;</span>

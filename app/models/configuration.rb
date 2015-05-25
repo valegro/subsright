@@ -10,6 +10,10 @@ class Configuration < ActiveRecord::Base
 
   cattr_accessor :provider_logo_file_name, :provider_logo_content_type
 
+  def self.currencies
+    Money::Currency.table.map { |m| [ "#{m[1][:name]} (#{m[1][:iso_code]})", m[1][:iso_code] ] }
+  end
+
   def self.ensure_created
     settings.each { |setting| send(setting) }
     provider_logo
