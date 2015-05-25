@@ -46,7 +46,7 @@ Then, on all systems:
 
 <tt>$ rake db:setup</tt>
 
-<tt>$ rake test</tt>
+<tt>$ rake spec</tt>
 
 <tt>$ rails s</tt>
 
