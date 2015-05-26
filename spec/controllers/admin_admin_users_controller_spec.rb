@@ -3,6 +3,7 @@ include Devise::TestHelpers
 
 RSpec.describe Admin::AdminUsersController, type: :controller do
   let(:admin_user) { create(:admin_user) }
+  let(:invalid_attributes) { attributes_for(:admin_user, name: nil) }
   before { sign_in AdminUser.first }
 
   describe 'GET #index' do
@@ -26,9 +27,11 @@ RSpec.describe Admin::AdminUsersController, type: :controller do
     end
     context 'with invalid attributes' do
       it 'does not save the new admin_user' do
-        expect { post :create, admin_user: nil }.not_to change(AdminUser, :count)
+        expect { post :create, admin_user: invalid_attributes }.not_to change(AdminUser, :count)
       end
-      it('re-renders the new method') { expect(post :create, admin_user: nil).to render_template('new') }
+      it 're-renders the new template' do
+        expect(post :create, admin_user: invalid_attributes).to render_template('new')
+      end
     end
   end
 
@@ -71,18 +74,17 @@ RSpec.describe Admin::AdminUsersController, type: :controller do
     end
     context 'with invalid attributes' do
       it 'locates the requested admin_user' do
-        patch :update, id: admin_user, admin_user: nil
+        patch :update, id: admin_user, admin_user: invalid_attributes
         expect(assigns(:admin_user)).to eq admin_user
       end
       it "does not change the admin_user's attributes" do
         name = admin_user.name
-        patch :update, id: admin_user, admin_user: nil
+        patch :update, id: admin_user, admin_user: invalid_attributes
         admin_user.reload
         expect(admin_user.name).to eq name
       end
-      it 'redirects back to the admin_user' do
-        patch :update, id: admin_user, admin_user: nil
-        expect(response).to redirect_to admin_admin_user_path(admin_user)
+      it 're-renders the edit template' do
+        expect(patch :update, id: admin_user, admin_user: invalid_attributes).to render_template('edit')
       end
     end
   end

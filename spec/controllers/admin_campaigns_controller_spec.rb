@@ -4,6 +4,7 @@ include Devise::TestHelpers
 RSpec.describe Admin::CampaignsController, type: :controller do
   before { sign_in AdminUser.first }
   let(:campaign) { create(:campaign) }
+  let(:invalid_attributes) { attributes_for(:campaign, name: nil) }
 
   describe 'GET #index' do
     it('responds successfully') { expect(get :index).to be_success }
@@ -26,9 +27,11 @@ RSpec.describe Admin::CampaignsController, type: :controller do
     end
     context 'with invalid attributes' do
       it 'does not save the new campaign' do
-        expect { post :create, campaign: nil }.not_to change(Campaign, :count)
+        expect { post :create, campaign: invalid_attributes }.not_to change(Campaign, :count)
       end
-      it('re-renders the new method') { expect(post :create, campaign: nil).to render_template('new') }
+      it('re-renders the new template') do
+        expect(post :create, campaign: invalid_attributes).to render_template('new')
+      end
     end
   end
 
@@ -71,18 +74,17 @@ RSpec.describe Admin::CampaignsController, type: :controller do
     end
     context 'with invalid attributes' do
       it 'locates the requested campaign' do
-        patch :update, id: campaign, campaign: nil
+        patch :update, id: campaign, campaign: invalid_attributes
         expect(assigns(:campaign)).to eq campaign
       end
       it "does not change the campaign's attributes" do
         name = campaign.name
-        patch :update, id: campaign, campaign: nil
+        patch :update, id: campaign, campaign: invalid_attributes
         campaign.reload
         expect(campaign.name).to eq name
       end
-      it 'redirects back to the campaign' do
-        patch :update, id: campaign, campaign: nil
-        expect(response).to redirect_to admin_campaign_path(campaign)
+      it 're-renders the edit template' do
+        expect(patch :update, id: campaign, campaign: invalid_attributes).to render_template('edit')
       end
     end
   end

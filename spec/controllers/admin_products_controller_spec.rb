@@ -4,6 +4,7 @@ include Devise::TestHelpers
 RSpec.describe Admin::ProductsController, type: :controller do
   before { sign_in AdminUser.first }
   let(:product) { create(:product) }
+  let(:invalid_attributes) { attributes_for(:product, name: nil) }
 
   describe 'GET #index' do
     it('responds successfully') { expect(get :index).to be_success }
@@ -26,9 +27,9 @@ RSpec.describe Admin::ProductsController, type: :controller do
     end
     context 'with invalid attributes' do
       it 'does not save the new product' do
-        expect { post :create, product: nil }.not_to change(Product, :count)
+        expect { post :create, product: invalid_attributes }.not_to change(Product, :count)
       end
-      it('re-renders the new method') { expect(post :create, product: nil).to render_template('new') }
+      it('re-renders the new template') { expect(post :create, product: invalid_attributes).to render_template('new') }
     end
   end
 
@@ -71,18 +72,17 @@ RSpec.describe Admin::ProductsController, type: :controller do
     end
     context 'with invalid attributes' do
       it 'locates the requested product' do
-        patch :update, id: product, product: nil
+        patch :update, id: product, product: invalid_attributes
         expect(assigns(:product)).to eq product
       end
       it "does not change the product's attributes" do
         name = product.name
-        patch :update, id: product, product: nil
+        patch :update, id: product, product: invalid_attributes
         product.reload
         expect(product.name).to eq name
       end
-      it 'redirects back to the product' do
-        patch :update, id: product, product: nil
-        expect(response).to redirect_to admin_product_path(product)
+      it 're-renders the edit template' do
+        expect(patch :update, id: product, product: invalid_attributes).to render_template('edit')
       end
     end
   end

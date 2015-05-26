@@ -4,6 +4,7 @@ include Devise::TestHelpers
 RSpec.describe Admin::DiscountsController, type: :controller do
   before { sign_in AdminUser.first }
   let(:discount) { create(:discount) }
+  let(:invalid_attributes) { attributes_for(:discount, name: nil) }
 
   describe 'GET #index' do
     it('responds successfully') { expect(get :index).to be_success }
@@ -26,9 +27,11 @@ RSpec.describe Admin::DiscountsController, type: :controller do
     end
     context 'with invalid attributes' do
       it 'does not save the new discount' do
-        expect { post :create, discount: nil }.not_to change(Discount, :count)
+        expect { post :create, discount: invalid_attributes }.not_to change(Discount, :count)
       end
-      it('re-renders the new method') { expect(post :create, discount: nil).to render_template('new') }
+      it('re-renders the new template') do
+        expect(post :create, discount: invalid_attributes).to render_template('new')
+      end
     end
   end
 
@@ -71,18 +74,17 @@ RSpec.describe Admin::DiscountsController, type: :controller do
     end
     context 'with invalid attributes' do
       it 'locates the requested discount' do
-        patch :update, id: discount, discount: nil
+        patch :update, id: discount, discount: invalid_attributes
         expect(assigns(:discount)).to eq discount
       end
       it "does not change the discount's attributes" do
         name = discount.name
-        patch :update, id: discount, discount: nil
+        patch :update, id: discount, discount: invalid_attributes
         discount.reload
         expect(discount.name).to eq name
       end
-      it 'redirects back to the discount' do
-        patch :update, id: discount, discount: nil
-        expect(response).to redirect_to admin_discount_path(discount)
+      it 're-renders the edit template' do
+        expect(patch :update, id: discount, discount: invalid_attributes).to render_template('edit')
       end
     end
   end

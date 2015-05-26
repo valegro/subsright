@@ -4,6 +4,7 @@ include Devise::TestHelpers
 RSpec.describe Admin::OffersController, type: :controller do
   before { sign_in AdminUser.first }
   let(:offer) { create(:offer) }
+  let(:invalid_attributes) { attributes_for(:offer, name: nil) }
 
   describe 'GET #index' do
     it('responds successfully') { expect(get :index).to be_success }
@@ -26,9 +27,9 @@ RSpec.describe Admin::OffersController, type: :controller do
     end
     context 'with invalid attributes' do
       it 'does not save the new offer' do
-        expect { post :create, offer: nil }.not_to change(Offer, :count)
+        expect { post :create, offer: invalid_attributes }.not_to change(Offer, :count)
       end
-      it('re-renders the new method') { expect(post :create, offer: nil).to render_template('new') }
+      it('re-renders the new template') { expect(post :create, offer: invalid_attributes).to render_template('new') }
     end
   end
 
@@ -71,18 +72,17 @@ RSpec.describe Admin::OffersController, type: :controller do
     end
     context 'with invalid attributes' do
       it 'locates the requested offer' do
-        patch :update, id: offer, offer: nil
+        patch :update, id: offer, offer: invalid_attributes
         expect(assigns(:offer)).to eq offer
       end
       it "does not change the offer's attributes" do
         name = offer.name
-        patch :update, id: offer, offer: nil
+        patch :update, id: offer, offer: invalid_attributes
         offer.reload
         expect(offer.name).to eq name
       end
-      it 'redirects back to the offer' do
-        patch :update, id: offer, offer: nil
-        expect(response).to redirect_to admin_offer_path(offer)
+      it 're-renders the edit template' do
+        expect(patch :update, id: offer, offer: invalid_attributes).to render_template('edit')
       end
     end
   end

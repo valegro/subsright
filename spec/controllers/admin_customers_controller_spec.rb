@@ -4,6 +4,7 @@ include Devise::TestHelpers
 RSpec.describe Admin::CustomersController, type: :controller do
   before { sign_in AdminUser.first }
   let(:customer) { create(:customer) }
+  let(:invalid_attributes) { attributes_for(:customer, name: nil) }
 
   describe 'GET #index' do
     it('responds successfully') { expect(get :index).to be_success }
@@ -26,9 +27,11 @@ RSpec.describe Admin::CustomersController, type: :controller do
     end
     context 'with invalid attributes' do
       it 'does not save the new customer' do
-        expect { post :create, customer: nil }.not_to change(Customer, :count)
+        expect { post :create, customer: invalid_attributes }.not_to change(Customer, :count)
       end
-      it('re-renders the new method') { expect(post :create, customer: nil).to render_template('new') }
+      it('re-renders the new template') do
+        expect(post :create, customer: invalid_attributes).to render_template('new')
+      end
     end
   end
 
@@ -71,18 +74,17 @@ RSpec.describe Admin::CustomersController, type: :controller do
     end
     context 'with invalid attributes' do
       it 'locates the requested customer' do
-        patch :update, id: customer, customer: nil
+        patch :update, id: customer, customer: invalid_attributes
         expect(assigns(:customer)).to eq customer
       end
       it "does not change the customer's attributes" do
         name = customer.name
-        patch :update, id: customer, customer: nil
+        patch :update, id: customer, customer: invalid_attributes
         customer.reload
         expect(customer.name).to eq name
       end
-      it 'redirects back to the customer' do
-        patch :update, id: customer, customer: nil
-        expect(response).to redirect_to admin_customer_path(customer)
+      it 're-renders the edit template' do
+        expect(patch :update, id: customer, customer: invalid_attributes).to render_template('edit')
       end
     end
   end

@@ -4,6 +4,7 @@ include Devise::TestHelpers
 RSpec.describe Admin::PricesController, type: :controller do
   before { sign_in AdminUser.first }
   let(:price) { create(:price) }
+  let(:invalid_attributes) { attributes_for(:price, name: nil) }
 
   describe 'GET #index' do
     it('responds successfully') { expect(get :index).to be_success }
@@ -26,9 +27,9 @@ RSpec.describe Admin::PricesController, type: :controller do
     end
     context 'with invalid attributes' do
       it 'does not save the new price' do
-        expect { post :create, price: nil }.not_to change(Price, :count)
+        expect { post :create, price: invalid_attributes }.not_to change(Price, :count)
       end
-      it('re-renders the new method') { expect(post :create, price: nil).to render_template('new') }
+      it('re-renders the new template') { expect(post :create, price: invalid_attributes).to render_template('new') }
     end
   end
 
@@ -71,18 +72,17 @@ RSpec.describe Admin::PricesController, type: :controller do
     end
     context 'with invalid attributes' do
       it 'locates the requested price' do
-        patch :update, id: price, price: nil
+        patch :update, id: price, price: invalid_attributes
         expect(assigns(:price)).to eq price
       end
       it "does not change the price's attributes" do
         name = price.name
-        patch :update, id: price, price: nil
+        patch :update, id: price, price: invalid_attributes
         price.reload
         expect(price.name).to eq name
       end
-      it 'redirects back to the price' do
-        patch :update, id: price, price: nil
-        expect(response).to redirect_to admin_price_path(price)
+      it 're-renders the edit template' do
+        expect(patch :update, id: price, price: invalid_attributes).to render_template('edit')
       end
     end
   end

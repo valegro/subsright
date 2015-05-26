@@ -4,6 +4,7 @@ include Devise::TestHelpers
 RSpec.describe Admin::PublicationsController, type: :controller do
   before { sign_in AdminUser.first }
   let(:publication) { create(:publication) }
+  let(:invalid_attributes) { attributes_for(:publication, name: nil) }
 
   describe 'GET #index' do
     it('responds successfully') { expect(get :index).to be_success }
@@ -26,9 +27,11 @@ RSpec.describe Admin::PublicationsController, type: :controller do
     end
     context 'with invalid attributes' do
       it 'does not save the new publication' do
-        expect { post :create, publication: nil }.not_to change(Publication, :count)
+        expect { post :create, publication: invalid_attributes }.not_to change(Publication, :count)
       end
-      it('re-renders the new method') { expect(post :create, publication: nil).to render_template('new') }
+      it('re-renders the new template') do
+        expect(post :create, publication: invalid_attributes).to render_template('new')
+      end
     end
   end
 
@@ -71,18 +74,17 @@ RSpec.describe Admin::PublicationsController, type: :controller do
     end
     context 'with invalid attributes' do
       it 'locates the requested publication' do
-        patch :update, id: publication, publication: nil
+        patch :update, id: publication, publication: invalid_attributes
         expect(assigns(:publication)).to eq publication
       end
       it "does not change the publication's attributes" do
         name = publication.name
-        patch :update, id: publication, publication: nil
+        patch :update, id: publication, publication: invalid_attributes
         publication.reload
         expect(publication.name).to eq name
       end
-      it 'redirects back to the publication' do
-        patch :update, id: publication, publication: nil
-        expect(response).to redirect_to admin_publication_path(publication)
+      it 're-renders the edit template' do
+        expect(patch :update, id: publication, publication: invalid_attributes).to render_template('edit')
       end
     end
   end
