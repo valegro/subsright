@@ -1,7 +1,7 @@
 require 'rails_helper'
 require 'faker'
 
-RSpec.feature 'Welcome page', type: :feature do
+RSpec.feature 'Visit welcome page', type: :feature do
   given(:campaign1) { create(:campaign, description: Faker::Lorem.sentences) }
   given(:campaign2) { create(:campaign, description: Faker::Lorem.sentences) }
   given(:offer1) { create(:offer) }
@@ -12,24 +12,20 @@ RSpec.feature 'Welcome page', type: :feature do
     create(:campaign_offer, campaign: campaign2, offer: offer2)
     visit root_path
   end
-  scenario 'shows provider name' do
+  scenario 'see provider name' do
     expect(page).to have_text Configuration.provider_name
   end
-  scenario 'lists campaigns with descriptions' do
+  scenario 'see campaigns with descriptions' do
     expect(page).to have_text campaign1.name
     expect(page).to have_text campaign1.description
     expect(page).to have_text campaign2.name
     expect(page).to have_text campaign2.description
   end
-  scenario 'has a link to each campaign' do
+  scenario 'get a link to each campaign' do
     expect(page).to have_link campaign1.name, href: campaign_path(campaign1)
     expect(page).to have_link campaign2.name, href: campaign_path(campaign2)
   end
-  scenario 'lists offers for each campaign' do
-    expect(page).to have_text offer1.name
-    expect(page).to have_text offer2.name
-  end
-  scenario 'has a link to each offer' do
+  scenario 'get a link to each offer for each campaign' do
     expect(page).to have_link offer1.name, href: offer_path(offer1)
     expect(page).to have_link offer2.name, href: offer_path(offer2)
   end
