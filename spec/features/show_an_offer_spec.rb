@@ -59,13 +59,20 @@ RSpec.feature 'Show an offer', type: :feature do
         create(:offer_product, offer: offer, product: product2)
         visit offer_path(offer)
       end
-      scenario 'see optional products' do
-        expect(page).to have_text 'Plus one of:'
-      end
+      scenario('see optional products') { expect(page).to have_text 'Plus one of:' }
       scenario 'get a link to each product' do
         expect(page).to have_link product1.name, href: product_path(product1)
         expect(page).to have_link product2.name, href: product_path(product2)
       end
+    end
+
+    context 'when there are publications and optional products' do
+      background do
+        create(:offer_publication, offer: offer, publication: create(:publication))
+        create(:offer_product, offer: offer, product: product1, optional: true)
+        visit offer_path(offer)
+      end
+      scenario('see optional products') { expect(page).to have_text 'Plus one of:' }
     end
 
     context 'when there are only optional products' do
@@ -74,9 +81,7 @@ RSpec.feature 'Show an offer', type: :feature do
         create(:offer_product, offer: offer, product: product2, optional: true)
         visit offer_path(offer)
       end
-      scenario 'see optional products' do
-        expect(page).to have_text 'Choose one of:'
-      end
+      scenario('see optional products') { expect(page).to have_text 'Choose one of:' }
       scenario 'get a link to each product' do
         expect(page).to have_link product1.name, href: product_path(product1)
         expect(page).to have_link product2.name, href: product_path(product2)

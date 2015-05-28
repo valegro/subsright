@@ -35,8 +35,9 @@
 	<% end %>
     </div>
 <% end %>
+
 <% if @optional_products.count > 0 then %>
-    <p><%= @included_products.count > 0 ? 'Plus' : 'Choose' %> one of:</p>
+    <p><%= @offer.offer_publications.present? || (@included_products.count > 0) ? 'Plus' : 'Choose' %> one of:</p>
     <div>
     <% @optional_products.by_name.each do |op| %>
         <figure>
