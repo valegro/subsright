@@ -25,24 +25,26 @@
 	</div>
 <% end %>
 
-<% if @offer.products.present? then %>
+<% if @included_products.count > 0 then %>
 	<div>
-	  <% @offer.offer_products.where('optional = FALSE').by_name.each do |op| %>
-	  <figure>
-		<%= link_to (image_tag op.product.image.url(:thumb), alt: op.product.name, size: '100'), op.product %>
-		<figcaption><%= link_to op.product.name, op.product %></figcaption>
-      </figure>
-	  <% end %>
+    <% @included_products.by_name.each do |op| %>
+        <figure>
+           <%= link_to (image_tag op.product.image.url(:thumb), alt: op.product.name, size: '100'), op.product %>
+           <figcaption><%= link_to op.product.name, op.product %></figcaption>
+       </figure>
+	<% end %>
     </div>
-    <p>Plus one of:</p>
+<% end %>
+<% if @optional_products.count > 0 then %>
+    <p><%= @included_products.count > 0 ? 'Plus' : 'Choose' %> one of:</p>
     <div>
-      <% @offer.offer_products.where('optional = TRUE').by_name.each do |op| %>
-      <figure>
-        <%= link_to (image_tag op.product.image.url(:thumb), alt: op.product.name, size: '100'), op.product %>
-        <figcaption><%= link_to op.product.name, op.product %></figcaption>
-      </figure>
-      <% end %>
-	</div>
+    <% @optional_products.by_name.each do |op| %>
+        <figure>
+            <%= link_to (image_tag op.product.image.url(:thumb), alt: op.product.name, size: '100'), op.product %>
+            <figcaption><%= link_to op.product.name, op.product %></figcaption>
+        </figure>
+    <% end %>
+    </div>
 <% end %>
 
 <% if @offer.prices.present? then %>

@@ -14,11 +14,19 @@ RSpec.describe OffersController, type: :controller do
 
   describe 'GET #show' do
     let(:offer) { create(:offer) }
-    it('responds successfully') { expect(get :show, id: offer).to be_success }
-    it 'assigns the requested offer to @offer' do
-      get :show, id: offer
-      expect(assigns(:offer)).to eq offer
+    let(:product1) { create(:product) }
+    let(:product2) { create(:product) }
+    let(:offer_product1) { create(:offer_product, offer: offer, product: product1, optional: true) }
+    let(:offer_product2) { create(:offer_product, offer: offer, product: product2) }
+    before { get :show, id: offer }
+    it('responds successfully') { expect(response).to be_success }
+    it('assigns the requested offer to @offer') { expect(assigns(:offer)).to eq offer }
+    it 'assigns included offer_products to @included_products' do
+      expect(assigns(:included_products)).to eq [offer_product2]
     end
-    it('renders the show template') { expect(get :show, id: offer).to render_template('show') }
+    it 'assigns optional offer_products to @optional_products' do
+      expect(assigns(:optional_products)).to eq [offer_product1]
+    end
+    it('renders the show template') { expect(response).to render_template('show') }
   end
 end

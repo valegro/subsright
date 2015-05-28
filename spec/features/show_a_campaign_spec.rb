@@ -2,7 +2,7 @@ require 'rails_helper'
 require 'faker'
 
 RSpec.feature 'Show a campaign', type: :feature do
-  given(:campaign) { create(:campaign, description: Faker::Lorem.sentences) }
+  given(:campaign) { create(:campaign, description: Faker::Lorem.sentences.join("\s")) }
   scenario 'see campaign name and description' do
     visit campaign_path(campaign)
     expect(page).to have_text campaign.name
