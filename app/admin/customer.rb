@@ -1,5 +1,5 @@
 ActiveAdmin.register Customer do
-  permit_params :name, :email, :phone, :address, :country, :postcode, :currency,
+  permit_params :name, :email, :password, :password_confirmation, :phone, :address, :country, :postcode, :currency,
     customer_discounts_attributes: [:id, :discount_id, :reference, :expiry, :_destroy],
     customer_publications_attributes: [:id, :publication_id, :subscribed, :expiry, :_destroy]
 
@@ -61,6 +61,8 @@ ActiveAdmin.register Customer do
     f.inputs 'Customer Details' do
       f.input :name
       f.input :email
+      f.input :password
+      f.input :password_confirmation
       f.input :phone
       f.input :address
       f.input :country

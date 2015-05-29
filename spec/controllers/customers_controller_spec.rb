@@ -1,7 +1,7 @@
 require 'rails_helper'
 
 RSpec.describe CustomersController, type: :controller do
-  attribute_list = [:name, :email, :phone, :address, :country, :postcode, :currency]
+  attribute_list = [:name, :email, :password, :phone, :address, :country, :postcode, :currency]
   let(:customer) { create(:customer) }
   let(:attributes) { attributes_for(:customer) }
   let(:invalid_attributes) { attributes_for(:customer, name: nil) }

@@ -1,4 +1,7 @@
 class Customer < ActiveRecord::Base
+  # :omniauthable is also available
+  devise :confirmable, :database_authenticatable, :lockable,
+         :recoverable, :rememberable, :timeoutable, :trackable, :validatable
   has_many :customer_discounts
   accepts_nested_attributes_for :customer_discounts, allow_destroy: true
   has_many :discounts, through: :customer_discounts

@@ -286,12 +286,28 @@ ALTER SEQUENCE customer_publications_id_seq OWNED BY customer_publications.id;
 CREATE TABLE customers (
     id integer NOT NULL,
     name character varying NOT NULL,
-    email character varying,
     phone character varying,
     address text,
     country character varying,
     postcode character varying,
     currency character varying,
+    email character varying DEFAULT ''::character varying NOT NULL,
+    encrypted_password character varying DEFAULT ''::character varying NOT NULL,
+    reset_password_token character varying,
+    reset_password_sent_at timestamp without time zone,
+    remember_created_at timestamp without time zone,
+    sign_in_count integer DEFAULT 0 NOT NULL,
+    current_sign_in_at timestamp without time zone,
+    last_sign_in_at timestamp without time zone,
+    current_sign_in_ip inet,
+    last_sign_in_ip inet,
+    confirmation_token character varying,
+    confirmed_at timestamp without time zone,
+    confirmation_sent_at timestamp without time zone,
+    unconfirmed_email character varying,
+    failed_attempts integer DEFAULT 0 NOT NULL,
+    unlock_token character varying,
+    locked_at timestamp without time zone,
     created_at timestamp without time zone NOT NULL,
     updated_at timestamp without time zone NOT NULL
 );
@@ -956,6 +972,34 @@ CREATE UNIQUE INDEX index_customer_discounts_on_customer_id_and_discount_id ON c
 --
 
 CREATE UNIQUE INDEX index_customer_publications_on_customer_id_and_publication_id ON customer_publications USING btree (customer_id, publication_id);
+
+
+--
+-- Name: index_customers_on_confirmation_token; Type: INDEX; Schema: public; Owner: -; Tablespace: 
+--
+
+CREATE UNIQUE INDEX index_customers_on_confirmation_token ON customers USING btree (confirmation_token);
+
+
+--
+-- Name: index_customers_on_email; Type: INDEX; Schema: public; Owner: -; Tablespace: 
+--
+
+CREATE UNIQUE INDEX index_customers_on_email ON customers USING btree (email);
+
+
+--
+-- Name: index_customers_on_reset_password_token; Type: INDEX; Schema: public; Owner: -; Tablespace: 
+--
+
+CREATE UNIQUE INDEX index_customers_on_reset_password_token ON customers USING btree (reset_password_token);
+
+
+--
+-- Name: index_customers_on_unlock_token; Type: INDEX; Schema: public; Owner: -; Tablespace: 
+--
+
+CREATE UNIQUE INDEX index_customers_on_unlock_token ON customers USING btree (unlock_token);
 
 
 --
