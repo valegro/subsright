@@ -4,4 +4,9 @@ class AdminUser < ActiveRecord::Base
          :recoverable, :rememberable, :timeoutable, :trackable, :validatable
 
   validates :name, presence: true
+  before_validation :generate_password, on: :create
+
+  def generate_password
+    self.password_confirmation = self.password = Devise.friendly_token.first(16)
+  end
 end

@@ -30,5 +30,4 @@ RSpec.describe User, type: :model do
   it { expect(user).to validate_presence_of :email }
   it { expect(user).to validate_uniqueness_of :email }
   it('does not allow an invalid email address') { expect(user).not_to allow_value('test@test').for(:email) }
-  it { expect(user).to validate_length_of(:password).is_at_least(8).is_at_most(128) }
 end

@@ -4,7 +4,7 @@
 <head>
 <meta charset="utf-8">
 
-<title>class Customer - Rails Application Documentation</title>
+<title>class User - Rails Application Documentation</title>
 
 <script type="text/javascript">
   var rdoc_rel_prefix = "./";
@@ -70,9 +70,7 @@
 
   <ul class="link-list" role="directory">
     
-    <li ><a href="#method-i-country_name">#country_name</a>
-    
-    <li ><a href="#method-i-currency_name">#currency_name</a>
+    <li ><a href="#method-i-generate_password">#generate_password</a>
     
   </ul>
 </div>
@@ -80,9 +78,9 @@
   </div>
 </nav>
 
-<main role="main" aria-labelledby="class-Customer">
-  <h1 id="class-Customer" class="class">
-    class Customer
+<main role="main" aria-labelledby="class-User">
+  <h1 id="class-User" class="class">
+    class User
   </h1>
 
   <section class="description">
@@ -108,45 +106,10 @@
        </header>
 
     
-      <div id="method-i-country_name" class="method-detail ">
+      <div id="method-i-generate_password" class="method-detail ">
         
         <div class="method-heading">
-          <span class="method-name">country_name</span><span
-            class="method-args">()</span>
-          
-          <span class="method-click-advice">click to toggle source</span>
-          
-        </div>
-        
-
-        <div class="method-description">
-          
-          <p>This will attempt to translate the country name and use the default
-(usually English) name if no translation is available</p>
-          
-          
-
-          
-          <div class="method-source-code" id="country_name-source">
-            <pre><span class="ruby-comment"># File app/models/customer.rb, line 18</span>
-<span class="ruby-keyword">def</span> <span class="ruby-identifier">country_name</span>
-  <span class="ruby-identifier">c</span> = <span class="ruby-constant">ISO3166</span><span class="ruby-operator">::</span><span class="ruby-constant">Country</span>[<span class="ruby-identifier">country</span>]
-  <span class="ruby-identifier">c</span>.<span class="ruby-identifier">translations</span>[<span class="ruby-constant">I18n</span>.<span class="ruby-identifier">locale</span>.<span class="ruby-identifier">to_s</span>] <span class="ruby-operator">||</span> <span class="ruby-identifier">c</span>.<span class="ruby-identifier">name</span>
-<span class="ruby-keyword">end</span></pre>
-          </div>
-          
-        </div>
-
-        
-
-        
-      </div>
-
-    
-      <div id="method-i-currency_name" class="method-detail ">
-        
-        <div class="method-heading">
-          <span class="method-name">currency_name</span><span
+          <span class="method-name">generate_password</span><span
             class="method-args">()</span>
           
           <span class="method-click-advice">click to toggle source</span>
@@ -161,11 +124,10 @@
           
 
           
-          <div class="method-source-code" id="currency_name-source">
-            <pre><span class="ruby-comment"># File app/models/customer.rb, line 23</span>
-<span class="ruby-keyword">def</span> <span class="ruby-identifier">currency_name</span>
-  <span class="ruby-identifier">m</span> = <span class="ruby-constant">Money</span><span class="ruby-operator">::</span><span class="ruby-constant">Currency</span>.<span class="ruby-identifier">new</span>(<span class="ruby-identifier">currency</span>)
-  <span class="ruby-node">&quot;#{m.name} (#{m.iso_code})&quot;</span>
+          <div class="method-source-code" id="generate_password-source">
+            <pre><span class="ruby-comment"># File app/models/user.rb, line 11</span>
+<span class="ruby-keyword">def</span> <span class="ruby-identifier">generate_password</span>
+  <span class="ruby-keyword">self</span>.<span class="ruby-identifier">password_confirmation</span> = <span class="ruby-keyword">self</span>.<span class="ruby-identifier">password</span> = <span class="ruby-constant">Devise</span>.<span class="ruby-identifier">friendly_token</span>.<span class="ruby-identifier">first</span>(<span class="ruby-value">12</span>)
 <span class="ruby-keyword">end</span></pre>
           </div>
           
