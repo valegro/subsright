@@ -1,5 +1,5 @@
 ActiveAdmin.register Customer do
-  permit_params :name, :email, :phone, :address, :country, :postcode, :currency,
+  permit_params :user_id, :name, :email, :phone, :address, :country, :postcode, :currency,
     customer_discounts_attributes: [:id, :discount_id, :reference, :expiry, :_destroy],
     customer_publications_attributes: [:id, :publication_id, :subscribed, :expiry, :_destroy]
 
@@ -10,6 +10,7 @@ ActiveAdmin.register Customer do
   index do
     selectable_column
     id_column
+    column :user
     column :name
     column :email
     column :phone
@@ -34,6 +35,7 @@ ActiveAdmin.register Customer do
 
   show do
     attributes_table do
+      row :user
       row :name
       row :email
       row :phone
@@ -59,6 +61,7 @@ ActiveAdmin.register Customer do
 
   form do |f|
     f.inputs 'Customer Details' do
+      f.input :user
       f.input :name
       f.input :email
       f.input :phone

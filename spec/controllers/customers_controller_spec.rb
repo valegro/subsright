@@ -1,9 +1,9 @@
 require 'rails_helper'
 
 RSpec.describe CustomersController, type: :controller do
-  attribute_list = [:name, :email, :phone, :address, :country, :postcode, :currency]
+  attribute_list = [:user_id, :name, :email, :phone, :address, :country, :postcode, :currency]
   let(:customer) { create(:customer) }
-  let(:attributes) { attributes_for(:customer) }
+  let(:attributes) { attributes_for(:customer, user_id: create(:user)) }
   let(:invalid_attributes) { attributes_for(:customer, name: nil) }
 
   describe 'GET #index' do

@@ -4,6 +4,7 @@ include Devise::TestHelpers
 RSpec.describe Admin::CustomersController, type: :controller do
   before { sign_in AdminUser.first }
   let(:customer) { create(:customer) }
+  let(:attributes) { attributes_for(:customer, user_id: create(:user)) }
   let(:invalid_attributes) { attributes_for(:customer, name: nil) }
 
   describe 'GET #index' do
@@ -18,10 +19,10 @@ RSpec.describe Admin::CustomersController, type: :controller do
   describe 'POST #create' do
     context 'with valid attributes' do
       it 'creates a new customer' do
-        expect { post :create, customer: attributes_for(:customer) }.to change(Customer, :count).by(1)
+        expect { post :create, customer: attributes }.to change(Customer, :count).by(1)
       end
       it 'redirects to the new customer' do
-        post :create, customer: attributes_for(:customer)
+        post :create, customer: attributes
         expect(response).to redirect_to admin_customer_path(Customer.last)
       end
     end
@@ -58,17 +59,17 @@ RSpec.describe Admin::CustomersController, type: :controller do
     before { customer }
     context 'with valid attributes' do
       it 'locates the requested customer' do
-        patch :update, id: customer, customer: attributes_for(:customer)
+        patch :update, id: customer, customer: attributes
         expect(assigns(:customer)).to eq customer
       end
       it "changes the customer's attributes" do
-        new_attributes = attributes_for(:customer)
+        new_attributes = attributes
         patch :update, id: customer, customer: new_attributes
         customer.reload
         expect(customer.name).to eq new_attributes[:name]
       end
       it 'redirects to the updated customer' do
-        patch :update, id: customer, customer: attributes_for(:customer)
+        patch :update, id: customer, customer: attributes
         expect(response).to redirect_to admin_customer_path(customer)
       end
     end

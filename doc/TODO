@@ -7,3 +7,11 @@
 * Add subscription cancellation requests
 * Don't show offers where products are out of stock
 * Add currency selection configuration
+* Move Subscriptus logo to bottom right (footer)
+* Whitelist & blacklist for email addresses
+* Allow customers to be managed by other users,
+  in which case email and password are not required
+* Publication messages (n days before/after expiry)
+* Offer messages (at campaign start)
+* Prompt messages for customers with no physical address
+* Add "no offer messages" field to Customers model

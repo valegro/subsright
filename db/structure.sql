@@ -285,6 +285,7 @@ ALTER SEQUENCE customer_publications_id_seq OWNED BY customer_publications.id;
 
 CREATE TABLE customers (
     id integer NOT NULL,
+    user_id integer NOT NULL,
     name character varying NOT NULL,
     email character varying,
     phone character varying,
@@ -627,6 +628,54 @@ CREATE TABLE schema_migrations (
 
 
 --
+-- Name: users; Type: TABLE; Schema: public; Owner: -; Tablespace: 
+--
+
+CREATE TABLE users (
+    id integer NOT NULL,
+    name character varying NOT NULL,
+    email character varying DEFAULT ''::character varying NOT NULL,
+    encrypted_password character varying DEFAULT ''::character varying NOT NULL,
+    reset_password_token character varying,
+    reset_password_sent_at timestamp without time zone,
+    remember_created_at timestamp without time zone,
+    sign_in_count integer DEFAULT 0 NOT NULL,
+    current_sign_in_at timestamp without time zone,
+    last_sign_in_at timestamp without time zone,
+    current_sign_in_ip inet,
+    last_sign_in_ip inet,
+    confirmation_token character varying,
+    confirmed_at timestamp without time zone,
+    confirmation_sent_at timestamp without time zone,
+    unconfirmed_email character varying,
+    failed_attempts integer DEFAULT 0 NOT NULL,
+    unlock_token character varying,
+    locked_at timestamp without time zone,
+    created_at timestamp without time zone NOT NULL,
+    updated_at timestamp without time zone NOT NULL
+);
+
+
+--
+-- Name: users_id_seq; Type: SEQUENCE; Schema: public; Owner: -
+--
+
+CREATE SEQUENCE users_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+--
+-- Name: users_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: -
+--
+
+ALTER SEQUENCE users_id_seq OWNED BY users.id;
+
+
+--
 -- Name: id; Type: DEFAULT; Schema: public; Owner: -
 --
 
@@ -743,6 +792,13 @@ ALTER TABLE ONLY products ALTER COLUMN id SET DEFAULT nextval('products_id_seq':
 --
 
 ALTER TABLE ONLY publications ALTER COLUMN id SET DEFAULT nextval('publications_id_seq'::regclass);
+
+
+--
+-- Name: id; Type: DEFAULT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY users ALTER COLUMN id SET DEFAULT nextval('users_id_seq'::regclass);
 
 
 --
@@ -882,6 +938,14 @@ ALTER TABLE ONLY publications
 
 
 --
+-- Name: users_pkey; Type: CONSTRAINT; Schema: public; Owner: -; Tablespace: 
+--
+
+ALTER TABLE ONLY users
+    ADD CONSTRAINT users_pkey PRIMARY KEY (id);
+
+
+--
 -- Name: index_active_admin_comments_on_author_type_and_author_id; Type: INDEX; Schema: public; Owner: -; Tablespace: 
 --
 
@@ -1015,6 +1079,34 @@ CREATE UNIQUE INDEX index_publications_on_name ON publications USING btree (name
 
 
 --
+-- Name: index_users_on_confirmation_token; Type: INDEX; Schema: public; Owner: -; Tablespace: 
+--
+
+CREATE UNIQUE INDEX index_users_on_confirmation_token ON users USING btree (confirmation_token);
+
+
+--
+-- Name: index_users_on_email; Type: INDEX; Schema: public; Owner: -; Tablespace: 
+--
+
+CREATE UNIQUE INDEX index_users_on_email ON users USING btree (email);
+
+
+--
+-- Name: index_users_on_reset_password_token; Type: INDEX; Schema: public; Owner: -; Tablespace: 
+--
+
+CREATE UNIQUE INDEX index_users_on_reset_password_token ON users USING btree (reset_password_token);
+
+
+--
+-- Name: index_users_on_unlock_token; Type: INDEX; Schema: public; Owner: -; Tablespace: 
+--
+
+CREATE UNIQUE INDEX index_users_on_unlock_token ON users USING btree (unlock_token);
+
+
+--
 -- Name: unique_schema_migrations; Type: INDEX; Schema: public; Owner: -; Tablespace: 
 --
 
@@ -1083,6 +1175,14 @@ ALTER TABLE ONLY customer_publications
 
 ALTER TABLE ONLY offer_publications
     ADD CONSTRAINT fk_rails_8de0e6694c FOREIGN KEY (publication_id) REFERENCES publications(id);
+
+
+--
+-- Name: fk_rails_9917eeaf5d; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY customers
+    ADD CONSTRAINT fk_rails_9917eeaf5d FOREIGN KEY (user_id) REFERENCES users(id);
 
 
 --
@@ -1157,8 +1257,6 @@ INSERT INTO schema_migrations (version) VALUES ('20150405024749');
 
 INSERT INTO schema_migrations (version) VALUES ('20150408070342');
 
-INSERT INTO schema_migrations (version) VALUES ('20150408080305');
-
 INSERT INTO schema_migrations (version) VALUES ('20150414055657');
 
 INSERT INTO schema_migrations (version) VALUES ('20150414055940');
@@ -1169,7 +1267,11 @@ INSERT INTO schema_migrations (version) VALUES ('20150416101046');
 
 INSERT INTO schema_migrations (version) VALUES ('20150420081806');
 
-INSERT INTO schema_migrations (version) VALUES ('20150503140739');
+INSERT INTO schema_migrations (version) VALUES ('20150601051002');
 
-INSERT INTO schema_migrations (version) VALUES ('20150510060753');
+INSERT INTO schema_migrations (version) VALUES ('20150601051003');
+
+INSERT INTO schema_migrations (version) VALUES ('20150601051004');
+
+INSERT INTO schema_migrations (version) VALUES ('20150601051005');
 

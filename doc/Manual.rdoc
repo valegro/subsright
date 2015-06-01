@@ -40,9 +40,15 @@ name and logo which will appear on all pages.
 
 == Customers
 
-Customers can fill in and update their own contact information, but discounts need to be approved
+Customers can provide and update their own contact information, but discounts need to be approved
 or assigned by admin users.  Customers can qualify for more than one discount, but only the one
-which offers the best price will be applied to any given purchase.
+which offers the best price will be applied to any given purchase.  When a customer first enters
+their information, they will be warned that without an email address they will not be able to log
+in and manage their details in future.  If a customer email address matches a user email address,
+that user account will be associated with the customer.  If a customer email address does not
+match any existing user email address and the customer is not already associated with an existing
+user account, a new user account will be created and an initial random password generated once
+the email address has been confirmed.
 
 == Discounts
 
@@ -65,12 +71,13 @@ will not be shown on the Subscriptus home page but can still be accessed directl
 pages.  Offers can have a number of prices for different discounts and in different currencies.
 Offers will not be shown if they have no prices. 
 
+Offers are one per customer, but a logged in user may make a purchase on behalf of multiple
+associated customers in a single transaction.
+
 == Prices
 
 Each price point must specify a currency and amount.  The same price point can be applied to
 any number of offers either as the default full price or as a discount price.
-
-Not implemented yet.
 
 == Products
 
@@ -88,5 +95,13 @@ are always included with an offer if they are in stock.
 
 Each publication must include a link to the website for that publication.  Customers who purchase
 an offer including a publication will be recorded as subscribed to that publication for the
-period of time.  Customers will be contacted to encourage them to take up a new offer to renew
-their subscription when their expiry date is imminent.
+specified period of time.  Customers will be contacted to encourage them to take up a new offer
+to renew their subscription when their expiry date is imminent.
+
+== Users
+
+Users can view and update the details of any associated customer.  When purchasing an offer they
+can choose to create new associated customers who need not have email addresses of their own,
+and if they change their user email address any associated customers that had the same previous
+email address will be updated to the new email address.  The user can explicitly change customer
+email addresses so that they are no longer the same as their user email address if they wish.

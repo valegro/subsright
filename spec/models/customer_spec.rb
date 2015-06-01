@@ -2,6 +2,7 @@ require 'rails_helper'
 
 RSpec.describe Customer, type: :model do
   let(:customer) { build(:customer) }
+  it { expect(customer).to belong_to(:user) }
   it { expect(customer).to have_db_column(:name).of_type(:string).with_options(null: false) }
   it { expect(customer).to have_db_column(:email).of_type(:string) }
   it { expect(customer).to have_db_column(:phone).of_type(:string) }

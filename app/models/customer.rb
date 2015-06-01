@@ -1,4 +1,6 @@
 class Customer < ActiveRecord::Base
+  belongs_to :user
+
   has_many :customer_discounts
   accepts_nested_attributes_for :customer_discounts, allow_destroy: true
   has_many :discounts, through: :customer_discounts
