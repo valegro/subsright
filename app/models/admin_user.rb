@@ -7,6 +7,6 @@ class AdminUser < ActiveRecord::Base
   before_validation :generate_password, on: :create
 
   def generate_password
-    self.password_confirmation = self.password = Devise.friendly_token.first(16)
+    self.password_confirmation = self.password = Devise.friendly_token if self.password.nil? or self.password.blank?
   end
 end
