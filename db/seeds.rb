@@ -9,7 +9,7 @@
 # Create a default user
 AdminUser.create(
   email: 'admin@example.com',
-  name: 'Admin User',
+  name: 'Administrator',
   password: 'password',
   password_confirmation: 'password',
   confirmed_at: Time.now
