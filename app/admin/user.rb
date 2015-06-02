@@ -1,5 +1,5 @@
 ActiveAdmin.register User do
-  permit_params :name, :email, customers_attributes: [:id, :user_id, :name, :email, :_destroy]
+  permit_params :name, :email
 
   index do
     selectable_column
@@ -58,11 +58,6 @@ ActiveAdmin.register User do
     f.inputs 'User Details' do
       f.input :name
       f.input :email
-      f.has_many :customers, allow_destroy: true,
-        for: [:customers, f.object.customers.order('name')] do |fc|
-          fc.input :name
-          fc.input :email
-        end
     end
     f.actions
   end
