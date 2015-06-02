@@ -285,7 +285,7 @@ ALTER SEQUENCE customer_publications_id_seq OWNED BY customer_publications.id;
 
 CREATE TABLE customers (
     id integer NOT NULL,
-    user_id integer NOT NULL,
+    user_id integer,
     name character varying NOT NULL,
     email character varying,
     phone character varying,

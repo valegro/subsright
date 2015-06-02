@@ -109,7 +109,7 @@ ActiveRecord::Schema.define(version: 20150601051005) do
   add_index "customer_publications", ["customer_id", "publication_id"], name: "index_customer_publications_on_customer_id_and_publication_id", unique: true, using: :btree
 
   create_table "customers", force: :cascade do |t|
-    t.integer  "user_id",    null: false
+    t.integer  "user_id"
     t.string   "name",       null: false
     t.string   "email"
     t.string   "phone"
