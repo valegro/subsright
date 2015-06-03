@@ -3,7 +3,7 @@ require 'rails_helper'
 RSpec.describe CustomersController, type: :controller do
   context 'when not signed in' do
     it 'redirects to sign in page' do
-      allow(request.env['warden']).to receive(:authenticate!).and_throw(:warden, {scope: :user})
+      allow(request.env['warden']).to receive(:authenticate!).and_throw(:warden, scope: :user)
       get :index
       expect(response).to redirect_to new_user_session_path
     end
@@ -11,7 +11,7 @@ RSpec.describe CustomersController, type: :controller do
 
   context 'when signed in' do
     attribute_list = [:user_id, :name, :email, :phone, :address, :country, :postcode, :currency]
-    let(:user) { create(:user, confirmed_at: Time.now) }
+    let(:user) { create(:user, confirmed_at: Time.zone.now) }
     let(:customer) { create(:customer, user: user) }
     let(:attributes) { attributes_for(:customer, user: user) }
     let(:invalid_attributes) { attributes_for(:customer, name: nil) }
@@ -41,7 +41,9 @@ RSpec.describe CustomersController, type: :controller do
         it 'does not save the new customer' do
           expect { post :create, customer: invalid_attributes }.not_to change(Customer, :count)
         end
-        it('re-renders the new template') { expect(post :create, customer: invalid_attributes).to render_template('new') }
+        it('re-renders the new template') do
+          expect(post :create, customer: invalid_attributes).to render_template('new')
+        end
       end
     end
 
