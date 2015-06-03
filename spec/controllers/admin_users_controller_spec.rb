@@ -1,5 +1,4 @@
 require 'rails_helper'
-include Devise::TestHelpers
 
 RSpec.describe Admin::UsersController, type: :controller do
   let(:user) { create(:user) }

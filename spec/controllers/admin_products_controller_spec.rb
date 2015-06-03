@@ -1,5 +1,4 @@
 require 'rails_helper'
-include Devise::TestHelpers
 
 RSpec.describe Admin::ProductsController, type: :controller do
   before { sign_in AdminUser.first }
