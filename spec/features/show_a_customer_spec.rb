@@ -9,7 +9,8 @@ RSpec.feature 'Show a customer', type: :feature do
   end
 
   context 'when signed in' do
-    given(:user) { create(:user, confirmed_at: Time.now) }
+    given(:now) { Time.zone.now }
+    given(:user) { create(:user, confirmed_at: now) }
     given(:customer) { create(:customer, user: user) }
     before { login_as user }
 
@@ -26,14 +27,21 @@ RSpec.feature 'Show a customer', type: :feature do
     end
 
     context 'when there are discounts' do
-      scenario 'see each discount name' do
-        discount1 = create(:discount)
-        discount2 = create(:discount)
-        create(:customer_discount, customer: customer, discount: discount1)
-        create(:customer_discount, customer: customer, discount: discount2)
+      given(:discount1) { create(:discount) }
+      given(:discount2) { create(:discount) }
+      given(:cd1) { create(:customer_discount, customer: customer, discount: discount1) }
+      given(:cd2) { create(:customer_discount, customer: customer, discount: discount2, expiry: now) }
+      background do
+        cd1
+        cd2
         visit customer_path(customer)
+      end
+      scenario 'see each discount name' do
         expect(page).to have_text discount1.name
         expect(page).to have_text discount2.name
+      end
+      scenario 'see discount expiry dates' do
+        expect(page).to have_text "(expires #{cd2.expiry})"
       end
     end
 
@@ -45,14 +53,21 @@ RSpec.feature 'Show a customer', type: :feature do
     end
 
     context 'when there are publications' do
-      scenario 'get a link to each publication' do
-        publication1 = create(:publication)
-        publication2 = create(:publication)
-        create(:customer_publication, customer: customer, publication: publication1)
-        create(:customer_publication, customer: customer, publication: publication2)
+      given(:publication1) { create(:publication) }
+      given(:publication2) { create(:publication) }
+      given(:cp1) { create(:customer_publication, customer: customer, publication: publication1) }
+      given(:cp2) { create(:customer_publication, customer: customer, publication: publication2, expiry: now) }
+      background do
+        cp1
+        cp2
         visit customer_path(customer)
+      end
+      scenario 'get a link to each publication' do
         expect(page).to have_link publication1.name, href: publication1.website
         expect(page).to have_link publication2.name, href: publication2.website
+      end
+      scenario 'see publication expiry dates' do
+        expect(page).to have_text "(expires #{cp2.expiry})"
       end
     end
   end
