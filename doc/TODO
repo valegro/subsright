@@ -7,7 +7,7 @@
 * Add subscription cancellation requests
 * Don't show offers where products are out of stock
 * Add currency selection configuration
-* Move Subscriptus logo to bottom right (footer)
+* Include Subscriptus logo at bottom right
 * Whitelist & blacklist for email addresses
 * Allow customers to be managed by other users,
   in which case email and password are not required
