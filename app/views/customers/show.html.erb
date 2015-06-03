@@ -18,20 +18,24 @@
   <%= @customer.address %>
 </p>
 
-<p>
-  <strong>Country:</strong>
-  <%= @customer.country_name %>
-</p>
+<% if @customer.country.present? then %>
+  <p>
+    <strong>Country:</strong>
+    <%= @customer.country_name %>
+  </p>
+<% end %>
 
 <p>
   <strong>Postcode:</strong>
   <%= @customer.postcode %>
 </p>
 
-<p>
-  <strong>Preferred currency:</strong>
-  <%= @customer.currency_name %>
-</p>
+<% if @customer.currency.present? then %>
+  <p>
+    <strong>Preferred currency:</strong>
+    <%= @customer.currency_name %>
+  </p>
+<% end %>
 
 <% if @customer.customer_discounts.present? then %>
   <div>

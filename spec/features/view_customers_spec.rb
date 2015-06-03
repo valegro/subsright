@@ -8,7 +8,7 @@ RSpec.feature 'View customers', type: :feature do
     end
   end
   context 'when signed in' do
-    let(:user) { create(:user, confirmed_at: Time.now) }
+    given(:user) { create(:user, confirmed_at: Time.now) }
     before { login_as user }
     scenario 'get a link to each customer' do
       customer1 = create(:customer, user: user)
