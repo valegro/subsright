@@ -1,5 +1,10 @@
 class CustomersController < InheritedResources::Base
+  before_action :authenticate_user!
   respond_to :html, :json, :xml
+
+  def index
+    @customers = current_user.customers.order(:name, :created_at)
+  end
 
   private
 
