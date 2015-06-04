@@ -4,7 +4,7 @@
 # Formtastic::FormBuilder.default_text_field_size = 50
 
 # Set the default text area height when input is a text. Default is 20.
-# Formtastic::FormBuilder.default_text_area_height = 5
+Formtastic::FormBuilder.default_text_area_height = 5
 
 # Set the default text area width when input is a text. Default is nil.
 # Formtastic::FormBuilder.default_text_area_width = 50
@@ -70,7 +70,7 @@
 # can change it to any class you want.
 # Formtastic::Helpers::FormHelper.default_form_class = 'formtastic'
 
-# Formtastic will infer a class name from the model, array, string ot symbol you pass to the
+# Formtastic will infer a class name from the model, array, string or symbol you pass to the
 # form builder. You can customize the way that class is presented by overriding
 # this proc.
 # Formtastic::Helpers::FormHelper.default_form_model_class_proc = proc { |model_class_name| model_class_name }
@@ -82,12 +82,12 @@
 
 # You can opt-in to Formtastic's use of the HTML5 `required` attribute on `<input>`, `<select>`
 # and `<textarea>` tags by setting this to true (defaults to false).
-# Formtastic::FormBuilder.use_required_attribute = false
+Formtastic::FormBuilder.use_required_attribute = true
 
 # You can opt-in to new HTML5 browser validations (for things like email and url inputs) by setting
 # this to true. Doing so will add a `novalidate` attribute to the `<form>` tag.
 # See http://diveintohtml5.org/forms.html#validation for more info.
-# Formtastic::FormBuilder.perform_browser_validations = true
+Formtastic::FormBuilder.perform_browser_validations = true
 
 # By creating custom input class finder, you can change how input classes  are looked up.
 # For example you can make it to search for TextInputFilter instead of TextInput.
