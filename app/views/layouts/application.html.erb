@@ -10,8 +10,8 @@
 
   <h1><%= image_tag Configuration.provider_logo.url %></h1>
   <h2><%= Configuration.provider_name %></h2>
-  <p class="notice"><%= notice %></p>
-  <p class="alert"><%= alert %></p>
+  <% if notice %><p class="notice"><%= notice %></p><% end %>
+  <% if alert %><p class="alert"><%= alert %></p><% end %>
 
 <%= yield %>
 
