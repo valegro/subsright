@@ -98,12 +98,13 @@ ActiveRecord::Schema.define(version: 20150601051005) do
   add_index "customer_discounts", ["customer_id", "discount_id"], name: "index_customer_discounts_on_customer_id_and_discount_id", unique: true, using: :btree
 
   create_table "customer_publications", force: :cascade do |t|
-    t.integer  "customer_id",    null: false
-    t.integer  "publication_id", null: false
-    t.date     "subscribed",     null: false
+    t.integer  "customer_id",         null: false
+    t.integer  "publication_id",      null: false
+    t.date     "subscribed",          null: false
     t.date     "expiry"
-    t.datetime "created_at",     null: false
-    t.datetime "updated_at",     null: false
+    t.text     "cancellation_reason"
+    t.datetime "created_at",          null: false
+    t.datetime "updated_at",          null: false
   end
 
   add_index "customer_publications", ["customer_id", "publication_id"], name: "index_customer_publications_on_customer_id_and_publication_id", unique: true, using: :btree

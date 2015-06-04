@@ -8,8 +8,8 @@ when you are using a new email address, or re-send the unlock instructions if yo
 been locked due to multiple failed attempts to log in.
 
 Once you are logged in, you can select the sections documented below from the menu bar at the top
-of the page, view and edit your own account information via the "Admin User" link on the right hand
-side of the menu bar or log out.
+of the page, view and edit your own account information via the link on the right hand side of the
+menu bar or log out.
 
 == Dashboard
 
@@ -20,13 +20,15 @@ Not implemented yet.
 == Admin Users
 
 Admin users are able to view and change all aspects of your Subscriptus system.  You can create as
-many admin users as you need, but each must have a unique email address.
+many admin users as you need, but each must have a unique email address.  There must always be at
+least one admin user, so it is not possible to delete the last remaining admin user.
 
 == Campaigns
 
 Campaigns allow you to group together offers that you wish to promote.  Active campaigns that
 include active offers will be shown on your Subscriptus home page.  Campaigns can optionally
-have start and/or finish dates, or they can run indefinitely.
+have start and/or finish dates, or they can run indefinitely.  Campaigns can be edited or deleted
+at any time, but you will be asked to confirm if the campaign is currently active.
 
 == Comments
 
@@ -44,11 +46,19 @@ Customers can provide and update their own contact information, but discounts ne
 or assigned by admin users.  Customers can qualify for more than one discount, but only the one
 which offers the best price will be applied to any given purchase.  When a customer first enters
 their information, they will be warned that without an email address they will not be able to log
-in and manage their details in future.  If a customer email address matches a user email address,
-that user account will be associated with the customer.  If a customer email address does not
-match any existing user email address and the customer is not already associated with an existing
-user account, a new user account will be created and an initial random password generated once
-the email address has been confirmed.
+in and manage their details in future.
+
+If a customer email address matches a user email address, that user account will be associated
+with the customer.  If a customer email address does not match any existing user email address
+and the customer is not already associated with an existing user account, a new user account will
+be created and an initial random password generated once the email address has been confirmed.
+
+Customers can request that their active subscriptions be cancelled, which will require an
+administrator to action the request and set their subscription expiry date to the date on which
+the cancellation takes effect.  Administrators will be able to see all active subscriptions that
+have a cancellation reason as a list of pending cancellations.
+
+Customers who have made transactions cannot be deleted until the transactions have been archived.
 
 == Discounts
 
@@ -57,7 +67,9 @@ to apply by providing reference details to substantiate their claim to eligibili
 eligibility has an expiry date, customers will be asked to provide new details once the
 expiry date has passed in order to renew their ability to take advantage of that discount.
 
-Discounts that are not requestable can only be manually assigned to customers by admin users. 
+Discounts that are not requestable can only be manually assigned to customers by admin users.
+Deleting a discount associated with any prices will require confirmation and will also delete
+all information provided by customers about their eligibility for that discount. 
 
 == Offers
 
@@ -69,15 +81,19 @@ have start and/or finish dates, or they can run indefinitely.
 Offers can be part of more than one campaign, and offers that are not part of any active campaign
 will not be shown on the Subscriptus home page but can still be accessed directly on their own
 pages.  Offers can have a number of prices for different discounts and in different currencies.
-Offers will not be shown if they have no prices. 
+Offers will not be shown if they have no prices.
 
 Offers are one per customer, but a logged in user may make a purchase on behalf of multiple
 associated customers in a single transaction.
 
+Offers that have associated transactions cannot be deleted until all associated transactions
+have been archived.
+
 == Prices
 
 Each price point must specify a currency and amount.  The same price point can be applied to
-any number of offers either as the default full price or as a discount price.
+any number of offers either as the default full price or as a discount price.  Price points
+can be edited or deleted at any time.
 
 == Products
 
@@ -91,12 +107,23 @@ Products can be an "optional" part of an offer, in which case the customer will 
 select any one of the optional products for that offer that are in stock.  Non-optional products
 are always included with an offer if they are in stock.
 
+Products cannot be deleted while they are part of any offer or offers.
+
 == Publications
 
-Each publication must include a link to the website for that publication.  Customers who purchase
+Each publication must include a link to the website for that publication.  Customers who take up
 an offer including a publication will be recorded as subscribed to that publication for the
 specified period of time.  Customers will be contacted to encourage them to take up a new offer
 to renew their subscription when their expiry date is imminent.
+
+Publications cannot be deleted while they are part of any offer or offers, nor while there are
+any customers with unexpired subscriptions.  Once a publication is no longer part of any offer
+and no customers still have unexpired subscriptions,  deleting a publication will also remove all
+records of expired subscriptions and will require confirmation.
+
+== Transactions
+
+Not implemented yet.
 
 == Users
 
@@ -105,3 +132,8 @@ can choose to create new associated customers who need not have email addresses 
 and if they change their user email address any associated customers that had the same previous
 email address will be updated to the new email address.  The user can explicitly change customer
 email addresses so that they are no longer the same as their user email address if they wish.
+
+Users can be edited or deleted at any time.  Deleting a user who has one or more associated
+customers will require confirmation and will cause those customers to no longer be associated with
+any user, which means they can then only be updated by administrators.  Note that deleting a user
+will not delete any customer details or cancel any active subscriptions.

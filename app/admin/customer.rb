@@ -80,6 +80,7 @@ ActiveAdmin.register Customer do
         fcp.input :publication
         fcp.input :subscribed, as: :datepicker
         fcp.input :expiry, as: :datepicker
+        fcp.input :cancellation_reason
       end
     end
     f.actions

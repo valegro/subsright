@@ -255,6 +255,7 @@ CREATE TABLE customer_publications (
     publication_id integer NOT NULL,
     subscribed date NOT NULL,
     expiry date,
+    cancellation_reason text,
     created_at timestamp without time zone NOT NULL,
     updated_at timestamp without time zone NOT NULL
 );
