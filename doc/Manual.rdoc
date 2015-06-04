@@ -59,6 +59,8 @@ the cancellation takes effect.  Administrators will be able to see all active su
 have a cancellation reason as a list of pending cancellations.
 
 Customers who have made transactions cannot be deleted until the transactions have been archived.
+It should be possible to migrate all publications and transactions of a customer to another
+customer, which will permit the first customer to be deleted.  This is not yet implemented.
 
 == Discounts
 
