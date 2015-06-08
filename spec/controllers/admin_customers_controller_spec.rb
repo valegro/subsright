@@ -1,7 +1,8 @@
 require 'rails_helper'
 
 RSpec.describe Admin::CustomersController, type: :controller do
-  before { sign_in AdminUser.first }
+  let(:admin_user) { create(:admin_user, confirmed_at: Time.zone.now) }
+  before { sign_in admin_user }
   let(:customer) { create(:customer) }
   let(:attributes) { attributes_for(:customer, user_id: create(:user)) }
   let(:invalid_attributes) { attributes_for(:customer, name: nil) }

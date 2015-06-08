@@ -3,7 +3,8 @@ require 'rails_helper'
 RSpec.describe Admin::UsersController, type: :controller do
   let(:user) { create(:user) }
   let(:invalid_attributes) { attributes_for(:user, name: nil) }
-  before { sign_in AdminUser.first }
+  let(:admin_user) { create(:admin_user, confirmed_at: Time.zone.now) }
+  before { sign_in admin_user }
 
   describe 'GET #index' do
     it('responds successfully') { expect(get :index).to be_success }
