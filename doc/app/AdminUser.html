@@ -127,7 +127,7 @@
           <div class="method-source-code" id="generate_password-source">
             <pre><span class="ruby-comment"># File app/models/admin_user.rb, line 9</span>
 <span class="ruby-keyword">def</span> <span class="ruby-identifier">generate_password</span>
-  <span class="ruby-keyword">self</span>.<span class="ruby-identifier">password_confirmation</span> = <span class="ruby-keyword">self</span>.<span class="ruby-identifier">password</span> = <span class="ruby-constant">Devise</span>.<span class="ruby-identifier">friendly_token</span>.<span class="ruby-identifier">first</span>(<span class="ruby-value">16</span>)
+  <span class="ruby-keyword">self</span>.<span class="ruby-identifier">password_confirmation</span> = <span class="ruby-keyword">self</span>.<span class="ruby-identifier">password</span> = <span class="ruby-constant">Devise</span>.<span class="ruby-identifier">friendly_token</span> <span class="ruby-keyword">if</span> <span class="ruby-identifier">password</span>.<span class="ruby-identifier">nil?</span> <span class="ruby-operator">||</span> <span class="ruby-identifier">password</span>.<span class="ruby-identifier">blank?</span>
 <span class="ruby-keyword">end</span></pre>
           </div>
           

@@ -11,6 +11,9 @@ class Customer < ActiveRecord::Base
   has_many :publications, through: :customer_publications
   accepts_nested_attributes_for :publications
 
+  has_many :customer_purchases
+  has_many :purchases, through: :customer_purchases
+
   validates :name, presence: true
 
   # This will attempt to translate the country name and use the default

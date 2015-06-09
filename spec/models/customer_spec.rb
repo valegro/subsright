@@ -18,6 +18,8 @@ RSpec.describe Customer, type: :model do
   it { expect(customer).to accept_nested_attributes_for(:customer_publications).allow_destroy(true) }
   it { expect(customer).to have_many(:publications).through(:customer_publications) }
   it { expect(customer).to accept_nested_attributes_for(:publications) }
+  it { expect(customer).to have_many(:customer_purchases) }
+  it { expect(customer).to have_many(:purchases).through(:customer_purchases) }
   it { expect(customer).to validate_presence_of(:name) }
   it { expect(customer).to be_valid }
   it('translates country names') do

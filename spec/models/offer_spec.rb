@@ -21,6 +21,7 @@ RSpec.describe Offer, type: :model do
   it { expect(offer).to have_many :offer_prices }
   it { expect(offer).to have_many(:prices).through(:offer_prices) }
   it { expect(offer).to accept_nested_attributes_for(:prices) }
+  it { expect(offer).to have_many :purchases }
   it { expect(offer).to validate_presence_of :name }
   it { expect(offer).to validate_numericality_of(:trial_period).allow_nil.only_integer.is_greater_than(0) }
 end

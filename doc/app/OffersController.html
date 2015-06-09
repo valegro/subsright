@@ -129,9 +129,11 @@
           <div class="method-source-code" id="index-source">
             <pre><span class="ruby-comment"># File app/controllers/offers_controller.rb, line 4</span>
 <span class="ruby-keyword">def</span> <span class="ruby-identifier">index</span>
-  <span class="ruby-ivar">@offers</span> = <span class="ruby-constant">Offer</span>.<span class="ruby-identifier">where</span>(
-    <span class="ruby-string">&#39;(start IS NULL OR start &lt;= NOW()) AND (finish IS NULL OR finish &gt;= NOW())&#39;</span>
-  ).<span class="ruby-identifier">order</span>(<span class="ruby-value">:finish</span>, <span class="ruby-value">:name</span>)
+  <span class="ruby-ivar">@offers</span> = <span class="ruby-constant">Offer</span>.<span class="ruby-identifier">joins</span>(<span class="ruby-value">:offer_prices</span>)
+    .<span class="ruby-identifier">where</span>(<span class="ruby-string">&#39;(start IS NULL OR start &lt;= NOW()) AND (finish IS NULL OR finish &gt;= NOW())&#39;</span>)
+    .<span class="ruby-identifier">group</span>(<span class="ruby-value">:id</span>)
+    .<span class="ruby-identifier">having</span>(<span class="ruby-string">&#39;COUNT(price_id) &gt; 0&#39;</span>)
+    .<span class="ruby-identifier">order</span>(<span class="ruby-value">:finish</span>, <span class="ruby-value">:name</span>)
 <span class="ruby-keyword">end</span></pre>
           </div>
           
@@ -162,11 +164,13 @@
 
           
           <div class="method-source-code" id="show-source">
-            <pre><span class="ruby-comment"># File app/controllers/offers_controller.rb, line 10</span>
+            <pre><span class="ruby-comment"># File app/controllers/offers_controller.rb, line 12</span>
 <span class="ruby-keyword">def</span> <span class="ruby-identifier">show</span>
   <span class="ruby-ivar">@offer</span> = <span class="ruby-constant">Offer</span>.<span class="ruby-identifier">find</span>(<span class="ruby-identifier">params</span>[<span class="ruby-value">:id</span>])
+  <span class="ruby-identifier">redirect_to</span> <span class="ruby-identifier">action</span><span class="ruby-operator">:</span> <span class="ruby-value">:index</span> <span class="ruby-keyword">unless</span> <span class="ruby-ivar">@offer</span>.<span class="ruby-identifier">prices</span>.<span class="ruby-identifier">count</span> <span class="ruby-operator">&gt;</span> <span class="ruby-value">0</span>
   <span class="ruby-ivar">@included_products</span> = <span class="ruby-ivar">@offer</span>.<span class="ruby-identifier">offer_products</span>.<span class="ruby-identifier">where</span>(<span class="ruby-string">&#39;optional = FALSE&#39;</span>)
   <span class="ruby-ivar">@optional_products</span> = <span class="ruby-ivar">@offer</span>.<span class="ruby-identifier">offer_products</span>.<span class="ruby-identifier">where</span>(<span class="ruby-string">&#39;optional = TRUE&#39;</span>)
+  <span class="ruby-ivar">@customer</span> = <span class="ruby-constant">Customer</span>.<span class="ruby-identifier">new</span>
 <span class="ruby-keyword">end</span></pre>
           </div>
           

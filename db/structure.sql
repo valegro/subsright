@@ -281,6 +281,36 @@ ALTER SEQUENCE customer_publications_id_seq OWNED BY customer_publications.id;
 
 
 --
+-- Name: customer_purchases; Type: TABLE; Schema: public; Owner: -; Tablespace: 
+--
+
+CREATE TABLE customer_purchases (
+    id integer NOT NULL,
+    customer_id integer NOT NULL,
+    purchase_id integer NOT NULL
+);
+
+
+--
+-- Name: customer_purchases_id_seq; Type: SEQUENCE; Schema: public; Owner: -
+--
+
+CREATE SEQUENCE customer_purchases_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+--
+-- Name: customer_purchases_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: -
+--
+
+ALTER SEQUENCE customer_purchases_id_seq OWNED BY customer_purchases.id;
+
+
+--
 -- Name: customers; Type: TABLE; Schema: public; Owner: -; Tablespace: 
 --
 
@@ -620,6 +650,42 @@ ALTER SEQUENCE publications_id_seq OWNED BY publications.id;
 
 
 --
+-- Name: purchases; Type: TABLE; Schema: public; Owner: -; Tablespace: 
+--
+
+CREATE TABLE purchases (
+    id integer NOT NULL,
+    offer_id integer NOT NULL,
+    price_name character varying NOT NULL,
+    discount_name character varying,
+    currency character varying NOT NULL,
+    amount_cents integer NOT NULL,
+    completed timestamp without time zone,
+    created_at timestamp without time zone NOT NULL,
+    updated_at timestamp without time zone NOT NULL
+);
+
+
+--
+-- Name: purchases_id_seq; Type: SEQUENCE; Schema: public; Owner: -
+--
+
+CREATE SEQUENCE purchases_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+--
+-- Name: purchases_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: -
+--
+
+ALTER SEQUENCE purchases_id_seq OWNED BY purchases.id;
+
+
+--
 -- Name: schema_migrations; Type: TABLE; Schema: public; Owner: -; Tablespace: 
 --
 
@@ -729,6 +795,13 @@ ALTER TABLE ONLY customer_publications ALTER COLUMN id SET DEFAULT nextval('cust
 -- Name: id; Type: DEFAULT; Schema: public; Owner: -
 --
 
+ALTER TABLE ONLY customer_purchases ALTER COLUMN id SET DEFAULT nextval('customer_purchases_id_seq'::regclass);
+
+
+--
+-- Name: id; Type: DEFAULT; Schema: public; Owner: -
+--
+
 ALTER TABLE ONLY customers ALTER COLUMN id SET DEFAULT nextval('customers_id_seq'::regclass);
 
 
@@ -799,6 +872,13 @@ ALTER TABLE ONLY publications ALTER COLUMN id SET DEFAULT nextval('publications_
 -- Name: id; Type: DEFAULT; Schema: public; Owner: -
 --
 
+ALTER TABLE ONLY purchases ALTER COLUMN id SET DEFAULT nextval('purchases_id_seq'::regclass);
+
+
+--
+-- Name: id; Type: DEFAULT; Schema: public; Owner: -
+--
+
 ALTER TABLE ONLY users ALTER COLUMN id SET DEFAULT nextval('users_id_seq'::regclass);
 
 
@@ -856,6 +936,14 @@ ALTER TABLE ONLY customer_discounts
 
 ALTER TABLE ONLY customer_publications
     ADD CONSTRAINT customer_publications_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: customer_purchases_pkey; Type: CONSTRAINT; Schema: public; Owner: -; Tablespace: 
+--
+
+ALTER TABLE ONLY customer_purchases
+    ADD CONSTRAINT customer_purchases_pkey PRIMARY KEY (id);
 
 
 --
@@ -936,6 +1024,14 @@ ALTER TABLE ONLY products
 
 ALTER TABLE ONLY publications
     ADD CONSTRAINT publications_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: purchases_pkey; Type: CONSTRAINT; Schema: public; Owner: -; Tablespace: 
+--
+
+ALTER TABLE ONLY purchases
+    ADD CONSTRAINT purchases_pkey PRIMARY KEY (id);
 
 
 --
@@ -1024,6 +1120,13 @@ CREATE UNIQUE INDEX index_customer_publications_on_customer_id_and_publication_i
 
 
 --
+-- Name: index_customer_purchases_on_customer_id_and_purchase_id; Type: INDEX; Schema: public; Owner: -; Tablespace: 
+--
+
+CREATE UNIQUE INDEX index_customer_purchases_on_customer_id_and_purchase_id ON customer_purchases USING btree (customer_id, purchase_id);
+
+
+--
 -- Name: index_discount_prices_on_discount_id_and_price_id; Type: INDEX; Schema: public; Owner: -; Tablespace: 
 --
 
@@ -1077,6 +1180,13 @@ CREATE UNIQUE INDEX index_products_on_name ON products USING btree (name);
 --
 
 CREATE UNIQUE INDEX index_publications_on_name ON publications USING btree (name);
+
+
+--
+-- Name: index_purchases_on_offer_id; Type: INDEX; Schema: public; Owner: -; Tablespace: 
+--
+
+CREATE INDEX index_purchases_on_offer_id ON purchases USING btree (offer_id);
 
 
 --
@@ -1136,6 +1246,14 @@ ALTER TABLE ONLY customer_publications
 
 ALTER TABLE ONLY discount_prices
     ADD CONSTRAINT fk_rails_2ecfb4379d FOREIGN KEY (discount_id) REFERENCES discounts(id);
+
+
+--
+-- Name: fk_rails_655de38b99; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY purchases
+    ADD CONSTRAINT fk_rails_655de38b99 FOREIGN KEY (offer_id) REFERENCES offers(id);
 
 
 --
@@ -1219,6 +1337,14 @@ ALTER TABLE ONLY customer_discounts
 
 
 --
+-- Name: fk_rails_e94fcde9ef; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY customer_purchases
+    ADD CONSTRAINT fk_rails_e94fcde9ef FOREIGN KEY (purchase_id) REFERENCES purchases(id);
+
+
+--
 -- Name: fk_rails_f08974d62d; Type: FK CONSTRAINT; Schema: public; Owner: -
 --
 
@@ -1232,6 +1358,14 @@ ALTER TABLE ONLY customer_discounts
 
 ALTER TABLE ONLY offer_products
     ADD CONSTRAINT fk_rails_f8c9422a0e FOREIGN KEY (product_id) REFERENCES products(id);
+
+
+--
+-- Name: fk_rails_fd579148f8; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY customer_purchases
+    ADD CONSTRAINT fk_rails_fd579148f8 FOREIGN KEY (customer_id) REFERENCES customers(id);
 
 
 --
@@ -1275,4 +1409,8 @@ INSERT INTO schema_migrations (version) VALUES ('20150601051003');
 INSERT INTO schema_migrations (version) VALUES ('20150601051004');
 
 INSERT INTO schema_migrations (version) VALUES ('20150601051005');
+
+INSERT INTO schema_migrations (version) VALUES ('20150609022600');
+
+INSERT INTO schema_migrations (version) VALUES ('20150609022644');
 

@@ -4,7 +4,7 @@
 <head>
 <meta charset="utf-8">
 
-<title>class CustomersController - Rails Application Documentation</title>
+<title>class Purchase - Rails Application Documentation</title>
 
 <script type="text/javascript">
   var rdoc_rel_prefix = "./";
@@ -58,7 +58,7 @@
   <h3>Parent</h3>
 
   
-  <p class="link">InheritedResources::Base
+  <p class="link">ActiveRecord::Base
   
 </div>
 
@@ -70,7 +70,7 @@
 
   <ul class="link-list" role="directory">
     
-    <li ><a href="#method-i-index">#index</a>
+    <li ><a href="#method-i-currency_name">#currency_name</a>
     
   </ul>
 </div>
@@ -78,9 +78,9 @@
   </div>
 </nav>
 
-<main role="main" aria-labelledby="class-CustomersController">
-  <h1 id="class-CustomersController" class="class">
-    class CustomersController
+<main role="main" aria-labelledby="class-Purchase">
+  <h1 id="class-Purchase" class="class">
+    class Purchase
   </h1>
 
   <section class="description">
@@ -106,10 +106,10 @@
        </header>
 
     
-      <div id="method-i-index" class="method-detail ">
+      <div id="method-i-currency_name" class="method-detail ">
         
         <div class="method-heading">
-          <span class="method-name">index</span><span
+          <span class="method-name">currency_name</span><span
             class="method-args">()</span>
           
           <span class="method-click-advice">click to toggle source</span>
@@ -124,10 +124,11 @@
           
 
           
-          <div class="method-source-code" id="index-source">
-            <pre><span class="ruby-comment"># File app/controllers/customers_controller.rb, line 5</span>
-<span class="ruby-keyword">def</span> <span class="ruby-identifier">index</span>
-  <span class="ruby-ivar">@customers</span> = <span class="ruby-identifier">current_user</span>.<span class="ruby-identifier">customers</span>.<span class="ruby-identifier">order</span>(<span class="ruby-value">:name</span>, <span class="ruby-value">:created_at</span>)
+          <div class="method-source-code" id="currency_name-source">
+            <pre><span class="ruby-comment"># File app/models/purchase.rb, line 9</span>
+<span class="ruby-keyword">def</span> <span class="ruby-identifier">currency_name</span>
+  <span class="ruby-identifier">m</span> = <span class="ruby-constant">Money</span><span class="ruby-operator">::</span><span class="ruby-constant">Currency</span>.<span class="ruby-identifier">new</span>(<span class="ruby-identifier">currency</span>)
+  <span class="ruby-node">&quot;#{m.name} (#{m.iso_code})&quot;</span>
 <span class="ruby-keyword">end</span></pre>
           </div>
           
