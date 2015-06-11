@@ -1,0 +1,16 @@
+<%= semantic_form_for [@offer, @purchase] do |f| %>
+  <%= f.inputs do %>
+    <%= f.input :price_id, as: :radio, collection: @offer.prices.map { |p| [p.to_s, p.id] } %>
+    <%= f.semantic_fields_for :customers do |fc| %>
+      <%= fc.input :name %>
+      <%= fc.input :email %><br>
+      <%= fc.input :phone %><br>
+      <%= fc.input :address, required: true %><br>
+      <%= fc.input :country %><br>
+      <%= fc.input :postcode, required: true %><br>
+      <%= fc.input :currency, as: :select, collection: Configuration::CURRENCY_OPTIONS, selected: 'AUD',
+            label: 'Preferred currency' %>
+    <% end %>
+    <%= f.actions %>
+  <% end %>
+<% end %>

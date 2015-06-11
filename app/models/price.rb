@@ -23,4 +23,8 @@ class Price < ActiveRecord::Base
     m = Money::Currency.new(currency)
     "#{m.name} (#{m.iso_code})"
   end
+
+  def to_s
+    "#{name} #{amount} #{currency}"
+  end
 end

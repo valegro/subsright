@@ -11,9 +11,34 @@ class OffersController < InheritedResources::Base
 
   def show
     @offer = Offer.find(params[:id])
-    redirect_to action: :index unless @offer.prices.count > 0
-    @included_products = @offer.offer_products.where('optional = FALSE')
-    @optional_products = @offer.offer_products.where('optional = TRUE')
-    @customer = Customer.new
+    return redirect_to action: :index if @offer.prices.empty?
+
+    @products = @offer.offer_products.by_name
+    @purchase = Purchase.new(offer: @offer, price_id: @offer.prices.first.id)
+    @purchase.customers << Customer.new
+  end
+
+  def purchase
+    if params[:id].present?
+      @purchase = Purchase.make_new(params[:id], purchase_params)
+      unless @purchase.save
+        flash.alert = @purchase.errors.full_messages.to_sentence
+        @offer = Offer.find(params[:id])
+        if @offer.prices.present?
+          @products = @offer.offer_products.by_name
+          @purchase.price_id = purchase_params[:price_id]
+          return render :show
+        end
+      end
+    end
+
+    redirect_to action: :index
+  end
+
+  private
+
+  def purchase_params
+    params.require(:purchase)
+      .permit(:price_id, customers_attributes: [:name, :email, :phone, :address, :country, :postcode, :currency])
   end
 end

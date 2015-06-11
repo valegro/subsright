@@ -123,9 +123,9 @@ any customers with unexpired subscriptions.  Once a publication is no longer par
 and no customers still have unexpired subscriptions,  deleting a publication will also remove all
 records of expired subscriptions and will require confirmation.
 
-== Transactions
+== Purchases
 
-Not implemented yet.
+In order to purchase an offer, all associated customers must have a postal address.
 
 == Users
 

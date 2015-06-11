@@ -27,22 +27,16 @@ RSpec.describe OffersController, type: :controller do
     context 'when there is at least one price' do
       let(:price) { create(:price) }
       let(:offer_price) { create(:offer_price, offer: offer, price: price) }
-      let(:product1) { create(:product) }
-      let(:product2) { create(:product) }
-      let(:offer_product1) { create(:offer_product, offer: offer, product: product1, optional: true) }
-      let(:offer_product2) { create(:offer_product, offer: offer, product: product2) }
+      let(:product) { create(:product) }
+      let(:offer_product) { create(:offer_product, offer: offer, product: product) }
       before do
         offer_price
+        offer_product
         get :show, id: offer
       end
       it('responds successfully') { expect(response).to be_success }
       it('assigns the requested offer to @offer') { expect(assigns(:offer)).to eq offer }
-      it 'assigns included offer_products to @included_products' do
-        expect(assigns(:included_products)).to eq [offer_product2]
-      end
-      it 'assigns optional offer_products to @optional_products' do
-        expect(assigns(:optional_products)).to eq [offer_product1]
-      end
+      it('assigns offer products to @products') { expect(assigns(:products)).to eq [offer_product] }
       it('renders the show template') { expect(response).to render_template('show') }
     end
   end

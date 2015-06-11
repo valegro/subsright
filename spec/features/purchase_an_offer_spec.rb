@@ -1,8 +1,14 @@
 require 'rails_helper'
 
 RSpec.feature 'Take an offer', type: :feature do
+  given(:offer) { create(:offer, description: Faker::Lorem.sentences.join("\s")) }
+  given(:price) { create(:price) }
+  background { create(:offer_price, offer: offer, price: price) }
   context 'when not signed in' do
-    scenario 'see customer detail form'
+    scenario 'see customer detail form' do
+      visit offer_path(offer)
+      expect(page).to have_css 'li#purchase_customers_attributes_0_name_input'
+    end
     scenario 'require customer name'
     context 'when customer name and email on file' do
       scenario 'autofill customer details'

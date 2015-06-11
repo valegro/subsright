@@ -10,6 +10,7 @@ RSpec.describe Purchase, type: :model do
   it { expect(purchase).to have_db_column(:completed_at).of_type(:datetime) }
   it { expect(purchase).to have_many(:customer_purchases) }
   it { expect(purchase).to have_many(:customers).through(:customer_purchases) }
+  it { expect(purchase).to accept_nested_attributes_for(:customers) }
   it { expect(purchase).to validate_presence_of(:offer) }
   it { expect(purchase).to be_valid }
   it('translates currency names') do
