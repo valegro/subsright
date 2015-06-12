@@ -58,9 +58,9 @@ administrator to action the request and set their subscription expiry date to th
 the cancellation takes effect.  Administrators will be able to see all active subscriptions that
 have a cancellation reason as a list of pending cancellations.
 
-Customers who have made transactions cannot be deleted until the transactions have been archived.
-It should be possible to migrate all publications and transactions of a customer to another
-customer, which will permit the first customer to be deleted.  This is not yet implemented.
+Customers who have subscriptions or product orders cannot be deleted until those have been
+archived.  It should be possible to migrate all subscriptions and product orders of a customer to
+another customer, which will permit the first customer to be deleted.  This is not yet implemented.
 
 == Discounts
 
@@ -88,8 +88,15 @@ Offers will not be shown if they have no prices.
 Offers are one per customer, but a logged in user may make a purchase on behalf of multiple
 associated customers in a single transaction.
 
-Offers that have associated transactions cannot be deleted until all associated transactions
-have been archived.
+Offers that have associated purchases cannot be deleted until all associated purchases have been
+archived.
+
+== Payment records
+
+Payment records are created as part of a purchase for each publication included in the offer
+purchased for each customer as a record of the creation or renewal of the associated subscription.
+They can not be manually edited or deleted and will be automatically archived along with their
+associated subscriptions.
 
 == Prices
 
@@ -100,16 +107,25 @@ can be edited or deleted at any time.
 == Products
 
 Each product can have a stock level.  The quantity in stock will be decreased by one for each
-product sold as part of an offer purchased.  Customers will be warned when a product is out of
-stock and required to explicitly confirm purchase of any offer where one or more included products
-can not be provided.  If there is no quantity specified the product will be considered to have
-unlimited availability.
+product sold to a customer as part of an offer purchased.  Customers will be warned when a product
+is out of stock and required to explicitly confirm purchase of any offer where one or more included
+products can not be provided.  If there is no quantity specified the product will be considered to
+have unlimited availability.
 
 Products can be an "optional" part of an offer, in which case the customer will be asked to
 select any one of the optional products for that offer that are in stock.  Non-optional products
 are always included with an offer if they are in stock.
 
-Products cannot be deleted while they are part of any offer or offers.
+Products cannot be deleted while they are part of any offer or offers or while there are any
+associated product orders that have not yet been archived.
+
+== Product orders
+
+Product orders are created as part of a purchase for each product included in the offer purchased
+for each customer, including products that were out of stock at the time of purchase.
+Administrators will be able to see all product orders with no shipped date as lists of in-stock
+products that need to be shipped and out-of-stock products that need to be reordered if possible.
+Product orders will be automatically archived along with their associated purchases.
 
 == Publications
 
@@ -125,7 +141,14 @@ records of expired subscriptions and will require confirmation.
 
 == Purchases
 
-In order to purchase an offer, all associated customers must have a postal address.
+In order to purchase an offer that includes any publications or products, all associated customers
+must have a postal address.  Purchases cannot deleted until they have been archived along with
+the associated payment records, subscriptions and product orders.
+
+== Subscriptions
+
+Subscriptions are created or their expiry date extended as part of a purchase for each publication
+included in the offer purchased for each customer.
 
 == Users
 
