@@ -14,10 +14,10 @@ xml.customer do
       xml.expiry cd.expiry
     end
   end
-  @customer.customer_publications.each do |cp|
-    xml.customer_publication do
-      xml.publication_id cp.publication_id
-      xml.expiry cp.expiry
+  @customer.subscriptions.each do |s|
+    xml.subscription do
+      xml.publication_id s.publication_id
+      xml.expiry s.expiry
     end
   end
   xml.created_at @customer.created_at

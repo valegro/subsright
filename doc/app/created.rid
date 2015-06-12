@@ -1,9 +1,9 @@
-Tue, 09 Jun 2015 15:54:27 +1000
+Fri, 12 Jun 2015 19:02:55 +1000
 README.rdoc	Wed, 27 May 2015 17:55:16 +1000
 app/admin/admin_user.rb	Tue, 02 Jun 2015 10:14:46 +1000
 app/admin/campaign.rb	Tue, 19 May 2015 17:45:39 +1000
 app/admin/configuration.rb	Tue, 19 May 2015 17:45:39 +1000
-app/admin/customer.rb	Fri, 05 Jun 2015 16:54:16 +1000
+app/admin/customer.rb	Fri, 12 Jun 2015 18:53:51 +1000
 app/admin/dashboard.rb	Tue, 19 May 2015 17:45:39 +1000
 app/admin/discount.rb	Tue, 19 May 2015 17:45:39 +1000
 app/admin/offer.rb	Tue, 19 May 2015 17:45:39 +1000
@@ -15,7 +15,7 @@ app/controllers/application_controller.rb	Tue, 19 May 2015 17:45:39 +1000
 app/controllers/campaigns_controller.rb	Tue, 19 May 2015 17:45:39 +1000
 app/controllers/customers_controller.rb	Fri, 05 Jun 2015 16:54:16 +1000
 app/controllers/discounts_controller.rb	Tue, 19 May 2015 17:45:39 +1000
-app/controllers/offers_controller.rb	Fri, 05 Jun 2015 16:54:16 +1000
+app/controllers/offers_controller.rb	Fri, 12 Jun 2015 12:22:59 +1000
 app/controllers/prices_controller.rb	Fri, 17 Apr 2015 14:33:41 +1000
 app/controllers/products_controller.rb	Tue, 19 May 2015 17:45:39 +1000
 app/controllers/publications_controller.rb	Fri, 17 Apr 2015 14:33:41 +1000
@@ -33,9 +33,8 @@ app/models/admin_user.rb	Fri, 05 Jun 2015 16:54:16 +1000
 app/models/campaign.rb	Tue, 19 May 2015 17:45:39 +1000
 app/models/campaign_offer.rb	Tue, 19 May 2015 17:45:39 +1000
 app/models/configuration.rb	Wed, 27 May 2015 17:55:16 +1000
-app/models/customer.rb	Tue, 09 Jun 2015 13:12:55 +1000
+app/models/customer.rb	Fri, 12 Jun 2015 18:54:26 +1000
 app/models/customer_discount.rb	Tue, 19 May 2015 17:45:39 +1000
-app/models/customer_publication.rb	Tue, 19 May 2015 17:45:39 +1000
 app/models/customer_purchase.rb	Tue, 09 Jun 2015 15:52:53 +1000
 app/models/discount.rb	Tue, 19 May 2015 17:45:39 +1000
 app/models/discount_price.rb	Tue, 19 May 2015 17:45:39 +1000
@@ -43,8 +42,9 @@ app/models/offer.rb	Tue, 09 Jun 2015 13:19:59 +1000
 app/models/offer_price.rb	Tue, 19 May 2015 17:45:39 +1000
 app/models/offer_product.rb	Tue, 19 May 2015 17:45:39 +1000
 app/models/offer_publication.rb	Tue, 19 May 2015 17:45:39 +1000
-app/models/price.rb	Wed, 27 May 2015 17:55:16 +1000
+app/models/price.rb	Fri, 12 Jun 2015 12:22:59 +1000
 app/models/product.rb	Wed, 27 May 2015 17:55:16 +1000
 app/models/publication.rb	Wed, 27 May 2015 17:55:16 +1000
-app/models/purchase.rb	Tue, 09 Jun 2015 13:14:31 +1000
+app/models/purchase.rb	Fri, 12 Jun 2015 12:22:59 +1000
+app/models/subscription.rb	Fri, 12 Jun 2015 18:41:45 +1000
 app/models/user.rb	Fri, 05 Jun 2015 16:54:16 +1000

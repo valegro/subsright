@@ -76,6 +76,8 @@
     
     <li ><a href="#method-i-currency_name">#currency_name</a>
     
+    <li ><a href="#method-i-to_s">#to_s</a>
+    
   </ul>
 </div>
 
@@ -199,6 +201,39 @@
 <span class="ruby-keyword">def</span> <span class="ruby-identifier">currency_name</span>
   <span class="ruby-identifier">m</span> = <span class="ruby-constant">Money</span><span class="ruby-operator">::</span><span class="ruby-constant">Currency</span>.<span class="ruby-identifier">new</span>(<span class="ruby-identifier">currency</span>)
   <span class="ruby-node">&quot;#{m.name} (#{m.iso_code})&quot;</span>
+<span class="ruby-keyword">end</span></pre>
+          </div>
+          
+        </div>
+
+        
+
+        
+      </div>
+
+    
+      <div id="method-i-to_s" class="method-detail ">
+        
+        <div class="method-heading">
+          <span class="method-name">to_s</span><span
+            class="method-args">()</span>
+          
+          <span class="method-click-advice">click to toggle source</span>
+          
+        </div>
+        
+
+        <div class="method-description">
+          
+          
+          
+          
+
+          
+          <div class="method-source-code" id="to_s-source">
+            <pre><span class="ruby-comment"># File app/models/price.rb, line 27</span>
+<span class="ruby-keyword">def</span> <span class="ruby-identifier">to_s</span>
+  <span class="ruby-node">&quot;#{name} #{amount} #{currency}&quot;</span>
 <span class="ruby-keyword">end</span></pre>
           </div>
           

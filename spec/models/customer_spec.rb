@@ -14,9 +14,9 @@ RSpec.describe Customer, type: :model do
   it { expect(customer).to accept_nested_attributes_for(:customer_discounts).allow_destroy(true) }
   it { expect(customer).to have_many(:discounts).through(:customer_discounts) }
   it { expect(customer).to accept_nested_attributes_for(:discounts) }
-  it { expect(customer).to have_many(:customer_publications) }
-  it { expect(customer).to accept_nested_attributes_for(:customer_publications).allow_destroy(true) }
-  it { expect(customer).to have_many(:publications).through(:customer_publications) }
+  it { expect(customer).to have_many(:subscriptions) }
+  it { expect(customer).to accept_nested_attributes_for(:subscriptions).allow_destroy(true) }
+  it { expect(customer).to have_many(:publications).through(:subscriptions) }
   it { expect(customer).to accept_nested_attributes_for(:publications) }
   it { expect(customer).to have_many(:customer_purchases) }
   it { expect(customer).to have_many(:purchases).through(:customer_purchases) }

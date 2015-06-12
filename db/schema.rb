@@ -97,18 +97,6 @@ ActiveRecord::Schema.define(version: 20150609022644) do
 
   add_index "customer_discounts", ["customer_id", "discount_id"], name: "index_customer_discounts_on_customer_id_and_discount_id", unique: true, using: :btree
 
-  create_table "customer_publications", force: :cascade do |t|
-    t.integer  "customer_id",         null: false
-    t.integer  "publication_id",      null: false
-    t.date     "subscribed",          null: false
-    t.date     "expiry"
-    t.text     "cancellation_reason"
-    t.datetime "created_at",          null: false
-    t.datetime "updated_at",          null: false
-  end
-
-  add_index "customer_publications", ["customer_id", "publication_id"], name: "index_customer_publications_on_customer_id_and_publication_id", unique: true, using: :btree
-
   create_table "customer_purchases", force: :cascade do |t|
     t.integer "customer_id", null: false
     t.integer "purchase_id", null: false
@@ -234,6 +222,18 @@ ActiveRecord::Schema.define(version: 20150609022644) do
 
   add_index "purchases", ["offer_id"], name: "index_purchases_on_offer_id", using: :btree
 
+  create_table "subscriptions", force: :cascade do |t|
+    t.integer  "customer_id",         null: false
+    t.integer  "publication_id",      null: false
+    t.date     "subscribed",          null: false
+    t.date     "expiry"
+    t.text     "cancellation_reason"
+    t.datetime "created_at",          null: false
+    t.datetime "updated_at",          null: false
+  end
+
+  add_index "subscriptions", ["customer_id", "publication_id"], name: "index_subscriptions_on_customer_id_and_publication_id", unique: true, using: :btree
+
   create_table "users", force: :cascade do |t|
     t.string   "name",                                null: false
     t.string   "email",                  default: "", null: false
@@ -266,8 +266,6 @@ ActiveRecord::Schema.define(version: 20150609022644) do
   add_foreign_key "campaign_offers", "offers"
   add_foreign_key "customer_discounts", "customers"
   add_foreign_key "customer_discounts", "discounts"
-  add_foreign_key "customer_publications", "customers"
-  add_foreign_key "customer_publications", "publications"
   add_foreign_key "customer_purchases", "customers"
   add_foreign_key "customer_purchases", "purchases"
   add_foreign_key "customers", "users"
@@ -280,4 +278,6 @@ ActiveRecord::Schema.define(version: 20150609022644) do
   add_foreign_key "offer_publications", "offers"
   add_foreign_key "offer_publications", "publications"
   add_foreign_key "purchases", "offers"
+  add_foreign_key "subscriptions", "customers"
+  add_foreign_key "subscriptions", "publications"
 end

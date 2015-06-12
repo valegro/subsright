@@ -48,13 +48,13 @@
   </div>
 <% end %>
 
-<% if @customer.customer_publications.present? then %>
+<% if @customer.subscriptions.present? then %>
   <div>
-    <strong>Publications:</strong>
+    <strong>Subscriptions:</strong>
     <ul>
-    <% @customer.customer_publications.by_name.each do |cp| %>
-      <li><a href="<%= cp.publication.website %>"><%= cp.publication.name %></a>
-        <%= " (expires #{cp.expiry})" if cp.expiry %></li>
+    <% @customer.subscriptions.by_name.each do |s| %>
+      <li><a href="<%= s.publication.website %>"><%= s.publication.name %></a>
+        <%= " (expires #{s.expiry})" if s.expiry %></li>
     <% end %>
     </ul>
   </div>

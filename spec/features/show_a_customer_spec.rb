@@ -55,11 +55,11 @@ RSpec.feature 'Show a customer', type: :feature do
     context 'when there are publications' do
       given(:publication1) { create(:publication) }
       given(:publication2) { create(:publication) }
-      given(:cp1) { create(:customer_publication, customer: customer, publication: publication1) }
-      given(:cp2) { create(:customer_publication, customer: customer, publication: publication2, expiry: now) }
+      given(:s1) { create(:subscription, customer: customer, publication: publication1) }
+      given(:s2) { create(:subscription, customer: customer, publication: publication2, expiry: now) }
       background do
-        cp1
-        cp2
+        s1
+        s2
         visit customer_path(customer)
       end
       scenario 'get a link to each publication' do
@@ -67,7 +67,7 @@ RSpec.feature 'Show a customer', type: :feature do
         expect(page).to have_link publication2.name, href: publication2.website
       end
       scenario 'see publication expiry dates' do
-        expect(page).to have_text "(expires #{cp2.expiry})"
+        expect(page).to have_text "(expires #{s2.expiry})"
       end
     end
   end

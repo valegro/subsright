@@ -1,4 +1,4 @@
-class CustomerPublication < ActiveRecord::Base
+class Subscription < ActiveRecord::Base
   belongs_to :customer
   accepts_nested_attributes_for :customer
   belongs_to :publication

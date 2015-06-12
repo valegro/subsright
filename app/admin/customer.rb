@@ -1,11 +1,11 @@
 ActiveAdmin.register Customer do
   permit_params :user_id, :name, :email, :phone, :address, :country, :postcode, :currency,
     customer_discounts_attributes: [:id, :discount_id, :reference, :expiry, :_destroy],
-    customer_publications_attributes: [:id, :publication_id, :subscribed, :expiry, :_destroy]
+    subscriptions_attributes: [:id, :publication_id, :subscribed, :expiry, :_destroy]
 
   preserve_default_filters!
   filter :customer_discounts, if: false
-  filter :customer_publications, if: false
+  filter :subscriptions, if: false
 
   index do
     selectable_column
@@ -75,12 +75,12 @@ ActiveAdmin.register Customer do
         fcd.input :reference
         fcd.input :expiry, as: :datepicker
       end
-      f.has_many :customer_publications, allow_destroy: true, heading: 'Customer publications',
-        for: [:customer_publications, f.object.customer_publications.by_name] do |fcp|
-        fcp.input :publication
-        fcp.input :subscribed, as: :datepicker
-        fcp.input :expiry, as: :datepicker
-        fcp.input :cancellation_reason
+      f.has_many :subscriptions, allow_destroy: true,
+        for: [:subscriptions, f.object.subscriptions.by_name] do |fs|
+        fs.input :publication
+        fs.input :subscribed, as: :datepicker
+        fs.input :expiry, as: :datepicker
+        fs.input :cancellation_reason
       end
     end
     f.actions

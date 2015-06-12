@@ -1,6 +1,6 @@
-class CreateCustomerPublications < ActiveRecord::Migration
+class CreateSubscriptions < ActiveRecord::Migration
   def change
-    create_table :customer_publications do |t|
+    create_table :subscriptions do |t|
       t.belongs_to :customer, null: false, foreign_key: true
       t.belongs_to :publication, null: false, foreign_key: true
       t.date :subscribed, null: false

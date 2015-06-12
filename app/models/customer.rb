@@ -6,9 +6,9 @@ class Customer < ActiveRecord::Base
   has_many :discounts, through: :customer_discounts
   accepts_nested_attributes_for :discounts
 
-  has_many :customer_publications
-  accepts_nested_attributes_for :customer_publications, allow_destroy: true
-  has_many :publications, through: :customer_publications
+  has_many :subscriptions
+  accepts_nested_attributes_for :subscriptions, allow_destroy: true
+  has_many :publications, through: :subscriptions
   accepts_nested_attributes_for :publications
 
   has_many :customer_purchases
