@@ -7,7 +7,7 @@ RSpec.feature 'Take an offer', type: :feature do
   context 'when not signed in' do
     scenario 'see customer detail form' do
       visit offer_path(offer)
-      expect(page).to have_css 'li#purchase_customers_attributes_0_name_input'
+      expect(page).to have_css 'li#purchase_customers_name_input'
     end
     scenario 'require customer name'
     context 'when customer name and email on file' do

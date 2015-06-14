@@ -4,6 +4,7 @@ RSpec.describe Subscription, type: :model do
   let(:subscription) { build(:subscription) }
   it { expect(subscription).to belong_to(:customer) }
   it { expect(subscription).to belong_to(:publication) }
+  it { expect(subscription).to have_many(:payments) }
   it { expect(subscription).to have_db_column(:subscribed).of_type(:date).with_options(null: false) }
   it { expect(subscription).to have_db_column(:expiry).of_type(:date) }
   it { expect(subscription).to have_db_index([:customer_id, :publication_id]).unique }

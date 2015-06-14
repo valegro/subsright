@@ -246,36 +246,6 @@ ALTER SEQUENCE customer_discounts_id_seq OWNED BY customer_discounts.id;
 
 
 --
--- Name: customer_purchases; Type: TABLE; Schema: public; Owner: -; Tablespace: 
---
-
-CREATE TABLE customer_purchases (
-    id integer NOT NULL,
-    customer_id integer NOT NULL,
-    purchase_id integer NOT NULL
-);
-
-
---
--- Name: customer_purchases_id_seq; Type: SEQUENCE; Schema: public; Owner: -
---
-
-CREATE SEQUENCE customer_purchases_id_seq
-    START WITH 1
-    INCREMENT BY 1
-    NO MINVALUE
-    NO MAXVALUE
-    CACHE 1;
-
-
---
--- Name: customer_purchases_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: -
---
-
-ALTER SEQUENCE customer_purchases_id_seq OWNED BY customer_purchases.id;
-
-
---
 -- Name: customers; Type: TABLE; Schema: public; Owner: -; Tablespace: 
 --
 
@@ -508,6 +478,40 @@ ALTER SEQUENCE offers_id_seq OWNED BY offers.id;
 
 
 --
+-- Name: payments; Type: TABLE; Schema: public; Owner: -; Tablespace: 
+--
+
+CREATE TABLE payments (
+    id integer NOT NULL,
+    purchase_id integer,
+    subscription_id integer,
+    price_name character varying NOT NULL,
+    discount_name character varying,
+    created_at timestamp without time zone NOT NULL,
+    updated_at timestamp without time zone NOT NULL
+);
+
+
+--
+-- Name: payments_id_seq; Type: SEQUENCE; Schema: public; Owner: -
+--
+
+CREATE SEQUENCE payments_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+--
+-- Name: payments_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: -
+--
+
+ALTER SEQUENCE payments_id_seq OWNED BY payments.id;
+
+
+--
 -- Name: prices; Type: TABLE; Schema: public; Owner: -; Tablespace: 
 --
 
@@ -621,11 +625,10 @@ ALTER SEQUENCE publications_id_seq OWNED BY publications.id;
 CREATE TABLE purchases (
     id integer NOT NULL,
     offer_id integer NOT NULL,
-    price_name character varying NOT NULL,
-    discount_name character varying,
     currency character varying NOT NULL,
     amount_cents integer NOT NULL,
     completed_at timestamp without time zone,
+    receipt character varying,
     created_at timestamp without time zone NOT NULL,
     updated_at timestamp without time zone NOT NULL
 );
@@ -788,13 +791,6 @@ ALTER TABLE ONLY customer_discounts ALTER COLUMN id SET DEFAULT nextval('custome
 -- Name: id; Type: DEFAULT; Schema: public; Owner: -
 --
 
-ALTER TABLE ONLY customer_purchases ALTER COLUMN id SET DEFAULT nextval('customer_purchases_id_seq'::regclass);
-
-
---
--- Name: id; Type: DEFAULT; Schema: public; Owner: -
---
-
 ALTER TABLE ONLY customers ALTER COLUMN id SET DEFAULT nextval('customers_id_seq'::regclass);
 
 
@@ -838,6 +834,13 @@ ALTER TABLE ONLY offer_publications ALTER COLUMN id SET DEFAULT nextval('offer_p
 --
 
 ALTER TABLE ONLY offers ALTER COLUMN id SET DEFAULT nextval('offers_id_seq'::regclass);
+
+
+--
+-- Name: id; Type: DEFAULT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY payments ALTER COLUMN id SET DEFAULT nextval('payments_id_seq'::regclass);
 
 
 --
@@ -931,14 +934,6 @@ ALTER TABLE ONLY customer_discounts
 
 
 --
--- Name: customer_purchases_pkey; Type: CONSTRAINT; Schema: public; Owner: -; Tablespace: 
---
-
-ALTER TABLE ONLY customer_purchases
-    ADD CONSTRAINT customer_purchases_pkey PRIMARY KEY (id);
-
-
---
 -- Name: customers_pkey; Type: CONSTRAINT; Schema: public; Owner: -; Tablespace: 
 --
 
@@ -992,6 +987,14 @@ ALTER TABLE ONLY offer_publications
 
 ALTER TABLE ONLY offers
     ADD CONSTRAINT offers_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: payments_pkey; Type: CONSTRAINT; Schema: public; Owner: -; Tablespace: 
+--
+
+ALTER TABLE ONLY payments
+    ADD CONSTRAINT payments_pkey PRIMARY KEY (id);
 
 
 --
@@ -1113,13 +1116,6 @@ CREATE UNIQUE INDEX index_customer_discounts_on_customer_id_and_discount_id ON c
 
 
 --
--- Name: index_customer_purchases_on_customer_id_and_purchase_id; Type: INDEX; Schema: public; Owner: -; Tablespace: 
---
-
-CREATE UNIQUE INDEX index_customer_purchases_on_customer_id_and_purchase_id ON customer_purchases USING btree (customer_id, purchase_id);
-
-
---
 -- Name: index_discount_prices_on_discount_id_and_price_id; Type: INDEX; Schema: public; Owner: -; Tablespace: 
 --
 
@@ -1152,6 +1148,13 @@ CREATE UNIQUE INDEX index_offer_products_on_offer_id_and_product_id ON offer_pro
 --
 
 CREATE UNIQUE INDEX index_offer_publications_on_offer_id_and_publication_id ON offer_publications USING btree (offer_id, publication_id);
+
+
+--
+-- Name: index_payments_on_subscription_id_and_purchase_id; Type: INDEX; Schema: public; Owner: -; Tablespace: 
+--
+
+CREATE UNIQUE INDEX index_payments_on_subscription_id_and_purchase_id ON payments USING btree (subscription_id, purchase_id);
 
 
 --
@@ -1265,6 +1268,14 @@ ALTER TABLE ONLY subscriptions
 
 
 --
+-- Name: fk_rails_72c5382ba8; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY payments
+    ADD CONSTRAINT fk_rails_72c5382ba8 FOREIGN KEY (purchase_id) REFERENCES purchases(id);
+
+
+--
 -- Name: fk_rails_7964ca9f30; Type: FK CONSTRAINT; Schema: public; Owner: -
 --
 
@@ -1329,14 +1340,6 @@ ALTER TABLE ONLY customer_discounts
 
 
 --
--- Name: fk_rails_e94fcde9ef; Type: FK CONSTRAINT; Schema: public; Owner: -
---
-
-ALTER TABLE ONLY customer_purchases
-    ADD CONSTRAINT fk_rails_e94fcde9ef FOREIGN KEY (purchase_id) REFERENCES purchases(id);
-
-
---
 -- Name: fk_rails_f08974d62d; Type: FK CONSTRAINT; Schema: public; Owner: -
 --
 
@@ -1361,11 +1364,11 @@ ALTER TABLE ONLY offer_products
 
 
 --
--- Name: fk_rails_fd579148f8; Type: FK CONSTRAINT; Schema: public; Owner: -
+-- Name: fk_rails_fd6be2115b; Type: FK CONSTRAINT; Schema: public; Owner: -
 --
 
-ALTER TABLE ONLY customer_purchases
-    ADD CONSTRAINT fk_rails_fd579148f8 FOREIGN KEY (customer_id) REFERENCES customers(id);
+ALTER TABLE ONLY payments
+    ADD CONSTRAINT fk_rails_fd6be2115b FOREIGN KEY (subscription_id) REFERENCES subscriptions(id);
 
 
 --
@@ -1412,5 +1415,5 @@ INSERT INTO schema_migrations (version) VALUES ('20150601051005');
 
 INSERT INTO schema_migrations (version) VALUES ('20150609022600');
 
-INSERT INTO schema_migrations (version) VALUES ('20150609022644');
+INSERT INTO schema_migrations (version) VALUES ('20150614162408');
 

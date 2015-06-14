@@ -15,7 +15,8 @@ class OffersController < InheritedResources::Base
 
     @products = @offer.offer_products.by_name
     @purchase = Purchase.new(offer: @offer, price_id: @offer.prices.first.id)
-    @purchase.customers << Customer.new
+    @subscription = Subscription.new(publication: @offer.publications.first, customer: Customer.new)
+    @payment = Payment.new(purchase: @purchase, subscription: @subscription, price_name: @offer.prices.first.name)
   end
 
   def purchase

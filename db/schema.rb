@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150609022644) do
+ActiveRecord::Schema.define(version: 20150614162408) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -97,13 +97,6 @@ ActiveRecord::Schema.define(version: 20150609022644) do
 
   add_index "customer_discounts", ["customer_id", "discount_id"], name: "index_customer_discounts_on_customer_id_and_discount_id", unique: true, using: :btree
 
-  create_table "customer_purchases", force: :cascade do |t|
-    t.integer "customer_id", null: false
-    t.integer "purchase_id", null: false
-  end
-
-  add_index "customer_purchases", ["customer_id", "purchase_id"], name: "index_customer_purchases_on_customer_id_and_purchase_id", unique: true, using: :btree
-
   create_table "customers", force: :cascade do |t|
     t.integer  "user_id"
     t.string   "name",       null: false
@@ -171,6 +164,17 @@ ActiveRecord::Schema.define(version: 20150609022644) do
     t.datetime "updated_at",   null: false
   end
 
+  create_table "payments", force: :cascade do |t|
+    t.integer  "purchase_id"
+    t.integer  "subscription_id"
+    t.string   "price_name",      null: false
+    t.string   "discount_name"
+    t.datetime "created_at",      null: false
+    t.datetime "updated_at",      null: false
+  end
+
+  add_index "payments", ["subscription_id", "purchase_id"], name: "index_payments_on_subscription_id_and_purchase_id", unique: true, using: :btree
+
   create_table "prices", force: :cascade do |t|
     t.string   "currency",     null: false
     t.string   "name",         null: false
@@ -210,14 +214,13 @@ ActiveRecord::Schema.define(version: 20150609022644) do
   add_index "publications", ["name"], name: "index_publications_on_name", unique: true, using: :btree
 
   create_table "purchases", force: :cascade do |t|
-    t.integer  "offer_id",      null: false
-    t.string   "price_name",    null: false
-    t.string   "discount_name"
-    t.string   "currency",      null: false
-    t.integer  "amount_cents",  null: false
+    t.integer  "offer_id",     null: false
+    t.string   "currency",     null: false
+    t.integer  "amount_cents", null: false
     t.datetime "completed_at"
-    t.datetime "created_at",    null: false
-    t.datetime "updated_at",    null: false
+    t.string   "receipt"
+    t.datetime "created_at",   null: false
+    t.datetime "updated_at",   null: false
   end
 
   add_index "purchases", ["offer_id"], name: "index_purchases_on_offer_id", using: :btree
@@ -266,8 +269,6 @@ ActiveRecord::Schema.define(version: 20150609022644) do
   add_foreign_key "campaign_offers", "offers"
   add_foreign_key "customer_discounts", "customers"
   add_foreign_key "customer_discounts", "discounts"
-  add_foreign_key "customer_purchases", "customers"
-  add_foreign_key "customer_purchases", "purchases"
   add_foreign_key "customers", "users"
   add_foreign_key "discount_prices", "discounts"
   add_foreign_key "discount_prices", "prices"
@@ -277,6 +278,8 @@ ActiveRecord::Schema.define(version: 20150609022644) do
   add_foreign_key "offer_products", "products"
   add_foreign_key "offer_publications", "offers"
   add_foreign_key "offer_publications", "publications"
+  add_foreign_key "payments", "purchases"
+  add_foreign_key "payments", "subscriptions"
   add_foreign_key "purchases", "offers"
   add_foreign_key "subscriptions", "customers"
   add_foreign_key "subscriptions", "publications"

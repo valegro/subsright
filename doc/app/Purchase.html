@@ -133,7 +133,7 @@
         
         <div class="method-heading">
           <span class="method-name">make_new</span><span
-            class="method-args">(offer_id, params)</span>
+            class="method-args">(offer_id, price_id)</span>
           
           <span class="method-click-advice">click to toggle source</span>
           
@@ -149,13 +149,9 @@
           
           <div class="method-source-code" id="make_new-source">
             <pre><span class="ruby-comment"># File app/models/purchase.rb, line 17</span>
-<span class="ruby-keyword">def</span> <span class="ruby-keyword">self</span>.<span class="ruby-identifier">make_new</span>(<span class="ruby-identifier">offer_id</span>, <span class="ruby-identifier">params</span>)
-  <span class="ruby-identifier">o</span> = <span class="ruby-constant">Offer</span>.<span class="ruby-identifier">find</span>(<span class="ruby-identifier">offer_id</span>)
-  <span class="ruby-identifier">p</span> = <span class="ruby-constant">Price</span>.<span class="ruby-identifier">find</span>(<span class="ruby-identifier">params</span>[<span class="ruby-value">:price_id</span>])
-  <span class="ruby-identifier">purchase</span> = <span class="ruby-constant">Purchase</span>.<span class="ruby-identifier">new</span>(<span class="ruby-identifier">offer</span><span class="ruby-operator">:</span> <span class="ruby-identifier">o</span>, <span class="ruby-identifier">price_name</span><span class="ruby-operator">:</span> <span class="ruby-identifier">p</span>.<span class="ruby-identifier">name</span>, <span class="ruby-identifier">amount_cents</span><span class="ruby-operator">:</span> <span class="ruby-identifier">p</span>.<span class="ruby-identifier">amount_cents</span>, <span class="ruby-identifier">currency</span><span class="ruby-operator">:</span> <span class="ruby-identifier">p</span>.<span class="ruby-identifier">currency</span>)
-  <span class="ruby-identifier">customers_attributes</span> = <span class="ruby-identifier">params</span>[<span class="ruby-value">:customers_attributes</span>]
-  <span class="ruby-identifier">purchase</span>.<span class="ruby-identifier">customers</span>.<span class="ruby-identifier">concat</span> <span class="ruby-identifier">customers_attributes</span>.<span class="ruby-identifier">map</span> { <span class="ruby-operator">|</span><span class="ruby-identifier">_</span>, <span class="ruby-identifier">c</span><span class="ruby-operator">|</span> <span class="ruby-constant">Customer</span>.<span class="ruby-identifier">new</span>(<span class="ruby-identifier">c</span>) } <span class="ruby-keyword">unless</span> <span class="ruby-identifier">customers_attributes</span>.<span class="ruby-identifier">nil?</span>
-  <span class="ruby-identifier">purchase</span>
+<span class="ruby-keyword">def</span> <span class="ruby-keyword">self</span>.<span class="ruby-identifier">make_new</span>(<span class="ruby-identifier">offer_id</span>, <span class="ruby-identifier">price_id</span>)
+  <span class="ruby-identifier">price</span> = <span class="ruby-constant">Price</span>.<span class="ruby-identifier">find</span>(<span class="ruby-identifier">price_id</span>)
+  <span class="ruby-constant">Purchase</span>.<span class="ruby-identifier">new</span>(<span class="ruby-identifier">offer</span><span class="ruby-operator">:</span> <span class="ruby-constant">Offer</span>.<span class="ruby-identifier">find</span>(<span class="ruby-identifier">offer_id</span>), <span class="ruby-identifier">amount_cents</span><span class="ruby-operator">:</span> <span class="ruby-identifier">price</span>.<span class="ruby-identifier">amount_cents</span>, <span class="ruby-identifier">currency</span><span class="ruby-operator">:</span> <span class="ruby-identifier">price</span>.<span class="ruby-identifier">currency</span>)
 <span class="ruby-keyword">end</span></pre>
           </div>
           

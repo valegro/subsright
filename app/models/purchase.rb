@@ -1,9 +1,9 @@
 class Purchase < ActiveRecord::Base
   belongs_to :offer
 
-  has_many :customer_purchases
-  has_many :customers, through: :customer_purchases
-  accepts_nested_attributes_for :customers
+  has_many :payments
+  has_many :subscriptions, through: :payments
+  has_many :customers, through: :subscriptions
 
   validates :offer, presence: true
 
@@ -14,12 +14,8 @@ class Purchase < ActiveRecord::Base
     "#{m.name} (#{m.iso_code})"
   end
 
-  def self.make_new(offer_id, params)
-    o = Offer.find(offer_id)
-    p = Price.find(params[:price_id])
-    purchase = Purchase.new(offer: o, price_name: p.name, amount_cents: p.amount_cents, currency: p.currency)
-    customers_attributes = params[:customers_attributes]
-    purchase.customers.concat customers_attributes.map { |_, c| Customer.new(c) } unless customers_attributes.nil?
-    purchase
+  def self.make_new(offer_id, price_id)
+    price = Price.find(price_id)
+    Purchase.new(offer: Offer.find(offer_id), amount_cents: price.amount_cents, currency: price.currency)
   end
 end

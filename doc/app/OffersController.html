@@ -166,7 +166,7 @@
 
           
           <div class="method-source-code" id="purchase-source">
-            <pre><span class="ruby-comment"># File app/controllers/offers_controller.rb, line 21</span>
+            <pre><span class="ruby-comment"># File app/controllers/offers_controller.rb, line 22</span>
 <span class="ruby-keyword">def</span> <span class="ruby-identifier">purchase</span>
   <span class="ruby-keyword">if</span> <span class="ruby-identifier">params</span>[<span class="ruby-value">:id</span>].<span class="ruby-identifier">present?</span>
     <span class="ruby-ivar">@purchase</span> = <span class="ruby-constant">Purchase</span>.<span class="ruby-identifier">make_new</span>(<span class="ruby-identifier">params</span>[<span class="ruby-value">:id</span>], <span class="ruby-identifier">purchase_params</span>)
@@ -219,7 +219,8 @@
 
   <span class="ruby-ivar">@products</span> = <span class="ruby-ivar">@offer</span>.<span class="ruby-identifier">offer_products</span>.<span class="ruby-identifier">by_name</span>
   <span class="ruby-ivar">@purchase</span> = <span class="ruby-constant">Purchase</span>.<span class="ruby-identifier">new</span>(<span class="ruby-identifier">offer</span><span class="ruby-operator">:</span> <span class="ruby-ivar">@offer</span>, <span class="ruby-identifier">price_id</span><span class="ruby-operator">:</span> <span class="ruby-ivar">@offer</span>.<span class="ruby-identifier">prices</span>.<span class="ruby-identifier">first</span>.<span class="ruby-identifier">id</span>)
-  <span class="ruby-ivar">@purchase</span>.<span class="ruby-identifier">customers</span> <span class="ruby-operator">&lt;&lt;</span> <span class="ruby-constant">Customer</span>.<span class="ruby-identifier">new</span>
+  <span class="ruby-ivar">@subscription</span> = <span class="ruby-constant">Subscription</span>.<span class="ruby-identifier">new</span>(<span class="ruby-identifier">publication</span><span class="ruby-operator">:</span> <span class="ruby-ivar">@offer</span>.<span class="ruby-identifier">publications</span>.<span class="ruby-identifier">first</span>, <span class="ruby-identifier">customer</span><span class="ruby-operator">:</span> <span class="ruby-constant">Customer</span>.<span class="ruby-identifier">new</span>)
+  <span class="ruby-ivar">@payment</span> = <span class="ruby-constant">Payment</span>.<span class="ruby-identifier">new</span>(<span class="ruby-identifier">purchase</span><span class="ruby-operator">:</span> <span class="ruby-ivar">@purchase</span>, <span class="ruby-identifier">subscription</span><span class="ruby-operator">:</span> <span class="ruby-ivar">@subscription</span>, <span class="ruby-identifier">price_name</span><span class="ruby-operator">:</span> <span class="ruby-ivar">@offer</span>.<span class="ruby-identifier">prices</span>.<span class="ruby-identifier">first</span>.<span class="ruby-identifier">name</span>)
 <span class="ruby-keyword">end</span></pre>
           </div>
           
