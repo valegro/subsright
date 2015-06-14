@@ -21,7 +21,7 @@ class OffersController < InheritedResources::Base
 
   def purchase
     if params[:id].present?
-      @purchase = Purchase.make_new(params[:id], purchase_params)
+      @purchase = Purchase.make_new(params[:id], purchase_params[:price_id])
       unless @purchase.save
         flash.alert = @purchase.errors.full_messages.to_sentence
         @offer = Offer.find(params[:id])
