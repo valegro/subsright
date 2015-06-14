@@ -54,7 +54,7 @@ ActiveAdmin.register Publication do
   end
 
   form do |f|
-    f.inputs 'Product Details' do
+    f.inputs 'Publication Details' do
       f.input :name
       hint = f.publication.image? ? image_tag(f.publication.image.url) : content_tag(:span, 'Please upload an image')
       f.input :image, as: :file, hint: hint
