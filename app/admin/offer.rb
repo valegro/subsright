@@ -4,8 +4,10 @@ ActiveAdmin.register Offer do
     offer_products_attributes: [:id, :product_id, :optional, :_destroy], price_ids: []
 
   preserve_default_filters!
+  filter :campaign_offers, if: false
   filter :offer_publications, if: false
   filter :offer_products, if: false
+  filter :offer_prices, if: false
 
   index do
     selectable_column
