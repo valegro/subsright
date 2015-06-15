@@ -11,6 +11,6 @@
       <%= fc.input :currency, as: :select, collection: Configuration::CURRENCY_OPTIONS, selected: 'AUD',
             label: 'Preferred currency' %>
     <% end %>
-    <%= f.actions %>
+    <%= f.actions { f.action :submit, label: 'Purchase' } %>
   <% end %>
 <% end %>
