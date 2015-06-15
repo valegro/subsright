@@ -3,7 +3,7 @@ require 'faker'
 
 RSpec.feature 'Show an offer', type: :feature do
   given(:offer) do
-    create(:offer, description: Faker::Lorem.sentences.join("\s"), trial_period: Faker::Number.number(3))
+    create(:offer, description: Faker::Lorem.sentences.join("\s"), trial_period: 1 + Faker::Number.number(3).to_i)
   end
   context 'when there are no prices' do
     scenario 'redirect to list of offers' do
