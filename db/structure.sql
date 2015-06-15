@@ -1167,6 +1167,13 @@ CREATE UNIQUE INDEX index_customer_discounts_on_customer_id_and_discount_id ON c
 
 
 --
+-- Name: index_customers_on_email_and_name; Type: INDEX; Schema: public; Owner: -; Tablespace: 
+--
+
+CREATE INDEX index_customers_on_email_and_name ON customers USING btree (email, name);
+
+
+--
 -- Name: index_discount_prices_on_discount_id_and_price_id; Type: INDEX; Schema: public; Owner: -; Tablespace: 
 --
 

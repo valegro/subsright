@@ -15,6 +15,7 @@ class Customer < ActiveRecord::Base
   has_many :purchases, through: :payments
 
   validates :name, presence: true
+  validates :name, uniqueness: { scope: :email }, unless: 'email.blank?'
 
   # This will attempt to translate the country name and use the default
   # (usually English) name if no translation is available

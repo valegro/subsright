@@ -110,6 +110,8 @@ ActiveRecord::Schema.define(version: 20150615021006) do
     t.datetime "updated_at", null: false
   end
 
+  add_index "customers", ["email", "name"], name: "index_customers_on_email_and_name", using: :btree
+
   create_table "discount_prices", force: :cascade do |t|
     t.integer "discount_id", null: false
     t.integer "price_id",    null: false
