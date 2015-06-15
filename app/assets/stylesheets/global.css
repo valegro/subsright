@@ -3,3 +3,7 @@
 body { font-size: medium; margin: 10px; }
 
 figure, figcaption { display: block; }
+
+.alert { color: red; font-weight: bold }
+
+.notice { color: green; font-weight: bold }
