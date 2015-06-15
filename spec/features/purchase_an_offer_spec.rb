@@ -6,13 +6,11 @@ RSpec.feature 'Take an offer', type: :feature do
   background { create(:offer_price, offer: offer, price: price) }
 
   context 'when not signed in' do
-    scenario 'see customer detail form' do
-      visit offer_path(offer)
-      expect(page).to have_css 'li#purchase_customer_name_input'
-    end
+    given(:address) { "#{Faker::Address.street_address} #{Faker::Address.street_suffix} #{Faker::Address.city}" }
+    background { visit offer_path(offer) }
+    scenario('see customer detail form') { expect(page).to have_css 'li#purchase_customer_name_input' }
 
     scenario 'require customer name' do
-      visit offer_path(offer)
       click_on 'Purchase'
       expect(page).to have_content "Name can't be blank"
     end
@@ -21,10 +19,8 @@ RSpec.feature 'Take an offer', type: :feature do
       given(:customer) { create(:customer, email: Faker::Internet.email) }
       scenario 'autofill customer details'
       scenario 'update existing customer details' do
-        visit offer_path(offer)
         fill_in :purchase_customer_name, with: customer.name
         fill_in :purchase_customer_email, with: customer.email
-        address = "#{Faker::Address.street_address} #{Faker::Address.street_suffix} #{Faker::Address.city}"
         fill_in :purchase_customer_address, with: address
         fill_in :purchase_customer_postcode, with: Faker::Address.postcode
         click_on 'Purchase'
@@ -33,12 +29,31 @@ RSpec.feature 'Take an offer', type: :feature do
     end
 
     context 'when customer is new' do
-      scenario 'create new customer'
-      context 'when email matches existing user' do
-        scenario 'associate customer with existing user'
+      given(:customer) { build(:customer, address: address, postcode: Faker::Address.postcode) }
+      background do
+        fill_in :purchase_customer_name, with: customer.name
+        fill_in :purchase_customer_address, with: address
+        fill_in :purchase_customer_postcode, with: Faker::Address.postcode
       end
+
+      scenario 'create new customer' do
+        expect { click_on 'Purchase' }.to change(Customer, :count).by(1)
+      end
+
+      context 'when email matches existing user' do
+        given(:user) { create(:user) }
+        scenario 'associate customer with existing user' do
+          fill_in :purchase_customer_email, with: user.email
+          click_on 'Purchase'
+          expect(Customer.last.user).to eq user
+        end
+      end
+
       context 'when email not on file' do
-        scenario 'create new user'
+        scenario 'create new user' do
+          fill_in :purchase_customer_email, with: Faker::Internet.email
+          expect { click_on 'Purchase' }.to change(User, :count).by(1)
+        end
       end
     end
   end

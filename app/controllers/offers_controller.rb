@@ -63,22 +63,25 @@ class OffersController < InheritedResources::Base
 
   def purchase_publications!(price_name)
     @offer.offer_publications.each do |offer_publication|
-      subscription = Subscription.new(
-        customer: @customer,
-        publication: offer_publication.publication,
-        subscribed: Time.zone.today)
+      subscription = Subscription.find_by(customer: @customer, publication: offer_publication.publication) ||
+        Subscription.new(customer: @customer, publication: offer_publication.publication, subscribed: Time.zone.today)
       subscription.save!
       Payment.new(purchase: @purchase, subscription: subscription, price_name: price_name).save!
     end
   end
 
   def update_or_create_customer!
-    @customer = customer_params[:email].present? &&
-      Customer.find_by(email: customer_params[:email], name: customer_params[:name])
+    email = customer_params[:email]
+    @customer = email.present? && Customer.find_by(email: email, name: customer_params[:name])
     if @customer
       @customer.update!(customer_params)
     else
       @customer = Customer.new(customer_params)
+      if email.present?
+        user = User.find_by(email: email) || User.new(name: customer_params[:name], email: email)
+        user.save!
+        @customer.user = user
+      end
       @customer.save!
     end
   end
