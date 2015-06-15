@@ -148,7 +148,7 @@
 
           
           <div class="method-source-code" id="make_new-source">
-            <pre><span class="ruby-comment"># File app/models/purchase.rb, line 17</span>
+            <pre><span class="ruby-comment"># File app/models/purchase.rb, line 18</span>
 <span class="ruby-keyword">def</span> <span class="ruby-keyword">self</span>.<span class="ruby-identifier">make_new</span>(<span class="ruby-identifier">offer_id</span>, <span class="ruby-identifier">price_id</span>)
   <span class="ruby-identifier">price</span> = <span class="ruby-constant">Price</span>.<span class="ruby-identifier">find</span>(<span class="ruby-identifier">price_id</span>)
   <span class="ruby-constant">Purchase</span>.<span class="ruby-identifier">new</span>(<span class="ruby-identifier">offer</span><span class="ruby-operator">:</span> <span class="ruby-constant">Offer</span>.<span class="ruby-identifier">find</span>(<span class="ruby-identifier">offer_id</span>), <span class="ruby-identifier">amount_cents</span><span class="ruby-operator">:</span> <span class="ruby-identifier">price</span>.<span class="ruby-identifier">amount_cents</span>, <span class="ruby-identifier">currency</span><span class="ruby-operator">:</span> <span class="ruby-identifier">price</span>.<span class="ruby-identifier">currency</span>)
@@ -190,7 +190,7 @@
 
           
           <div class="method-source-code" id="currency_name-source">
-            <pre><span class="ruby-comment"># File app/models/purchase.rb, line 12</span>
+            <pre><span class="ruby-comment"># File app/models/purchase.rb, line 13</span>
 <span class="ruby-keyword">def</span> <span class="ruby-identifier">currency_name</span>
   <span class="ruby-identifier">m</span> = <span class="ruby-constant">Money</span><span class="ruby-operator">::</span><span class="ruby-constant">Currency</span>.<span class="ruby-identifier">new</span>(<span class="ruby-identifier">currency</span>)
   <span class="ruby-node">&quot;#{m.name} (#{m.iso_code})&quot;</span>

@@ -545,6 +545,40 @@ ALTER SEQUENCE prices_id_seq OWNED BY prices.id;
 
 
 --
+-- Name: product_orders; Type: TABLE; Schema: public; Owner: -; Tablespace: 
+--
+
+CREATE TABLE product_orders (
+    id integer NOT NULL,
+    customer_id integer,
+    purchase_id integer,
+    product_id integer,
+    shipped date,
+    created_at timestamp without time zone NOT NULL,
+    updated_at timestamp without time zone NOT NULL
+);
+
+
+--
+-- Name: product_orders_id_seq; Type: SEQUENCE; Schema: public; Owner: -
+--
+
+CREATE SEQUENCE product_orders_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+--
+-- Name: product_orders_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: -
+--
+
+ALTER SEQUENCE product_orders_id_seq OWNED BY product_orders.id;
+
+
+--
 -- Name: products; Type: TABLE; Schema: public; Owner: -; Tablespace: 
 --
 
@@ -854,6 +888,13 @@ ALTER TABLE ONLY prices ALTER COLUMN id SET DEFAULT nextval('prices_id_seq'::reg
 -- Name: id; Type: DEFAULT; Schema: public; Owner: -
 --
 
+ALTER TABLE ONLY product_orders ALTER COLUMN id SET DEFAULT nextval('product_orders_id_seq'::regclass);
+
+
+--
+-- Name: id; Type: DEFAULT; Schema: public; Owner: -
+--
+
 ALTER TABLE ONLY products ALTER COLUMN id SET DEFAULT nextval('products_id_seq'::regclass);
 
 
@@ -1003,6 +1044,14 @@ ALTER TABLE ONLY payments
 
 ALTER TABLE ONLY prices
     ADD CONSTRAINT prices_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: product_orders_pkey; Type: CONSTRAINT; Schema: public; Owner: -; Tablespace: 
+--
+
+ALTER TABLE ONLY product_orders
+    ADD CONSTRAINT product_orders_pkey PRIMARY KEY (id);
 
 
 --
@@ -1165,6 +1214,20 @@ CREATE UNIQUE INDEX index_prices_on_currency_and_name ON prices USING btree (cur
 
 
 --
+-- Name: index_product_orders_on_customer_purchase_and_product_ids; Type: INDEX; Schema: public; Owner: -; Tablespace: 
+--
+
+CREATE UNIQUE INDEX index_product_orders_on_customer_purchase_and_product_ids ON product_orders USING btree (customer_id, purchase_id, product_id);
+
+
+--
+-- Name: index_product_orders_on_product_id; Type: INDEX; Schema: public; Owner: -; Tablespace: 
+--
+
+CREATE INDEX index_product_orders_on_product_id ON product_orders USING btree (product_id);
+
+
+--
 -- Name: index_products_on_name; Type: INDEX; Schema: public; Owner: -; Tablespace: 
 --
 
@@ -1233,6 +1296,14 @@ CREATE UNIQUE INDEX unique_schema_migrations ON schema_migrations USING btree (v
 
 ALTER TABLE ONLY discount_prices
     ADD CONSTRAINT fk_rails_012c035366 FOREIGN KEY (price_id) REFERENCES prices(id);
+
+
+--
+-- Name: fk_rails_14f14aa898; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY product_orders
+    ADD CONSTRAINT fk_rails_14f14aa898 FOREIGN KEY (product_id) REFERENCES products(id);
 
 
 --
@@ -1316,6 +1387,14 @@ ALTER TABLE ONLY offer_publications
 
 
 --
+-- Name: fk_rails_a86519aa29; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY product_orders
+    ADD CONSTRAINT fk_rails_a86519aa29 FOREIGN KEY (customer_id) REFERENCES customers(id);
+
+
+--
 -- Name: fk_rails_a9ae35ca88; Type: FK CONSTRAINT; Schema: public; Owner: -
 --
 
@@ -1372,6 +1451,14 @@ ALTER TABLE ONLY payments
 
 
 --
+-- Name: fk_rails_ffb3cd87f2; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY product_orders
+    ADD CONSTRAINT fk_rails_ffb3cd87f2 FOREIGN KEY (purchase_id) REFERENCES purchases(id);
+
+
+--
 -- PostgreSQL database dump complete
 --
 
@@ -1416,4 +1503,6 @@ INSERT INTO schema_migrations (version) VALUES ('20150601051005');
 INSERT INTO schema_migrations (version) VALUES ('20150609022600');
 
 INSERT INTO schema_migrations (version) VALUES ('20150614162408');
+
+INSERT INTO schema_migrations (version) VALUES ('20150615021006');
 

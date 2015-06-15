@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150614162408) do
+ActiveRecord::Schema.define(version: 20150615021006) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -185,6 +185,18 @@ ActiveRecord::Schema.define(version: 20150614162408) do
 
   add_index "prices", ["currency", "name"], name: "index_prices_on_currency_and_name", unique: true, using: :btree
 
+  create_table "product_orders", force: :cascade do |t|
+    t.integer  "customer_id"
+    t.integer  "purchase_id"
+    t.integer  "product_id"
+    t.date     "shipped"
+    t.datetime "created_at",  null: false
+    t.datetime "updated_at",  null: false
+  end
+
+  add_index "product_orders", ["customer_id", "purchase_id", "product_id"], name: "index_product_orders_on_customer_purchase_and_product_ids", unique: true, using: :btree
+  add_index "product_orders", ["product_id"], name: "index_product_orders_on_product_id", using: :btree
+
   create_table "products", force: :cascade do |t|
     t.string   "name",               null: false
     t.integer  "stock"
@@ -280,6 +292,9 @@ ActiveRecord::Schema.define(version: 20150614162408) do
   add_foreign_key "offer_publications", "publications"
   add_foreign_key "payments", "purchases"
   add_foreign_key "payments", "subscriptions"
+  add_foreign_key "product_orders", "customers"
+  add_foreign_key "product_orders", "products"
+  add_foreign_key "product_orders", "purchases"
   add_foreign_key "purchases", "offers"
   add_foreign_key "subscriptions", "customers"
   add_foreign_key "subscriptions", "publications"
