@@ -176,11 +176,13 @@ ActiveRecord::Schema.define(version: 20150615021006) do
   add_index "payments", ["subscription_id", "purchase_id"], name: "index_payments_on_subscription_id_and_purchase_id", unique: true, using: :btree
 
   create_table "prices", force: :cascade do |t|
-    t.string   "currency",     null: false
-    t.string   "name",         null: false
-    t.integer  "amount_cents", null: false
-    t.datetime "created_at",   null: false
-    t.datetime "updated_at",   null: false
+    t.string   "currency",             null: false
+    t.string   "name",                 null: false
+    t.integer  "amount_cents",         null: false
+    t.integer  "monthly_payments"
+    t.integer  "initial_amount_cents"
+    t.datetime "created_at",           null: false
+    t.datetime "updated_at",           null: false
   end
 
   add_index "prices", ["currency", "name"], name: "index_prices_on_currency_and_name", unique: true, using: :btree

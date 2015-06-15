@@ -100,9 +100,11 @@ associated subscriptions.
 
 == Prices
 
-Each price point must specify a currency and amount.  The same price point can be applied to
-any number of offers either as the default full price or as a discount price.  Price points
-can be edited or deleted at any time.
+Each price point must specify a currency and amount.  If a number of monthly payments is provided,
+the payment will be recurring for that number of payments, otherwise it will be a single payment.
+If an initial amount is provided, the first payment can be a different amount than the subsequent
+monthly payments.  The same price point can be applied to any number of offers either as the
+default full price or as a discount price.  Price points can be edited or deleted at any time.
 
 == Products
 

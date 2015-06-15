@@ -520,6 +520,8 @@ CREATE TABLE prices (
     currency character varying NOT NULL,
     name character varying NOT NULL,
     amount_cents integer NOT NULL,
+    monthly_payments integer,
+    initial_amount_cents integer,
     created_at timestamp without time zone NOT NULL,
     updated_at timestamp without time zone NOT NULL
 );

@@ -4,6 +4,8 @@ class CreatePrices < ActiveRecord::Migration
       t.string :currency, null: false
       t.string :name, null: false
       t.integer :amount_cents, null: false
+      t.integer :monthly_payments
+      t.integer :initial_amount_cents
 
       t.timestamps null: false
     end
