@@ -9,7 +9,11 @@ RSpec.feature 'Take an offer', type: :feature do
       visit offer_path(offer)
       expect(page).to have_css 'li#purchase_customer_name_input'
     end
-    scenario 'require customer name'
+    scenario 'require customer name' do
+      visit offer_path(offer)
+      click_on 'Purchase'
+      expect(page).to have_content "Name can't be blank"
+    end
     context 'when customer name and email on file' do
       scenario 'autofill customer details'
       scenario 'update existing customer details'

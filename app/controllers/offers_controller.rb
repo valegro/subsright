@@ -1,5 +1,6 @@
 class OffersController < InheritedResources::Base
   respond_to :html, :json, :xml
+  rescue_from ActiveRecord::RecordInvalid, with: :show_errors
 
   def index
     @offers = Offer.joins(:offer_prices)
@@ -33,17 +34,24 @@ class OffersController < InheritedResources::Base
         subscription.save!
         Payment.new(purchase: @purchase, subscription: subscription, price_name: @offer.prices.first.name).save!
       end
-      unless @purchase.save
-        flash.alert = @purchase.errors.full_messages.to_sentence
-        if @offer.prices.present?
-          @products = @offer.offer_products.by_name
-          @purchase.price_id = purchase_params[:price_id]
-          return render :show
-        end
-      end
+      @purchase.save!
     end
 
     redirect_to action: :index
+  end
+
+  protected
+
+  def show_errors(exception)
+    if @offer.prices.count == 0
+      redirect_to action: :index
+    else
+      flash.alert = exception.message
+      @products = @offer.offer_products.by_name
+      @purchase.price_id = purchase_params[:price_id]
+      @customer = Customer.new(customer_params)
+      render :show
+    end
   end
 
   private
