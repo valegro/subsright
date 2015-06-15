@@ -15,16 +15,26 @@ class OffersController < InheritedResources::Base
 
     @products = @offer.offer_products.by_name
     @purchase = Purchase.new(offer: @offer, price_id: @offer.prices.first.id)
-    @subscription = Subscription.new(publication: @offer.publications.first, customer: Customer.new)
-    @payment = Payment.new(purchase: @purchase, subscription: @subscription, price_name: @offer.prices.first.name)
+    @customer = Customer.new
   end
 
   def purchase
     if params[:id].present?
+      @offer = Offer.find(params[:id])
       @purchase = Purchase.make_new(params[:id], purchase_params[:price_id])
+      if customer_params
+        customer = Customer.new(customer_params)
+        customer.save!
+        offer_publication = @offer.offer_publications.first
+        subscription = Subscription.new(
+          customer: customer,
+          publication: offer_publication.publication,
+          subscribed: Time.zone.today)
+        subscription.save!
+        Payment.new(purchase: @purchase, subscription: subscription, price_name: @offer.prices.first.name).save!
+      end
       unless @purchase.save
         flash.alert = @purchase.errors.full_messages.to_sentence
-        @offer = Offer.find(params[:id])
         if @offer.prices.present?
           @products = @offer.offer_products.by_name
           @purchase.price_id = purchase_params[:price_id]
@@ -38,8 +48,12 @@ class OffersController < InheritedResources::Base
 
   private
 
+  def customer_params
+    purchase_params.require(:customer).permit(:name, :email, :phone, :address, :country, :postcode, :currency)
+  end
+
   def purchase_params
     params.require(:purchase)
-      .permit(:price_id, customers_attributes: [:name, :email, :phone, :address, :country, :postcode, :currency])
+      .permit(:price_id, customer: [:name, :email, :phone, :address, :country, :postcode, :currency])
   end
 end
