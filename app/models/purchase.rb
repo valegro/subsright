@@ -13,9 +13,4 @@ class Purchase < ActiveRecord::Base
     m = Money::Currency.new(currency)
     "#{m.name} (#{m.iso_code})"
   end
-
-  def self.make_new(offer_id, price_id)
-    price = Price.find(price_id)
-    Purchase.new(offer: Offer.find(offer_id), amount_cents: price.amount_cents, currency: price.currency)
-  end
 end

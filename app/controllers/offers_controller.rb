@@ -22,19 +22,15 @@ class OffersController < InheritedResources::Base
   def purchase
     if params[:id].present?
       @offer = Offer.find(params[:id])
-      @purchase = Purchase.make_new(params[:id], purchase_params[:price_id])
+      price = Price.find(purchase_params[:price_id])
+      @purchase = Purchase.new(offer: @offer, amount_cents: price.amount_cents, currency: price.currency)
       if customer_params
-        customer = Customer.new(customer_params)
-        customer.save!
-        offer_publication = @offer.offer_publications.first
-        subscription = Subscription.new(
-          customer: customer,
-          publication: offer_publication.publication,
-          subscribed: Time.zone.today)
-        subscription.save!
-        Payment.new(purchase: @purchase, subscription: subscription, price_name: @offer.prices.first.name).save!
+        update_or_create_customer!
+        purchase_publications!(price.name)
       end
       @purchase.save!
+      flash.alert = nil
+      flash.notice = 'Transaction complete.  Thank you!'
     end
 
     redirect_to action: :index
@@ -63,5 +59,27 @@ class OffersController < InheritedResources::Base
   def purchase_params
     params.require(:purchase)
       .permit(:price_id, customer: [:name, :email, :phone, :address, :country, :postcode, :currency])
+  end
+
+  def purchase_publications!(price_name)
+    @offer.offer_publications.each do |offer_publication|
+      subscription = Subscription.new(
+        customer: @customer,
+        publication: offer_publication.publication,
+        subscribed: Time.zone.today)
+      subscription.save!
+      Payment.new(purchase: @purchase, subscription: subscription, price_name: price_name).save!
+    end
+  end
+
+  def update_or_create_customer!
+    @customer = customer_params[:email].present? &&
+      Customer.find_by(email: customer_params[:email], name: customer_params[:name])
+    if @customer
+      @customer.update!(customer_params)
+    else
+      @customer = Customer.new(customer_params)
+      @customer.save!
+    end
   end
 end
