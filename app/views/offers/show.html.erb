@@ -29,7 +29,10 @@
     <% included_products.each do |op| %>
         <figure>
            <%= link_to (image_tag op.product.image.url(:thumb), alt: op.product.name, size: '100'), op.product %>
-           <figcaption><%= link_to op.product.name, op.product %></figcaption>
+           <figcaption>
+             <%= link_to op.product.name, op.product %>
+             <% if op.product.stock == 0 %><span class="stock-warning">(out of stock)</span><% end %>
+           </figcaption>
        </figure>
 	<% end %>
     </div>
