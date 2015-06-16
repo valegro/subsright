@@ -59,14 +59,30 @@ RSpec.feature 'Take an offer', type: :feature do
   end
 
   context 'when signed in' do
+    given(:user) { create(:user, confirmed_at: Time.zone.now) }
+    background { login_as user }
     context 'when there are no associated customers' do
-      scenario 'see customer detail form'
-      scenario 'require customer name'
+      background { visit offer_path(offer) }
+      scenario('see customer detail form') { expect(page).to have_css 'li#purchase_customer_name_input' }
+      scenario 'require customer name' do
+        click_on 'Purchase'
+        expect(page).to have_content "Name can't be blank"
+      end
     end
     context 'when there are multiple associated customers' do
-      scenario 'see checkboxes for associated customers'
+      given(:customer1) { create(:customer, user: user) }
+      given(:customer2) { create(:customer, user: user) }
+      scenario 'see associated customers' do
+        customer1
+        customer2
+        visit offer_path(offer)
+        expect(page).to have_css 'li#purchase_customers_input'
+      end
     end
-    scenario 'see option to create new customer details'
+    scenario('see option to create new customer details') do
+      visit offer_path(offer)
+      expect(page).to have_css 'li#purchase_customer_name_input'
+    end
     scenario 'require at least one customer'
   end
   context 'when an included product is out of stock' do

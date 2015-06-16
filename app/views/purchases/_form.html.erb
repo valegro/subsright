@@ -1,7 +1,12 @@
 <%= semantic_form_for [@offer, @purchase] do |f| %>
   <%= f.inputs do %>
-    <%= f.input :price_id, as: :radio, collection: @offer.prices.map { |p| [p.to_s, p.id] } %>
+    <% if current_user && current_user.customers %>
+      <%= f.input :customers, as: :check_boxes, label: 'Existing customers',
+        collection: current_user.customers.order(:name, :created_at).map { |c| [c.name, c.id]}
+       %>
+    <% end %>
     <%= f.fields_for @customer do |fc| %>
+      <%= fc.input :price_id, as: :radio, collection: @offer.prices.map { |p| [p.to_s, p.id] } %>
       <%= fc.input :name %>
       <%= fc.input :email %><br>
       <%= fc.input :phone %><br>

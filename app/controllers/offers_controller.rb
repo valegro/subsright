@@ -15,17 +15,19 @@ class OffersController < InheritedResources::Base
     return redirect_to action: :index if @offer.prices.empty?
 
     @products = @offer.offer_products.by_name
-    @purchase = Purchase.new(offer: @offer, price_id: @offer.prices.first.id)
-    @customer = Customer.new
+    @purchase = Purchase.new(offer: @offer)
+    @customer = Customer.new(price_id: @offer.prices.first.id)
   end
 
   def purchase
     if params[:id].present?
       @offer = Offer.find(params[:id])
-      price = Price.find(purchase_params[:price_id])
-      @purchase = Purchase.new(offer: @offer, amount_cents: price.amount_cents, currency: price.currency)
+      @purchase = Purchase.new(offer: @offer)
       if customer_params
         update_or_create_customer!
+        price = Price.find(customer_params[:price_id])
+        @purchase.amount_cents = price.amount_cents
+        @purchase.currency = price.currency
         purchase_publications!(price.name)
       end
       @purchase.save!
@@ -44,7 +46,6 @@ class OffersController < InheritedResources::Base
     else
       flash.alert = exception.message
       @products = @offer.offer_products.by_name
-      @purchase.price_id = purchase_params[:price_id]
       @customer = Customer.new(customer_params)
       render :show
     end
@@ -53,12 +54,12 @@ class OffersController < InheritedResources::Base
   private
 
   def customer_params
-    purchase_params.require(:customer).permit(:name, :email, :phone, :address, :country, :postcode, :currency)
+    purchase_params.require(:customer)
+      .permit(:price_id, :name, :email, :phone, :address, :country, :postcode, :currency)
   end
 
   def purchase_params
     params.require(:purchase)
-      .permit(:price_id, customer: [:name, :email, :phone, :address, :country, :postcode, :currency])
   end
 
   def purchase_publications!(price_name)

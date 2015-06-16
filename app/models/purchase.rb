@@ -7,8 +7,6 @@ class Purchase < ActiveRecord::Base
 
   validates :offer, presence: true
 
-  attr_accessor :price_id
-
   def currency_name
     m = Money::Currency.new(currency)
     "#{m.name} (#{m.iso_code})"

@@ -17,6 +17,8 @@ class Customer < ActiveRecord::Base
   validates :name, presence: true
   validates :name, uniqueness: { scope: :email }, unless: 'email.blank?'
 
+  attr_accessor :price_id
+
   # This will attempt to translate the country name and use the default
   # (usually English) name if no translation is available
   def country_name
