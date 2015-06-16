@@ -29,6 +29,7 @@ class OffersController < InheritedResources::Base
         @purchase.amount_cents = price.amount_cents
         @purchase.currency = price.currency
         purchase_publications!(price.name)
+        purchase_products!
       end
       @purchase.save!
       flash.alert = nil
@@ -60,6 +61,12 @@ class OffersController < InheritedResources::Base
 
   def purchase_params
     params.require(:purchase)
+  end
+
+  def purchase_products!
+    @offer.offer_products.where('optional = FALSE').each do |offer_product|
+      ProductOrder.new(customer: @customer, purchase: @purchase, product: offer_product.product).save!
+    end
   end
 
   def purchase_publications!(price_name)
