@@ -13,8 +13,6 @@
       <%= fc.input :address, required: true %><br>
       <%= fc.input :country %><br>
       <%= fc.input :postcode, required: true %><br>
-      <%= fc.input :currency, as: :select, collection: Configuration::CURRENCY_OPTIONS, selected: 'AUD',
-            label: 'Preferred currency' %>
     <% end %>
     <%= f.actions { f.action :submit, label: 'Purchase' } %>
   <% end %>

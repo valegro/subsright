@@ -1,4 +1,4 @@
-json.extract! @customer, :id, :name, :email, :phone, :address, :country, :postcode, :currency
+json.extract! @customer, :id, :name, :email, :phone, :address, :country, :postcode
 json.array(@customer.customer_discounts) do |cd|
   json.extract! cd, :discount_id, :expiry
 end

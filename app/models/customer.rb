@@ -25,9 +25,4 @@ class Customer < ActiveRecord::Base
     c = ISO3166::Country[country]
     c.translations[I18n.locale.to_s] || c.name
   end
-
-  def currency_name
-    m = Money::Currency.new(currency)
-    "#{m.name} (#{m.iso_code})"
-  end
 end

@@ -9,7 +9,6 @@ RSpec.describe Customer, type: :model do
   it { expect(customer).to have_db_column(:address).of_type(:text) }
   it { expect(customer).to have_db_column(:country).of_type(:string) }
   it { expect(customer).to have_db_column(:postcode).of_type(:string) }
-  it { expect(customer).to have_db_column(:currency).of_type(:string) }
   it { expect(customer).to have_db_index([:email, :name]) }
   it { expect(customer).to have_many(:customer_discounts) }
   it { expect(customer).to accept_nested_attributes_for(:customer_discounts).allow_destroy(true) }
@@ -42,9 +41,5 @@ RSpec.describe Customer, type: :model do
   it('translates country names') do
     customer.country = 'DE'
     expect(customer.country_name).to eq 'Germany'
-  end
-  it('translates currency names') do
-    customer.currency = 'BTC'
-    expect(customer.currency_name).to eq 'Bitcoin (BTC)'
   end
 end

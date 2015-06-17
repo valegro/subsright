@@ -70,8 +70,6 @@
 
   <ul class="link-list" role="directory">
     
-    <li ><a href="#method-c-make_new">::make_new</a>
-    
     <li ><a href="#method-i-currency_name">#currency_name</a>
     
   </ul>
@@ -100,71 +98,8 @@
     
 
     
-    <section class="attribute-method-details" class="method-section">
-      <header>
-        <h3>Attributes</h3>
-      </header>
-
-      
-      <div id="attribute-i-price_id" class="method-detail">
-        <div class="method-heading attribute-method-heading">
-          <span class="method-name">price_id</span><span
-            class="attribute-access-type">[RW]</span>
-        </div>
-
-        <div class="method-description">
-        
-        
-        
-        </div>
-      </div>
-      
-    </section>
-    
 
     
-     <section id="public-class-5Buntitled-5D-method-details" class="method-section">
-       <header>
-         <h3>Public Class Methods</h3>
-       </header>
-
-    
-      <div id="method-c-make_new" class="method-detail ">
-        
-        <div class="method-heading">
-          <span class="method-name">make_new</span><span
-            class="method-args">(offer_id, price_id)</span>
-          
-          <span class="method-click-advice">click to toggle source</span>
-          
-        </div>
-        
-
-        <div class="method-description">
-          
-          
-          
-          
-
-          
-          <div class="method-source-code" id="make_new-source">
-            <pre><span class="ruby-comment"># File app/models/purchase.rb, line 18</span>
-<span class="ruby-keyword">def</span> <span class="ruby-keyword">self</span>.<span class="ruby-identifier">make_new</span>(<span class="ruby-identifier">offer_id</span>, <span class="ruby-identifier">price_id</span>)
-  <span class="ruby-identifier">price</span> = <span class="ruby-constant">Price</span>.<span class="ruby-identifier">find</span>(<span class="ruby-identifier">price_id</span>)
-  <span class="ruby-constant">Purchase</span>.<span class="ruby-identifier">new</span>(<span class="ruby-identifier">offer</span><span class="ruby-operator">:</span> <span class="ruby-constant">Offer</span>.<span class="ruby-identifier">find</span>(<span class="ruby-identifier">offer_id</span>), <span class="ruby-identifier">amount_cents</span><span class="ruby-operator">:</span> <span class="ruby-identifier">price</span>.<span class="ruby-identifier">amount_cents</span>, <span class="ruby-identifier">currency</span><span class="ruby-operator">:</span> <span class="ruby-identifier">price</span>.<span class="ruby-identifier">currency</span>)
-<span class="ruby-keyword">end</span></pre>
-          </div>
-          
-        </div>
-
-        
-
-        
-      </div>
-
-    
-    </section>
-  
      <section id="public-instance-5Buntitled-5D-method-details" class="method-section">
        <header>
          <h3>Public Instance Methods</h3>
@@ -190,7 +125,7 @@
 
           
           <div class="method-source-code" id="currency_name-source">
-            <pre><span class="ruby-comment"># File app/models/purchase.rb, line 13</span>
+            <pre><span class="ruby-comment"># File app/models/purchase.rb, line 10</span>
 <span class="ruby-keyword">def</span> <span class="ruby-identifier">currency_name</span>
   <span class="ruby-identifier">m</span> = <span class="ruby-constant">Money</span><span class="ruby-operator">::</span><span class="ruby-constant">Currency</span>.<span class="ruby-identifier">new</span>(<span class="ruby-identifier">currency</span>)
   <span class="ruby-node">&quot;#{m.name} (#{m.iso_code})&quot;</span>

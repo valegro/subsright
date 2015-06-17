@@ -30,13 +30,6 @@
   <%= @customer.postcode %>
 </p>
 
-<% if @customer.currency.present? then %>
-  <p>
-    <strong>Preferred currency:</strong>
-    <%= @customer.currency_name %>
-  </p>
-<% end %>
-
 <% if @customer.customer_discounts.present? then %>
   <div>
     <strong>Discounts:</strong>

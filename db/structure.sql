@@ -258,7 +258,6 @@ CREATE TABLE customers (
     address text,
     country character varying,
     postcode character varying,
-    currency character varying,
     created_at timestamp without time zone NOT NULL,
     updated_at timestamp without time zone NOT NULL
 );
@@ -740,6 +739,7 @@ ALTER SEQUENCE subscriptions_id_seq OWNED BY subscriptions.id;
 CREATE TABLE users (
     id integer NOT NULL,
     name character varying NOT NULL,
+    currency character varying,
     email character varying DEFAULT ''::character varying NOT NULL,
     encrypted_password character varying DEFAULT ''::character varying NOT NULL,
     reset_password_token character varying,

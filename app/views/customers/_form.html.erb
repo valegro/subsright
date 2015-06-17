@@ -6,8 +6,6 @@
     <%= f.input :address %><br>
     <%= f.input :country %><br>
     <%= f.input :postcode %><br>
-    <%= f.input :currency, as: :select, collection: Configuration::CURRENCY_OPTIONS, selected: 'AUD',
-          label: 'Preferred currency' %>
     <%= f.actions %>
   <% end %>
 <% end %>

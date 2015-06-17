@@ -76,6 +76,10 @@
     
     <li ><a href="#method-i-currency_name">#currency_name</a>
     
+    <li ><a href="#method-i-initial_amount">#initial_amount</a>
+    
+    <li ><a href="#method-i-initial_amount-3D">#initial_amount=</a>
+    
     <li ><a href="#method-i-to_s">#to_s</a>
     
   </ul>
@@ -131,7 +135,7 @@
 
           
           <div class="method-source-code" id="amount-source">
-            <pre><span class="ruby-comment"># File app/models/price.rb, line 14</span>
+            <pre><span class="ruby-comment"># File app/models/price.rb, line 15</span>
 <span class="ruby-keyword">def</span> <span class="ruby-identifier">amount</span>
   <span class="ruby-constant">Money</span>.<span class="ruby-identifier">new</span>( <span class="ruby-identifier">amount_cents</span>, <span class="ruby-identifier">currency</span> ).<span class="ruby-identifier">format</span>
 <span class="ruby-keyword">end</span></pre>
@@ -164,7 +168,7 @@
 
           
           <div class="method-source-code" id="amount-3D-source">
-            <pre><span class="ruby-comment"># File app/models/price.rb, line 18</span>
+            <pre><span class="ruby-comment"># File app/models/price.rb, line 19</span>
 <span class="ruby-keyword">def</span> <span class="ruby-identifier">amount=</span>(<span class="ruby-identifier">amount</span>)
   <span class="ruby-keyword">self</span>.<span class="ruby-identifier">amount_cents</span> = <span class="ruby-identifier">amount</span>.<span class="ruby-identifier">tr</span>(<span class="ruby-string">&#39;^0-9&#39;</span>, <span class="ruby-string">&#39;&#39;</span>)
 <span class="ruby-keyword">end</span></pre>
@@ -197,10 +201,77 @@
 
           
           <div class="method-source-code" id="currency_name-source">
-            <pre><span class="ruby-comment"># File app/models/price.rb, line 22</span>
+            <pre><span class="ruby-comment"># File app/models/price.rb, line 23</span>
 <span class="ruby-keyword">def</span> <span class="ruby-identifier">currency_name</span>
   <span class="ruby-identifier">m</span> = <span class="ruby-constant">Money</span><span class="ruby-operator">::</span><span class="ruby-constant">Currency</span>.<span class="ruby-identifier">new</span>(<span class="ruby-identifier">currency</span>)
   <span class="ruby-node">&quot;#{m.name} (#{m.iso_code})&quot;</span>
+<span class="ruby-keyword">end</span></pre>
+          </div>
+          
+        </div>
+
+        
+
+        
+      </div>
+
+    
+      <div id="method-i-initial_amount" class="method-detail ">
+        
+        <div class="method-heading">
+          <span class="method-name">initial_amount</span><span
+            class="method-args">()</span>
+          
+          <span class="method-click-advice">click to toggle source</span>
+          
+        </div>
+        
+
+        <div class="method-description">
+          
+          
+          
+          
+
+          
+          <div class="method-source-code" id="initial_amount-source">
+            <pre><span class="ruby-comment"># File app/models/price.rb, line 28</span>
+<span class="ruby-keyword">def</span> <span class="ruby-identifier">initial_amount</span>
+  <span class="ruby-constant">Money</span>.<span class="ruby-identifier">new</span>( <span class="ruby-identifier">initial_amount_cents</span>, <span class="ruby-identifier">currency</span> ).<span class="ruby-identifier">format</span> <span class="ruby-keyword">if</span> <span class="ruby-identifier">initial_amount_cents</span>
+<span class="ruby-keyword">end</span></pre>
+          </div>
+          
+        </div>
+
+        
+
+        
+      </div>
+
+    
+      <div id="method-i-initial_amount-3D" class="method-detail ">
+        
+        <div class="method-heading">
+          <span class="method-name">initial_amount=</span><span
+            class="method-args">(initial_amount)</span>
+          
+          <span class="method-click-advice">click to toggle source</span>
+          
+        </div>
+        
+
+        <div class="method-description">
+          
+          
+          
+          
+
+          
+          <div class="method-source-code" id="initial_amount-3D-source">
+            <pre><span class="ruby-comment"># File app/models/price.rb, line 32</span>
+<span class="ruby-keyword">def</span> <span class="ruby-identifier">initial_amount=</span>(<span class="ruby-identifier">initial_amount</span>)
+  <span class="ruby-identifier">initial_amount</span>.<span class="ruby-identifier">tr!</span>(<span class="ruby-string">&#39;^0-9&#39;</span>, <span class="ruby-string">&#39;&#39;</span>)
+  <span class="ruby-keyword">self</span>.<span class="ruby-identifier">initial_amount_cents</span> = <span class="ruby-identifier">initial_amount</span>.<span class="ruby-identifier">to_i</span> <span class="ruby-operator">&gt;</span> <span class="ruby-value">0</span> <span class="ruby-operator">?</span> <span class="ruby-identifier">initial_amount</span> <span class="ruby-operator">:</span> <span class="ruby-keyword">nil</span>
 <span class="ruby-keyword">end</span></pre>
           </div>
           
@@ -231,9 +302,13 @@
 
           
           <div class="method-source-code" id="to_s-source">
-            <pre><span class="ruby-comment"># File app/models/price.rb, line 27</span>
+            <pre><span class="ruby-comment"># File app/models/price.rb, line 37</span>
 <span class="ruby-keyword">def</span> <span class="ruby-identifier">to_s</span>
-  <span class="ruby-node">&quot;#{name} #{amount} #{currency}&quot;</span>
+  <span class="ruby-identifier">price</span> = <span class="ruby-identifier">name</span>
+  <span class="ruby-identifier">price</span> <span class="ruby-operator">+=</span> <span class="ruby-node">&quot; #{initial_amount} #{currency} plus&quot;</span> <span class="ruby-keyword">if</span> <span class="ruby-identifier">initial_amount_cents</span>
+  <span class="ruby-identifier">price</span> <span class="ruby-operator">+=</span> <span class="ruby-node">&quot; #{amount} #{currency}&quot;</span>
+  <span class="ruby-identifier">price</span> <span class="ruby-operator">+=</span> <span class="ruby-node">&quot; for #{monthly_payments} months&quot;</span> <span class="ruby-keyword">if</span> <span class="ruby-identifier">monthly_payments</span>
+  <span class="ruby-identifier">price</span>
 <span class="ruby-keyword">end</span></pre>
           </div>
           

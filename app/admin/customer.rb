@@ -1,5 +1,5 @@
 ActiveAdmin.register Customer do
-  permit_params :user_id, :name, :email, :phone, :address, :country, :postcode, :currency,
+  permit_params :user_id, :name, :email, :phone, :address, :country, :postcode,
     customer_discounts_attributes: [:id, :discount_id, :reference, :expiry, :_destroy],
     subscriptions_attributes: [:id, :publication_id, :subscribed, :expiry, :_destroy]
 
@@ -17,7 +17,6 @@ ActiveAdmin.register Customer do
     column :address
     column :country
     column :postcode
-    column :currency
     column 'Discounts' do |customer|
       ( customer.discounts.order('name')
         .map { |discount| link_to discount.name, admin_discount_path(discount) }
@@ -42,7 +41,6 @@ ActiveAdmin.register Customer do
       row :address
       row :country
       row :postcode
-      row(:currency) { customer.currency_name }
       row 'Discounts' do |customer|
         ( customer.discounts.order('name')
           .map { |discount| link_to discount.name, admin_discount_path(discount) }
@@ -68,14 +66,13 @@ ActiveAdmin.register Customer do
       f.input :address
       f.input :country
       f.input :postcode
-      f.input :currency, as: :select, collection: options_for_select(Configuration::CURRENCY_OPTIONS, 'AUD')
       f.has_many :customer_discounts, allow_destroy: true, heading: 'Customer discounts',
         for: [:customer_discounts, f.object.customer_discounts.by_name] do |fcd|
         fcd.input :discount
         fcd.input :reference
         fcd.input :expiry, as: :datepicker
       end
-      f.has_many :subscriptions, allow_destroy: true,
+      f.has_many :subscriptions, allow_destroy: true, heading: 'Subscriptions',
         for: [:subscriptions, f.object.subscriptions.by_name] do |fs|
         fs.input :publication
         fs.input :subscribed, as: :datepicker

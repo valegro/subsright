@@ -1,5 +1,5 @@
 ActiveAdmin.register User do
-  permit_params :name, :email
+  permit_params :name, :email, :currency
 
   index do
     selectable_column
@@ -31,7 +31,8 @@ ActiveAdmin.register User do
     attributes_table do
       row :name
       row :email
-      row 'Customers' do |user|
+      row('Preferred currency') { user.currency_name }
+      row 'Customers' do
         ( user.customers.order('name')
           .map { |customer| link_to customer.name, admin_customer_path(customer) }
         ).join(', ').html_safe
@@ -58,6 +59,8 @@ ActiveAdmin.register User do
     f.inputs 'User Details' do
       f.input :name
       f.input :email
+      f.input :currency, as: :select, label: 'Preferred currency',
+        collection: options_for_select(Configuration::CURRENCY_OPTIONS, user.currency || 'AUD')
     end
     f.actions
   end

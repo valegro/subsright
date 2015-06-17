@@ -8,7 +8,6 @@ class CreateCustomers < ActiveRecord::Migration
       t.text :address
       t.string :country
       t.string :postcode
-      t.string :currency
 
       t.timestamps null: false
     end

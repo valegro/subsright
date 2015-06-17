@@ -70,6 +70,8 @@
 
   <ul class="link-list" role="directory">
     
+    <li ><a href="#method-i-currency_name">#currency_name</a>
+    
     <li ><a href="#method-i-generate_password">#generate_password</a>
     
   </ul>
@@ -106,6 +108,41 @@
        </header>
 
     
+      <div id="method-i-currency_name" class="method-detail ">
+        
+        <div class="method-heading">
+          <span class="method-name">currency_name</span><span
+            class="method-args">()</span>
+          
+          <span class="method-click-advice">click to toggle source</span>
+          
+        </div>
+        
+
+        <div class="method-description">
+          
+          
+          
+          
+
+          
+          <div class="method-source-code" id="currency_name-source">
+            <pre><span class="ruby-comment"># File app/models/user.rb, line 11</span>
+<span class="ruby-keyword">def</span> <span class="ruby-identifier">currency_name</span>
+  <span class="ruby-keyword">return</span> <span class="ruby-keyword">if</span> <span class="ruby-identifier">currency</span>.<span class="ruby-identifier">blank?</span>
+  <span class="ruby-identifier">m</span> = <span class="ruby-constant">Money</span><span class="ruby-operator">::</span><span class="ruby-constant">Currency</span>.<span class="ruby-identifier">new</span>(<span class="ruby-identifier">currency</span>)
+  <span class="ruby-node">&quot;#{m.name} (#{m.iso_code})&quot;</span>
+<span class="ruby-keyword">end</span></pre>
+          </div>
+          
+        </div>
+
+        
+
+        
+      </div>
+
+    
       <div id="method-i-generate_password" class="method-detail ">
         
         <div class="method-heading">
@@ -125,7 +162,7 @@
 
           
           <div class="method-source-code" id="generate_password-source">
-            <pre><span class="ruby-comment"># File app/models/user.rb, line 11</span>
+            <pre><span class="ruby-comment"># File app/models/user.rb, line 17</span>
 <span class="ruby-keyword">def</span> <span class="ruby-identifier">generate_password</span>
   <span class="ruby-keyword">self</span>.<span class="ruby-identifier">password_confirmation</span> = <span class="ruby-keyword">self</span>.<span class="ruby-identifier">password</span> = <span class="ruby-constant">Devise</span>.<span class="ruby-identifier">friendly_token</span> <span class="ruby-keyword">if</span> <span class="ruby-identifier">password</span>.<span class="ruby-identifier">nil?</span> <span class="ruby-operator">||</span> <span class="ruby-identifier">password</span>.<span class="ruby-identifier">blank?</span>
 <span class="ruby-keyword">end</span></pre>

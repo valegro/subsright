@@ -7,7 +7,6 @@ xml.customer do
   xml.address @customer.address
   xml.country @customer.country
   xml.postcode @customer.postcode
-  xml.currency @customer.currency
   @customer.customer_discounts.each do |cd|
     xml.customer_discount do
       xml.discount_id cd.discount_id
