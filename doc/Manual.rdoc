@@ -76,9 +76,9 @@ all information provided by customers about their eligibility for that discount.
 == Offers
 
 Each offer consists of subscriptions to some number of publications (or none) for a specified
-period of time together with some number of products (or none).  Offers need not have any
-publications or products if you wish to use them to ask for donations.  They can optionally
-have start and/or finish dates, or they can run indefinitely.
+period of time and a specified maximum number of subscribers together with some number of products
+(or none).  Offers need not have any publications or products if you wish to use them to ask for
+donations.  They can optionally have start and/or finish dates, or they can run indefinitely.
 
 Offers can be part of more than one campaign, and offers that are not part of any active campaign
 will not be shown on the Subscriptus home page but can still be accessed directly on their own
@@ -150,15 +150,19 @@ the associated payment records, subscriptions and product orders.
 == Subscriptions
 
 Subscriptions are created or their expiry date extended as part of a purchase for each publication
-included in the offer purchased for each customer.
+included in the offer purchased.  Subscriptions default to a single customer, but can also be a
+group subscription with a specified maximum number of customers.  Subscriptions cannot be deleted
+until they have been archived along with the associated payment records, purchases and product
+orders, and can not be archived until they have expired or been cancelled.
 
 == Users
 
-Users can view and update the details of any associated customer.  When purchasing an offer they
-can choose to create new associated customers who need not have email addresses of their own,
-and if they change their user email address any associated customers that had the same previous
-email address will be updated to the new email address.  The user can explicitly change customer
-email addresses so that they are no longer the same as their user email address if they wish.
+Users can view and update the details of any associated customer and subscription.  When updating
+a subscription they can choose to create new associated customers who need not have email addresses
+of their own, and if they change their user email address any associated customers that had the
+same previous email address will be updated to the new email address.  The user can explicitly
+change customer email addresses so that they are no longer the same as their user email address if
+they wish.
 
 Users can be edited or deleted at any time.  Deleting a user who has one or more associated
 customers will require confirmation and will cause those customers to no longer be associated with
