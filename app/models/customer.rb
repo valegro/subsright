@@ -6,13 +6,16 @@ class Customer < ActiveRecord::Base
   has_many :discounts, through: :customer_discounts
   accepts_nested_attributes_for :discounts
 
-  has_many :subscriptions
+  has_many :customer_subscriptions
+  has_many :subscriptions, through: :customer_subscriptions
   accepts_nested_attributes_for :subscriptions, allow_destroy: true
   has_many :publications, through: :subscriptions
   accepts_nested_attributes_for :publications
 
   has_many :payments, through: :subscriptions
   has_many :purchases, through: :payments
+
+  has_many :product_orders
 
   validates :name, presence: true
   validates :name, uniqueness: { scope: :email }, unless: 'email.blank?'

@@ -5,6 +5,9 @@ ActiveAdmin.register Customer do
 
   preserve_default_filters!
   filter :customer_discounts, if: false
+  filter :customer_subscriptions, if: false
+  filter :product_orders, if: false
+  filter :publications
   filter :subscriptions, if: false
 
   index do
@@ -49,6 +52,11 @@ ActiveAdmin.register Customer do
       row 'Publications' do
         ( customer.publications.order('name')
           .map { |publication| link_to publication.name, admin_publication_path(publication) }
+        ).join(', ').html_safe
+      end
+      row :product_orders do
+        ( customer.product_orders.where('shipped IS NULL')
+          .map { |po| link_to po.product.name, admin_product_path(po.product) }
         ).join(', ').html_safe
       end
       row :created_at

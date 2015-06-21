@@ -5,6 +5,8 @@ class User < ActiveRecord::Base
 
   has_many :customers
   accepts_nested_attributes_for :customers, allow_destroy: true
+  has_many :subscriptions
+
   validates :name, presence: true
   before_validation :generate_password, on: :create
 

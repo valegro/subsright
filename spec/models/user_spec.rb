@@ -27,6 +27,7 @@ RSpec.describe User, type: :model do
   it { expect(user).to have_db_index(:unlock_token).unique }
   it { expect(user).to have_many(:customers) }
   it { expect(user).to accept_nested_attributes_for(:customers) }
+  it { expect(user).to have_many(:subscriptions) }
   it { expect(user).to validate_presence_of :name }
   it { expect(user).to validate_presence_of :email }
   it { expect(user).to validate_uniqueness_of :email }

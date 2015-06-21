@@ -8,6 +8,7 @@ ActiveAdmin.register Offer do
   filter :offer_publications, if: false
   filter :offer_products, if: false
   filter :offer_prices, if: false
+  filter :purchases, if: false
 
   index do
     selectable_column

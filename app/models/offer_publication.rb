@@ -6,6 +6,7 @@ class OfferPublication < ActiveRecord::Base
   validates :publication, presence: true
   validates :quantity, presence: true, numericality: { only_integer: true, greater_than: 0 }
   validates :unit, presence: true
+  validates :subscribers, presence: true, numericality: { only_integer: true, greater_than: 0 }
   scope :by_name, -> { joins(:publication).order('publications.name') }
 
   UNITS = ['Week', ['Month', 'Month', { checked: true }], 'Year']

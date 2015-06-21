@@ -18,7 +18,6 @@ RSpec.feature 'Take an offer', type: :feature do
 
     context 'when customer name and email on file' do
       given(:customer) { create(:customer, email: Faker::Internet.email) }
-      scenario 'autofill customer details'
       scenario 'update existing customer details' do
         fill_in :purchase_customer_name, with: customer.name
         fill_in :purchase_customer_email, with: customer.email

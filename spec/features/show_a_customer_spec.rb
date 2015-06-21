@@ -55,11 +55,11 @@ RSpec.feature 'Show a customer', type: :feature do
     context 'when there are publications' do
       given(:publication1) { create(:publication) }
       given(:publication2) { create(:publication) }
-      given(:s1) { create(:subscription, customer: customer, publication: publication1) }
-      given(:s2) { create(:subscription, customer: customer, publication: publication2, expiry: now) }
+      given(:s1) { create(:subscription, publication: publication1) }
+      given(:s2) { create(:subscription, publication: publication2, expiry: now) }
       background do
-        s1
-        s2
+        create(:customer_subscription, customer: customer, subscription: s1)
+        create(:customer_subscription, customer: customer, subscription: s2)
         visit customer_path(customer)
       end
       scenario 'get a link to each publication' do

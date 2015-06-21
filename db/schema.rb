@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150615021006) do
+ActiveRecord::Schema.define(version: 20150621042633) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -97,6 +97,16 @@ ActiveRecord::Schema.define(version: 20150615021006) do
 
   add_index "customer_discounts", ["customer_id", "discount_id"], name: "index_customer_discounts_on_customer_id_and_discount_id", unique: true, using: :btree
 
+  create_table "customer_subscriptions", force: :cascade do |t|
+    t.integer  "customer_id"
+    t.integer  "subscription_id"
+    t.datetime "created_at",      null: false
+    t.datetime "updated_at",      null: false
+  end
+
+  add_index "customer_subscriptions", ["customer_id", "subscription_id"], name: "index_customer_subscriptions_on_customer_id_and_subscription_id", unique: true, using: :btree
+  add_index "customer_subscriptions", ["subscription_id", "customer_id"], name: "index_customer_subscriptions_on_subscription_id_and_customer_id", unique: true, using: :btree
+
   create_table "customers", force: :cascade do |t|
     t.integer  "user_id"
     t.string   "name",       null: false
@@ -145,12 +155,13 @@ ActiveRecord::Schema.define(version: 20150615021006) do
   add_index "offer_products", ["offer_id", "product_id"], name: "index_offer_products_on_offer_id_and_product_id", unique: true, using: :btree
 
   create_table "offer_publications", force: :cascade do |t|
-    t.integer  "offer_id",       null: false
-    t.integer  "publication_id", null: false
-    t.integer  "quantity",       null: false
-    t.string   "unit",           null: false
-    t.datetime "created_at",     null: false
-    t.datetime "updated_at",     null: false
+    t.integer  "offer_id",                   null: false
+    t.integer  "publication_id",             null: false
+    t.integer  "quantity",                   null: false
+    t.string   "unit",                       null: false
+    t.integer  "subscribers",    default: 1, null: false
+    t.datetime "created_at",                 null: false
+    t.datetime "updated_at",                 null: false
   end
 
   add_index "offer_publications", ["offer_id", "publication_id"], name: "index_offer_publications_on_offer_id_and_publication_id", unique: true, using: :btree
@@ -241,8 +252,9 @@ ActiveRecord::Schema.define(version: 20150615021006) do
   add_index "purchases", ["offer_id"], name: "index_purchases_on_offer_id", using: :btree
 
   create_table "subscriptions", force: :cascade do |t|
-    t.integer  "customer_id",         null: false
     t.integer  "publication_id",      null: false
+    t.integer  "user_id"
+    t.integer  "subscribers",         null: false
     t.date     "subscribed",          null: false
     t.date     "expiry"
     t.text     "cancellation_reason"
@@ -250,7 +262,8 @@ ActiveRecord::Schema.define(version: 20150615021006) do
     t.datetime "updated_at",          null: false
   end
 
-  add_index "subscriptions", ["customer_id", "publication_id"], name: "index_subscriptions_on_customer_id_and_publication_id", unique: true, using: :btree
+  add_index "subscriptions", ["publication_id"], name: "index_subscriptions_on_publication_id", using: :btree
+  add_index "subscriptions", ["user_id"], name: "index_subscriptions_on_user_id", using: :btree
 
   create_table "users", force: :cascade do |t|
     t.string   "name",                                null: false
@@ -285,6 +298,8 @@ ActiveRecord::Schema.define(version: 20150615021006) do
   add_foreign_key "campaign_offers", "offers"
   add_foreign_key "customer_discounts", "customers"
   add_foreign_key "customer_discounts", "discounts"
+  add_foreign_key "customer_subscriptions", "customers"
+  add_foreign_key "customer_subscriptions", "subscriptions"
   add_foreign_key "customers", "users"
   add_foreign_key "discount_prices", "discounts"
   add_foreign_key "discount_prices", "prices"
@@ -300,6 +315,6 @@ ActiveRecord::Schema.define(version: 20150615021006) do
   add_foreign_key "product_orders", "products"
   add_foreign_key "product_orders", "purchases"
   add_foreign_key "purchases", "offers"
-  add_foreign_key "subscriptions", "customers"
   add_foreign_key "subscriptions", "publications"
+  add_foreign_key "subscriptions", "users"
 end

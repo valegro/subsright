@@ -246,6 +246,38 @@ ALTER SEQUENCE customer_discounts_id_seq OWNED BY customer_discounts.id;
 
 
 --
+-- Name: customer_subscriptions; Type: TABLE; Schema: public; Owner: -; Tablespace: 
+--
+
+CREATE TABLE customer_subscriptions (
+    id integer NOT NULL,
+    customer_id integer,
+    subscription_id integer,
+    created_at timestamp without time zone NOT NULL,
+    updated_at timestamp without time zone NOT NULL
+);
+
+
+--
+-- Name: customer_subscriptions_id_seq; Type: SEQUENCE; Schema: public; Owner: -
+--
+
+CREATE SEQUENCE customer_subscriptions_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+--
+-- Name: customer_subscriptions_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: -
+--
+
+ALTER SEQUENCE customer_subscriptions_id_seq OWNED BY customer_subscriptions.id;
+
+
+--
 -- Name: customers; Type: TABLE; Schema: public; Owner: -; Tablespace: 
 --
 
@@ -417,6 +449,7 @@ CREATE TABLE offer_publications (
     publication_id integer NOT NULL,
     quantity integer NOT NULL,
     unit character varying NOT NULL,
+    subscribers integer DEFAULT 1 NOT NULL,
     created_at timestamp without time zone NOT NULL,
     updated_at timestamp without time zone NOT NULL
 );
@@ -703,8 +736,9 @@ CREATE TABLE schema_migrations (
 
 CREATE TABLE subscriptions (
     id integer NOT NULL,
-    customer_id integer NOT NULL,
     publication_id integer NOT NULL,
+    user_id integer,
+    subscribers integer NOT NULL,
     subscribed date NOT NULL,
     expiry date,
     cancellation_reason text,
@@ -821,6 +855,13 @@ ALTER TABLE ONLY configurations ALTER COLUMN id SET DEFAULT nextval('configurati
 --
 
 ALTER TABLE ONLY customer_discounts ALTER COLUMN id SET DEFAULT nextval('customer_discounts_id_seq'::regclass);
+
+
+--
+-- Name: id; Type: DEFAULT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY customer_subscriptions ALTER COLUMN id SET DEFAULT nextval('customer_subscriptions_id_seq'::regclass);
 
 
 --
@@ -974,6 +1015,14 @@ ALTER TABLE ONLY configurations
 
 ALTER TABLE ONLY customer_discounts
     ADD CONSTRAINT customer_discounts_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: customer_subscriptions_pkey; Type: CONSTRAINT; Schema: public; Owner: -; Tablespace: 
+--
+
+ALTER TABLE ONLY customer_subscriptions
+    ADD CONSTRAINT customer_subscriptions_pkey PRIMARY KEY (id);
 
 
 --
@@ -1167,6 +1216,20 @@ CREATE UNIQUE INDEX index_customer_discounts_on_customer_id_and_discount_id ON c
 
 
 --
+-- Name: index_customer_subscriptions_on_customer_id_and_subscription_id; Type: INDEX; Schema: public; Owner: -; Tablespace: 
+--
+
+CREATE UNIQUE INDEX index_customer_subscriptions_on_customer_id_and_subscription_id ON customer_subscriptions USING btree (customer_id, subscription_id);
+
+
+--
+-- Name: index_customer_subscriptions_on_subscription_id_and_customer_id; Type: INDEX; Schema: public; Owner: -; Tablespace: 
+--
+
+CREATE UNIQUE INDEX index_customer_subscriptions_on_subscription_id_and_customer_id ON customer_subscriptions USING btree (subscription_id, customer_id);
+
+
+--
 -- Name: index_customers_on_email_and_name; Type: INDEX; Schema: public; Owner: -; Tablespace: 
 --
 
@@ -1258,10 +1321,17 @@ CREATE INDEX index_purchases_on_offer_id ON purchases USING btree (offer_id);
 
 
 --
--- Name: index_subscriptions_on_customer_id_and_publication_id; Type: INDEX; Schema: public; Owner: -; Tablespace: 
+-- Name: index_subscriptions_on_publication_id; Type: INDEX; Schema: public; Owner: -; Tablespace: 
 --
 
-CREATE UNIQUE INDEX index_subscriptions_on_customer_id_and_publication_id ON subscriptions USING btree (customer_id, publication_id);
+CREATE INDEX index_subscriptions_on_publication_id ON subscriptions USING btree (publication_id);
+
+
+--
+-- Name: index_subscriptions_on_user_id; Type: INDEX; Schema: public; Owner: -; Tablespace: 
+--
+
+CREATE INDEX index_subscriptions_on_user_id ON subscriptions USING btree (user_id);
 
 
 --
@@ -1324,6 +1394,14 @@ ALTER TABLE ONLY discount_prices
 
 
 --
+-- Name: fk_rails_42cac46e58; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY customer_subscriptions
+    ADD CONSTRAINT fk_rails_42cac46e58 FOREIGN KEY (subscription_id) REFERENCES subscriptions(id);
+
+
+--
 -- Name: fk_rails_655de38b99; Type: FK CONSTRAINT; Schema: public; Owner: -
 --
 
@@ -1337,14 +1415,6 @@ ALTER TABLE ONLY purchases
 
 ALTER TABLE ONLY campaign_offers
     ADD CONSTRAINT fk_rails_659c6326fe FOREIGN KEY (campaign_id) REFERENCES campaigns(id);
-
-
---
--- Name: fk_rails_66eb6b32c1; Type: FK CONSTRAINT; Schema: public; Owner: -
---
-
-ALTER TABLE ONLY subscriptions
-    ADD CONSTRAINT fk_rails_66eb6b32c1 FOREIGN KEY (customer_id) REFERENCES customers(id);
 
 
 --
@@ -1372,11 +1442,27 @@ ALTER TABLE ONLY offer_prices
 
 
 --
+-- Name: fk_rails_808aa5d713; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY customer_subscriptions
+    ADD CONSTRAINT fk_rails_808aa5d713 FOREIGN KEY (customer_id) REFERENCES customers(id);
+
+
+--
 -- Name: fk_rails_8de0e6694c; Type: FK CONSTRAINT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY offer_publications
     ADD CONSTRAINT fk_rails_8de0e6694c FOREIGN KEY (publication_id) REFERENCES publications(id);
+
+
+--
+-- Name: fk_rails_933bdff476; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY subscriptions
+    ADD CONSTRAINT fk_rails_933bdff476 FOREIGN KEY (user_id) REFERENCES users(id);
 
 
 --
@@ -1514,4 +1600,6 @@ INSERT INTO schema_migrations (version) VALUES ('20150609022600');
 INSERT INTO schema_migrations (version) VALUES ('20150614162408');
 
 INSERT INTO schema_migrations (version) VALUES ('20150615021006');
+
+INSERT INTO schema_migrations (version) VALUES ('20150621042633');
 

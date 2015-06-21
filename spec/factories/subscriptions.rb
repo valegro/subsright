@@ -2,8 +2,8 @@ require 'faker'
 
 FactoryGirl.define do
   factory :subscription do
-    association :customer, strategy: :build
     association :publication, strategy: :build
+    subscribers 1
     subscribed { Faker::Date.backward }
   end
 end

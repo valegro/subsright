@@ -70,10 +70,17 @@ class OffersController < InheritedResources::Base
   end
 
   def purchase_publications!(price_name)
-    @offer.offer_publications.each do |offer_publication|
-      subscription = Subscription.find_by(customer: @customer, publication: offer_publication.publication) ||
-        Subscription.new(customer: @customer, publication: offer_publication.publication, subscribed: Time.zone.today)
+    @offer.offer_publications.each do |op|
+      subscription = Subscription.joins(:customer_subscriptions)
+        .where(publication: op.publication, customer_subscriptions: { customer: @customer }).first ||
+        Subscription.new(
+          publication: op.publication,
+          user: current_user,
+          subscribers: op.subscribers,
+          subscribed: Time.zone.today
+        )
       subscription.save!
+      CustomerSubscription.find_or_create_by(customer: @customer, subscription: subscription).save!
       Payment.new(purchase: @purchase, subscription: subscription, price_name: price_name).save!
     end
   end
