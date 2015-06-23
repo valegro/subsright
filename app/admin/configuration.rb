@@ -11,7 +11,7 @@ ActiveAdmin.register Configuration do
   controller do
     def index
       params[:action] = 'Configuration' # for the active admin title
-      render 'admin/settings/index', layout: 'active_admin'
+      render 'admin/configuration/index', layout: 'active_admin'
     end
 
     def update
