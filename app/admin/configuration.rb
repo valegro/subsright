@@ -15,10 +15,10 @@ ActiveAdmin.register Configuration do
     end
 
     def update
-      params[:update_configuration].each do |setting, value|
+      params.require(:update_configuration).permit(Configuration.settings).each do |setting, value|
         Configuration.send("#{setting}=", value)
       end
-      redirect_to :back, notice: 'Settings Saved'
+      redirect_to admin_configurations_path, notice: 'Settings Saved'
     end
   end
 end

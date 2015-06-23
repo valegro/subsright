@@ -19,7 +19,6 @@ class Configuration < ActiveRecord::Base
 
   def self.ensure_created
     settings.each { |setting| send(setting) }
-    provider_logo
   end
 
   def self.setting(name, default, form_type, form_collection_command = '')
@@ -60,6 +59,7 @@ class Configuration < ActiveRecord::Base
 
   # Define settings by listing them here
   setting :provider_name, "'Organisation Name'", :string
+  settings << 'provider_logo'
 
   # Ensure all the defaults are created when the class file is read
   ensure_created if connection.table_exists? configurations
