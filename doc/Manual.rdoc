@@ -83,7 +83,8 @@ donations.  They can optionally have start and/or finish dates, or they can run 
 Offers can be part of more than one campaign, and offers that are not part of any active campaign
 will not be shown on the Subscriptus home page but can still be accessed directly on their own
 pages.  Offers can have a number of prices for different discounts and in different currencies.
-Offers will not be shown if they have no prices.
+Offers will not be shown if they have no prices.  Customer discounts will not be available on
+offers that include group subscriptions.
 
 Offers are one per customer, but a logged in user may make a purchase on behalf of multiple
 associated customers in a single transaction.
@@ -93,10 +94,10 @@ archived.
 
 == Payment records
 
-Payment records are created as part of a purchase for each publication included in the offer
-purchased for each customer as a record of the creation or renewal of the associated subscription.
-They can not be manually edited or deleted and will be automatically archived along with their
-associated subscriptions.
+Payment records are created as part of a completed purchase for each publication included in the
+offer purchased for each customer as a record of the creation or renewal of the associated
+subscription. They can not be manually edited or deleted and will be automatically archived along
+with their associated subscriptions.
 
 == Prices
 
@@ -125,8 +126,12 @@ associated product orders that have not yet been archived.
 
 Product orders are created as part of a purchase for each product included in the offer purchased
 for each customer, including products that were out of stock at the time of purchase.
-Administrators will be able to see all product orders with no shipped date as lists of in-stock
-products that need to be shipped and out-of-stock products that need to be reordered if possible.
+
+Administrators will be able to see all product orders with a completed purchase and no shipped date
+as a list of in-stock products that need to be shipped, and all product orders with no stock and no
+shipped date (regardless of purchase completion) as a list of out-of-stock products that need to be
+reordered if possible.
+
 Product orders will be automatically archived along with their associated purchases.
 
 == Publications
@@ -144,8 +149,19 @@ records of expired subscriptions and will require confirmation.
 == Purchases
 
 In order to purchase an offer that includes any publications or products, all associated customers
-must have a postal address.  Purchases cannot deleted until they have been archived along with
-the associated payment records, subscriptions and product orders.
+must have a postal address.  Purchases are created when an offer is accepted, and each associated
+customer will have a payment record created for each publication included in the offer and a
+product order created for each product included in the purchase.  Customers who do not have
+existing subscriptions to the included publications will get new subscriptions with an expiry date
+set to the end of the offer trial period.
+
+When a purchase has been completed, which requires a unique receipt, the subscription expiry date
+for each associated payment record will be extended by the subscription period in the offer, or if
+the expiry date is equal to the subscription date plus the offer trial period it will simply be
+set to the subscription date plus the subscription period in the offer.
+
+Purchases cannot deleted until they have been archived along with the associated payment records,
+subscriptions and product orders.
 
 == Subscriptions
 
