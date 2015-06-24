@@ -17,6 +17,8 @@ class OffersController < InheritedResources::Base
     @products = @offer.offer_products.by_name
     @purchase = Purchase.new(offer: @offer)
     @customer = Customer.new(price_id: @offer.prices.first.id)
+    first_op = @offer.offer_products.optional_in_stock.order('products.stock DESC').first
+    @customer.product_id = first_op.product_id if first_op
   end
 
   def purchase

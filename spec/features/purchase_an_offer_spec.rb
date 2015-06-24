@@ -93,7 +93,14 @@ RSpec.feature 'Take an offer', type: :feature do
   end
 
   context 'when there are optional products' do
-    scenario 'default to first optional product with most stock'
+    let(:product1) { create(:product, stock: 2) }
+    let(:product2) { create(:product, stock: 3) }
+    scenario 'default to first optional product with most stock' do
+      create(:offer_product, offer: offer, product: product1, optional: true)
+      create(:offer_product, offer: offer, product: product2, optional: true)
+      visit offer_path(offer)
+      expect(page).to have_checked_field "purchase_customer_product_id_#{product2.id}"
+    end
     context 'when an optional product is out of stock' do
       scenario 'see out of stock warning'
       scenario 'see that selection is disabled'

@@ -16,4 +16,12 @@ RSpec.describe OfferProduct, type: :model do
     ops = OfferProduct.all.by_name
     expect(ops.index(a)).to be < ops.index(b)
   end
+  it 'selects optional products in stock' do
+    a = create(:offer_product, optional: true, product: create(:product))
+    b = create(:offer_product, optional: true, product: create(:product, stock: 0))
+    c = create(:offer_product, optional: true, product: create(:product, stock: 1))
+    ops = OfferProduct.all.optional_in_stock
+    expect(ops).to include a, c
+    expect(ops).not_to include b
+  end
 end
