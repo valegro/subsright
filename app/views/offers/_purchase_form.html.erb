@@ -1,0 +1,18 @@
+<% optional_products = @offer.offer_products.optional_in_stock.order('products.name') %>
+<%= semantic_form_for [@offer, @purchase] do |f| %>
+  <%= f.fields_for @customer do |fc| %>
+    <%= fc.inputs do %>
+      <%= fc.input :name %>
+      <%= fc.input :email %><br>
+      <%= fc.input :phone %><br>
+      <%= fc.input :address, required: true %><br>
+      <%= fc.input :country %><br>
+      <%= fc.input :postcode, required: true %><br>
+      <%  if optional_products.count > 0 %>
+        <%= fc.input :product_id, as: :radio, collection: optional_products.map { |op| [op.product.name, op.product_id] } %>
+      <%  end %>
+      <%= fc.input :price_id, as: :radio, collection: @offer.prices.map { |p| [p.to_s, p.id] } %>
+    <% end %>
+    <%= f.actions { f.action :submit, label: 'Purchase' } %>
+  <% end %>
+<% end %>
