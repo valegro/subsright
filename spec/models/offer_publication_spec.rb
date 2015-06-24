@@ -13,11 +13,32 @@ RSpec.describe OfferPublication, type: :model do
   it { expect(offer_publication).to validate_presence_of(:quantity) }
   it { expect(offer_publication).to validate_numericality_of(:quantity).only_integer.is_greater_than(0) }
   it { expect(offer_publication).to validate_presence_of(:unit) }
+  it { expect(offer_publication).to validate_inclusion_of(:unit).in_array(%w(Day Week Month Year)) }
   it { expect(offer_publication).to be_valid }
   it 'orders records by publication name' do
     b = create(:offer_publication, publication: create(:publication, name: 'B'))
     a = create(:offer_publication, publication: create(:publication, name: 'A'))
     ops = OfferPublication.all.by_name
     expect(ops.index(a)).to be < ops.index(b)
+  end
+  it('extends dates by days') do
+    offer_publication.unit = 'Day'
+    offer_publication.quantity = rand(1..99)
+    expect(offer_publication.extend_date(Time.zone.today)).to eq Time.zone.today + offer_publication.quantity.days
+  end
+  it('extends dates by weeks') do
+    offer_publication.unit = 'Week'
+    offer_publication.quantity = rand(1..9)
+    expect(offer_publication.extend_date(Time.zone.today)).to eq Time.zone.today + offer_publication.quantity.weeks
+  end
+  it('extends dates by months') do
+    offer_publication.unit = 'Month'
+    offer_publication.quantity = rand(1..9)
+    expect(offer_publication.extend_date(Time.zone.today)).to eq Time.zone.today + offer_publication.quantity.months
+  end
+  it('extends dates by years') do
+    offer_publication.unit = 'Year'
+    offer_publication.quantity = rand(1..9)
+    expect(offer_publication.extend_date(Time.zone.today)).to eq Time.zone.today + offer_publication.quantity.years
   end
 end
