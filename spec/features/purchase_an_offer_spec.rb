@@ -9,7 +9,7 @@ RSpec.feature 'Take an offer', type: :feature do
   context 'when not signed in' do
     background { visit offer_path(offer) }
 
-    scenario('see customer detail form') { expect(page).to have_css 'li#purchase_customer_name_input' }
+    scenario('see customer detail form') { expect(page).to have_field 'purchase_customer_name' }
 
     scenario 'require customer name' do
       click_on 'Purchase'
@@ -61,7 +61,7 @@ RSpec.feature 'Take an offer', type: :feature do
 
     context 'when there are no associated customers' do
       background { visit offer_path(offer) }
-      scenario('see customer detail form') { expect(page).to have_css 'li#purchase_customer_name_input' }
+      scenario('see customer detail form') { expect(page).to have_field 'purchase_customer_name' }
       scenario 'require customer name' do
         click_on 'Purchase'
         expect(page).to have_content "Name can't be blank"
@@ -78,7 +78,7 @@ RSpec.feature 'Take an offer', type: :feature do
 
     scenario('see option to create new customer details') do
       visit offer_path(offer)
-      expect(page).to have_css 'li#purchase_customer_name_input'
+      expect(page).to have_field 'purchase_customer_name'
     end
 
     scenario 'require at least one customer'
@@ -95,15 +95,21 @@ RSpec.feature 'Take an offer', type: :feature do
   context 'when there are optional products' do
     let(:product1) { create(:product, stock: 2) }
     let(:product2) { create(:product, stock: 3) }
+
     scenario 'default to first optional product with most stock' do
       create(:offer_product, offer: offer, product: product1, optional: true)
       create(:offer_product, offer: offer, product: product2, optional: true)
       visit offer_path(offer)
       expect(page).to have_checked_field "purchase_customer_product_id_#{product2.id}"
     end
+
     context 'when an optional product is out of stock' do
-      scenario 'see out of stock warning'
-      scenario 'see that selection is disabled'
+      scenario 'ensure product is not offered' do
+        product = create(:product, stock: 0)
+        create(:offer_product, offer: offer, product: product, optional: true)
+        visit offer_path(offer)
+        expect(page).not_to have_field "purchase_customer_product_id_#{product.id}"
+      end
     end
   end
 
@@ -127,7 +133,12 @@ RSpec.feature 'Take an offer', type: :feature do
     end
     scenario('create payments') { expect { click_on 'Purchase' }.to change(Payment, :count).by(1) }
     scenario('create new subscriptions') { expect { click_on 'Purchase' }.to change(Subscription, :count).by(1) }
-    scenario 'extend existing subscriptions'
+    scenario 'set trial period on new subscriptions' do
+      offer.trial_period = Faker::Number.number(2)
+      offer.save!
+      click_on 'Purchase'
+      expect(Subscription.last.expiry).to eq Time.zone.today + offer.trial_period
+    end
   end
 
   context 'when there are products' do
