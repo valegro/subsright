@@ -55,12 +55,6 @@ RSpec.feature 'Take an offer', type: :feature do
     end
   end
 
-  context 'when signed in' do
-    given(:user) { create(:user, confirmed_at: Time.zone.now) }
-    background { login_as user }
-    scenario 'require at least one customer'
-  end
-
   context 'when an included product is out of stock' do
     scenario 'see out of stock warning' do
       create(:offer_product, offer: offer, product: create(:product, stock: 0))
