@@ -1,6 +1,9 @@
 ActiveAdmin.register Campaign do
   permit_params :name, :start, :finish, :description, offer_ids: []
 
+  preserve_default_filters!
+  filter :campaign_offers, if: false
+
   index do
     selectable_column
     id_column
@@ -26,7 +29,7 @@ ActiveAdmin.register Campaign do
         ).join(', ').html_safe
       end
       row :description do
-        campaign.description.html_safe
+        campaign.description.html_safe if campaign.description
       end
       row :created_at
       row :updated_at

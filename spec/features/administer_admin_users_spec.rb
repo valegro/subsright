@@ -1,9 +1,5 @@
 require 'rails_helper'
 
-def format_date(date)
-  I18n.l date, format: :long
-end
-
 RSpec.feature 'Administer admin users', type: :feature do
   scenario 'require login' do
     visit admin_admin_users_path
@@ -38,12 +34,6 @@ RSpec.feature 'Administer admin users', type: :feature do
 
     context 'when editing record' do
       background { visit edit_admin_admin_user_path(admin_user) }
-      scenario { expect(page).to have_field 'admin_user_name' }
-      scenario { expect(page).to have_field 'admin_user_email' }
-    end
-
-    context 'when creating record' do
-      background { visit new_admin_admin_user_path }
       scenario { expect(page).to have_field 'admin_user_name' }
       scenario { expect(page).to have_field 'admin_user_email' }
     end
