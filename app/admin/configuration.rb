@@ -21,4 +21,7 @@ ActiveAdmin.register Configuration do
       redirect_to admin_configurations_path, notice: 'Settings Saved'
     end
   end
+
+  # Ensure all the defaults are created when the class file is read
+  Configuration.ensure_created
 end

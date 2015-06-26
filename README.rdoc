@@ -50,10 +50,10 @@ Then, on all systems:
 
 <tt>$ rails s</tt>
 
-You can now visit http://localhost:3000 which will initialise the default configuration.
-
 You can then log at http://localhost:3000/admin as admin@example.com with the initial
 default password "password".  You can now create and edit admin users and the site configuration.
+
+You can then visit http://localhost:3000 to see the public interface.
 
 === Production
 
@@ -67,7 +67,7 @@ default password "password".  You can now create and edit admin users and the si
 
 <tt>$ SECRET_KEY_BASE='<em>secret</em> SUBSRIGHT_DATABASE_PASSWORD='<em>password</em>' RAILS_ENV=production bundle exec rackup -E production</tt>
 
-You can now visit http://localhost:9292 which will initialise the default configuration.
-
 You can then log at http://localhost:9292/admin as admin@example.com with the initial
 default password "password".  You can now create and edit admin users and the site configuration.
+
+You can then visit http://localhost:9292 to see the public interface.
