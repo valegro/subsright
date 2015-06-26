@@ -12,10 +12,8 @@ RSpec.describe Admin::ConfigurationsController, type: :controller do
   describe 'PATCH #update' do
     context 'with valid attributes' do
       it 'changes the configuration attributes' do
-        configuration = create(:configuration, key: 'provider_name')
         patch :update, id: 0, update_configuration: { provider_name: 'Test' }
-        configuration.reload
-        expect(configuration.value).to eq 'Test'
+        expect(Configuration.find_by(key: :provider_name).value).to eq 'Test'
       end
     end
     it 'redirects to the updated configuration' do
