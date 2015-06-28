@@ -52,8 +52,9 @@ ActiveAdmin.register Offer do
       row 'Publications' do
         ul do
           offer.offer_publications.by_name.each do |op|
-            li link_to( op.publication.name, admin_publication_path(op.publication) ) +
-              ' for ' + pluralize(op.quantity, op.unit.downcase)
+            details = ' for ' + pluralize(op.quantity, op.unit.downcase)
+            details = " for #{op.subscribers} subscribers" + details if op.subscribers > 1
+            li link_to( op.publication.name, admin_publication_path(op.publication) ) + details
           end
         end
       end
@@ -71,7 +72,7 @@ ActiveAdmin.register Offer do
         ( offer.prices.map { |price| link_to "#{price.currency} #{price.name}", admin_price_path(price) }
         ).join(', ').html_safe
       end
-      row(:description) { offer.description.html_safe }
+      row(:description) { offer.description.html_safe unless offer.description.nil? }
       row :created_at
       row :updated_at
     end
@@ -90,6 +91,7 @@ ActiveAdmin.register Offer do
         fop.input :publication
         fop.input :quantity
         fop.input :unit, as: :radio, collection: OfferPublication::UNITS
+        fop.input :subscribers
       end
       f.has_many :offer_products, allow_destroy: true, heading: 'Offer products',
         for: [:offer_products, f.object.offer_products.by_name] do |fop|
