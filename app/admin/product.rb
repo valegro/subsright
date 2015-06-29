@@ -40,9 +40,7 @@ ActiveAdmin.register Product do
         ( product.offers.order('name').map { |offer| link_to offer.name, admin_offer_path(offer) }
         ).join(', ').html_safe
       end
-      row :description do
-        product.description.html_safe
-      end
+      row(:description) { product.description.html_safe unless product.description.nil? }
       row :created_at
       row :updated_at
     end
