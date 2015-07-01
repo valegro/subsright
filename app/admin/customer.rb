@@ -1,7 +1,8 @@
 ActiveAdmin.register Customer do
   permit_params :user_id, :name, :email, :phone, :address, :country, :postcode,
     customer_discounts_attributes: [:id, :discount_id, :reference, :expiry, :_destroy],
-    subscriptions_attributes: [:id, :publication_id, :subscribed, :expiry, :_destroy]
+    subscriptions_attributes:
+      [:id, :publication_id, :user_id, :subscribers, :subscribed, :expiry, :cancellation_reason, :_destroy]
 
   preserve_default_filters!
   filter :customer_discounts, if: false
@@ -20,14 +21,14 @@ ActiveAdmin.register Customer do
     column :address
     column :country
     column :postcode
-    column 'Discounts' do |customer|
-      ( customer.discounts.order('name')
+    column :discounts do |customer|
+      ( customer.discounts.order(:name)
         .map { |discount| link_to discount.name, admin_discount_path(discount) }
       ).join(', ').html_safe
     end
-    column 'Publications' do |customer|
-      ( customer.publications.order('name')
-        .map { |publication| link_to publication.name, admin_publication_path(publication) }
+    column :subscriptions do |customer|
+      ( customer.subscriptions.by_name
+        .map { |subscription| link_to subscription.publication.name, admin_subscription_path(subscription) }
       ).join(', ').html_safe
     end
     column :created_at
@@ -44,14 +45,14 @@ ActiveAdmin.register Customer do
       row :address
       row :country
       row :postcode
-      row 'Discounts' do |customer|
-        ( customer.discounts.order('name')
+      row :discounts do
+        ( customer.discounts.order(:name)
           .map { |discount| link_to discount.name, admin_discount_path(discount) }
         ).join(', ').html_safe
       end
-      row 'Publications' do
-        ( customer.publications.order('name')
-          .map { |publication| link_to publication.name, admin_publication_path(publication) }
+      row :subscriptions do
+        ( customer.subscriptions.by_name
+          .map { |subscription| link_to subscription.publication.name, admin_subscription_path(subscription) }
         ).join(', ').html_safe
       end
       row :product_orders do
@@ -83,6 +84,8 @@ ActiveAdmin.register Customer do
       f.has_many :subscriptions, allow_destroy: true, heading: 'Subscriptions',
         for: [:subscriptions, f.object.subscriptions.by_name] do |fs|
         fs.input :publication
+        fs.input :user
+        fs.input :subscribers
         fs.input :subscribed, as: :datepicker
         fs.input :expiry, as: :datepicker
         fs.input :cancellation_reason

@@ -5,6 +5,7 @@ class Subscription < ActiveRecord::Base
 
   has_many :customer_subscriptions
   has_many :customers, through: :customer_subscriptions
+  accepts_nested_attributes_for :customers
   has_many :payments
 
   validates :publication, presence: true

@@ -16,7 +16,7 @@ RSpec.feature 'Administer customer', type: :feature do
 
     context 'when showing index' do
       background { visit admin_customers_path }
-      [ :user, :name, :email, :phone, :address, :country, :postcode, :discounts, :publications, :created_at,
+      [ :user, :name, :email, :phone, :address, :country, :postcode, :discounts, :subscriptions, :created_at,
         :updated_at ].each do |field|
         scenario { expect(page).to have_css :th, text: field.to_s.titlecase }
       end
@@ -35,7 +35,7 @@ RSpec.feature 'Administer customer', type: :feature do
 
     context 'when viewing record' do
       background { visit admin_customer_path(customer) }
-      [ :user, :name, :email, :phone, :address, :country, :postcode, :discounts, :publications, :product_orders,
+      [ :user, :name, :email, :phone, :address, :country, :postcode, :discounts, :subscriptions, :product_orders,
         :created_at, :updated_at ].each do |field|
         scenario { expect(page).to have_css :th, text: field.to_s.titlecase }
       end
