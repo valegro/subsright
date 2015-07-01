@@ -37,16 +37,12 @@ ActiveAdmin.register Publication do
           content_tag(:span, 'None')
         end
       end
-      row :website do
-        link_to publication.website, publication.website
-      end
+      row(:website) { link_to publication.website, publication.website }
       row 'Offers' do
         ( publication.offers.order('name').map { |offer| link_to offer.name, admin_offer_path(offer) }
         ).join(', ').html_safe
       end
-      row :description do
-        publication.description.html_safe
-      end
+      row(:description) { publication.description.html_safe unless publication.description.nil? }
       row :created_at
       row :updated_at
     end
