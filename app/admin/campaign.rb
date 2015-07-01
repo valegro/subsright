@@ -10,7 +10,7 @@ ActiveAdmin.register Campaign do
     column :name
     column :start
     column :finish
-    column 'Offers' do |campaign|
+    column :offers do |campaign|
       ( campaign.offers.map { |offer| link_to offer.name, admin_offer_path(offer) }
       ).join(', ').html_safe
     end
@@ -24,7 +24,7 @@ ActiveAdmin.register Campaign do
       row :name
       row :start
       row :finish
-      row 'Offers' do
+      row :offers do
         ( campaign.offers.map { |offer| link_to offer.name, admin_offer_path(offer) }
         ).join(', ').html_safe
       end

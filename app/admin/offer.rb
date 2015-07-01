@@ -17,20 +17,20 @@ ActiveAdmin.register Offer do
     column :start
     column :finish
     column(:trial_period) { |offer| pluralize(offer.trial_period, 'day') unless offer.trial_period.nil? }
-    column 'Campaigns' do |offer|
+    column :campaigns do |offer|
       ( offer.campaigns.map { |campaign| link_to campaign.name, admin_campaign_path(campaign) }
       ).join(', ').html_safe
     end
-    column 'Publications' do |offer|
-      ( offer.publications.order('name')
+    column :publications do |offer|
+      ( offer.publications.order(:name)
         .map { |publication| link_to publication.name, admin_publication_path(publication) }
       ).join(', ').html_safe
     end
-    column 'Products' do |offer|
-      ( offer.products.order('name').map { |product| link_to product.name, admin_product_path(product) }
+    column :products do |offer|
+      ( offer.products.order(:name).map { |product| link_to product.name, admin_product_path(product) }
       ).join(', ').html_safe
     end
-    column 'Prices' do |offer|
+    column :prices do |offer|
       ( offer.prices.map { |price| link_to "#{price.currency} #{price.name}", admin_price_path(price) }
       ).join(', ').html_safe
     end
@@ -45,11 +45,11 @@ ActiveAdmin.register Offer do
       row :start
       row :finish
       row(:trial_period) { pluralize(offer.trial_period, 'day') unless offer.trial_period.nil? }
-      row 'Campaigns' do
+      row :campaigns do
         ( offer.campaigns.map { |campaign| link_to campaign.name, admin_campaign_path(campaign) }
         ).join(', ').html_safe
       end
-      row 'Publications' do
+      row :publications do
         ul do
           offer.offer_publications.by_name.each do |op|
             details = ' for ' + pluralize(op.quantity, op.unit.downcase)
@@ -58,17 +58,17 @@ ActiveAdmin.register Offer do
           end
         end
       end
-      row 'Products' do
+      row :products do
         ul do
-          offer.offer_products.where('optional = FALSE').by_name.each do |op|
+          offer.offer_products.where(optional: false).by_name.each do |op|
             li link_to( op.product.name, admin_product_path(op.product) )
           end
-          offer.offer_products.where('optional = TRUE').by_name.each do |op|
+          offer.offer_products.where(optional: true).by_name.each do |op|
             li link_to( op.product.name, admin_product_path(op.product) ) + ' (optional)'
           end
         end
       end
-      row 'Prices' do
+      row :prices do
         ( offer.prices.map { |price| link_to "#{price.currency} #{price.name}", admin_price_path(price) }
         ).join(', ').html_safe
       end

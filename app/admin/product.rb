@@ -16,8 +16,8 @@ ActiveAdmin.register Product do
       end
     end
     column :stock
-    column 'Offers' do |product|
-      ( product.offers.order('name').map { |offer| link_to offer.name, admin_offer_path(offer) }
+    column :offers do |product|
+      ( product.offers.order(:name).map { |offer| link_to offer.name, admin_offer_path(offer) }
       ).join(', ').html_safe
     end
     column :created_at
@@ -36,8 +36,8 @@ ActiveAdmin.register Product do
         end
       end
       row :stock
-      row 'Offers' do
-        ( product.offers.order('name').map { |offer| link_to offer.name, admin_offer_path(offer) }
+      row :offers do
+        ( product.offers.order(:name).map { |offer| link_to offer.name, admin_offer_path(offer) }
         ).join(', ').html_safe
       end
       row(:description) { product.description.html_safe unless product.description.nil? }

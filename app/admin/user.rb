@@ -6,8 +6,8 @@ ActiveAdmin.register User do
     id_column
     column :name
     column :email
-    column 'Customers' do |user|
-      ( user.customers.order('name')
+    column :customers do |user|
+      ( user.customers.order(:name)
         .map { |customer| link_to customer.name, admin_customer_path(customer) }
       ).join(', ').html_safe
     end
@@ -32,8 +32,8 @@ ActiveAdmin.register User do
       row :name
       row :email
       row('Preferred currency') { user.currency_name }
-      row 'Customers' do
-        ( user.customers.order('name')
+      row :customers do
+        ( user.customers.order(:name)
           .map { |customer| link_to customer.name, admin_customer_path(customer) }
         ).join(', ').html_safe
       end

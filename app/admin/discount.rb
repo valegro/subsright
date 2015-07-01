@@ -6,7 +6,7 @@ ActiveAdmin.register Discount do
     id_column
     column :name
     column :requestable
-    column 'Prices' do |discount|
+    column :prices do |discount|
       ( discount.prices.map { |price| link_to "#{price.currency} #{price.name}", admin_price_path(price) }
       ).join(', ').html_safe
     end
@@ -19,7 +19,7 @@ ActiveAdmin.register Discount do
     attributes_table do
       row :name
       row :requestable
-      row 'Prices' do
+      row :prices do
         ( discount.prices.map { |price| link_to "#{price.currency} #{price.name}", admin_price_path(price) }
         ).join(', ').html_safe
       end

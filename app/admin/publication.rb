@@ -18,8 +18,8 @@ ActiveAdmin.register Publication do
     column :website do |publication|
       link_to publication.website, publication.website
     end
-    column 'Offers' do |publication|
-      ( publication.offers.order('name').map { |offer| link_to offer.name, admin_offer_path(offer) }
+    column :offers do |publication|
+      ( publication.offers.order(:name).map { |offer| link_to offer.name, admin_offer_path(offer) }
       ).join(', ').html_safe
     end
     column :created_at
@@ -38,8 +38,8 @@ ActiveAdmin.register Publication do
         end
       end
       row(:website) { link_to publication.website, publication.website }
-      row 'Offers' do
-        ( publication.offers.order('name').map { |offer| link_to offer.name, admin_offer_path(offer) }
+      row :offers do
+        ( publication.offers.order(:name).map { |offer| link_to offer.name, admin_offer_path(offer) }
         ).join(', ').html_safe
       end
       row(:description) { publication.description.html_safe unless publication.description.nil? }
