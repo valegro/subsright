@@ -11,4 +11,9 @@ RSpec.describe Payment, type: :model do
   it { expect(payment).to validate_presence_of(:subscription) }
   it { expect(payment).to validate_presence_of(:price_name) }
   it { expect(payment).to be_valid }
+  it 'formats payments' do
+    subscription = create(:subscription, publication: create(:publication))
+    payment = build(:payment, subscription: subscription)
+    expect(payment.to_s).to eq "#{payment.price_name}: #{subscription.publication.name}"
+  end
 end

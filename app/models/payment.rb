@@ -5,4 +5,8 @@ class Payment < ActiveRecord::Base
   validates :purchase, presence: true
   validates :subscription, presence: true
   validates :price_name, presence: true
+
+  def to_s
+    "#{price_name}: #{subscription.publication.name}"
+  end
 end
