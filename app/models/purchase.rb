@@ -3,9 +3,14 @@ class Purchase < ActiveRecord::Base
 
   has_many :payments
   has_many :subscriptions, through: :payments
-  has_many :customers, through: :subscriptions
+  has_many :product_orders
+  has_many :products, through: :product_orders
 
   validates :offer, presence: true
+
+  def amount
+    Money.new( amount_cents, currency ).format
+  end
 
   def currency_name
     m = Money::Currency.new(currency)

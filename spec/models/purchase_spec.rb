@@ -8,9 +8,14 @@ RSpec.describe Purchase, type: :model do
   it { expect(purchase).to have_db_column(:completed_at).of_type(:datetime) }
   it { expect(purchase).to have_many(:payments) }
   it { expect(purchase).to have_many(:subscriptions).through(:payments) }
-  it { expect(purchase).to have_many(:customers).through(:subscriptions) }
+  it { expect(purchase).to have_many(:product_orders) }
+  it { expect(purchase).to have_many(:products).through(:product_orders) }
   it { expect(purchase).to validate_presence_of(:offer) }
   it { expect(purchase).to be_valid }
+  it('formats amounts') do
+    purchase.amount_cents = '123456'
+    expect(purchase.amount).to eq '$1,234.56'
+  end
   it('translates currency names') do
     purchase.currency = 'BTC'
     expect(purchase.currency_name).to eq 'Bitcoin (BTC)'
