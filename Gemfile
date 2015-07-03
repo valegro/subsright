@@ -34,8 +34,8 @@ gem 'rails-html-sanitizer', '~> 1.0'
 # Use Devise for authentication
 gem 'devise'
 
-# Use ActiveAdmin framework from github for Rails 4 support
-gem 'activeadmin', github: 'activeadmin'
+# Use ActiveAdmin 1.0 for Rails 4 support
+gem 'activeadmin', '~> 1.0.0pre1'
 
 # Use country_select plugin
 gem 'country_select'
