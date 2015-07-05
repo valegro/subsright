@@ -2,7 +2,7 @@
 * Two-factor authentication
 * I18N: globalize
 * Auditing: paper_trail
-* Add tests
+* Add tests for deletion and alternate formats
 * Add subscription cancellation requests
 * Add currency selection configuration
 * Include Subscriptus logo at bottom right
@@ -17,3 +17,5 @@
 * Add "no offer messages" field to Customers model
 * Auto-fill existing customer details for signed in users during purchase
 * Allow signed in users to provide multiple customer details during purchase
+* Use select for currency filters
+* Add "wizards" that provide administrator workflow
