@@ -1,6 +1,6 @@
 ActiveAdmin.register Offer do
   permit_params :name, :start, :finish, :trial_period, :description, campaign_ids: [],
-    offer_publications_attributes: [:id, :publication_id, :quantity, :unit, :_destroy],
+    offer_publications_attributes: [:id, :publication_id, :quantity, :unit, :subscribers, :_destroy],
     offer_products_attributes: [:id, :product_id, :optional, :_destroy], price_ids: []
 
   preserve_default_filters!
