@@ -18,7 +18,7 @@ class Configuration < ActiveRecord::Base
     .map { |c| [ "#{c[1][:name]} (#{c[1][:iso_code]})", c[1][:iso_code] ] }
 
   def self.ensure_created
-    settings.each { |setting| send(setting) }
+    settings.each { |setting| send(setting) } if connection.table_exists? :configurations
   end
 
   def self.setting(name, default, form_type, form_collection_command = '')
@@ -62,5 +62,5 @@ class Configuration < ActiveRecord::Base
   settings << 'provider_logo'
 
   # Ensure all the defaults are created when the class file is read
-  ensure_created if connection.table_exists? configurations
+  ensure_created
 end
