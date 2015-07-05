@@ -3,11 +3,11 @@
   <%= f.fields_for @customer do |fc| %>
     <%= fc.inputs do %>
       <%= fc.input :name %>
-      <%= fc.input :email %><br>
-      <%= fc.input :phone %><br>
-      <%= fc.input :address, required: true %><br>
-      <%= fc.input :country %><br>
-      <%= fc.input :postcode, required: true %><br>
+      <%= fc.input :email %>
+      <%= fc.input :phone %>
+      <%= fc.input :address, required: true %>
+      <%= fc.input :country %>
+      <%= fc.input :postcode, required: true %>
       <%  if optional_products.count > 0 %>
         <%= fc.input :product_id, as: :radio, collection: optional_products.map { |op| [op.product.name, op.product_id] } %>
       <%  end %>

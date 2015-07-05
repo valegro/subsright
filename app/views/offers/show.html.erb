@@ -1,71 +1,77 @@
-<h3><%= @offer.name %></h3>
+<div class="jumbotron">
+    <h3><%= @offer.name %></h3>
 
-<% if @offer.finish then %>
-	<div><strong>End date:</strong> <%= @offer.finish %></div>
-<% end %>
+    <% if @offer.finish then %>
+    	<div><strong>End date:</strong> <%= @offer.finish %></div>
+    <% end %>
 
-<div>
-  <strong>Description:</strong>
-  <%= @offer.description.html_safe %>
+    <div class="row"><div class="col-xs-12">
+        <strong>Description:</strong>
+        <%= @offer.description.html_safe %>
+    </div></div>
 </div>
 
 <% if @offer.offer_publications.present? then %>
-	<div>
+	<table class="table"><tr>
 	<% @offer.offer_publications.by_name.each do |op| %>
-	<figure>
-		<%= link_to image_tag( op.publication.image.url(:thumb), alt: op.publication.name, size: '100' ),
-		    op.publication %>
+	<td><figure>
+		<%= link_to image_tag(op.publication.image.url(:thumb), alt: op.publication.name, size: '110',
+                class: 'thumbnail'), op.publication %>
 		<figcaption>
 		    <%= link_to op.publication.name, op.publication %>
 		    <%= " for #{op.subscribers} subscribers" if op.subscribers > 1 %>
             for <%= pluralize(op.quantity, op.unit.downcase) %>
 		</figcaption>
-	</figure>
+	</figure></td>
 	<% end %>
-	</div>
+	</tr></table>
 <% end %>
 
 <% included_products = @products.reject(&:optional) %>
 <% if included_products.count > 0 then %>
-	<div>
+	<table class="table"><tr>
     <% included_products.each do |op| %>
-        <figure>
-           <%= link_to (image_tag op.product.image.url(:thumb), alt: op.product.name, size: '100'), op.product %>
+        <td><figure>
+           <%= link_to image_tag(op.product.image.url(:thumb), alt: op.product.name, size: '110', class: 'thumbnail'),
+               op.product %>
            <figcaption>
              <%= link_to op.product.name, op.product %>
              <% if op.product.stock == 0 %><span class="stock-warning">(out of stock)</span><% end %>
            </figcaption>
-       </figure>
+       </figure></td>
 	<% end %>
-    </div>
+    </tr></table>
 <% end %>
 
 <% optional_products = @products.select(&:optional) %>
 <% if optional_products.count > 0 then %>
     <p><%= @offer.offer_publications.present? || (included_products.count > 0) ? 'Plus' : 'Choose' %> one of:</p>
-    <div>
+    <table class="table"><tr>
     <% optional_products.each do |op| %>
-        <figure>
-            <%= link_to (image_tag op.product.image.url(:thumb), alt: op.product.name, size: '100'), op.product %>
+        <td><figure>
+            <%= link_to image_tag(op.product.image.url(:thumb), alt: op.product.name, size: '110', class: 'thumbnail'),
+                op.product %>
             <figcaption><%= link_to op.product.name, op.product %></figcaption>
-        </figure>
+        </figure></td>
     <% end %>
-    </div>
+    </tr></table>
 <% end %>
 
 <% if @offer.prices.present? then %>
-    <ul>
-    <% @offer.prices.each do |price| %>
-      <li><%= price %> <%= price.first_payment(@offer.trial_period) %></li>
-    <% end %>
-    </ul>
-    <% trial_period = @offer.trial_period %>
-    <% unless trial_period.nil? or trial_period.zero? then %>
-      <p><%= trial_period %> day free trial.  You will not be charged if you cancel before
-      <%= Time.zone.today + trial_period %>.</p>
-    <% end %>
+    <div class="row"><div class="col-xs-12">
+        <ul>
+        <% @offer.prices.each do |price| %>
+        <li><%= price %> <%= price.first_payment(@offer.trial_period) %></li>
+        <% end %>
+        </ul>
+        <% trial_period = @offer.trial_period %>
+        <% unless trial_period.nil? or trial_period.zero? then %>
+        <p><%= trial_period %> day free trial.  You will not be charged if you cancel before
+        <%= Time.zone.today + trial_period %>.</p>
+        <% end %>
+    </div></div>
 <% end %>
 
-<div><%= render 'purchase_form' %></div>
+<div class="row"><div class="col-xs-6"><%= render 'purchase_form' %></div></div>
 
 <div><%= link_to 'Offers', offers_path %></div>
