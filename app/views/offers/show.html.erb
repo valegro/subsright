@@ -54,10 +54,7 @@
 <% if @offer.prices.present? then %>
     <ul>
     <% @offer.prices.each do |price| %>
-      <li>
-        <%= price %><%= ' starting' if price.initial_amount_cents && price.monthly_payments %>
-        <%= ' on ' + I18n.l(Time.zone.today + 1.month) if price.initial_amount_cents %>
-      </li>
+      <li><%= price %> <%= price.first_payment(@offer.trial_period) %></li>
     <% end %>
     </ul>
     <% trial_period = @offer.trial_period %>

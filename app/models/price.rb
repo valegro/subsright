@@ -35,11 +35,20 @@ class Price < ActiveRecord::Base
   end
 
   def to_s
-    price = name
+    price = name + ':'
     price += " #{initial_amount} #{currency} now, followed by" if initial_amount_cents
     price += " #{monthly_payments} monthly payments of" if monthly_payments
     price += " #{amount} #{currency}"
     price += ' each' if monthly_payments
     price
+  end
+
+  def first_payment(trial_period)
+    if trial_period || initial_amount_cents
+      text = 'on ' + I18n.l(Time.zone.today + (trial_period || 0).days + (initial_amount_cents ? 1 : 0).months)
+    else
+      text = 'now'
+    end
+    monthly_payments ? 'starting ' + text : text
   end
 end

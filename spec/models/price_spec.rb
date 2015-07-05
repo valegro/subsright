@@ -1,7 +1,8 @@
 require 'rails_helper'
 
 RSpec.describe Price, type: :model do
-  let(:price) { build(:price) }
+  let(:price) { build(:price, amount_cents: 123) }
+  let(:split_price) { build(:price, amount_cents: 456, initial_amount_cents: 123) }
   it { expect(price).to have_db_column(:currency).of_type(:string).with_options(null: false) }
   it { expect(price).to have_db_column(:name).of_type(:string).with_options(null: false) }
   it { expect(price).to have_db_column(:amount_cents).of_type(:integer).with_options(null: false) }
@@ -32,26 +33,46 @@ RSpec.describe Price, type: :model do
     price.initial_amount = '123:456'
     expect(price.initial_amount).to eq '$1,234.56'
   end
+
   context 'formats prices' do
     context 'without initial amount' do
-      let(:price) { build(:price, amount_cents: 123) }
       it 'without monthly payments'  do
-        expect(price.to_s).to eq "#{price.name} $1.23 AUD"
+        expect(price.to_s).to eq "#{price.name}: $1.23 AUD"
       end
       it 'with monthly payments' do
         price.monthly_payments = 4
-        expect(price.to_s).to eq "#{price.name} 4 monthly payments of $1.23 AUD each"
+        expect(price.to_s).to eq "#{price.name}: 4 monthly payments of $1.23 AUD each"
       end
     end
+
     context 'with initial amount' do
-      let(:price) { build(:price, amount_cents: 456, initial_amount_cents: 123) }
       it 'without monthly payments' do
-        expect(price.to_s).to eq "#{price.name} $1.23 AUD now, followed by $4.56 AUD"
+        expect(split_price.to_s).to eq "#{split_price.name}: $1.23 AUD now, followed by $4.56 AUD"
       end
       it 'with monthly payments' do
-        price.monthly_payments = 7
-        expect(price.to_s).to eq "#{price.name} $1.23 AUD now, followed by 7 monthly payments of $4.56 AUD each"
+        split_price.monthly_payments = 7
+        expect(split_price.to_s)
+          .to eq "#{split_price.name}: $1.23 AUD now, followed by 7 monthly payments of $4.56 AUD each"
       end
+    end
+  end
+
+  context 'formats initial payment date' do
+    context 'without trial period' do
+      it('without initial amount') { expect(price.first_payment NIL).to eq 'now' }
+      it 'with initial amount' do
+        expect(split_price.first_payment NIL).to eq 'on ' + I18n.l(Time.zone.today + 1.month)
+      end
+    end
+    context 'with trial period' do
+      it('without initial amount') { expect(price.first_payment 1).to eq 'on ' + I18n.l(Time.zone.today + 1.day) }
+      it 'with initial amount' do
+        expect(split_price.first_payment 2).to eq 'on ' + I18n.l(Time.zone.today + 1.month + 2.days)
+      end
+    end
+    it 'with monthly payments' do
+      price.monthly_payments = 7
+      expect(price.first_payment NIL).to eq 'starting now'
     end
   end
 end

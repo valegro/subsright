@@ -13,8 +13,8 @@ RSpec.feature 'Show an offer', type: :feature do
   end
 
   context 'when there is at least one price' do
-    given(:price1) { create(:price, initial_amount_cents: 1 + rand(1000)) }
-    given(:price2) { create(:price, initial_amount_cents: 1 + rand(1000), monthly_payments: 2 + rand(10)) }
+    given(:price1) { create(:price) }
+    given(:price2) { create(:price, initial_amount_cents: 1 + rand(1000)) }
     background do
       create(:offer_price, offer: offer, price: price1)
       create(:offer_price, offer: offer, price: price2)
@@ -106,11 +106,8 @@ RSpec.feature 'Show an offer', type: :feature do
 
     scenario 'see each price' do
       visit offer_path(offer)
-      expect(page).to have_text "#{price1.name} #{price1.initial_amount} #{price1.currency} now, \
-followed by #{price1.amount} #{price1.currency} on " + I18n.l(Time.zone.today + 1.month)
-      expect(page).to have_text "#{price2.name} #{price2.initial_amount} #{price2.currency} now, \
-followed by #{price2.monthly_payments} monthly payments of #{price2.amount} #{price2.currency} each starting on " +
-        I18n.l(Time.zone.today + 1.month)
+      expect(page).to have_text "#{price1.name}: #{price1.amount} #{price1.currency}"
+      expect(page).to have_text "#{price2.name}: #{price2.initial_amount} #{price2.currency}"
     end
 
     scenario 'see the trial period' do
