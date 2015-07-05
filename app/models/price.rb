@@ -36,9 +36,10 @@ class Price < ActiveRecord::Base
 
   def to_s
     price = name
-    price += " #{initial_amount} #{currency} plus" if initial_amount_cents
+    price += " #{initial_amount} #{currency} now, followed by" if initial_amount_cents
+    price += " #{monthly_payments} monthly payments of" if monthly_payments
     price += " #{amount} #{currency}"
-    price += " for #{monthly_payments} months" if monthly_payments
+    price += ' each' if monthly_payments
     price
   end
 end

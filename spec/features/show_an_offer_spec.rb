@@ -3,7 +3,7 @@ require 'faker'
 
 RSpec.feature 'Show an offer', type: :feature do
   given(:offer) do
-    create(:offer, description: Faker::Lorem.sentences.join("\s"), trial_period: 1 + Faker::Number.number(3).to_i)
+    create(:offer, description: Faker::Lorem.sentences.join("\s"), trial_period: 1 + rand(100))
   end
   context 'when there are no prices' do
     scenario 'redirect to list of offers' do
@@ -13,8 +13,13 @@ RSpec.feature 'Show an offer', type: :feature do
   end
 
   context 'when there is at least one price' do
-    given(:price) { create(:price) }
-    background { create(:offer_price, offer: offer, price: price) }
+    given(:price1) { create(:price, initial_amount_cents: 1 + rand(1000)) }
+    given(:price2) { create(:price, initial_amount_cents: 1 + rand(1000), monthly_payments: 2 + rand(10)) }
+    background do
+      create(:offer_price, offer: offer, price: price1)
+      create(:offer_price, offer: offer, price: price2)
+    end
+
     scenario 'see offer name and description' do
       visit offer_path(offer)
       expect(page).to have_text offer.name
@@ -99,21 +104,18 @@ RSpec.feature 'Show an offer', type: :feature do
       end
     end
 
-    context 'when there are prices' do
-      given(:price1) { create(:price) }
-      given(:price2) { create(:price) }
-      background do
-        create(:offer_price, offer: offer, price: price1)
-        create(:offer_price, offer: offer, price: price2)
-        visit offer_path(offer)
-      end
-      scenario 'see each price' do
-        expect(page).to have_text "#{price1.name} #{price1.amount} #{price1.currency}"
-        expect(page).to have_text "#{price2.name} #{price2.amount} #{price2.currency}"
-      end
-      scenario 'see the trial period' do
-        expect(page).to have_text "#{offer.trial_period} day free trial"
-      end
+    scenario 'see each price' do
+      visit offer_path(offer)
+      expect(page).to have_text "#{price1.name} #{price1.initial_amount} #{price1.currency} now, \
+followed by #{price1.amount} #{price1.currency} on " + I18n.l(Time.zone.today + 1.month)
+      expect(page).to have_text "#{price2.name} #{price2.initial_amount} #{price2.currency} now, \
+followed by #{price2.monthly_payments} monthly payments of #{price2.amount} #{price2.currency} each starting on " +
+        I18n.l(Time.zone.today + 1.month)
+    end
+
+    scenario 'see the trial period' do
+      visit offer_path(offer)
+      expect(page).to have_text "#{offer.trial_period} day free trial"
     end
   end
 end

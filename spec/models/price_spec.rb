@@ -40,17 +40,17 @@ RSpec.describe Price, type: :model do
       end
       it 'with monthly payments' do
         price.monthly_payments = 4
-        expect(price.to_s).to eq "#{price.name} $1.23 AUD for 4 months"
+        expect(price.to_s).to eq "#{price.name} 4 monthly payments of $1.23 AUD each"
       end
     end
     context 'with initial amount' do
       let(:price) { build(:price, amount_cents: 456, initial_amount_cents: 123) }
       it 'without monthly payments' do
-        expect(price.to_s).to eq "#{price.name} $1.23 AUD plus $4.56 AUD"
+        expect(price.to_s).to eq "#{price.name} $1.23 AUD now, followed by $4.56 AUD"
       end
       it 'with monthly payments' do
         price.monthly_payments = 7
-        expect(price.to_s).to eq "#{price.name} $1.23 AUD plus $4.56 AUD for 7 months"
+        expect(price.to_s).to eq "#{price.name} $1.23 AUD now, followed by 7 monthly payments of $4.56 AUD each"
       end
     end
   end
