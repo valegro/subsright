@@ -31,7 +31,7 @@ RSpec.feature 'Administer purchase', type: :feature do
 
     context 'when viewing record' do
       background { visit admin_purchase_path(purchase) }
-      [ :offer, :currency, :amount, :completed_at, :receipt, :payments, :products, :created_at, :updated_at
+      [ :offer, :currency, :amount, :completed_at, :receipt, :subscriptions, :products, :created_at, :updated_at
       ].each do |field|
         scenario { expect(page).to have_css :th, text: field.to_s.titlecase }
       end

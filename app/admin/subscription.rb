@@ -33,6 +33,12 @@ ActiveAdmin.register Subscription do
           .map { |customer| link_to customer.name, admin_customer_path(customer) }
         ).join(', ').html_safe
       end
+      row :purchases do
+        ul do
+          subscription.payments.order(:purchase_id)
+            .each { |p| li sanitize(p.price_name) + ' ' + link_to(p.purchase.status, admin_purchase_path(p.purchase)) }
+        end
+      end
       row :created_at
       row :updated_at
     end

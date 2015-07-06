@@ -27,7 +27,7 @@ ActiveAdmin.register Purchase do
       row :amount
       row :completed_at
       row :receipt
-      row :payments do
+      row :subscriptions do
         ( purchase.payments.map { |p| link_to p, admin_subscription_path(p.subscription) } ).join(', ').html_safe
       end
       row :products do

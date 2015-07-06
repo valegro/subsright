@@ -12,12 +12,20 @@ RSpec.describe Purchase, type: :model do
   it { expect(purchase).to have_many(:products).through(:product_orders) }
   it { expect(purchase).to validate_presence_of(:offer) }
   it { expect(purchase).to be_valid }
-  it('formats amounts') do
+  it 'formats amounts' do
     purchase.amount_cents = '123456'
     expect(purchase.amount).to eq '$1,234.56'
   end
-  it('translates currency names') do
+  it 'translates currency names' do
     purchase.currency = 'BTC'
     expect(purchase.currency_name).to eq 'Bitcoin (BTC)'
+  end
+  it 'provides status of pending purchases' do
+    expect(purchase.status).to eq "#{purchase.currency} #{purchase.amount} (pending)"
+  end
+  it 'provides status of completed purchases' do
+    purchase.completed_at = Time.zone.now
+    expect(purchase.status).to eq "#{purchase.currency} #{purchase.amount} (completed at " +
+      I18n.l(purchase.completed_at) + ')'
   end
 end

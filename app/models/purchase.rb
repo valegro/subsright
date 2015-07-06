@@ -16,4 +16,8 @@ class Purchase < ActiveRecord::Base
     m = Money::Currency.new(currency)
     "#{m.name} (#{m.iso_code})"
   end
+
+  def status
+    "#{currency} #{amount} (" + ( completed_at ? 'completed at ' + I18n.l(completed_at) : 'pending' ) + ')'
+  end
 end

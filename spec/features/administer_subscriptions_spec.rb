@@ -33,8 +33,8 @@ RSpec.feature 'Administer subscription', type: :feature do
 
     context 'when viewing record' do
       background { visit admin_subscription_path(subscription) }
-      [ :publication, :user, :subscribers, :subscribed, :expiry, :cancellation_reason, :customers, :created_at,
-        :updated_at ].each do |field|
+      [ :publication, :user, :subscribers, :subscribed, :expiry, :cancellation_reason, :customers, :purchases,
+        :created_at, :updated_at ].each do |field|
         scenario { expect(page).to have_css :th, text: field.to_s.titlecase }
       end
     end
