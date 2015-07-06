@@ -9,7 +9,7 @@ class Campaign < ActiveRecord::Base
   protected
 
   def check_active_offers
-    active_offers = offers.where('finish > ?', Time.zone.today).any?
+    active_offers = offers.where('? BETWEEN start AND finish', Time.zone.today).any?
     errors[:base] << 'There are currently active offers on this campaign.' if active_offers
     !active_offers
   end
