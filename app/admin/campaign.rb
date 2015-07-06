@@ -1,5 +1,14 @@
 ActiveAdmin.register Campaign do
   permit_params :name, :start, :finish, :description, offer_ids: []
+  after_destroy :check_model_errors
+
+  controller do
+    def check_model_errors(object)
+      return unless object.errors.any?
+      flash[:error] ||= []
+      flash[:error] << object.errors.full_messages
+    end
+  end
 
   preserve_default_filters!
   filter :campaign_offers, if: false
