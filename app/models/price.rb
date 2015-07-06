@@ -13,7 +13,7 @@ class Price < ActiveRecord::Base
   validates :monthly_payments, allow_nil: true, numericality: { only_integer: true, greater_than: 0 }
 
   def amount
-    Money.new( amount_cents, currency ).format
+    Money.new(amount_cents, currency).format
   end
 
   def amount=(amount)
@@ -26,7 +26,7 @@ class Price < ActiveRecord::Base
   end
 
   def initial_amount
-    Money.new( initial_amount_cents, currency ).format if initial_amount_cents
+    Money.new(initial_amount_cents, currency).format if initial_amount_cents
   end
 
   def initial_amount=(initial_amount)
@@ -45,7 +45,8 @@ class Price < ActiveRecord::Base
 
   def first_payment(trial_period)
     if trial_period || initial_amount_cents
-      text = 'on ' + I18n.l(Time.zone.today + (trial_period || 0).days + (initial_amount_cents ? 1 : 0).months)
+      text = 'on ' +
+        I18n.l(Time.zone.today + (trial_period || 0).days + (initial_amount_cents ? 1 : 0).months, format: :long)
     else
       text = 'now'
     end

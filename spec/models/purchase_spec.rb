@@ -26,6 +26,6 @@ RSpec.describe Purchase, type: :model do
   it 'provides status of completed purchases' do
     purchase.completed_at = Time.zone.now
     expect(purchase.status).to eq "#{purchase.currency} #{purchase.amount} (completed at " +
-      I18n.l(purchase.completed_at) + ')'
+      I18n.l(purchase.completed_at, format: :long) + ')'
   end
 end

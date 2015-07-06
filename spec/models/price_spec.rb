@@ -61,13 +61,15 @@ RSpec.describe Price, type: :model do
     context 'without trial period' do
       it('without initial amount') { expect(price.first_payment NIL).to eq 'now' }
       it 'with initial amount' do
-        expect(split_price.first_payment NIL).to eq 'on ' + I18n.l(Time.zone.today + 1.month)
+        expect(split_price.first_payment NIL).to eq 'on ' + I18n.l(Time.zone.today + 1.month, format: :long)
       end
     end
     context 'with trial period' do
-      it('without initial amount') { expect(price.first_payment 1).to eq 'on ' + I18n.l(Time.zone.today + 1.day) }
+      it 'without initial amount' do
+        expect(price.first_payment 1).to eq 'on ' + I18n.l(Time.zone.today + 1.day, format: :long)
+      end
       it 'with initial amount' do
-        expect(split_price.first_payment 2).to eq 'on ' + I18n.l(Time.zone.today + 1.month + 2.days)
+        expect(split_price.first_payment 2).to eq 'on ' + I18n.l(Time.zone.today + 1.month + 2.days, format: :long)
       end
     end
     it 'with monthly payments' do

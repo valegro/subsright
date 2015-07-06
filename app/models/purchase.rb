@@ -18,6 +18,7 @@ class Purchase < ActiveRecord::Base
   end
 
   def status
-    "#{currency} #{amount} (" + ( completed_at ? 'completed at ' + I18n.l(completed_at) : 'pending' ) + ')'
+    "#{currency} #{amount} (" + ( completed_at ? 'completed at ' + I18n.l(completed_at, format: :long) : 'pending' ) +
+      ')'
   end
 end

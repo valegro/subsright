@@ -45,7 +45,7 @@ RSpec.feature 'Administer purchase', type: :feature do
       scenario 'reports product order shipped dates' do
         create(:product_order, customer: customer, purchase: purchase, product: product, shipped: Time.zone.today)
         visit admin_purchase_path(purchase)
-        expect(page).to have_text "(shipped #{I18n.l Time.zone.today})"
+        expect(page).to have_text "(shipped #{I18n.l Time.zone.today, format: :long})"
       end
     end
   end
