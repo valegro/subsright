@@ -31,8 +31,15 @@ ActiveAdmin.register Purchase do
         ( purchase.payments.map { |p| link_to p, admin_subscription_path(p.subscription) } ).join(', ').html_safe
       end
       row :products do
-        ( purchase.product_orders.map { |po| link_to po.product.name, admin_product_path(po.product) }
-        ).join(', ').html_safe
+        ul do
+          purchase.product_orders.order(:product_id).each do |po|
+            li do
+              link_to( po.product.name, admin_product_path(po.product) ) + ' for ' +
+                link_to( po.customer.name, admin_customer_path(po.customer) ) +
+                ( po.shipped ? " (shipped #{I18n.l po.shipped})" : ' (pending)' )
+            end
+          end
+        end
       end
       row :created_at
       row :updated_at
