@@ -2,8 +2,9 @@ ActiveAdmin.register Price do
   permit_params :currency, :name, :amount, :monthly_payments, :initial_amount
 
   preserve_default_filters!
-  filter :offer_prices, if: false
+  filter :currency, as: :select, collection: Configuration::CURRENCY_OPTIONS
   filter :discount_prices, if: false
+  filter :offer_prices, if: false
 
   index do
     selectable_column

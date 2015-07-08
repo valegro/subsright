@@ -17,5 +17,4 @@
 * Add "no offer messages" field to Customers model
 * Auto-fill existing customer details for signed in users during purchase
 * Allow signed in users to provide multiple customer details during purchase
-* Use select for currency filters
 * Add "wizards" that provide administrator workflow

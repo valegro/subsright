@@ -4,6 +4,7 @@ ActiveAdmin.register Purchase do
   config.clear_action_items!
 
   preserve_default_filters!
+  filter :currency, as: :select, collection: Configuration::CURRENCY_OPTIONS
   filter :payments, if: false
   filter :product_orders, if: false
   filter :subscriptions, if: false
