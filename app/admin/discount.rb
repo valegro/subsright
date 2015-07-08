@@ -1,6 +1,9 @@
 ActiveAdmin.register Discount do
   permit_params :name, :requestable, price_ids: []
 
+  preserve_default_filters!
+  filter :discount_prices, if: false
+
   index do
     selectable_column
     id_column

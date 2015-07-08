@@ -3,6 +3,7 @@ ActiveAdmin.register Product do
 
   preserve_default_filters!
   filter :offer_products, if: false
+  filter :product_orders, if: false
 
   index do
     selectable_column
