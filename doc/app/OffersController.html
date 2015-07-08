@@ -168,7 +168,7 @@
 
           
           <div class="method-source-code" id="purchase-source">
-            <pre><span class="ruby-comment"># File app/controllers/offers_controller.rb, line 22</span>
+            <pre><span class="ruby-comment"># File app/controllers/offers_controller.rb, line 24</span>
 <span class="ruby-keyword">def</span> <span class="ruby-identifier">purchase</span>
   <span class="ruby-keyword">if</span> <span class="ruby-identifier">params</span>[<span class="ruby-value">:id</span>].<span class="ruby-identifier">present?</span>
     <span class="ruby-ivar">@offer</span> = <span class="ruby-constant">Offer</span>.<span class="ruby-identifier">find</span>(<span class="ruby-identifier">params</span>[<span class="ruby-value">:id</span>])
@@ -225,6 +225,8 @@
   <span class="ruby-ivar">@products</span> = <span class="ruby-ivar">@offer</span>.<span class="ruby-identifier">offer_products</span>.<span class="ruby-identifier">by_name</span>
   <span class="ruby-ivar">@purchase</span> = <span class="ruby-constant">Purchase</span>.<span class="ruby-identifier">new</span>(<span class="ruby-identifier">offer</span><span class="ruby-operator">:</span> <span class="ruby-ivar">@offer</span>)
   <span class="ruby-ivar">@customer</span> = <span class="ruby-constant">Customer</span>.<span class="ruby-identifier">new</span>(<span class="ruby-identifier">price_id</span><span class="ruby-operator">:</span> <span class="ruby-ivar">@offer</span>.<span class="ruby-identifier">prices</span>.<span class="ruby-identifier">first</span>.<span class="ruby-identifier">id</span>)
+  <span class="ruby-identifier">first_op</span> = <span class="ruby-ivar">@offer</span>.<span class="ruby-identifier">offer_products</span>.<span class="ruby-identifier">optional_in_stock</span>.<span class="ruby-identifier">order</span>(<span class="ruby-string">&#39;products.stock DESC&#39;</span>).<span class="ruby-identifier">first</span>
+  <span class="ruby-ivar">@customer</span>.<span class="ruby-identifier">product_id</span> = <span class="ruby-identifier">first_op</span>.<span class="ruby-identifier">product_id</span> <span class="ruby-keyword">if</span> <span class="ruby-identifier">first_op</span>
 <span class="ruby-keyword">end</span></pre>
           </div>
           
@@ -263,7 +265,7 @@
 
           
           <div class="method-source-code" id="show_errors-source">
-            <pre><span class="ruby-comment"># File app/controllers/offers_controller.rb, line 44</span>
+            <pre><span class="ruby-comment"># File app/controllers/offers_controller.rb, line 46</span>
 <span class="ruby-keyword">def</span> <span class="ruby-identifier">show_errors</span>(<span class="ruby-identifier">exception</span>)
   <span class="ruby-keyword">if</span> <span class="ruby-ivar">@offer</span>.<span class="ruby-identifier">prices</span>.<span class="ruby-identifier">count</span> <span class="ruby-operator">==</span> <span class="ruby-value">0</span>
     <span class="ruby-identifier">redirect_to</span> <span class="ruby-identifier">action</span><span class="ruby-operator">:</span> <span class="ruby-value">:index</span>

@@ -70,6 +70,8 @@
 
   <ul class="link-list" role="directory">
     
+    <li ><a href="#method-i-check_model_errors">#check_model_errors</a>
+    
     <li ><a href="#method-i-index">#index</a>
     
     <li ><a href="#method-i-update">#update</a>
@@ -108,6 +110,41 @@
        </header>
 
     
+      <div id="method-i-check_model_errors" class="method-detail ">
+        
+        <div class="method-heading">
+          <span class="method-name">check_model_errors</span><span
+            class="method-args">(object)</span>
+          
+          <span class="method-click-advice">click to toggle source</span>
+          
+        </div>
+        
+
+        <div class="method-description">
+          
+          
+          
+          
+
+          
+          <div class="method-source-code" id="check_model_errors-source">
+            <pre><span class="ruby-comment"># File app/admin/campaign.rb, line 6</span>
+<span class="ruby-keyword">def</span> <span class="ruby-identifier">check_model_errors</span>(<span class="ruby-identifier">object</span>)
+  <span class="ruby-keyword">return</span> <span class="ruby-keyword">unless</span> <span class="ruby-identifier">object</span>.<span class="ruby-identifier">errors</span>.<span class="ruby-identifier">any?</span>
+  <span class="ruby-identifier">flash</span>[<span class="ruby-value">:error</span>] <span class="ruby-operator">||=</span> []
+  <span class="ruby-identifier">flash</span>[<span class="ruby-value">:error</span>] <span class="ruby-operator">&lt;&lt;</span> <span class="ruby-identifier">object</span>.<span class="ruby-identifier">errors</span>.<span class="ruby-identifier">full_messages</span>
+<span class="ruby-keyword">end</span></pre>
+          </div>
+          
+        </div>
+
+        
+
+        
+      </div>
+
+    
       <div id="method-i-index" class="method-detail ">
         
         <div class="method-heading">
@@ -130,7 +167,7 @@
             <pre><span class="ruby-comment"># File app/admin/configuration.rb, line 12</span>
 <span class="ruby-keyword">def</span> <span class="ruby-identifier">index</span>
   <span class="ruby-identifier">params</span>[<span class="ruby-value">:action</span>] = <span class="ruby-string">&#39;Configuration&#39;</span> <span class="ruby-comment"># for the active admin title</span>
-  <span class="ruby-identifier">render</span> <span class="ruby-string">&#39;admin/settings/index&#39;</span>, <span class="ruby-identifier">layout</span><span class="ruby-operator">:</span> <span class="ruby-string">&#39;active_admin&#39;</span>
+  <span class="ruby-identifier">render</span> <span class="ruby-string">&#39;admin/configuration/index&#39;</span>, <span class="ruby-identifier">layout</span><span class="ruby-operator">:</span> <span class="ruby-string">&#39;active_admin&#39;</span>
 <span class="ruby-keyword">end</span></pre>
           </div>
           
@@ -163,10 +200,10 @@
           <div class="method-source-code" id="update-source">
             <pre><span class="ruby-comment"># File app/admin/configuration.rb, line 17</span>
 <span class="ruby-keyword">def</span> <span class="ruby-identifier">update</span>
-  <span class="ruby-identifier">params</span>[<span class="ruby-value">:update_configuration</span>].<span class="ruby-identifier">each</span> <span class="ruby-keyword">do</span> <span class="ruby-operator">|</span><span class="ruby-identifier">setting</span>, <span class="ruby-identifier">value</span><span class="ruby-operator">|</span>
+  <span class="ruby-identifier">params</span>.<span class="ruby-identifier">require</span>(<span class="ruby-value">:update_configuration</span>).<span class="ruby-identifier">permit</span>(<span class="ruby-constant">Configuration</span>.<span class="ruby-identifier">settings</span>).<span class="ruby-identifier">each</span> <span class="ruby-keyword">do</span> <span class="ruby-operator">|</span><span class="ruby-identifier">setting</span>, <span class="ruby-identifier">value</span><span class="ruby-operator">|</span>
     <span class="ruby-constant">Configuration</span>.<span class="ruby-identifier">send</span>(<span class="ruby-node">&quot;#{setting}=&quot;</span>, <span class="ruby-identifier">value</span>)
   <span class="ruby-keyword">end</span>
-  <span class="ruby-identifier">redirect_to</span> <span class="ruby-value">:back</span>, <span class="ruby-identifier">notice</span><span class="ruby-operator">:</span> <span class="ruby-string">&#39;Settings Saved&#39;</span>
+  <span class="ruby-identifier">redirect_to</span> <span class="ruby-identifier">admin_configurations_path</span>, <span class="ruby-identifier">notice</span><span class="ruby-operator">:</span> <span class="ruby-string">&#39;Settings Saved&#39;</span>
 <span class="ruby-keyword">end</span></pre>
           </div>
           

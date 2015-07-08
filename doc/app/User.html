@@ -127,7 +127,7 @@
 
           
           <div class="method-source-code" id="currency_name-source">
-            <pre><span class="ruby-comment"># File app/models/user.rb, line 11</span>
+            <pre><span class="ruby-comment"># File app/models/user.rb, line 13</span>
 <span class="ruby-keyword">def</span> <span class="ruby-identifier">currency_name</span>
   <span class="ruby-keyword">return</span> <span class="ruby-keyword">if</span> <span class="ruby-identifier">currency</span>.<span class="ruby-identifier">blank?</span>
   <span class="ruby-identifier">m</span> = <span class="ruby-constant">Money</span><span class="ruby-operator">::</span><span class="ruby-constant">Currency</span>.<span class="ruby-identifier">new</span>(<span class="ruby-identifier">currency</span>)
@@ -162,7 +162,7 @@
 
           
           <div class="method-source-code" id="generate_password-source">
-            <pre><span class="ruby-comment"># File app/models/user.rb, line 17</span>
+            <pre><span class="ruby-comment"># File app/models/user.rb, line 19</span>
 <span class="ruby-keyword">def</span> <span class="ruby-identifier">generate_password</span>
   <span class="ruby-keyword">self</span>.<span class="ruby-identifier">password_confirmation</span> = <span class="ruby-keyword">self</span>.<span class="ruby-identifier">password</span> = <span class="ruby-constant">Devise</span>.<span class="ruby-identifier">friendly_token</span> <span class="ruby-keyword">if</span> <span class="ruby-identifier">password</span>.<span class="ruby-identifier">nil?</span> <span class="ruby-operator">||</span> <span class="ruby-identifier">password</span>.<span class="ruby-identifier">blank?</span>
 <span class="ruby-keyword">end</span></pre>

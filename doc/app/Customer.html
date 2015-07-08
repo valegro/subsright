@@ -117,6 +117,19 @@
         </div>
       </div>
       
+      <div id="attribute-i-product_id" class="method-detail">
+        <div class="method-heading attribute-method-heading">
+          <span class="method-name">product_id</span><span
+            class="attribute-access-type">[RW]</span>
+        </div>
+
+        <div class="method-description">
+        
+        
+        
+        </div>
+      </div>
+      
     </section>
     
 
@@ -147,7 +160,7 @@
 
           
           <div class="method-source-code" id="country_name-source">
-            <pre><span class="ruby-comment"># File app/models/customer.rb, line 24</span>
+            <pre><span class="ruby-comment"># File app/models/customer.rb, line 27</span>
 <span class="ruby-keyword">def</span> <span class="ruby-identifier">country_name</span>
   <span class="ruby-identifier">c</span> = <span class="ruby-constant">ISO3166</span><span class="ruby-operator">::</span><span class="ruby-constant">Country</span>[<span class="ruby-identifier">country</span>]
   <span class="ruby-identifier">c</span>.<span class="ruby-identifier">translations</span>[<span class="ruby-constant">I18n</span>.<span class="ruby-identifier">locale</span>.<span class="ruby-identifier">to_s</span>] <span class="ruby-operator">||</span> <span class="ruby-identifier">c</span>.<span class="ruby-identifier">name</span>
