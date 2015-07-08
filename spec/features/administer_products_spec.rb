@@ -32,7 +32,7 @@ RSpec.feature 'Administer product', type: :feature do
 
     context 'when viewing record' do
       background { visit admin_product_path(product) }
-      [ :name, :image, :stock, :offers, :description, :created_at, :updated_at ].each do |field|
+      [ :name, :image, :stock, :offers, :product_orders, :description, :created_at, :updated_at ].each do |field|
         scenario { expect(page).to have_css :th, text: field.to_s.titlecase }
       end
     end

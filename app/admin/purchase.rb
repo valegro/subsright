@@ -35,8 +35,9 @@ ActiveAdmin.register Purchase do
           purchase.product_orders.order(:product_id).each do |po|
             li do
               link_to( po.product.name, admin_product_path(po.product) ) + ' for ' +
-                link_to( po.customer.name, admin_customer_path(po.customer) ) +
-                ( po.shipped ? " (shipped #{I18n.l po.shipped, format: :long})" : ' (pending)' )
+                link_to( po.customer.name, admin_customer_path(po.customer) ) + ': ' +
+                link_to( po.shipped ? "shipped #{I18n.l po.shipped, format: :long}" : 'pending',
+                  admin_product_order_path(po) )
             end
           end
         end

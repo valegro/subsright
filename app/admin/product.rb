@@ -40,6 +40,11 @@ ActiveAdmin.register Product do
         ( product.offers.order(:name).map { |offer| link_to offer.name, admin_offer_path(offer) }
         ).join(', ').html_safe
       end
+      row :product_orders do
+        ( product.product_orders.where('shipped IS NULL')
+          .map { |po| link_to po.customer.name, admin_product_order_path(po) }
+        ).join(', ').html_safe
+      end
       row(:description) { product.description.html_safe unless product.description.nil? }
       row :created_at
       row :updated_at

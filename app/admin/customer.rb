@@ -57,7 +57,7 @@ ActiveAdmin.register Customer do
       end
       row :product_orders do
         ( customer.product_orders.where('shipped IS NULL')
-          .map { |po| link_to po.product.name, admin_product_path(po.product) }
+          .map { |po| link_to po.product.name, admin_product_order_path(po) }
         ).join(', ').html_safe
       end
       row :created_at

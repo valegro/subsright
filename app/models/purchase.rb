@@ -17,7 +17,7 @@ class Purchase < ActiveRecord::Base
     "#{m.name} (#{m.iso_code})"
   end
 
-  def status
+  def to_s
     "#{currency} #{amount} (" + ( completed_at ? 'completed at ' + I18n.l(completed_at, format: :long) : 'pending' ) +
       ')'
   end

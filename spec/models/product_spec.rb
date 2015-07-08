@@ -11,6 +11,7 @@ RSpec.describe Product, type: :model do
   it { expect(product).to accept_nested_attributes_for(:offer_products) }
   it { expect(product).to have_many(:offers).through(:offer_products) }
   it { expect(product).to accept_nested_attributes_for(:offers) }
+  it { expect(product).to have_many(:product_orders) }
   it { expect(product).to validate_presence_of(:name) }
   it { expect(product).to validate_uniqueness_of(:name) }
   it { expect(product).not_to allow_value('invalid').for(:image_content_type) }

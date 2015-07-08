@@ -40,12 +40,12 @@ RSpec.feature 'Administer purchase', type: :feature do
       scenario 'names associated customers and products' do
         create(:product_order, customer: customer, purchase: purchase, product: product)
         visit admin_purchase_path(purchase)
-        expect(page).to have_text "#{product.name} for #{customer.name} (pending)"
+        expect(page).to have_text "#{product.name} for #{customer.name}: pending"
       end
       scenario 'reports product order shipped dates' do
         create(:product_order, customer: customer, purchase: purchase, product: product, shipped: Time.zone.today)
         visit admin_purchase_path(purchase)
-        expect(page).to have_text "(shipped #{I18n.l Time.zone.today, format: :long})"
+        expect(page).to have_text "shipped #{I18n.l Time.zone.today, format: :long}"
       end
     end
   end
