@@ -122,4 +122,15 @@ RSpec.feature 'Take an offer', type: :feature do
       expect { click_on 'Purchase' }.to change(ProductOrder, :count).by(1)
     end
   end
+
+  context 'when there are optional products' do
+    scenario 'create product orders' do
+      create(:offer_product, offer: offer, product: create(:product), optional: true)
+      visit offer_path(offer)
+      fill_in :purchase_customer_name, with: Faker::Name.name
+      fill_in :purchase_customer_address, with: address
+      fill_in :purchase_customer_postcode, with: Faker::Address.postcode
+      expect { click_on 'Purchase' }.to change(ProductOrder, :count).by(1)
+    end
+  end
 end

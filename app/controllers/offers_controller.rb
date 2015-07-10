@@ -23,17 +23,7 @@ class OffersController < InheritedResources::Base
 
   def purchase
     if params[:id].present?
-      @offer = Offer.find(params[:id])
-      @purchase = Purchase.new(offer: @offer)
-      if customer_params
-        update_or_create_customer!
-        price = Price.find(customer_params[:price_id])
-        @purchase.amount_cents = price.amount_cents
-        @purchase.currency = price.currency
-        purchase_publications!(price.name)
-        purchase_products!
-      end
-      @purchase.save!
+      purchase_offer!(params[:id])
       flash.alert = nil
       flash.notice = 'Transaction complete.  Thank you!'
     end
@@ -58,7 +48,21 @@ class OffersController < InheritedResources::Base
 
   def customer_params
     purchase_params.require(:customer)
-      .permit(:price_id, :name, :email, :phone, :address, :country, :postcode, :currency)
+      .permit(:name, :email, :phone, :address, :country, :postcode, :price_id, :product_id)
+  end
+
+  def purchase_offer!(id)
+    @offer = Offer.find(id)
+    @purchase = Purchase.new(offer: @offer)
+    if customer_params
+      update_or_create_customer!
+      price = Price.find(customer_params[:price_id])
+      @purchase.amount_cents = price.amount_cents
+      @purchase.currency = price.currency
+      purchase_publications!(price.name)
+      purchase_products!
+    end
+    @purchase.save!
   end
 
   def purchase_params
@@ -66,9 +70,12 @@ class OffersController < InheritedResources::Base
   end
 
   def purchase_products!
-    @offer.offer_products.where('optional = FALSE').each do |offer_product|
+    @offer.offer_products.where(optional: false).each do |offer_product|
       ProductOrder.new(customer: @customer, purchase: @purchase, product: offer_product.product).save!
     end
+    return unless customer_params[:product_id]
+    product = Product.find(customer_params[:product_id])
+    ProductOrder.new(customer: @customer, purchase: @purchase, product: product).save! if product
   end
 
   def purchase_publications!(price_name)
