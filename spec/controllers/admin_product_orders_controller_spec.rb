@@ -35,15 +35,25 @@ RSpec.describe Admin::ProductOrdersController, type: :controller do
       product_order.reload
       expect(product_order.shipped).to eq Time.zone.today
     end
+    it "decrements the product's stock level" do
+      product_order.product.update! stock: 2
+      patch :shipped, id: product_order
+      product_order.product.reload
+      expect(product_order.product.stock).to eq 1
+    end
     it 'redirects to the updated product_order' do
       patch :shipped, id: product_order
       expect(response).to redirect_to admin_product_orders_path
     end
     it 'reports an error if already shipped' do
-      product_order.shipped = Time.zone.today
-      product_order.save!
+      product_order.update! shipped: Time.zone.today
       patch :shipped, id: product_order
       expect(flash).to include [ 'error', "Already shipped on #{I18n.l product_order.shipped, format: :long}" ]
+    end
+    it 'reports an error if out of stock' do
+      product_order.product.update! stock: 0
+      patch :shipped, id: product_order
+      expect(flash).to include [ 'error', "#{product_order.product.name} is out of stock" ]
     end
   end
 
@@ -69,20 +79,34 @@ RSpec.describe Admin::ProductOrdersController, type: :controller do
 
   describe 'POST #batch_action shipped' do
     let(:product_orders) { [ create(:product_order), create(:product_order) ] }
+    let :post_params do
+      [ batch_action: :shipped, collection_selection_toggle_all: 'on', collection_selection: product_orders ]
+    end
     before { product_orders }
     it 'sets the product_orders shipped dates' do
-      post :batch_action,
-        batch_action: :shipped,
-        collection_selection_toggle_all: 'on',
-        collection_selection: product_orders
+      post :batch_action, *post_params
       ProductOrder.all { |po| expect(po.shipped).to eq Time.zone.today }
     end
+    it "decrements the products' stock levels" do
+      product = product_orders[0].product
+      product.update! stock: 2
+      post :batch_action, *post_params
+      product.reload
+      expect(product.stock).to eq 1
+    end
     it 'redirects to product_orders#index' do
-      post :batch_action,
-        batch_action: :shipped,
-        collection_selection_toggle_all: 'on',
-        collection_selection: product_orders
+      post :batch_action, *post_params
       expect(response).to redirect_to admin_product_orders_path
+    end
+    it 'alerts if some products could not be shipped' do
+      product_orders[1].product.update! stock: 0
+      post :batch_action, *post_params
+      expect(flash).to include [ 'alert', '1 selected product order shipped' ]
+    end
+    it 'reports an error if no products could be shipped' do
+      product_orders.each { |po| po.product.update! stock: 0 }
+      post :batch_action, *post_params
+      expect(flash).to include [ 'error', 'Product orders could not be shipped' ]
     end
   end
 
@@ -90,19 +114,16 @@ RSpec.describe Admin::ProductOrdersController, type: :controller do
     let :product_orders do
       [ create(:product_order, shipped: Time.zone.today), create(:product_order, shipped: Time.zone.today) ]
     end
+    let :post_params do
+      [ batch_action: :reship, collection_selection_toggle_all: 'on', collection_selection: product_orders ]
+    end
     before { product_orders }
     it 'resets the product_orders shipped dates' do
-      post :batch_action,
-        batch_action: :reship,
-        collection_selection_toggle_all: 'on',
-        collection_selection: product_orders
+      post :batch_action, *post_params
       ProductOrder.all { |po| expect(po.shipped).to eq nil }
     end
     it 'redirects to product_orders#index' do
-      post :batch_action,
-        batch_action: :reship,
-        collection_selection_toggle_all: 'on',
-        collection_selection: product_orders
+      post :batch_action, *post_params
       expect(response).to redirect_to admin_product_orders_path
     end
   end

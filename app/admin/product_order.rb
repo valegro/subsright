@@ -36,25 +36,43 @@ ActiveAdmin.register ProductOrder do
   member_action :shipped, method: :patch do
     if resource.shipped
       flash[:error] = "Already shipped on #{I18n.l resource.shipped, format: :long}"
-      redirect_to admin_product_orders_path
+    elsif resource.product.stock == 0
+      flash[:error] = resource.product.name + ' is out of stock'
     else
-      resource.update_attributes! shipped: Time.zone.today
-      redirect_to admin_product_orders_path, notice: "Shipped #{resource.product.name} to #{resource.customer.name}"
+      resource.product.update! stock: resource.product.stock - 1 if resource.product.stock
+      resource.update! shipped: Time.zone.today
+      flash[:notice] = "Shipped #{resource.product.name} to #{resource.customer.name}"
     end
+    redirect_to admin_product_orders_path
   end
 
   member_action :reship, method: :patch do
-    resource.update_attributes! shipped: nil
+    resource.update! shipped: nil
     redirect_to admin_product_orders_path, notice: "Will reship #{resource.product.name} to #{resource.customer.name}"
   end
 
   batch_action :shipped do |ids|
-    ProductOrder.find(ids).each { |po| po.update_attributes! shipped: Time.zone.today unless po.shipped }
-    redirect_to admin_product_orders_path, notice: 'Selected product orders shipped'
+    count = 0
+
+    ProductOrder.find(ids).each do |po|
+      next if po.shipped || po.product.stock == 0
+      po.product.update! stock: po.product.stock - 1 if po.product.stock
+      po.update! shipped: Time.zone.today
+      count += 1
+    end
+
+    if count == ids.size
+      flash[:notice] = 'Selected product orders shipped'
+    elsif count > 0
+      flash[:alert] = "#{count} selected product " + 'order'.pluralize(count) + ' shipped'
+    else
+      flash[:error] = 'Product orders could not be shipped'
+    end
+    redirect_to admin_product_orders_path
   end
 
   batch_action :reship do |ids|
-    ProductOrder.find(ids).each { |po| po.update_attributes! shipped: nil }
+    ProductOrder.find(ids).each { |po| po.update! shipped: nil }
     redirect_to admin_product_orders_path, notice: 'Selected product orders will be reshipped'
   end
 end
