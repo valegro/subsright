@@ -1,16 +1,16 @@
 require 'rails_helper'
 
 RSpec.describe Admin::CampaignsController, type: :controller do
-  let(:admin_user) { create(:admin_user, confirmed_at: Time.zone.now) }
+  let(:admin_user) { create :admin_user, confirmed_at: Time.zone.now }
   before { sign_in admin_user }
-  let(:campaign) { create(:campaign) }
-  let(:invalid_attributes) { attributes_for(:campaign, name: nil) }
+  let(:campaign) { create :campaign }
+  let(:invalid_attributes) { attributes_for :campaign, name: nil }
 
   describe 'GET #index' do
     it('responds successfully') { expect(get :index).to be_success }
     it 'assigns @campaigns' do
       get :index
-      expect(assigns(:campaigns)).to eq [campaign]
+      expect(assigns :campaigns).to eq [campaign]
     end
     it('renders the index template') { expect(get :index).to render_template('index') }
   end
@@ -29,7 +29,7 @@ RSpec.describe Admin::CampaignsController, type: :controller do
       it 'does not save the new campaign' do
         expect { post :create, campaign: invalid_attributes }.not_to change(Campaign, :count)
       end
-      it('re-renders the new template') do
+      it 're-renders the new template' do
         expect(post :create, campaign: invalid_attributes).to render_template('new')
       end
     end
@@ -49,7 +49,7 @@ RSpec.describe Admin::CampaignsController, type: :controller do
     it('responds successfully') { expect(get :show, id: campaign).to be_success }
     it 'assigns the requested campaign to @campaign' do
       get :show, id: campaign
-      expect(assigns(:campaign)).to eq campaign
+      expect(assigns :campaign).to eq campaign
     end
     it('renders the show template') { expect(get :show, id: campaign).to render_template('show') }
   end
@@ -59,10 +59,10 @@ RSpec.describe Admin::CampaignsController, type: :controller do
     context 'with valid attributes' do
       it 'locates the requested campaign' do
         patch :update, id: campaign, campaign: attributes_for(:campaign)
-        expect(assigns(:campaign)).to eq campaign
+        expect(assigns :campaign).to eq campaign
       end
       it "changes the campaign's attributes" do
-        new_attributes = attributes_for(:campaign)
+        new_attributes = attributes_for :campaign
         patch :update, id: campaign, campaign: new_attributes
         campaign.reload
         expect(campaign.name).to eq new_attributes[:name]
@@ -75,7 +75,7 @@ RSpec.describe Admin::CampaignsController, type: :controller do
     context 'with invalid attributes' do
       it 'locates the requested campaign' do
         patch :update, id: campaign, campaign: invalid_attributes
-        expect(assigns(:campaign)).to eq campaign
+        expect(assigns :campaign).to eq campaign
       end
       it "does not change the campaign's attributes" do
         name = campaign.name
@@ -93,12 +93,23 @@ RSpec.describe Admin::CampaignsController, type: :controller do
     before { campaign }
     it('deletes the campaign') { expect { delete :destroy, id: campaign }.to change(Campaign, :count).by(-1) }
     it('redirects to campaigns#index') { expect(delete :destroy, id: campaign).to redirect_to admin_campaigns_path }
+    context 'when there are active offers' do
+      before do
+        create :campaign_offer, campaign: campaign,
+          offer: create(:offer, start: Time.zone.yesterday, finish: Time.zone.tomorrow)
+      end
+      it('does not delete the campaign') { expect { delete :destroy, id: campaign }.to change(Campaign, :count).by(0) }
+      it 'reports an error' do
+        delete :destroy, id: campaign
+        expect(flash[:error]).to include ['There are currently active offers on this campaign.']
+      end
+    end
   end
 
   describe 'POST #batch_action' do
     let(:campaigns) { [create(:campaign), create(:campaign)] }
     before { campaigns }
-    it('deletes the campaigns') do
+    it 'deletes the campaigns' do
       expect do
         post :batch_action,
           batch_action: 'destroy',
@@ -106,7 +117,7 @@ RSpec.describe Admin::CampaignsController, type: :controller do
           collection_selection: campaigns
       end.to change(Campaign, :count).by(-2)
     end
-    it('redirects to campaigns#index') do
+    it 'redirects to campaigns#index' do
       post :batch_action,
         batch_action: 'destroy',
         collection_selection_toggle_all: 'on',
