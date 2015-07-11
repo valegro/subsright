@@ -34,14 +34,12 @@ class OffersController < InheritedResources::Base
   protected
 
   def show_errors(exception)
-    if @offer.prices.count == 0
-      redirect_to action: :index
-    else
-      flash.alert = exception.message
-      @products = @offer.offer_products.by_name
-      @customer = Customer.new(customer_params)
-      render :show
-    end
+    return redirect_to action: :index if @offer.prices.empty?
+
+    flash.alert = exception.message
+    @products = @offer.offer_products.by_name
+    @customer = Customer.new(customer_params)
+    render :show
   end
 
   private
