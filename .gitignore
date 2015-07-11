@@ -17,3 +17,6 @@
 # Ignore automatically generated and uploaded public assets
 /public/assets
 /public/system
+
+# Ignore coverage output
+/coverage

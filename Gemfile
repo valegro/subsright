@@ -79,5 +79,6 @@ group :test do
   gem 'faker'
   gem 'shoulda-matchers', require: false
   gem 'capybara'
+  gem 'simplecov', require: false
 end
 
