@@ -1,18 +1,24 @@
 require 'rails_helper'
 
 RSpec.describe Admin::PublicationsController, type: :controller do
-  let(:admin_user) { create(:admin_user, confirmed_at: Time.zone.now) }
+  let(:admin_user) { create :admin_user, confirmed_at: Time.zone.now }
   before { sign_in admin_user }
-  let(:publication) { create(:publication) }
-  let(:invalid_attributes) { attributes_for(:publication, name: nil) }
+  let(:publication) { create :publication }
+  let(:invalid_attributes) { attributes_for :publication, name: nil }
 
   describe 'GET #index' do
+    render_views
     it('responds successfully') { expect(get :index).to be_success }
     it 'assigns @publications' do
       get :index
-      expect(assigns(:publications)).to eq [publication]
+      expect(assigns :publications).to eq [publication]
     end
-    it('renders the index template') { expect(get :index).to render_template('index') }
+    it('renders the index template') { expect(get :index).to render_template :index }
+    it 'shows publication thumbnails' do
+      publication.update! image: File.new( Rails.root.join( *%w(app assets images subscriptus-logo.png) ) )
+      get :index
+      expect(response.body).to have_css 'img[alt="Subscriptus logo"]'
+    end
   end
 
   describe 'POST #create' do
@@ -30,28 +36,34 @@ RSpec.describe Admin::PublicationsController, type: :controller do
         expect { post :create, publication: invalid_attributes }.not_to change(Publication, :count)
       end
       it('re-renders the new template') do
-        expect(post :create, publication: invalid_attributes).to render_template('new')
+        expect(post :create, publication: invalid_attributes).to render_template :new
       end
     end
   end
 
   describe 'GET #new' do
     it('responds successfully') { expect(get :new).to be_success }
-    it('renders the new template') { expect(get :new).to render_template('new') }
+    it('renders the new template') { expect(get :new).to render_template :new }
   end
 
   describe 'GET #edit' do
     it('responds successfully') { expect(get :edit, id: publication).to be_success }
-    it('renders the edit template') { expect(get :edit, id: publication).to render_template('edit') }
+    it('renders the edit template') { expect(get :edit, id: publication).to render_template :edit }
   end
 
   describe 'GET #show' do
+    render_views
     it('responds successfully') { expect(get :show, id: publication).to be_success }
     it 'assigns the requested publication to @publication' do
       get :show, id: publication
-      expect(assigns(:publication)).to eq publication
+      expect(assigns :publication).to eq publication
     end
-    it('renders the show template') { expect(get :show, id: publication).to render_template('show') }
+    it('renders the show template') { expect(get :show, id: publication).to render_template :show }
+    it 'shows the publication image' do
+      publication.update! image: File.new( Rails.root.join( *%w(app assets images subscriptus-logo.png) ) )
+      get :show, id: publication
+      expect(response.body).to have_css 'img[alt="Subscriptus logo"]'
+    end
   end
 
   describe 'PATCH #update' do
@@ -59,10 +71,10 @@ RSpec.describe Admin::PublicationsController, type: :controller do
     context 'with valid attributes' do
       it 'locates the requested publication' do
         patch :update, id: publication, publication: attributes_for(:publication)
-        expect(assigns(:publication)).to eq publication
+        expect(assigns :publication).to eq publication
       end
       it "changes the publication's attributes" do
-        new_attributes = attributes_for(:publication)
+        new_attributes = attributes_for :publication
         patch :update, id: publication, publication: new_attributes
         publication.reload
         expect(publication.name).to eq new_attributes[:name]
@@ -75,7 +87,7 @@ RSpec.describe Admin::PublicationsController, type: :controller do
     context 'with invalid attributes' do
       it 'locates the requested publication' do
         patch :update, id: publication, publication: invalid_attributes
-        expect(assigns(:publication)).to eq publication
+        expect(assigns :publication).to eq publication
       end
       it "does not change the publication's attributes" do
         name = publication.name
@@ -84,7 +96,7 @@ RSpec.describe Admin::PublicationsController, type: :controller do
         expect(publication.name).to eq name
       end
       it 're-renders the edit template' do
-        expect(patch :update, id: publication, publication: invalid_attributes).to render_template('edit')
+        expect(patch :update, id: publication, publication: invalid_attributes).to render_template :edit
       end
     end
   end
@@ -92,7 +104,7 @@ RSpec.describe Admin::PublicationsController, type: :controller do
   describe 'DELETE #destroy' do
     before { publication }
     it('deletes the publication') { expect { delete :destroy, id: publication }.to change(Publication, :count).by(-1) }
-    it('redirects to publications#index') do
+    it 'redirects to publications#index' do
       expect(delete :destroy, id: publication).to redirect_to admin_publications_path
     end
   end
@@ -100,17 +112,17 @@ RSpec.describe Admin::PublicationsController, type: :controller do
   describe 'POST #batch_action' do
     let(:publications) { [create(:publication), create(:publication)] }
     before { publications }
-    it('deletes the publications') do
+    it 'deletes the publications' do
       expect do
         post :batch_action,
-          batch_action: 'destroy',
+          batch_action: :destroy,
           collection_selection_toggle_all: 'on',
           collection_selection: publications
       end.to change(Publication, :count).by(-2)
     end
-    it('redirects to publications#index') do
+    it 'redirects to publications#index' do
       post :batch_action,
-        batch_action: 'destroy',
+        batch_action: :destroy,
         collection_selection_toggle_all: 'on',
         collection_selection: publications
       expect(response).to redirect_to admin_publications_path
