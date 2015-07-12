@@ -7,18 +7,12 @@ RSpec.describe Admin::ProductsController, type: :controller do
   let(:invalid_attributes) { attributes_for :product, name: nil }
 
   describe 'GET #index' do
-    render_views
     it('responds successfully') { expect(get :index).to be_success }
     it 'assigns @products' do
       get :index
       expect(assigns :products).to eq [product]
     end
     it('renders the index template') { expect(get :index).to render_template :index }
-    it 'shows product thumbnails' do
-      product.update! image: File.new( Rails.root.join( *%w(app assets images subscriptus-logo.png) ) )
-      get :index
-      expect(response.body).to have_css 'img[alt="Subscriptus logo"]'
-    end
   end
 
   describe 'POST #create' do
@@ -50,18 +44,12 @@ RSpec.describe Admin::ProductsController, type: :controller do
   end
 
   describe 'GET #show' do
-    render_views
     it('responds successfully') { expect(get :show, id: product).to be_success }
     it 'assigns the requested product to @product' do
       get :show, id: product
       expect(assigns :product).to eq product
     end
     it('renders the show template') { expect(get :show, id: product).to render_template :show }
-    it 'shows the product image' do
-      product.update! image: File.new( Rails.root.join( *%w(app assets images subscriptus-logo.png) ) )
-      get :show, id: product
-      expect(response.body).to have_css 'img[alt="Subscriptus logo"]'
-    end
   end
 
   describe 'PATCH #update' do

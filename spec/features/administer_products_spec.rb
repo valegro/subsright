@@ -7,8 +7,8 @@ RSpec.feature 'Administer product', type: :feature do
   end
 
   context 'when logged in' do
-    given(:admin_user) { create(:admin_user, confirmed_at: Time.zone.now) }
-    given(:product) { create(:product) }
+    given(:admin_user) { create :admin_user, confirmed_at: Time.zone.now }
+    given(:product) { create :product }
     background do
       product
       login_as admin_user, scope: :admin_user
@@ -28,12 +28,22 @@ RSpec.feature 'Administer product', type: :feature do
       scenario('filter by offer')               { expect(page).to have_field 'q_offer_ids' }
       scenario('filter by creation time')       { expect(page).to have_field 'q_created_at_gteq' }
       scenario('filter by update time')         { expect(page).to have_field 'q_updated_at_gteq' }
+      scenario 'show product thumbnails' do
+        product.update! image: File.new( Rails.root.join( *%w(app assets images subscriptus-logo.png) ) )
+        visit admin_products_path
+        expect(page).to have_css 'img[alt="Subscriptus logo"]'
+      end
     end
 
     context 'when viewing record' do
       background { visit admin_product_path(product) }
       [ :name, :image, :stock, :offers, :product_orders, :description, :created_at, :updated_at ].each do |field|
         scenario { expect(page).to have_css :th, text: field.to_s.titlecase }
+      end
+      scenario 'show the product image' do
+        product.update! image: File.new( Rails.root.join( *%w(app assets images subscriptus-logo.png) ) )
+        visit admin_product_path(product)
+        expect(page).to have_css 'img[alt="Subscriptus logo"]'
       end
     end
 

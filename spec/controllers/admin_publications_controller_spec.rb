@@ -7,18 +7,12 @@ RSpec.describe Admin::PublicationsController, type: :controller do
   let(:invalid_attributes) { attributes_for :publication, name: nil }
 
   describe 'GET #index' do
-    render_views
     it('responds successfully') { expect(get :index).to be_success }
     it 'assigns @publications' do
       get :index
       expect(assigns :publications).to eq [publication]
     end
     it('renders the index template') { expect(get :index).to render_template :index }
-    it 'shows publication thumbnails' do
-      publication.update! image: File.new( Rails.root.join( *%w(app assets images subscriptus-logo.png) ) )
-      get :index
-      expect(response.body).to have_css 'img[alt="Subscriptus logo"]'
-    end
   end
 
   describe 'POST #create' do
@@ -52,18 +46,12 @@ RSpec.describe Admin::PublicationsController, type: :controller do
   end
 
   describe 'GET #show' do
-    render_views
     it('responds successfully') { expect(get :show, id: publication).to be_success }
     it 'assigns the requested publication to @publication' do
       get :show, id: publication
       expect(assigns :publication).to eq publication
     end
     it('renders the show template') { expect(get :show, id: publication).to render_template :show }
-    it 'shows the publication image' do
-      publication.update! image: File.new( Rails.root.join( *%w(app assets images subscriptus-logo.png) ) )
-      get :show, id: publication
-      expect(response.body).to have_css 'img[alt="Subscriptus logo"]'
-    end
   end
 
   describe 'PATCH #update' do
