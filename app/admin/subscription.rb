@@ -36,7 +36,7 @@ ActiveAdmin.register Subscription do
       row :purchases do
         ul do
           subscription.payments.order(:purchase_id)
-            .each { |p| li p.price_name.html_safe + ' ' + link_to(p.purchase.status, admin_purchase_path(p.purchase)) }
+            .each { |p| li p.price_name.html_safe + ' ' + link_to(p.purchase, admin_purchase_path(p.purchase)) }
         end
       end
       row :created_at
