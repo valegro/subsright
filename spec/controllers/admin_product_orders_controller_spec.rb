@@ -26,34 +26,43 @@ RSpec.describe Admin::ProductOrdersController, type: :controller do
 
   describe 'PATCH #shipped' do
     before { product_order }
-    it 'locates the requested product_order' do
-      patch :shipped, id: product_order
-      expect(assigns(:product_order)).to eq product_order
+    context 'when purchase is pending' do
+      it 'reports an error if purchase is pending' do
+        patch :shipped, id: product_order
+        expect(flash).to include [ 'error', 'Purchase not completed' ]
+      end
     end
-    it "changes the product_order's attributes" do
-      patch :shipped, id: product_order
-      product_order.reload
-      expect(product_order.shipped).to eq Time.zone.today
-    end
-    it "decrements the product's stock level" do
-      product_order.product.update! stock: 2
-      patch :shipped, id: product_order
-      product_order.product.reload
-      expect(product_order.product.stock).to eq 1
-    end
-    it 'redirects to the updated product_order' do
-      patch :shipped, id: product_order
-      expect(response).to redirect_to admin_product_orders_path
-    end
-    it 'reports an error if already shipped' do
-      product_order.update! shipped: Time.zone.today
-      patch :shipped, id: product_order
-      expect(flash).to include [ 'error', "Already shipped on #{I18n.l product_order.shipped, format: :long}" ]
-    end
-    it 'reports an error if out of stock' do
-      product_order.product.update! stock: 0
-      patch :shipped, id: product_order
-      expect(flash).to include [ 'error', "#{product_order.product.name} is out of stock" ]
+    context 'when purchase is complete' do
+      before { product_order.purchase.update! completed_at: Time.zone.now, receipt: rand(1000) }
+      it 'locates the requested product_order' do
+        patch :shipped, id: product_order
+        expect(assigns(:product_order)).to eq product_order
+      end
+      it "changes the product_order's attributes" do
+        patch :shipped, id: product_order
+        product_order.reload
+        expect(product_order.shipped).to eq Time.zone.today
+      end
+      it "decrements the product's stock level" do
+        product_order.product.update! stock: 2
+        patch :shipped, id: product_order
+        product_order.product.reload
+        expect(product_order.product.stock).to eq 1
+      end
+      it 'redirects to the updated product_order' do
+        patch :shipped, id: product_order
+        expect(response).to redirect_to admin_product_orders_path
+      end
+      it 'reports an error if already shipped' do
+        product_order.update! shipped: Time.zone.today
+        patch :shipped, id: product_order
+        expect(flash).to include [ 'error', "Already shipped on #{I18n.l product_order.shipped, format: :long}" ]
+      end
+      it 'reports an error if out of stock' do
+        product_order.product.update! stock: 0
+        patch :shipped, id: product_order
+        expect(flash).to include [ 'error', "#{product_order.product.name} is out of stock" ]
+      end
     end
   end
 
@@ -63,7 +72,7 @@ RSpec.describe Admin::ProductOrdersController, type: :controller do
       product_order.save!
     end
     it 'locates the requested product_order' do
-      patch :reship, id: product_order, product_order: attributes_for(:product_order)
+      patch :reship, id: product_order
       expect(assigns(:product_order)).to eq product_order
     end
     it "changes the product_order's attributes" do
@@ -72,7 +81,7 @@ RSpec.describe Admin::ProductOrdersController, type: :controller do
       expect(product_order.shipped).to eq nil
     end
     it 'redirects to the updated product_order' do
-      patch :reship, id: product_order, product_order: attributes_for(:product_order)
+      patch :reship, id: product_order
       expect(response).to redirect_to admin_product_orders_path
     end
   end
@@ -82,13 +91,18 @@ RSpec.describe Admin::ProductOrdersController, type: :controller do
     let :post_params do
       [ batch_action: :shipped, collection_selection_toggle_all: 'on', collection_selection: product_orders ]
     end
-    before { product_orders }
+    before { product_orders[1].purchase.update! completed_at: Time.zone.now, receipt: rand(1000) }
+    it 'does not ship any product_orders with pending purchases' do
+      post :batch_action, *post_params
+      expect(ProductOrder.first.shipped).to eq nil
+    end
     it 'sets the product_orders shipped dates' do
       post :batch_action, *post_params
-      ProductOrder.all { |po| expect(po.shipped).to eq Time.zone.today }
+      product_orders[1].reload
+      expect(product_orders[1].shipped).to eq Time.zone.today
     end
     it "decrements the products' stock levels" do
-      product = product_orders[0].product
+      product = product_orders[1].product
       product.update! stock: 2
       post :batch_action, *post_params
       product.reload
@@ -99,7 +113,6 @@ RSpec.describe Admin::ProductOrdersController, type: :controller do
       expect(response).to redirect_to admin_product_orders_path
     end
     it 'alerts if some products could not be shipped' do
-      product_orders[1].product.update! stock: 0
       post :batch_action, *post_params
       expect(flash).to include [ 'alert', '1 selected product order shipped' ]
     end
@@ -107,6 +120,11 @@ RSpec.describe Admin::ProductOrdersController, type: :controller do
       product_orders.each { |po| po.product.update! stock: 0 }
       post :batch_action, *post_params
       expect(flash).to include [ 'error', 'Product orders could not be shipped' ]
+    end
+    it 'reports success if all selected products were shipped' do
+      product_orders[0].purchase.update! completed_at: Time.zone.now, receipt: rand(1000)
+      post :batch_action, *post_params
+      expect(flash).to include [ 'notice', 'Selected product orders shipped' ]
     end
   end
 

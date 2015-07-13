@@ -19,3 +19,4 @@
 * Allow signed in users to provide multiple customer details during purchase
 * Add "wizards" that provide administrator workflow
 * Add time zones to AdminUsers and Users
+* Implement purchase cancellation

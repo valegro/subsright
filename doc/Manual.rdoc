@@ -110,10 +110,10 @@ default full price or as a discount price.  Price points can be edited or delete
 == Products
 
 Each product can have a stock level.  The quantity in stock will be decreased by one for each
-product sold to a customer as part of an offer purchased.  Customers will be warned when a product
-is out of stock and required to explicitly confirm purchase of any offer where one or more included
-products can not be provided.  If there is no quantity specified the product will be considered to
-have unlimited availability.
+product shipped to a customer as part of an offer purchased.  Customers will be warned when a
+product is out of stock and required to explicitly confirm purchase of any offer where one or more
+included products can not be provided.  If there is no quantity specified the product will be
+considered to have unlimited availability.
 
 Products can be an "optional" part of an offer, in which case the customer will be asked to
 select any one of the optional products for that offer that are in stock.  Non-optional products
@@ -131,6 +131,11 @@ Administrators will be able to see all product orders with a completed purchase 
 as a list of in-stock products that need to be shipped, and all product orders with no stock and no
 shipped date (regardless of purchase completion) as a list of out-of-stock products that need to be
 reordered if possible.
+
+Product orders can be shipped if they are in stock and the associated purchase has been completed.
+Product orders that have already been shipped can be reset as not shipped if the customer requires
+that the product be reshipped, for example due to damage or non-delivery.  This will not return
+the item to stock.  That can be done manually if the product is returned in saleable condition.
 
 Product orders will be automatically archived along with their associated purchases.
 
