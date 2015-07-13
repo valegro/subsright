@@ -129,7 +129,7 @@
 
           
           <div class="method-source-code" id="amount-source">
-            <pre><span class="ruby-comment"># File app/models/purchase.rb, line 11</span>
+            <pre><span class="ruby-comment"># File app/models/purchase.rb, line 12</span>
 <span class="ruby-keyword">def</span> <span class="ruby-identifier">amount</span>
   <span class="ruby-constant">Money</span>.<span class="ruby-identifier">new</span>( <span class="ruby-identifier">amount_cents</span>, <span class="ruby-identifier">currency</span> ).<span class="ruby-identifier">format</span>
 <span class="ruby-keyword">end</span></pre>
@@ -162,7 +162,7 @@
 
           
           <div class="method-source-code" id="currency_name-source">
-            <pre><span class="ruby-comment"># File app/models/purchase.rb, line 15</span>
+            <pre><span class="ruby-comment"># File app/models/purchase.rb, line 16</span>
 <span class="ruby-keyword">def</span> <span class="ruby-identifier">currency_name</span>
   <span class="ruby-identifier">m</span> = <span class="ruby-constant">Money</span><span class="ruby-operator">::</span><span class="ruby-constant">Currency</span>.<span class="ruby-identifier">new</span>(<span class="ruby-identifier">currency</span>)
   <span class="ruby-node">&quot;#{m.name} (#{m.iso_code})&quot;</span>
@@ -196,7 +196,7 @@
 
           
           <div class="method-source-code" id="to_s-source">
-            <pre><span class="ruby-comment"># File app/models/purchase.rb, line 20</span>
+            <pre><span class="ruby-comment"># File app/models/purchase.rb, line 21</span>
 <span class="ruby-keyword">def</span> <span class="ruby-identifier">to_s</span>
   <span class="ruby-node">&quot;#{currency} #{amount} (&quot;</span> <span class="ruby-operator">+</span> ( <span class="ruby-identifier">completed_at</span> <span class="ruby-operator">?</span> <span class="ruby-string">&#39;completed at &#39;</span> <span class="ruby-operator">+</span> <span class="ruby-constant">I18n</span>.<span class="ruby-identifier">l</span>(<span class="ruby-identifier">completed_at</span>, <span class="ruby-identifier">format</span><span class="ruby-operator">:</span> <span class="ruby-value">:long</span>) <span class="ruby-operator">:</span> <span class="ruby-string">&#39;pending&#39;</span> ) <span class="ruby-operator">+</span>
     <span class="ruby-string">&#39;)&#39;</span>

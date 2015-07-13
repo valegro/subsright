@@ -7,6 +7,7 @@ class Purchase < ActiveRecord::Base
   has_many :products, through: :product_orders
 
   validates :offer, presence: true
+  validates :receipt, presence: true, uniqueness: true, unless: 'completed_at.nil?'
 
   def amount
     Money.new( amount_cents, currency ).format

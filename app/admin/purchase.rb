@@ -9,6 +9,16 @@ ActiveAdmin.register Purchase do
   filter :product_orders, if: false
   filter :subscriptions, if: false
 
+  controller do
+    rescue_from ActiveRecord::RecordInvalid, with: :show_errors
+
+    protected
+
+    def show_errors(exception)
+      redirect_to :admin_purchase, flash: { error: exception.message }
+    end
+  end
+
   index do
     id_column
     column :offer
@@ -26,8 +36,10 @@ ActiveAdmin.register Purchase do
       row :offer
       row :currency
       row :amount
-      row :completed_at
-      row :receipt
+      if purchase.completed_at
+        row :completed_at
+        row :receipt
+      end
       row :subscriptions do
         ( purchase.payments.map { |p| link_to p, admin_subscription_path(p.subscription) } ).join(', ').html_safe
       end
@@ -45,7 +57,27 @@ ActiveAdmin.register Purchase do
       end
       row :created_at
       row :updated_at
+      unless purchase.completed_at
+        purchase.completed_at = Time.zone.now
+        render 'complete', locals: { purchase: purchase }
+      end
     end
     active_admin_comments
+  end
+
+  member_action :complete, method: :patch do
+    @purchase = Purchase.find params[:id]
+    return redirect_to :admin_purchase, flash: { error: 'Purchase already complete' } if @purchase.completed_at
+
+    @purchase.update! params.require(:purchase).permit([:completed_at, :receipt])
+    offer = @purchase.offer
+    @purchase.payments.each do |p|
+      expiry = p.subscription.expiry
+      subscribed = p.subscription.subscribed
+      expiry = subscribed if expiry == subscribed + (offer.trial_period || 0).days
+      p.subscription.update! expiry: offer.offer_publications.where(publication_id: p.subscription.publication).first
+        .extend_date(expiry || Time.zone.today)
+    end
+    redirect_to :admin_purchase, notice: 'Purchase complete'
   end
 end

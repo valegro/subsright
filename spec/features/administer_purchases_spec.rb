@@ -33,19 +33,99 @@ RSpec.feature 'Administer purchase', type: :feature do
       given(:customer) { create :customer }
       given(:product) { create :product }
       background { visit admin_purchase_path(purchase) }
-      [ :offer, :currency, :amount, :completed_at, :receipt, :subscriptions, :products, :created_at, :updated_at
-      ].each do |field|
+      [ :offer, :currency, :amount, :subscriptions, :products, :created_at, :updated_at ].each do |field|
         scenario { expect(page).to have_css :th, text: field.to_s.titlecase }
       end
+
+      context 'when not completed' do
+        scenario { expect(page).to have_css 'li#purchase_completed_at_input' }
+        scenario { expect(page).to have_field :purchase_receipt }
+      end
+
+      context 'when completed' do
+        background do
+          purchase.update! completed_at: Time.zone.now, receipt: 'test'
+          visit admin_purchase_path(purchase)
+        end
+        scenario { expect(page).to have_css :th, text: 'Completed At' }
+        scenario { expect(page).to have_css :th, text: 'Receipt' }
+      end
+
       scenario 'names associated customers and products' do
         create(:product_order, customer: customer, purchase: purchase, product: product)
         visit admin_purchase_path(purchase)
         expect(page).to have_text "#{product.name} for #{customer.name}: pending"
       end
+
       scenario 'reports product order shipped dates' do
         create(:product_order, customer: customer, purchase: purchase, product: product, shipped: Time.zone.today)
         visit admin_purchase_path(purchase)
         expect(page).to have_text "shipped #{I18n.l Time.zone.today, format: :long}"
+      end
+    end
+
+    context 'when completing purchase' do
+      scenario 'redirects back to record' do
+        visit admin_purchase_path(purchase)
+        fill_in 'Receipt', with: 'test'
+        click_on 'Complete purchase'
+        purchase.reload
+        expect(purchase.receipt).to eq 'test'
+        expect(page).to have_css '.flash_notice', text: 'Purchase complete'
+      end
+
+      scenario 'reports an error when already complete' do
+        visit admin_purchase_path(purchase)
+        fill_in 'Receipt', with: 'test'
+        purchase.update! completed_at: Time.zone.now, receipt: 'test'
+        click_on 'Complete purchase'
+        expect(page).to have_css '.flash_error', text: 'Purchase already complete'
+      end
+
+      scenario 'reports an error on duplicate receipt' do
+        create :purchase, completed_at: Time.zone.now, receipt: 'test'
+        visit admin_purchase_path(purchase)
+        fill_in 'Receipt', with: 'test'
+        click_on 'Complete purchase'
+        expect(page).to have_css '.flash_error', text: 'Validation failed: Receipt has already been taken'
+      end
+
+      context 'when there are subscriptions' do
+        given(:publication) { create :publication }
+        given(:offer) { create :offer }
+        given(:offer_publication) { create :offer_publication, offer: offer, publication: publication }
+        given(:expiry) { Time.zone.tomorrow + rand(365) }
+        given(:subscription) { create :subscription, publication: publication, expiry: expiry }
+        given(:payment) { create :payment, purchase: purchase, subscription: subscription }
+        background { purchase.update! offer: offer }
+
+        scenario 'extends expiry date' do
+          offer_publication
+          payment
+          visit admin_purchase_path(purchase)
+          fill_in 'Receipt', with: 'test'
+          click_on 'Complete purchase'
+          subscription.reload
+          expect(subscription.expiry).to eq offer_publication.extend_date(expiry)
+        end
+
+        context 'when there is a trial period' do
+          background do
+            offer_publication
+            payment
+            offer.update! trial_period: 7
+            subscription.update! subscribed: Time.zone.today
+            subscription.update! expiry: Time.zone.today + 7.days
+          end
+
+          scenario 'extends expiry date from subscribed date' do
+            visit admin_purchase_path(purchase)
+            fill_in 'Receipt', with: 'test'
+            click_on 'Complete purchase'
+            subscription.reload
+            expect(subscription.expiry).to eq offer_publication.extend_date(Time.zone.today)
+          end
+        end
       end
     end
   end

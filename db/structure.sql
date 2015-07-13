@@ -1321,6 +1321,13 @@ CREATE INDEX index_purchases_on_offer_id ON purchases USING btree (offer_id);
 
 
 --
+-- Name: index_purchases_on_receipt; Type: INDEX; Schema: public; Owner: -; Tablespace: 
+--
+
+CREATE INDEX index_purchases_on_receipt ON purchases USING btree (receipt);
+
+
+--
 -- Name: index_subscriptions_on_publication_id; Type: INDEX; Schema: public; Owner: -; Tablespace: 
 --
 
@@ -1602,4 +1609,6 @@ INSERT INTO schema_migrations (version) VALUES ('20150614162408');
 INSERT INTO schema_migrations (version) VALUES ('20150615021006');
 
 INSERT INTO schema_migrations (version) VALUES ('20150621042633');
+
+INSERT INTO schema_migrations (version) VALUES ('20150713013312');
 

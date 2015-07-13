@@ -74,6 +74,8 @@
     
     <li ><a href="#method-i-index">#index</a>
     
+    <li ><a href="#method-i-show_errors">#show_errors</a>
+    
     <li ><a href="#method-i-update">#update</a>
     
   </ul>
@@ -168,6 +170,39 @@
 <span class="ruby-keyword">def</span> <span class="ruby-identifier">index</span>
   <span class="ruby-identifier">params</span>[<span class="ruby-value">:action</span>] = <span class="ruby-string">&#39;Configuration&#39;</span> <span class="ruby-comment"># for the active admin title</span>
   <span class="ruby-identifier">render</span> <span class="ruby-string">&#39;admin/configuration/index&#39;</span>, <span class="ruby-identifier">layout</span><span class="ruby-operator">:</span> <span class="ruby-string">&#39;active_admin&#39;</span>
+<span class="ruby-keyword">end</span></pre>
+          </div>
+          
+        </div>
+
+        
+
+        
+      </div>
+
+    
+      <div id="method-i-show_errors" class="method-detail ">
+        
+        <div class="method-heading">
+          <span class="method-name">show_errors</span><span
+            class="method-args">(exception)</span>
+          
+          <span class="method-click-advice">click to toggle source</span>
+          
+        </div>
+        
+
+        <div class="method-description">
+          
+          
+          
+          
+
+          
+          <div class="method-source-code" id="show_errors-source">
+            <pre><span class="ruby-comment"># File app/admin/purchase.rb, line 17</span>
+<span class="ruby-keyword">def</span> <span class="ruby-identifier">show_errors</span>(<span class="ruby-identifier">exception</span>)
+  <span class="ruby-identifier">redirect_to</span> <span class="ruby-value">:admin_purchase</span>, <span class="ruby-identifier">flash</span><span class="ruby-operator">:</span> { <span class="ruby-identifier">error</span><span class="ruby-operator">:</span> <span class="ruby-identifier">exception</span>.<span class="ruby-identifier">message</span> }
 <span class="ruby-keyword">end</span></pre>
           </div>
           
