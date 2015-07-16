@@ -14,4 +14,8 @@ class OfferPublication < ActiveRecord::Base
   def extend_date(date)
     date.advance(unit.pluralize.downcase.to_sym => quantity)
   end
+
+  def reduce_date(date)
+    date.advance(unit.pluralize.downcase.to_sym => -quantity)
+  end
 end

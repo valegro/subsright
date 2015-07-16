@@ -1,4 +1,4 @@
-Mon, 13 Jul 2015 11:26:29 +1000
+Fri, 17 Jul 2015 02:58:25 +1000
 README.rdoc	Sat, 27 Jun 2015 23:52:42 +1000
 app/admin/admin_user.rb	Mon, 01 Jun 2015 18:35:41 +1000
 app/admin/campaign.rb	Mon, 06 Jul 2015 18:16:51 +1000
@@ -9,9 +9,9 @@ app/admin/discount.rb	Wed, 08 Jul 2015 18:59:05 +1000
 app/admin/offer.rb	Mon, 06 Jul 2015 01:00:49 +1000
 app/admin/price.rb	Wed, 08 Jul 2015 19:00:48 +1000
 app/admin/product.rb	Wed, 08 Jul 2015 19:00:09 +1000
-app/admin/product_order.rb	Fri, 10 Jul 2015 21:40:21 +1000
+app/admin/product_order.rb	Mon, 13 Jul 2015 14:35:28 +1000
 app/admin/publication.rb	Thu, 02 Jul 2015 02:01:52 +1000
-app/admin/purchase.rb	Mon, 13 Jul 2015 02:35:42 +1000
+app/admin/purchase.rb	Fri, 17 Jul 2015 02:50:43 +1000
 app/admin/subscription.rb	Mon, 13 Jul 2015 01:12:29 +1000
 app/admin/user.rb	Thu, 02 Jul 2015 02:02:48 +1000
 app/controllers/application_controller.rb	Mon, 18 May 2015 16:47:32 +1000
@@ -44,12 +44,12 @@ app/models/discount_price.rb	Mon, 18 May 2015 21:50:35 +1000
 app/models/offer.rb	Tue, 09 Jun 2015 16:12:14 +1000
 app/models/offer_price.rb	Mon, 18 May 2015 21:50:35 +1000
 app/models/offer_product.rb	Wed, 24 Jun 2015 18:31:06 +1000
-app/models/offer_publication.rb	Wed, 24 Jun 2015 20:54:51 +1000
+app/models/offer_publication.rb	Thu, 16 Jul 2015 21:51:13 +1000
 app/models/payment.rb	Fri, 03 Jul 2015 01:43:46 +1000
 app/models/price.rb	Tue, 07 Jul 2015 01:00:13 +1000
 app/models/product.rb	Wed, 08 Jul 2015 17:26:59 +1000
 app/models/product_order.rb	Mon, 06 Jul 2015 19:57:31 +1000
 app/models/publication.rb	Sun, 24 May 2015 15:47:28 +1000
-app/models/purchase.rb	Mon, 13 Jul 2015 04:11:45 +1000
+app/models/purchase.rb	Fri, 17 Jul 2015 02:30:39 +1000
 app/models/subscription.rb	Thu, 02 Jul 2015 01:15:27 +1000
 app/models/user.rb	Sun, 21 Jun 2015 14:39:54 +1000

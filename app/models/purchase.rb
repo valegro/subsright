@@ -6,8 +6,10 @@ class Purchase < ActiveRecord::Base
   has_many :product_orders
   has_many :products, through: :product_orders
 
+  attr_accessor :timestamp
+
   validates :offer, presence: true
-  validates :receipt, presence: true, uniqueness: true, unless: 'completed_at.nil?'
+  validates :receipt, presence: true, uniqueness: { allow_blank: true }, unless: 'completed_at.nil?'
 
   def amount
     Money.new( amount_cents, currency ).format
@@ -19,7 +21,14 @@ class Purchase < ActiveRecord::Base
   end
 
   def to_s
-    "#{currency} #{amount} (" + ( completed_at ? 'completed at ' + I18n.l(completed_at, format: :long) : 'pending' ) +
-      ')'
+    if cancelled_at
+      status = ( completed_at ? 'reversed' : 'cancelled' ) + ' at ' + I18n.l(cancelled_at, format: :long)
+    elsif completed_at
+      status = 'completed at ' + I18n.l(completed_at, format: :long)
+    else
+      status = 'pending'
+    end
+
+    "#{currency} #{amount} (#{status})"
   end
 end

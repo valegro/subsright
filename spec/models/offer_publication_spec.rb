@@ -41,4 +41,24 @@ RSpec.describe OfferPublication, type: :model do
     offer_publication.quantity = rand(1..9)
     expect(offer_publication.extend_date(Time.zone.today)).to eq Time.zone.today + offer_publication.quantity.years
   end
+  it('reduces dates by days') do
+    offer_publication.unit = 'Day'
+    offer_publication.quantity = rand(1..99)
+    expect(offer_publication.reduce_date(Time.zone.today)).to eq Time.zone.today - offer_publication.quantity.days
+  end
+  it('reduces dates by weeks') do
+    offer_publication.unit = 'Week'
+    offer_publication.quantity = rand(1..9)
+    expect(offer_publication.reduce_date(Time.zone.today)).to eq Time.zone.today - offer_publication.quantity.weeks
+  end
+  it('reduces dates by months') do
+    offer_publication.unit = 'Month'
+    offer_publication.quantity = rand(1..9)
+    expect(offer_publication.reduce_date(Time.zone.today)).to eq Time.zone.today - offer_publication.quantity.months
+  end
+  it('reduces dates by years') do
+    offer_publication.unit = 'Year'
+    offer_publication.quantity = rand(1..9)
+    expect(offer_publication.reduce_date(Time.zone.today)).to eq Time.zone.today - offer_publication.quantity.years
+  end
 end

@@ -23,24 +23,45 @@ RSpec.describe Admin::PurchasesController, type: :controller do
     it('renders the show template') { expect(get :show, id: purchase).to render_template('show') }
   end
 
-  describe 'PATCH #complete' do
-    let(:purchase_params) { { completed_at: Time.zone.now, receipt: 'test' } }
-    it 'reports an error when already complete' do
-      purchase.update! purchase_params
-      patch :complete, id: purchase, purchase: purchase_params
-      expect(flash).to include [ 'error', 'Purchase already complete' ]
+  describe 'PATCH #update' do
+    let(:purchase_params) { { timestamp: Time.zone.now, receipt: 'test' } }
+    let(:cancel_params) { { cancelled_at: purchase_params[:timestamp], receipt: 'test' } }
+    let(:complete_params) { { completed_at: purchase_params[:timestamp], receipt: 'test' } }
+
+    it('ignores invalid actions') { expect(patch :update, id: purchase).to redirect_to :admin_purchase }
+
+    context 'when cancelling a purchase' do
+      it 'reports an error when already cancelled' do
+        purchase.update! cancel_params
+        patch :update, commit: 'Cancel purchase', id: purchase, purchase: purchase_params
+        expect(flash).to include [ 'error', 'Purchase already cancelled' ]
+      end
+
+      it 'cancels a purchase' do
+        patch :update, commit: 'Cancel purchase', id: purchase, purchase: purchase_params
+        purchase.reload
+        expect(purchase.cancelled_at).to be
+      end
     end
 
-    it 'reports an error on duplicate receipt' do
-      create :purchase, purchase_params
-      patch :complete, id: purchase, purchase: purchase_params
-      expect(flash).to include [ 'error', 'Validation failed: Receipt has already been taken' ]
-    end
+    context 'when completing a purchase' do
+      it 'reports an error when already complete' do
+        purchase.update! complete_params
+        patch :update, commit: 'Complete purchase', id: purchase, purchase: purchase_params
+        expect(flash).to include [ 'error', 'Purchase already complete' ]
+      end
 
-    it 'processes a purchase' do
-      patch :complete, id: purchase, purchase: purchase_params
-      purchase.reload
-      expect(purchase.receipt).to eq 'test'
+      it 'reports an error on duplicate receipt' do
+        create :purchase, complete_params
+        patch :update, commit: 'Complete purchase', id: purchase, purchase: purchase_params
+        expect(flash).to include [ 'error', 'Validation failed: Receipt has already been taken' ]
+      end
+
+      it 'completes a purchase' do
+        patch :update, commit: 'Complete purchase', id: purchase, purchase: purchase_params
+        purchase.reload
+        expect(purchase.receipt).to eq 'test'
+      end
     end
 
     context 'when there are subscriptions' do
@@ -56,23 +77,62 @@ RSpec.describe Admin::PurchasesController, type: :controller do
         purchase.update! offer: offer
       end
 
-      it 'extends expiry date' do
-        patch :complete, id: purchase, purchase: purchase_params
-        subscription.reload
-        expect(subscription.expiry).to eq offer_publication.extend_date(expiry)
-      end
-
-      context 'when there is a trial period' do
-        before do
-          offer.update! trial_period: 7
-          subscription.update! subscribed: Time.zone.today
-          subscription.update! expiry: Time.zone.today + 7.days
+      context 'when cancelling a purchase' do
+        it 'reduces expiry date' do
+          patch :update, commit: 'Cancel purchase', id: purchase, purchase: purchase_params
+          subscription.reload
+          expect(subscription.expiry).to eq offer_publication.reduce_date(expiry)
         end
 
-        it 'extends expiry date from subscribed date' do
-          patch :complete, id: purchase, purchase: purchase_params
+        it 'ignores eternal subscriptions' do
+          subscription.update! expiry: nil
+          expect { patch :update, commit: 'Cancel purchase', id: purchase, purchase: purchase_params }
+            .not_to raise_error
+        end
+
+        it 'deletes payments' do
+          patch :update, commit: 'Cancel purchase', id: purchase, purchase: purchase_params
+          expect(Payment.exists? payment.id).to be false
+        end
+
+        it 'does not delete completed payments' do
+          purchase.update! completed_at: Time.zone.now, receipt: 'test'
+          patch :update, commit: 'Reverse purchase', id: purchase, purchase: purchase_params
+          expect(Payment.exists? payment.id).to be true
+        end
+
+        it 'deletes unshipped product orders' do
+          product_order = create(:product_order, purchase: purchase)
+          patch :update, commit: 'Cancel purchase', id: purchase, purchase: purchase_params
+          expect(ProductOrder.exists? product_order.id).to be false
+        end
+
+        it 'does not delete shipped product orders' do
+          product_order = create(:product_order, purchase: purchase, shipped: Time.zone.today)
+          patch :update, commit: 'Cancel purchase', id: purchase, purchase: purchase_params
+          expect(ProductOrder.exists? product_order.id).to be true
+        end
+      end
+
+      context 'when completing a purchase' do
+        it 'extends expiry date' do
+          patch :update, commit: 'Complete purchase', id: purchase, purchase: purchase_params
           subscription.reload
-          expect(subscription.expiry).to eq offer_publication.extend_date(Time.zone.today)
+          expect(subscription.expiry).to eq offer_publication.extend_date(expiry)
+        end
+
+        context 'when there is a trial period' do
+          before do
+            offer.update! trial_period: 7
+            subscription.update! subscribed: Time.zone.today
+            subscription.update! expiry: Time.zone.today + 7.days
+          end
+
+          it 'extends expiry date from subscribed date' do
+            patch :update, commit: 'Complete purchase', id: purchase, purchase: purchase_params
+            subscription.reload
+            expect(subscription.expiry).to eq offer_publication.extend_date(Time.zone.today)
+          end
         end
       end
     end

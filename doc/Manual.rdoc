@@ -165,6 +165,12 @@ for each associated payment record will be extended by the subscription period i
 the expiry date is equal to the subscription date plus the offer trial period it will simply be
 set to the subscription date plus the subscription period in the offer.
 
+If a purchase is cancelled rather than completed, all associated payment records and unshipped
+product orders will be deleted.  If a purchase is cancelled (reversed) after it has already been
+completed, the subscription expiry date for each associated payment record will be reduced by the
+subscription period in the offer and all associated unshipped product orders will then be deleted.
+Note that subscriptions with no expiry date will not be affected and will remain active.
+
 Purchases cannot deleted until they have been archived along with the associated payment records,
 subscriptions and product orders.
 

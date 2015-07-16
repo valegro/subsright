@@ -698,7 +698,8 @@ CREATE TABLE purchases (
     completed_at timestamp without time zone,
     receipt character varying,
     created_at timestamp without time zone NOT NULL,
-    updated_at timestamp without time zone NOT NULL
+    updated_at timestamp without time zone NOT NULL,
+    cancelled_at timestamp without time zone
 );
 
 
@@ -1611,4 +1612,6 @@ INSERT INTO schema_migrations (version) VALUES ('20150615021006');
 INSERT INTO schema_migrations (version) VALUES ('20150621042633');
 
 INSERT INTO schema_migrations (version) VALUES ('20150713013312');
+
+INSERT INTO schema_migrations (version) VALUES ('20150716104227');
 

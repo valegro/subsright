@@ -19,14 +19,15 @@ RSpec.feature 'Administer purchase', type: :feature do
       [ :offer, :currency, :amount, :completed_at, :receipt, :created_at, :updated_at ].each do |field|
         scenario { expect(page).to have_css :th, text: field.to_s.titlecase }
       end
-      scenario('filter by offer')           { expect(page).to have_field 'q_offer_id' }
-      scenario('filter by products')        { expect(page).to have_field 'q_product_ids' }
-      scenario('filter by currency')        { expect(page).to have_field 'q_currency' }
-      scenario('filter by amount')          { expect(page).to have_field 'q_amount_cents' }
-      scenario('filter by completion time') { expect(page).to have_field 'q_completed_at_gteq' }
-      scenario('filter by receipt')         { expect(page).to have_field 'q_receipt' }
-      scenario('filter by creation time')   { expect(page).to have_field 'q_created_at_gteq' }
-      scenario('filter by update time')     { expect(page).to have_field 'q_updated_at_gteq' }
+      scenario('filter by offer')             { expect(page).to have_field 'q_offer_id' }
+      scenario('filter by products')          { expect(page).to have_field 'q_product_ids' }
+      scenario('filter by currency')          { expect(page).to have_field 'q_currency' }
+      scenario('filter by amount')            { expect(page).to have_field 'q_amount_cents' }
+      scenario('filter by completion time')   { expect(page).to have_field 'q_completed_at_gteq' }
+      scenario('filter by receipt')           { expect(page).to have_field 'q_receipt' }
+      scenario('filter by cancellation time') { expect(page).to have_field 'q_cancelled_at_gteq' }
+      scenario('filter by creation time')     { expect(page).to have_field 'q_created_at_gteq' }
+      scenario('filter by update time')       { expect(page).to have_field 'q_updated_at_gteq' }
     end
 
     context 'when viewing record' do
@@ -37,9 +38,11 @@ RSpec.feature 'Administer purchase', type: :feature do
         scenario { expect(page).to have_css :th, text: field.to_s.titlecase }
       end
 
-      context 'when not completed' do
-        scenario { expect(page).to have_css 'li#purchase_completed_at_input' }
+      context 'when not completed or cancelled' do
+        scenario { expect(page).to have_field :purchase_timestamp }
         scenario { expect(page).to have_field :purchase_receipt }
+        scenario { expect(page).to have_css 'input[type=submit][value="Complete purchase"]' }
+        scenario { expect(page).to have_css 'input[type=submit][value="Cancel purchase"]' }
       end
 
       context 'when completed' do
@@ -49,6 +52,20 @@ RSpec.feature 'Administer purchase', type: :feature do
         end
         scenario { expect(page).to have_css :th, text: 'Completed At' }
         scenario { expect(page).to have_css :th, text: 'Receipt' }
+        scenario { expect(page).to have_field :purchase_timestamp }
+        scenario { expect(page).not_to have_field :purchase_receipt }
+        scenario { expect(page).not_to have_css 'input[type=submit][value="Complete purchase"]' }
+        scenario { expect(page).to have_css 'input[type=submit][value="Reverse purchase"]' }
+      end
+
+      context 'when cancelled' do
+        background do
+          purchase.update! cancelled_at: Time.zone.now
+          visit admin_purchase_path(purchase)
+        end
+        scenario { expect(page).not_to have_field :purchase_timestamp }
+        scenario { expect(page).not_to have_css 'input[type=submit][value="Cancel purchase"]' }
+        scenario { expect(page).not_to have_css 'input[type=submit][value="Reverse purchase"]' }
       end
 
       scenario 'names associated customers and products' do
@@ -61,6 +78,14 @@ RSpec.feature 'Administer purchase', type: :feature do
         create(:product_order, customer: customer, purchase: purchase, product: product, shipped: Time.zone.today)
         visit admin_purchase_path(purchase)
         expect(page).to have_text "shipped #{I18n.l Time.zone.today, format: :long}"
+      end
+    end
+
+    context 'when cancelling purchase' do
+      scenario 'redirects back to record' do
+        visit admin_purchase_path(purchase)
+        click_on 'Cancel purchase'
+        expect(current_path).to eq admin_purchase_path(purchase)
       end
     end
 

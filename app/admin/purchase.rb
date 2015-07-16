@@ -3,11 +3,15 @@ ActiveAdmin.register Purchase do
   config.batch_actions = false
   config.clear_action_items!
 
-  preserve_default_filters!
+  filter :offer
+  filter :products
   filter :currency, as: :select, collection: Configuration::CURRENCY_OPTIONS
-  filter :payments, if: false
-  filter :product_orders, if: false
-  filter :subscriptions, if: false
+  filter :amount_cents
+  filter :completed_at
+  filter :receipt
+  filter :cancelled_at
+  filter :created_at
+  filter :updated_at
 
   controller do
     rescue_from ActiveRecord::RecordInvalid, with: :show_errors
@@ -26,6 +30,7 @@ ActiveAdmin.register Purchase do
     column :amount
     column :completed_at
     column :receipt
+    column :cancelled_at
     column :created_at
     column :updated_at
     actions
@@ -40,6 +45,7 @@ ActiveAdmin.register Purchase do
         row :completed_at
         row :receipt
       end
+      row :cancelled_at if purchase.cancelled_at
       row :subscriptions do
         ( purchase.payments.map { |p| link_to p, admin_subscription_path(p.subscription) } ).join(', ').html_safe
       end
@@ -57,27 +63,60 @@ ActiveAdmin.register Purchase do
       end
       row :created_at
       row :updated_at
-      unless purchase.completed_at
-        purchase.completed_at = Time.zone.now
-        render 'complete', locals: { purchase: purchase }
+      unless purchase.cancelled_at
+        purchase.timestamp = Time.zone.now
+        render 'update', locals: { purchase: purchase }
       end
     end
     active_admin_comments
   end
 
-  member_action :complete, method: :patch do
+  member_action :update, method: :patch do
     @purchase = Purchase.find params[:id]
-    return redirect_to :admin_purchase, flash: { error: 'Purchase already complete' } if @purchase.completed_at
-
-    @purchase.update! params.require(:purchase).permit([:completed_at, :receipt])
-    offer = @purchase.offer
-    @purchase.payments.each do |p|
-      expiry = p.subscription.expiry
-      subscribed = p.subscription.subscribed
-      expiry = subscribed if expiry == subscribed + (offer.trial_period || 0).days
-      p.subscription.update! expiry: offer.offer_publications.where(publication_id: p.subscription.publication).first
-        .extend_date(expiry || Time.zone.today)
+    case params[:commit]
+    when 'Cancel purchase', 'Reverse purchase'
+      cancel_purchase!
+    when 'Complete purchase'
+      complete_purchase!
     end
-    redirect_to :admin_purchase, notice: 'Purchase complete'
+    redirect_to :admin_purchase
   end
+end
+
+def purchase_params
+  params.require(:purchase).permit([:commit, :timestamp, :receipt])
+end
+
+def cancel_payment!(p)
+  if p.subscription.expiry
+    offer_publication = @purchase.offer.offer_publications.where(publication_id: p.subscription.publication).first
+    p.subscription.update! expiry: offer_publication.reduce_date(p.subscription.expiry)
+  end
+  p.destroy unless @purchase.completed_at
+end
+
+def cancel_purchase!
+  return flash[:error] = 'Purchase already cancelled' if @purchase.cancelled_at
+
+  @purchase.payments.each { |p| cancel_payment!(p) }
+  @purchase.product_orders.each { |po| po.destroy unless po.shipped }
+  @purchase.update! cancelled_at: purchase_params[:timestamp]
+  flash[:notice] = 'Purchase cancelled'
+end
+
+def complete_payment!(p)
+  expiry = p.subscription.expiry
+  subscribed = p.subscription.subscribed
+  offer = @purchase.offer
+  expiry = subscribed if expiry == subscribed + (offer.trial_period || 0).days
+  offer_publication = offer.offer_publications.where(publication_id: p.subscription.publication).first
+  p.subscription.update! expiry: offer_publication.extend_date(expiry || Time.zone.today)
+end
+
+def complete_purchase!
+  return flash[:error] = 'Purchase already complete' if @purchase.completed_at
+
+  @purchase.payments.each { |p| complete_payment!(p) }
+  @purchase.update! completed_at: purchase_params[:timestamp], receipt: purchase_params[:receipt]
+  flash[:notice] = 'Purchase complete'
 end

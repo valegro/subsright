@@ -1,9 +1,0 @@
-<%= semantic_form_for @purchase, builder: Formtastic::FormBuilder, url: complete_admin_purchase_path(@purchase) do |form| %>
-  <%= form.inputs do %>
-    <%= form.input :completed_at, required: true %>
-    <%= form.input :receipt, required: true %>
-  <% end %>
-  <%= form.actions do %>
-    <%=  form.submit "Complete purchase" %>
-  <% end %>
-<% end %>
