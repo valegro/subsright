@@ -17,6 +17,7 @@ gem 'coffee-rails', '~> 4.1.0'
 gem 'bootstrap-sass'
 gem 'autoprefixer-rails'
 gem 'formtastic-bootstrap'
+gem 'rails_bootstrap_navbar'
 
 # Use jquery as the JavaScript library
 gem 'jquery-rails'

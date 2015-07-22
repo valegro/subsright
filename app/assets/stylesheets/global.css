@@ -5,3 +5,5 @@ body { font-size: medium; margin: 10px; }
 figure, figcaption { display: block; }
 
 form { padding: 3ex 0; }
+
+#main-container { margin-top: 20px; }
