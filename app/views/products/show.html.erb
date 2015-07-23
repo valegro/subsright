@@ -2,10 +2,7 @@
 
 <%= image_tag @product.image.url, alt: @product.name %>
 
-<div>
-  <strong>Description:</strong>
-  <%= @product.description.html_safe %>
-</div>
+<div><%= @product.description.html_safe %></div>
 
 <div><strong>Offers:</strong>
 	<% if @product.offers.empty? then %>

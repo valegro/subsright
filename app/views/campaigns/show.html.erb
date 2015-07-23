@@ -4,10 +4,7 @@
 	<div><strong>End date:</strong> <%= @campaign.finish %></div>
 <% end %>
 
-<div>
-  <strong>Description:</strong>
-  <%= @campaign.description.html_safe %>
-</div>
+<div><%= @campaign.description.html_safe %></div>
 
 <div><strong>Offers:</strong>
 	<% if @campaign.offers.empty? then %>
