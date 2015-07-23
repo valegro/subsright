@@ -1,7 +1,7 @@
 <div class="jumbotron">
     <h3><%= @product.name %></h3>
 
-    <%= image_tag @product.image.url, alt: @product.name %>
+    <%= image_tag @product.image.url(:large), alt: @product.name %>
 
     <div class="row"><div class="col-xs-12">
         <%= @product.description.html_safe %>

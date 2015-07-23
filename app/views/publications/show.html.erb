@@ -1,7 +1,7 @@
 <div class="jumbotron">
     <h3><%= @publication.name %></h3>
 
-    <%= link_to image_tag(@publication.image.url, alt: @publication.name), @publication.website %>
+    <%= link_to image_tag(@publication.image.url(:large), alt: @publication.name), @publication.website %>
 
     <div class="row"><div class="col-xs-12">
         <%= @publication.description.html_safe %>
