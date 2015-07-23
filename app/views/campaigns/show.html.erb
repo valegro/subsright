@@ -1,10 +1,14 @@
-<h3><%= @campaign.name %></h3>
+<div class="jumbotron">
+    <h3><%= @campaign.name %></h3>
 
-<% if @campaign.finish then %>
-	<div><strong>End date:</strong> <%= @campaign.finish %></div>
-<% end %>
+    <% if @campaign.finish then %>
+        <div><strong>End date:</strong> <%= @campaign.finish %></div>
+    <% end %>
 
-<div><%= @campaign.description.html_safe %></div>
+    <div class="row"><div class="col-xs-12">
+        <%= @campaign.description.html_safe %>
+    </div></div>
+</div>
 
 <div><strong>Offers:</strong>
 	<% if @campaign.offers.empty? then %>

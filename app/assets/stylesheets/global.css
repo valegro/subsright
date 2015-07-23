@@ -6,4 +6,6 @@ figure, figcaption { display: block; }
 
 form { padding: 3ex 0; }
 
+.jumbotron h1,h2,h3 { margin-top: 0; }
+
 #main-container { margin-top: 20px; }
