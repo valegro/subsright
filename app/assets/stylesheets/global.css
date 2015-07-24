@@ -4,6 +4,8 @@ body { font-size: medium; margin: 10px; }
 
 figure, figcaption { display: block; }
 
+figure.thumbnail { display: inline-block; }
+
 form { padding: 3ex 0; }
 
 .jumbotron h1,h2,h3 { margin-top: 0; }

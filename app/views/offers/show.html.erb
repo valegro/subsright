@@ -11,49 +11,41 @@
 </div>
 
 <% if @offer.offer_publications.present? then %>
-	<table class="table"><tr>
 	<% @offer.offer_publications.by_name.each do |op| %>
-	<td><figure>
-		<%= link_to image_tag(op.publication.image.url(:thumb), alt: op.publication.name, size: '110',
-                class: 'thumbnail'), op.publication %>
+	<figure class="thumbnail">
+		<%= link_to image_tag(op.publication.image.url(:thumb), alt: op.publication.name, size: '110'),
+		  op.publication %>
 		<figcaption>
 		    <%= link_to op.publication.name, op.publication %>
 		    <%= " for #{op.subscribers} subscribers" if op.subscribers > 1 %>
             for <%= pluralize(op.quantity, op.unit.downcase) %>
 		</figcaption>
-	</figure></td>
+	</figure>
 	<% end %>
-	</tr></table>
 <% end %>
 
 <% included_products = @products.reject(&:optional) %>
 <% if included_products.count > 0 then %>
-	<table class="table"><tr>
     <% included_products.each do |op| %>
-        <td><figure>
-           <%= link_to image_tag(op.product.image.url(:thumb), alt: op.product.name, size: '110', class: 'thumbnail'),
-               op.product %>
+        <figure class="thumbnail">
+           <%= link_to image_tag(op.product.image.url(:thumb), alt: op.product.name, size: '110'), op.product %>
            <figcaption>
              <%= link_to op.product.name, op.product %>
              <% if op.product.stock == 0 %><span class="stock-warning">(out of stock)</span><% end %>
            </figcaption>
-       </figure></td>
+        </figure>
 	<% end %>
-    </tr></table>
 <% end %>
 
 <% optional_products = @products.select(&:optional) %>
 <% if optional_products.count > 0 then %>
     <p><%= @offer.offer_publications.present? || (included_products.count > 0) ? 'Plus' : 'Choose' %> one of:</p>
-    <table class="table"><tr>
     <% optional_products.each do |op| %>
-        <td><figure>
-            <%= link_to image_tag(op.product.image.url(:thumb), alt: op.product.name, size: '110', class: 'thumbnail'),
-                op.product %>
+        <figure class="thumbnail">
+            <%= link_to image_tag(op.product.image.url(:thumb), alt: op.product.name, size: '110'), op.product %>
             <figcaption><%= link_to op.product.name, op.product %></figcaption>
-        </figure></td>
+        </figure>
     <% end %>
-    </tr></table>
 <% end %>
 
 <% if @offer.prices.present? then %>
