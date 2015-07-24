@@ -1,10 +1,9 @@
 <h3>Campaigns</h3>
 
-<ul>
-	<% @campaigns.each do |campaign| %>
-	    <li>
-	    	<%= link_to campaign.name, campaign %>
-	    	<%= " (ends #{campaign.finish})" if campaign.finish %>
-	    </li>
+<div class="list-group">
+    <% @campaigns.each do |campaign| %>
+        <% text = campaign.name %>
+        <% text += " (ends #{I18n.l campaign.finish, format: :long})" if campaign.finish %>
+        <%= link_to text.html_safe, campaign, class: 'list-group-item' %>
     <% end %>
-</ul>
+</div>

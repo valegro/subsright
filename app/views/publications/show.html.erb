@@ -8,14 +8,15 @@
     </div></div>
 </div>
 
-<div><strong>Offers:</strong>
-	<% if @publication.offers.empty? then %>
-		<p>None</p>
-	<% else %>
-		<ul>
-			<% @publication.offers.each do |offer| %>
-			<li><%= link_to offer.name, offer_path(offer) %></li>
-			<% end %>
-		</ul>
-	<% end %>
+<div class="list-group">
+    <% if @publication.offers.empty? then %>
+       <button type="button" class="list-group-item list-group-item-warning">
+           Not presently available as part of any current offer
+       </button>
+    <% else %>
+        <button type="button" class="list-group-item list-group-item-info">Available with these offers</button>
+        <% @publication.offers.each do |offer| %>
+        <%= link_to offer.name, offer_path(offer), class: 'list-group-item' %>
+        <% end %>
+    <% end %>
 </div>

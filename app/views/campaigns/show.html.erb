@@ -2,7 +2,7 @@
     <h3><%= @campaign.name %></h3>
 
     <% if @campaign.finish then %>
-        <div><strong>End date:</strong> <%= @campaign.finish %></div>
+        <div><strong>End date:</strong> <%= I18n.l @campaign.finish, format: :long %></div>
     <% end %>
 
     <div class="row"><div class="col-xs-12">
@@ -10,14 +10,10 @@
     </div></div>
 </div>
 
-<div><strong>Offers:</strong>
-	<% if @campaign.offers.empty? then %>
-		<p>None</p>
-	<% else %>
-		<ul>
-			<% @campaign.offers.each do |offer| %>
-			<li><%= link_to offer.name, offer_path(offer) %></li>
-			<% end %>
-		</ul>
-	<% end %>
-</div>
+<% if @campaign.offers.present? then %>
+    <div class="list-group">
+    	<% @campaign.offers.each do |offer| %>
+        <%= link_to offer.name, offer_path(offer), class: 'list-group-item' %>
+	    <% end %>
+	</div>
+<% end %>

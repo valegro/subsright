@@ -1,15 +1,14 @@
 <% @campaigns.each do |campaign| %>
 	<h3>
     	<%= link_to campaign.name, campaign %>
-    	<%= " (ends #{campaign.finish})" if campaign.finish %>
+    	<%= " (ends #{I18n.l campaign.finish, format: :long})" if campaign.finish %>
     </h3>
   	<div><%= campaign.description.html_safe %></div>
-  	<ul>
+    <div class="list-group">
 		<% campaign.offers.where('finish IS NULL OR finish >= NOW()').order(:finish, :name).each do |offer| %>
-	    	<li>
-                <%= link_to offer.name, offer %>
-                <%= " (ends #{offer.finish})" if offer.finish %>
-      		</li>
+            <% text = offer.name %>
+            <% text += " (ends #{I18n.l offer.finish, format: :long})" if offer.finish %>
+            <%= link_to text.html_safe, offer, class: 'list-group-item' %>
   		<% end %>
-  	</ul>
+  	</div>
 <% end %>

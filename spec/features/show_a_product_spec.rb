@@ -14,9 +14,9 @@ RSpec.feature 'Show a product', type: :feature do
   end
 
   context 'when there are no offers' do
-    scenario 'see "None"' do
+    scenario 'see "Not presently available"' do
       visit product_path(product)
-      expect(page).to have_text 'Offers: None'
+      expect(page).to have_text 'Not presently available'
     end
   end
 

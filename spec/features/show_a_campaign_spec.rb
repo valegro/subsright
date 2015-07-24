@@ -9,13 +9,6 @@ RSpec.feature 'Show a campaign', type: :feature do
     expect(page).to have_text campaign.description
   end
 
-  context 'when there are no offers' do
-    scenario 'see "None"' do
-      visit campaign_path(campaign)
-      expect(page).to have_text 'Offers: None'
-    end
-  end
-
   context 'when there are offers' do
     scenario 'get a link to each offer' do
       offer1 = create(:offer)

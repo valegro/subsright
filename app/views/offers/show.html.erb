@@ -2,7 +2,7 @@
     <h3><%= @offer.name %></h3>
 
     <% if @offer.finish then %>
-    	<div><strong>End date:</strong> <%= @offer.finish %></div>
+        <div><strong>End date:</strong> <%= I18n.l @offer.finish, format: :long %></div>
     <% end %>
 
     <div class="row"><div class="col-xs-12">
@@ -58,11 +58,12 @@
 
 <% if @offer.prices.present? then %>
     <div class="row"><div class="col-xs-12">
-        <ul>
+        <div class="list-group">
+        <li class="list-group-item list-group-item-info">Payment options</li>
         <% @offer.prices.each do |price| %>
-        <li><%= price %> <%= price.first_payment(@offer.trial_period) %></li>
+        <li class="list-group-item"><%= price %> <%= price.first_payment(@offer.trial_period) %></li>
         <% end %>
-        </ul>
+        </div>
         <% trial_period = @offer.trial_period %>
         <% unless trial_period.nil? or trial_period.zero? then %>
         <p><%= trial_period %> day free trial.  You will not be charged if you cancel before

@@ -15,9 +15,9 @@ RSpec.feature 'Show a publication', type: :feature do
   end
 
   context 'when there are no offers' do
-    scenario 'see "None"' do
+    scenario 'see "Not presently available"' do
       visit publication_path(publication)
-      expect(page).to have_text 'Offers: None'
+      expect(page).to have_text 'Not presently available'
     end
   end
 
