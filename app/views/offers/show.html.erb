@@ -59,7 +59,7 @@
         <% trial_period = @offer.trial_period %>
         <% unless trial_period.nil? or trial_period.zero? then %>
         <p><%= trial_period %> day free trial.  You will not be charged if you cancel before
-        <%= Time.zone.today + trial_period %>.</p>
+        <%= I18n.l Time.zone.today + trial_period, format: :long %>.</p>
         <% end %>
     </div></div>
 <% end %>
