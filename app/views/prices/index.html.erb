@@ -1,7 +1,7 @@
 <h3>Prices</h3>
 
-<ul>
+<ul class="list-group">
     <% @prices.each do |price| %>
-      <li><%= price.name %> <%= price.amount %> <%= price.currency %></li>
+      <li class="list-group-item"><%= price.name %> <%= price.amount %> <%= price.currency %></li>
     <% end %>
 </ul>
