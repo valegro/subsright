@@ -16,6 +16,13 @@ class User < ActiveRecord::Base
     "#{m.name} (#{m.iso_code})"
   end
 
+  def password_match?
+    errors[:password] << "can't be blank" if password.blank?
+    errors[:password_confirmation] << "can't be blank" if password_confirmation.blank?
+    errors[:password_confirmation] << 'does not match password' if password != password_confirmation
+    password == password_confirmation && !password.blank?
+  end
+
   def generate_password
     self.password_confirmation = self.password = Devise.friendly_token if password.nil? || password.blank?
   end

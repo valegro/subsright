@@ -7,10 +7,6 @@
 * Add currency selection configuration
 * Include Subscriptus logo at bottom right
 * Whitelist & blacklist for email addresses
-* Allow customers to be managed by other users,
-  in which case email and password are not required
-* Combine email confirmation with setting initial password, see
-  https://github.com/plataformatec/devise/wiki/How-To:-Email-only-sign-up
 * Publication messages (n days before/after expiry)
 * Offer messages (at campaign start)
 * Prompt messages for customers with no physical address

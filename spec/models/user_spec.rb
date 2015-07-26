@@ -37,4 +37,18 @@ RSpec.describe User, type: :model do
     expect(user.currency_name).to eq 'Bitcoin (BTC)'
   end
   it('supports no currency') { expect(user.currency_name).to be nil }
+  it('does not accept blank passwords') { expect(user.password_match?).to be false }
+  it 'does not accept blank password confirmations' do
+    user.password = 'test'
+    expect(user.password_match?).to be false
+  end
+  it 'does not accept mismatching passwords' do
+    user.password = 'test'
+    user.password_confirmation = 'invalid'
+    expect(user.password_match?).to be false
+  end
+  it 'accepts matching passwords' do
+    user.password = user.password_confirmation = 'test'
+    expect(user.password_match?).to be true
+  end
 end
