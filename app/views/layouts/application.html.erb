@@ -24,6 +24,23 @@
       <%= navbar_item 'Offers', offers_path %>
       <%= navbar_item 'Products', products_path %>
       <%= navbar_item 'Publications', publications_path %>
+      <%= navbar_item 'Customers', customers_path if current_user.present? %>
+    <% end %>
+    <%= navbar_group class: 'nav-pills', align: :right do %>
+      <% if current_user.present? %>
+        <%= navbar_item '#' do %>
+            <span class="glyphicon glyphicon-user" aria-hidden="true"></span>&ensp;<%= current_user.name %>
+        <% end %>
+        <li>
+          <%= link_to destroy_user_session_path, method: :delete do %>
+            <span class="glyphicon glyphicon-log-out" aria-hidden="true"></span>&ensp;Sign out
+          <% end %>
+        </li>
+      <% else %>
+        <%= navbar_item new_user_session_path do %>
+          <span class="glyphicon glyphicon-log-in" aria-hidden="true"></span>&ensp;Sign in
+        <% end %>
+      <% end %>
     <% end %>
   <% end %>
 <% end %>
@@ -34,8 +51,17 @@
     <h1><%= image_tag Configuration.provider_logo.url %></h1>
     <h2><%= Configuration.provider_name %></h2>
   </div>
-  <% if notice %><div class="alert alert-success" role="alert"><%= notice %></div><% end %>
-  <% if alert %><div class="alert alert-danger" role="alert"><%= alert %></div><% end %>
+  <% if notice %>
+    <div class="alert alert-success" role="alert">
+      <span class="glyphicon glyphicon-ok-sign" aria-hidden="true"></span>&ensp;<%= notice %>
+    </div>
+  <% end %>
+  <% if alert %>
+    <div class="alert alert-danger" role="alert">
+      <span class="glyphicon glyphicon-alert" aria-hidden="true"></span>
+      <span class="sr-only">Error:</span>&ensp;<%= alert %>
+    </div>
+  <% end %>
 
 <%= yield %>
 
