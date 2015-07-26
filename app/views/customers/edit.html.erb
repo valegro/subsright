@@ -2,5 +2,6 @@
 
 <%= render 'form' %>
 
-<%= link_to 'Show', @customer %> |
-<%= link_to 'Customers', customers_path %>
+<%= link_to @customer do %>
+  <span class="glyphicon glyphicon-eye-open" aria-hidden="true"></span>&ensp;Show
+<% end %>
