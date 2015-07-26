@@ -74,6 +74,8 @@
     
     <li ><a href="#method-i-generate_password">#generate_password</a>
     
+    <li ><a href="#method-i-password_match-3F">#password_match?</a>
+    
   </ul>
 </div>
 
@@ -162,9 +164,45 @@
 
           
           <div class="method-source-code" id="generate_password-source">
-            <pre><span class="ruby-comment"># File app/models/user.rb, line 19</span>
+            <pre><span class="ruby-comment"># File app/models/user.rb, line 26</span>
 <span class="ruby-keyword">def</span> <span class="ruby-identifier">generate_password</span>
   <span class="ruby-keyword">self</span>.<span class="ruby-identifier">password_confirmation</span> = <span class="ruby-keyword">self</span>.<span class="ruby-identifier">password</span> = <span class="ruby-constant">Devise</span>.<span class="ruby-identifier">friendly_token</span> <span class="ruby-keyword">if</span> <span class="ruby-identifier">password</span>.<span class="ruby-identifier">nil?</span> <span class="ruby-operator">||</span> <span class="ruby-identifier">password</span>.<span class="ruby-identifier">blank?</span>
+<span class="ruby-keyword">end</span></pre>
+          </div>
+          
+        </div>
+
+        
+
+        
+      </div>
+
+    
+      <div id="method-i-password_match-3F" class="method-detail ">
+        
+        <div class="method-heading">
+          <span class="method-name">password_match?</span><span
+            class="method-args">()</span>
+          
+          <span class="method-click-advice">click to toggle source</span>
+          
+        </div>
+        
+
+        <div class="method-description">
+          
+          
+          
+          
+
+          
+          <div class="method-source-code" id="password_match-3F-source">
+            <pre><span class="ruby-comment"># File app/models/user.rb, line 19</span>
+<span class="ruby-keyword">def</span> <span class="ruby-identifier">password_match?</span>
+  <span class="ruby-identifier">errors</span>[<span class="ruby-value">:password</span>] <span class="ruby-operator">&lt;&lt;</span> <span class="ruby-string">&quot;can&#39;t be blank&quot;</span> <span class="ruby-keyword">if</span> <span class="ruby-identifier">password</span>.<span class="ruby-identifier">blank?</span>
+  <span class="ruby-identifier">errors</span>[<span class="ruby-value">:password_confirmation</span>] <span class="ruby-operator">&lt;&lt;</span> <span class="ruby-string">&quot;can&#39;t be blank&quot;</span> <span class="ruby-keyword">if</span> <span class="ruby-identifier">password_confirmation</span>.<span class="ruby-identifier">blank?</span>
+  <span class="ruby-identifier">errors</span>[<span class="ruby-value">:password_confirmation</span>] <span class="ruby-operator">&lt;&lt;</span> <span class="ruby-string">&#39;does not match password&#39;</span> <span class="ruby-keyword">if</span> <span class="ruby-identifier">password</span> <span class="ruby-operator">!=</span> <span class="ruby-identifier">password_confirmation</span>
+  <span class="ruby-identifier">password</span> <span class="ruby-operator">==</span> <span class="ruby-identifier">password_confirmation</span> <span class="ruby-operator">&amp;&amp;</span> <span class="ruby-operator">!</span><span class="ruby-identifier">password</span>.<span class="ruby-identifier">blank?</span>
 <span class="ruby-keyword">end</span></pre>
           </div>
           
