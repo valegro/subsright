@@ -35,23 +35,23 @@
     <strong>Discounts:</strong>
     <ul>
     <% @customer.customer_discounts.by_name.each do |cd| %>
-      <li><%= cd.discount.name %><%= " (expires #{cd.expiry})" if cd.expiry %></li>
+      <li><%= cd.discount.name %><%= " (expires #{I18n.l cd.expiry, format: :long})" if cd.expiry %></li>
     <% end %>
     </ul>
   </div>
 <% end %>
 
 <% if @customer.subscriptions.present? then %>
-  <div>
-    <strong>Subscriptions:</strong>
-    <ul>
+  <strong>Subscriptions:</strong>
+  <div class="list-group">
     <% @customer.subscriptions.by_name.each do |s| %>
-      <li><a href="<%= s.publication.website %>"><%= s.publication.name %></a>
-        <%= " (expires #{s.expiry})" if s.expiry %></li>
+      <% text = s.publication.name %>
+      <% text += " (expires #{I18n.l s.expiry, format: :long})" if s.expiry %>
+      <%= link_to text, s.publication.website, target: :_blank, class: 'list-group-item' %>
     <% end %>
-    </ul>
   </div>
 <% end %>
 
-<%= link_to 'Edit', edit_customer_path(@customer) %> |
-<%= link_to 'Back', customers_path %>
+<%= link_to edit_customer_path(@customer) do %>
+  <span class="glyphicon glyphicon-edit" aria-hidden="true"></span>&ensp;Edit
+<% end %>

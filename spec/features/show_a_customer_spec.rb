@@ -41,7 +41,7 @@ RSpec.feature 'Show a customer', type: :feature do
         expect(page).to have_text discount2.name
       end
       scenario 'see discount expiry dates' do
-        expect(page).to have_text "(expires #{cd2.expiry})"
+        expect(page).to have_text "(expires #{I18n.l cd2.expiry, format: :long})"
       end
     end
 
@@ -67,7 +67,7 @@ RSpec.feature 'Show a customer', type: :feature do
         expect(page).to have_link publication2.name, href: publication2.website
       end
       scenario 'see publication expiry dates' do
-        expect(page).to have_text "(expires #{s2.expiry})"
+        expect(page).to have_text "(expires #{I18n.l s2.expiry, format: :long})"
       end
     end
   end
