@@ -17,7 +17,7 @@ class ConfirmationsController < Devise::ConfirmationsController
     resource.assign_attributes(permitted_params) unless params[resource_name].nil?
     return render action: :show unless resource.valid? && resource.password_match?
 
-    resource.confirm!
+    resource.confirm
     set_flash_message :notice, :confirmed
     sign_in_and_redirect resource_name, resource
   end
