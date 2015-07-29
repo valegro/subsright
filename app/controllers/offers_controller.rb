@@ -46,15 +46,15 @@ class OffersController < InheritedResources::Base
 
   def customer_params
     purchase_params.require(:customer)
-      .permit(:name, :email, :phone, :address, :country, :postcode, :price_id, :product_id)
+      .permit(:name, :email, :phone, :address, :country, :postcode, :product_id)
   end
 
   def purchase_offer!(id)
     @offer = Offer.find(id)
     @purchase = Purchase.new(offer: @offer)
-    if customer_params
+    if customer_params && params[:price_id].present?
       update_or_create_customer!
-      price = Price.find(customer_params[:price_id])
+      price = Price.find(params[:price_id])
       @purchase.amount_cents = price.amount_cents
       @purchase.currency = price.currency
       purchase_publications!(price.name)

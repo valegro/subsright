@@ -9,10 +9,16 @@
       <%= fc.input :country %>
       <%= fc.input :postcode, required: true %>
       <%  if optional_products.count > 0 %>
-        <%= fc.input :product_id, as: :radio, collection: optional_products.map { |op| [op.product.name, op.product_id] } %>
+        <%= fc.input :product_id, as: :radio,
+          collection: optional_products.map { |op| [op.product.name, op.product_id] } %>
       <%  end %>
-      <%= fc.input :price_id, as: :radio, collection: @offer.prices.map { |p| [p.to_s, p.id] } %>
     <% end %>
-    <%= f.actions { f.action :submit, label: 'Purchase' } %>
+    <%= f.actions  do %>
+      <% @offer.prices.each do |p| %>
+        <%= f.action :submit, as: :button, label: p.to_s,
+          button_html: { name: :price_id, value: p.id, class: 'btn btn-price btn-success',
+            id: "purchase_submit_action_#{p.id}" } %>
+      <% end %>
+    <% end %>
   <% end %>
 <% end %>

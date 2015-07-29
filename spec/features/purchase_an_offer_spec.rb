@@ -12,7 +12,7 @@ RSpec.feature 'Take an offer', type: :feature do
     scenario('see customer detail form') { expect(page).to have_field 'purchase_customer_name' }
 
     scenario 'require customer name' do
-      click_on 'Purchase'
+      click_on price
       expect(page).to have_content "Name can't be blank"
     end
 
@@ -23,7 +23,7 @@ RSpec.feature 'Take an offer', type: :feature do
         fill_in :purchase_customer_email, with: customer.email
         fill_in :purchase_customer_address, with: address
         fill_in :purchase_customer_postcode, with: Faker::Address.postcode
-        click_on 'Purchase'
+        click_on price
         expect(Customer.find(customer.id).address).to eq address
       end
     end
@@ -35,13 +35,13 @@ RSpec.feature 'Take an offer', type: :feature do
         fill_in :purchase_customer_postcode, with: Faker::Address.postcode
       end
 
-      scenario('create new customer') { expect { click_on 'Purchase' }.to change(Customer, :count).by(1) }
+      scenario('create new customer') { expect { click_on price }.to change(Customer, :count).by(1) }
 
       context 'when email matches existing user' do
         given(:user) { create(:user) }
         scenario 'associate customer with existing user' do
           fill_in :purchase_customer_email, with: user.email
-          click_on 'Purchase'
+          click_on price
           expect(Customer.last.user).to eq user
         end
       end
@@ -49,7 +49,7 @@ RSpec.feature 'Take an offer', type: :feature do
       context 'when email not on file' do
         scenario 'create new user' do
           fill_in :purchase_customer_email, with: Faker::Internet.email
-          expect { click_on 'Purchase' }.to change(User, :count).by(1)
+          expect { click_on price }.to change(User, :count).by(1)
         end
       end
     end
@@ -89,7 +89,7 @@ RSpec.feature 'Take an offer', type: :feature do
     fill_in :purchase_customer_name, with: Faker::Name.name
     fill_in :purchase_customer_address, with: address
     fill_in :purchase_customer_postcode, with: Faker::Address.postcode
-    expect { click_on 'Purchase' }.to change(Purchase, :count).by(1)
+    expect { click_on price }.to change(Purchase, :count).by(1)
   end
 
   context 'when there are publications' do
@@ -102,12 +102,12 @@ RSpec.feature 'Take an offer', type: :feature do
       fill_in :purchase_customer_address, with: address
       fill_in :purchase_customer_postcode, with: Faker::Address.postcode
     end
-    scenario('create payments') { expect { click_on 'Purchase' }.to change(Payment, :count).by(1) }
-    scenario('create new subscriptions') { expect { click_on 'Purchase' }.to change(Subscription, :count).by(1) }
+    scenario('create payments') { expect { click_on price }.to change(Payment, :count).by(1) }
+    scenario('create new subscriptions') { expect { click_on price }.to change(Subscription, :count).by(1) }
     scenario 'set trial period on new subscriptions' do
       offer.trial_period = Faker::Number.number(2)
       offer.save!
-      click_on 'Purchase'
+      click_on price
       expect(Subscription.last.expiry).to eq Time.zone.today + offer.trial_period
     end
   end
@@ -119,7 +119,7 @@ RSpec.feature 'Take an offer', type: :feature do
       fill_in :purchase_customer_name, with: Faker::Name.name
       fill_in :purchase_customer_address, with: address
       fill_in :purchase_customer_postcode, with: Faker::Address.postcode
-      expect { click_on 'Purchase' }.to change(ProductOrder, :count).by(1)
+      expect { click_on price }.to change(ProductOrder, :count).by(1)
     end
   end
 
@@ -130,7 +130,7 @@ RSpec.feature 'Take an offer', type: :feature do
       fill_in :purchase_customer_name, with: Faker::Name.name
       fill_in :purchase_customer_address, with: address
       fill_in :purchase_customer_postcode, with: Faker::Address.postcode
-      expect { click_on 'Purchase' }.to change(ProductOrder, :count).by(1)
+      expect { click_on price }.to change(ProductOrder, :count).by(1)
     end
   end
 end
