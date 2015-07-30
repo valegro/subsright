@@ -2,11 +2,14 @@
 // They will automatically be included in application.css.
 // You can use Sass (SCSS) here: http://sass-lang.com/
 
-.stock-warning { color: red }
-
 .btn-price {
   white-space: normal;
   height: 12ex;
   width: 12em;
   margin: 1ex 5px;
 }
+
+.price-desc { font-size: 90%; }
+.price-name { font-size: larger; }
+
+.stock-warning { color: red }

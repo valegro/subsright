@@ -25,6 +25,15 @@ class Price < ActiveRecord::Base
     "#{m.name} (#{m.iso_code})"
   end
 
+  def description
+    desc = ''
+    desc += "#{initial_amount} #{currency} now, followed by " if initial_amount_cents
+    desc += "#{monthly_payments} monthly payments of " if monthly_payments
+    desc += "#{amount} #{currency}"
+    desc += ' each' if monthly_payments
+    desc
+  end
+
   def initial_amount
     Money.new(initial_amount_cents, currency).format if initial_amount_cents
   end
@@ -35,12 +44,7 @@ class Price < ActiveRecord::Base
   end
 
   def to_s
-    price = name + ':'
-    price += " #{initial_amount} #{currency} now, followed by" if initial_amount_cents
-    price += " #{monthly_payments} monthly payments of" if monthly_payments
-    price += " #{amount} #{currency}"
-    price += ' each' if monthly_payments
-    price
+    "#{name}: #{description}"
   end
 
   def first_payment(trial_period)

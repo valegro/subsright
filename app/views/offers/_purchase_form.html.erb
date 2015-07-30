@@ -15,7 +15,8 @@
     <% end %>
     <%= f.actions  do %>
       <% @offer.prices.each do |p| %>
-        <%= f.action :submit, as: :button, label: p.to_s,
+        <% label = "<span class='price-name'>#{p.name}</span><br /><span class='price-desc'>#{p.description}</span>" %>
+        <%= f.action :submit, as: :button, label: label.html_safe,
           button_html: { name: :price_id, value: p.id, class: 'btn btn-price btn-success',
             id: "purchase_submit_action_#{p.id}" } %>
       <% end %>

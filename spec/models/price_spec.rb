@@ -36,23 +36,18 @@ RSpec.describe Price, type: :model do
 
   context 'formats prices' do
     context 'without initial amount' do
-      it 'without monthly payments'  do
-        expect(price.to_s).to eq "#{price.name}: $1.23 AUD"
-      end
+      it('without monthly payments') { expect(price.description).to eq '$1.23 AUD' }
       it 'with monthly payments' do
         price.monthly_payments = 4
-        expect(price.to_s).to eq "#{price.name}: 4 monthly payments of $1.23 AUD each"
+        expect(price.description).to eq '4 monthly payments of $1.23 AUD each'
       end
     end
 
     context 'with initial amount' do
-      it 'without monthly payments' do
-        expect(split_price.to_s).to eq "#{split_price.name}: $1.23 AUD now, followed by $4.56 AUD"
-      end
+      it('without monthly payments') { expect(split_price.description).to eq '$1.23 AUD now, followed by $4.56 AUD' }
       it 'with monthly payments' do
         split_price.monthly_payments = 7
-        expect(split_price.to_s)
-          .to eq "#{split_price.name}: $1.23 AUD now, followed by 7 monthly payments of $4.56 AUD each"
+        expect(split_price.description).to eq '$1.23 AUD now, followed by 7 monthly payments of $4.56 AUD each'
       end
     end
   end
