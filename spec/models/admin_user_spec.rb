@@ -4,6 +4,7 @@ RSpec.describe AdminUser, type: :model do
   let(:admin_user) { build(:admin_user) }
   it { expect(admin_user).to have_db_column(:name).of_type(:string).with_options(null: false) }
   it { expect(admin_user).to have_db_column(:email).of_type(:string).with_options(null: false) }
+  it { expect(admin_user).to have_db_column(:time_zone).of_type(:string) }
   it { expect(admin_user).to have_db_column(:encrypted_password).of_type(:string).with_options(null: false) }
   it { expect(admin_user).to have_db_column(:reset_password_token).of_type(:string) }
   it { expect(admin_user).to have_db_column(:reset_password_sent_at).of_type(:datetime) }

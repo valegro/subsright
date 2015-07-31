@@ -90,7 +90,8 @@ CREATE TABLE admin_users (
     unlock_token character varying,
     locked_at timestamp without time zone,
     created_at timestamp without time zone NOT NULL,
-    updated_at timestamp without time zone NOT NULL
+    updated_at timestamp without time zone NOT NULL,
+    time_zone character varying
 );
 
 
@@ -793,7 +794,8 @@ CREATE TABLE users (
     unlock_token character varying,
     locked_at timestamp without time zone,
     created_at timestamp without time zone NOT NULL,
-    updated_at timestamp without time zone NOT NULL
+    updated_at timestamp without time zone NOT NULL,
+    time_zone character varying
 );
 
 
@@ -1614,4 +1616,8 @@ INSERT INTO schema_migrations (version) VALUES ('20150621042633');
 INSERT INTO schema_migrations (version) VALUES ('20150713013312');
 
 INSERT INTO schema_migrations (version) VALUES ('20150716104227');
+
+INSERT INTO schema_migrations (version) VALUES ('20150731032533');
+
+INSERT INTO schema_migrations (version) VALUES ('20150731032559');
 

@@ -1,11 +1,12 @@
 ActiveAdmin.register AdminUser do
-  permit_params :name, :email
+  permit_params :name, :email, :time_zone
 
   index do
     selectable_column
     id_column
     column :name
     column :email
+    column :time_zone
     column :current_sign_in_at
     column :sign_in_count
     column :created_at
@@ -15,6 +16,7 @@ ActiveAdmin.register AdminUser do
 
   filter :name
   filter :email
+  filter :time_zone
   filter :current_sign_in_at
   filter :sign_in_count
   filter :created_at
@@ -25,6 +27,7 @@ ActiveAdmin.register AdminUser do
       row :name
       row :email
       row :unconfirmed_email
+      row :time_zone
       row :confirmation_sent_at
       row :confirmed_at
       row :reset_password_sent_at
@@ -46,6 +49,7 @@ ActiveAdmin.register AdminUser do
     f.inputs 'Admin Details' do
       f.input :name
       f.input :email
+      f.input :time_zone, priority_zones: /Australia/, default: 'Melbourne'
     end
     f.actions
   end

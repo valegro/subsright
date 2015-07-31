@@ -145,6 +145,7 @@ ActiveAdmin.setup do |config|
   # Active Admin resources and pages from here.
   #
   # config.before_filter :do_something_awesome
+  config.around_filter :admin_user_time_zone
 
 
   # == Setting a Favicon

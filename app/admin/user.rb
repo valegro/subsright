@@ -1,11 +1,12 @@
 ActiveAdmin.register User do
-  permit_params :name, :email, :currency
+  permit_params :name, :email, :time_zone, :currency
 
   index do
     selectable_column
     id_column
     column :name
     column :email
+    column :time_zone
     column :customers do |user|
       ( user.customers.order(:name)
         .map { |customer| link_to customer.name, admin_customer_path(customer) }
@@ -21,6 +22,7 @@ ActiveAdmin.register User do
   filter :name
   filter :email
   filter :unconfirmed_email
+  filter :time_zone
   filter :current_sign_in_at
   filter :last_sign_in_at
   filter :sign_in_count
@@ -31,6 +33,7 @@ ActiveAdmin.register User do
     attributes_table do
       row :name
       row :email
+      row :time_zone
       row('Preferred currency') { user.currency_name }
       row :customers do
         ( user.customers.order(:name)
@@ -59,6 +62,7 @@ ActiveAdmin.register User do
     f.inputs 'User Details' do
       f.input :name
       f.input :email
+      f.input :time_zone, priority_zones: /Australia/, default: 'Melbourne'
       f.input :currency, as: :select, label: 'Preferred currency',
         collection: options_for_select(Configuration::CURRENCY_OPTIONS, user.currency || 'AUD')
     end
