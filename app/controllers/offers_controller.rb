@@ -4,7 +4,7 @@ class OffersController < InheritedResources::Base
 
   def index
     @offers = Offer.joins(:offer_prices)
-      .where('(start IS NULL OR start <= NOW()) AND (finish IS NULL OR finish >= NOW())')
+      .where('(start IS NULL OR start <= CURRENT_DATE) AND (finish IS NULL OR finish >= CURRENT_DATE)')
       .group(:id)
       .having('COUNT(price_id) > 0')
       .order(:finish, :name)

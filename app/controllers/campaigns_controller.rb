@@ -3,7 +3,7 @@ class CampaignsController < InheritedResources::Base
 
   def index
     @campaigns = Campaign.where(
-      '(start IS NULL OR start <= NOW()) AND (finish IS NULL OR finish >= NOW())'
+      '(start IS NULL OR start <= CURRENT_DATE) AND (finish IS NULL OR finish >= CURRENT_DATE)'
     ).order(:finish, :name)
   end
 end

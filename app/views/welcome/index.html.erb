@@ -5,7 +5,7 @@
     </h3>
   	<div><%= campaign.description.html_safe %></div>
     <div class="list-group">
-		<% campaign.offers.where('finish IS NULL OR finish >= NOW()').order(:finish, :name).each do |offer| %>
+		<% campaign.offers.where('finish IS NULL OR finish >= CURRENT_DATE').order(:finish, :name).each do |offer| %>
             <% text = offer.name %>
             <% text += " (ends #{I18n.l offer.finish, format: :long})" if offer.finish %>
             <%= link_to text.html_safe, offer, class: 'list-group-item' %>
