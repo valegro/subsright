@@ -128,11 +128,11 @@
             <pre><span class="ruby-comment"># File app/controllers/welcome_controller.rb, line 2</span>
 <span class="ruby-keyword">def</span> <span class="ruby-identifier">index</span>
   <span class="ruby-ivar">@campaigns</span> = <span class="ruby-constant">Campaign</span>.<span class="ruby-identifier">joins</span>(<span class="ruby-value">:offers</span>).<span class="ruby-identifier">where</span>(
-    <span class="ruby-string">&#39;(campaigns.start IS NULL OR campaigns.start &lt;= NOW())
-     AND (campaigns.finish IS NULL OR campaigns.finish &gt;= NOW())&#39;</span>
+    <span class="ruby-string">&#39;(campaigns.start IS NULL OR campaigns.start &lt;= CURRENT_DATE)
+     AND (campaigns.finish IS NULL OR campaigns.finish &gt;= CURRENT_DATE)&#39;</span>
   ).<span class="ruby-identifier">group</span>(<span class="ruby-string">&#39;campaigns.id&#39;</span>).<span class="ruby-identifier">having</span>(
-    <span class="ruby-string">&#39;COUNT( (offers.start IS NULL OR offers.start &lt;= NOW())
-       AND (offers.finish IS NULL OR offers.finish &gt;= NOW()) ) &gt; 0&#39;</span>
+    <span class="ruby-string">&#39;COUNT( (offers.start IS NULL OR offers.start &lt;= CURRENT_DATE)
+       AND (offers.finish IS NULL OR offers.finish &gt;= CURRENT_DATE) ) &gt; 0&#39;</span>
   ).<span class="ruby-identifier">order</span>(<span class="ruby-value">:finish</span>, <span class="ruby-value">:name</span>)
 <span class="ruby-keyword">end</span></pre>
           </div>
