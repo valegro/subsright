@@ -28,7 +28,7 @@
     <% end %>
     <%= navbar_group class: 'nav-pills', align: :right do %>
       <% if current_user.present? %>
-        <%= navbar_item '#' do %>
+        <%= navbar_item profile_path do %>
             <span class="glyphicon glyphicon-user" aria-hidden="true"></span>&ensp;<%= current_user.name %>
         <% end %>
         <li>

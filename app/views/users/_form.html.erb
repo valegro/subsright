@@ -1,0 +1,11 @@
+<%= semantic_form_for @user, url: profile_path do |f| %>
+  <%= f.inputs do %>
+    <%= f.input :name %>
+    <%= f.input :email %><br>
+    <%= f.input :time_zone, input_html: { class: 'form-control' },
+        priority_zones: /Australia/, default: 'Melbourne' %><br>
+    <%= f.input :currency, label: 'Preferred currency',
+        collection: options_for_select(Configuration::CURRENCY_OPTIONS, @user.currency || 'AUD') %><br>
+    <%= f.actions { f.action :submit, label: 'Update profile' } %>
+  <% end %>
+<% end %>

@@ -16,6 +16,9 @@ Rails.application.routes.draw do
   get 'prices' => 'prices#index'
   get 'products' => 'products#index'
   get 'products/:id' => 'products#show', as: :product
+  get 'profile' => 'users#show'
+  patch 'profile' => 'users#update'
+  get 'profile/edit' => 'users#edit'
   get 'publications' => 'publications#index'
   get 'publications/:id' => 'publications#show', as: :publication
 
