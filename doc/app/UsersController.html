@@ -4,7 +4,7 @@
 <head>
 <meta charset="utf-8">
 
-<title>class Subscription - Rails Application Documentation</title>
+<title>class UsersController - Rails Application Documentation</title>
 
 <script type="text/javascript">
   var rdoc_rel_prefix = "./";
@@ -58,7 +58,7 @@
   <h3>Parent</h3>
 
   
-  <p class="link">ActiveRecord::Base
+  <p class="link">InheritedResources::Base
   
 </div>
 
@@ -70,7 +70,9 @@
 
   <ul class="link-list" role="directory">
     
-    <li ><a href="#method-i-to_s">#to_s</a>
+    <li ><a href="#method-i-show_errors">#show_errors</a>
+    
+    <li ><a href="#method-i-update">#update</a>
     
   </ul>
 </div>
@@ -78,9 +80,9 @@
   </div>
 </nav>
 
-<main role="main" aria-labelledby="class-Subscription">
-  <h1 id="class-Subscription" class="class">
-    class Subscription
+<main role="main" aria-labelledby="class-UsersController">
+  <h1 id="class-UsersController" class="class">
+    class UsersController
   </h1>
 
   <section class="description">
@@ -106,10 +108,10 @@
        </header>
 
     
-      <div id="method-i-to_s" class="method-detail ">
+      <div id="method-i-update" class="method-detail ">
         
         <div class="method-heading">
-          <span class="method-name">to_s</span><span
+          <span class="method-name">update</span><span
             class="method-args">()</span>
           
           <span class="method-click-advice">click to toggle source</span>
@@ -124,18 +126,53 @@
           
 
           
-          <div class="method-source-code" id="to_s-source">
-            <pre><span class="ruby-comment"># File app/models/subscription.rb, line 17</span>
-<span class="ruby-keyword">def</span> <span class="ruby-identifier">to_s</span>
-  <span class="ruby-identifier">description</span> = <span class="ruby-identifier">publication</span>.<span class="ruby-identifier">name</span>
-  <span class="ruby-keyword">return</span> <span class="ruby-node">&quot;#{description} (no subscribers)&quot;</span> <span class="ruby-keyword">unless</span> <span class="ruby-identifier">customers</span>.<span class="ruby-identifier">exists?</span>
+          <div class="method-source-code" id="update-source">
+            <pre><span class="ruby-comment"># File app/controllers/users_controller.rb, line 7</span>
+<span class="ruby-keyword">def</span> <span class="ruby-identifier">update</span>
+  <span class="ruby-identifier">flash</span>.<span class="ruby-identifier">notice</span> = <span class="ruby-string">&#39;Profile updated.  Thank you!&#39;</span> <span class="ruby-keyword">if</span> <span class="ruby-identifier">current_user</span>.<span class="ruby-identifier">update!</span> <span class="ruby-identifier">user_params</span>
+  <span class="ruby-identifier">redirect_to</span> <span class="ruby-identifier">action</span><span class="ruby-operator">:</span> <span class="ruby-value">:show</span>
+<span class="ruby-keyword">end</span></pre>
+          </div>
+          
+        </div>
 
-  <span class="ruby-identifier">description</span> <span class="ruby-operator">+=</span> <span class="ruby-string">&#39; for &#39;</span> <span class="ruby-operator">+</span> ( <span class="ruby-identifier">subscribers</span> <span class="ruby-operator">&gt;</span> <span class="ruby-value">1</span> <span class="ruby-operator">?</span> <span class="ruby-node">&quot;#{subscribers} subscribers&quot;</span> <span class="ruby-operator">:</span> <span class="ruby-identifier">customers</span>.<span class="ruby-identifier">first</span>.<span class="ruby-identifier">name</span> )
-  <span class="ruby-keyword">return</span> <span class="ruby-node">&quot;#{description} (permanent)&quot;</span> <span class="ruby-keyword">unless</span> <span class="ruby-identifier">expiry</span>
+        
 
-  <span class="ruby-identifier">status</span> = <span class="ruby-string">&#39;expires&#39;</span>
-  <span class="ruby-identifier">status</span> = <span class="ruby-identifier">cancellation_reason</span>.<span class="ruby-identifier">present?</span> <span class="ruby-operator">?</span> <span class="ruby-string">&#39;cancelled&#39;</span> <span class="ruby-operator">:</span> <span class="ruby-string">&#39;expired&#39;</span> <span class="ruby-keyword">if</span> <span class="ruby-identifier">expiry</span> <span class="ruby-operator">&lt;=</span> <span class="ruby-constant">Time</span>.<span class="ruby-identifier">zone</span>.<span class="ruby-identifier">today</span>
-  <span class="ruby-node">&quot;#{description} (#{status} on #{I18n.l expiry, format: :long})&quot;</span>
+        
+      </div>
+
+    
+    </section>
+  
+     <section id="protected-instance-5Buntitled-5D-method-details" class="method-section">
+       <header>
+         <h3>Protected Instance Methods</h3>
+       </header>
+
+    
+      <div id="method-i-show_errors" class="method-detail ">
+        
+        <div class="method-heading">
+          <span class="method-name">show_errors</span><span
+            class="method-args">(exception)</span>
+          
+          <span class="method-click-advice">click to toggle source</span>
+          
+        </div>
+        
+
+        <div class="method-description">
+          
+          
+          
+          
+
+          
+          <div class="method-source-code" id="show_errors-source">
+            <pre><span class="ruby-comment"># File app/controllers/users_controller.rb, line 14</span>
+<span class="ruby-keyword">def</span> <span class="ruby-identifier">show_errors</span>(<span class="ruby-identifier">exception</span>)
+  <span class="ruby-identifier">flash</span>.<span class="ruby-identifier">alert</span> = <span class="ruby-identifier">exception</span>.<span class="ruby-identifier">message</span>
+  <span class="ruby-identifier">render</span> <span class="ruby-value">:edit</span>
 <span class="ruby-keyword">end</span></pre>
           </div>
           
