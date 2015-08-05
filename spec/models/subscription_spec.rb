@@ -24,4 +24,30 @@ RSpec.describe Subscription, type: :model do
     subs = Subscription.all.by_name
     expect(subs.index(a)).to be < subs.index(b)
   end
+  context 'formats subscriptions' do
+    it('without subscribers') { expect(subscription.to_s).to eq "#{subscription.publication.name} (no subscribers)" }
+    context 'with subscribers' do
+      let(:customer) { build(:customer) }
+      let(:description) { "#{subscription.publication.name} for #{customer.name}" }
+      before { create(:customer_subscription, customer: customer, subscription: subscription) }
+      it 'when a group subscription' do
+        subscription.subscribers = 2
+        expect(subscription.to_s).to eq "#{subscription.publication.name} for 2 subscribers (permanent)"
+      end
+      it('without expiry') { expect(subscription.to_s).to eq "#{description} (permanent)" }
+      it 'when cancelled' do
+        subscription.cancellation_reason = 'Test'
+        subscription.expiry = Time.zone.today
+        expect(subscription.to_s).to eq "#{description} (cancelled on #{I18n.l Time.zone.today, format: :long})"
+      end
+      it 'when expired' do
+        subscription.expiry = Time.zone.today
+        expect(subscription.to_s).to eq "#{description} (expired on #{I18n.l Time.zone.today, format: :long})"
+      end
+      it 'when current' do
+        subscription.expiry = Time.zone.tomorrow
+        expect(subscription.to_s).to eq "#{description} (expires on #{I18n.l Time.zone.tomorrow, format: :long})"
+      end
+    end
+  end
 end

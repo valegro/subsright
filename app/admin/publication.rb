@@ -1,8 +1,14 @@
 ActiveAdmin.register Publication do
   permit_params :name, :image, :website, :description
 
-  preserve_default_filters!
-  filter :offer_publications, if: false
+  filter :name
+  filter :image_updated_at
+  filter :website
+  filter :offers
+  filter :subscriptions_count
+  filter :description
+  filter :created_at
+  filter :updated_at
 
   index do
     selectable_column
@@ -22,6 +28,9 @@ ActiveAdmin.register Publication do
       ( publication.offers.order(:name).map { |offer| link_to offer.name, admin_offer_path(offer) }
       ).join(', ').html_safe
     end
+    column :subscriptions, sortable: :subscriptions_count do |publication|
+      link_to publication.subscriptions.size, admin_subscriptions_path('q[publication_id_eq]' => publication.id)
+    end
     column :created_at
     column :updated_at
     actions
@@ -32,7 +41,7 @@ ActiveAdmin.register Publication do
       row :name
       row :image do
         if publication.image?
-          image_tag(publication.image.url)
+          image_tag(publication.image.url :large)
         else
           content_tag(:span, 'None')
         end
@@ -41,6 +50,10 @@ ActiveAdmin.register Publication do
       row :offers do
         ( publication.offers.order(:name).map { |offer| link_to offer.name, admin_offer_path(offer) }
         ).join(', ').html_safe
+      end
+      row :subscriptions do
+        link_to pluralize(publication.subscriptions.size, 'subscription'),
+          admin_subscriptions_path('q[publication_id_eq]' => publication.id) if publication.subscriptions.exists?
       end
       row(:description) { publication.description.html_safe unless publication.description.nil? }
       row :created_at

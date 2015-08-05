@@ -664,7 +664,8 @@ CREATE TABLE publications (
     image_updated_at timestamp without time zone,
     description text,
     created_at timestamp without time zone NOT NULL,
-    updated_at timestamp without time zone NOT NULL
+    updated_at timestamp without time zone NOT NULL,
+    subscriptions_count integer DEFAULT 0 NOT NULL
 );
 
 
@@ -1620,4 +1621,6 @@ INSERT INTO schema_migrations (version) VALUES ('20150716104227');
 INSERT INTO schema_migrations (version) VALUES ('20150731032533');
 
 INSERT INTO schema_migrations (version) VALUES ('20150731032559');
+
+INSERT INTO schema_migrations (version) VALUES ('20150805124852');
 

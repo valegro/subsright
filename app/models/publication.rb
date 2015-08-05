@@ -3,6 +3,7 @@ class Publication < ActiveRecord::Base
   accepts_nested_attributes_for :offer_publications
   has_many :offers, through: :offer_publications
   accepts_nested_attributes_for :offers
+  has_many :subscriptions
   validates :name, presence: true, uniqueness: true
   validates :website, presence: true
   validates :website, format: { with: URI.regexp }, if: 'website.present?'

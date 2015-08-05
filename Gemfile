@@ -64,6 +64,9 @@ gem 'paperclip', '~> 4.2'
 # Use TinyMCE for rich text fields
 gem 'tinymce-rails'
 
+# Improved counter caches
+gem 'counter_culture'
+
 # Use Rubocop in development to check Ruby and Rails style
 gem 'rubocop', group: :development, require: false
 

@@ -16,16 +16,15 @@ RSpec.feature 'Administer publication', type: :feature do
 
     context 'when showing index' do
       background { visit admin_publications_path }
-      [ :name, :image, :website, :offers, :created_at, :updated_at ].each do |field|
+      [ :name, :image, :website, :offers, :subscriptions, :created_at, :updated_at ].each do |field|
         scenario { expect(page).to have_css :th, text: field.to_s.titlecase }
       end
       scenario('filter by name')                { expect(page).to have_field 'q_name' }
-      scenario('filter by image filename')      { expect(page).to have_field 'q_image_file_name' }
-      scenario('filter by image content type')  { expect(page).to have_field 'q_image_content_type' }
-      scenario('filter by image file size')     { expect(page).to have_field 'q_image_file_size' }
       scenario('filter by image update time')   { expect(page).to have_field 'q_image_updated_at_gteq' }
       scenario('filter by website')             { expect(page).to have_field 'q_website' }
       scenario('filter by offer')               { expect(page).to have_field 'q_offer_ids' }
+      scenario('filter by subscriptions count') { expect(page).to have_field 'q_subscriptions_count' }
+      scenario('filter by description')         { expect(page).to have_field 'q_description' }
       scenario('filter by creation time')       { expect(page).to have_field 'q_created_at_gteq' }
       scenario('filter by update time')         { expect(page).to have_field 'q_updated_at_gteq' }
       scenario 'shows publication thumbnails' do
@@ -37,7 +36,7 @@ RSpec.feature 'Administer publication', type: :feature do
 
     context 'when viewing record' do
       background { visit admin_publication_path(publication) }
-      [ :name, :image, :website, :offers, :description, :created_at, :updated_at ].each do |field|
+      [ :name, :image, :website, :offers, :subscriptions, :description, :created_at, :updated_at ].each do |field|
         scenario { expect(page).to have_css :th, text: field.to_s.titlecase }
       end
       scenario 'shows the publication image' do
