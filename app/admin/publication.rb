@@ -5,7 +5,7 @@ ActiveAdmin.register Publication do
   filter :image_updated_at
   filter :website
   filter :offers
-  filter :subscriptions_count
+  filter :subscriptions_count, label: 'Subscriptions'
   filter :description
   filter :created_at
   filter :updated_at
@@ -29,7 +29,11 @@ ActiveAdmin.register Publication do
       ).join(', ').html_safe
     end
     column :subscriptions, sortable: :subscriptions_count do |publication|
-      link_to publication.subscriptions.size, admin_subscriptions_path('q[publication_id_eq]' => publication.id)
+      if publication.subscriptions.size.zero?
+        0
+      else
+        link_to publication.subscriptions.size, admin_subscriptions_path('q[publication_id_eq]' => publication.id)
+      end
     end
     column :created_at
     column :updated_at

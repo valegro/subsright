@@ -31,6 +31,7 @@ RSpec.feature 'Administer product order', type: :feature do
       end
       scenario('filters by customer')        { expect(page).to have_field 'q_customer_id' }
       scenario('filters by product')         { expect(page).to have_field 'q_product_id' }
+      scenario('filters by unshipped')       { expect(page).to have_field 'q_shipped_null' }
       scenario('filters by shipped time')    { expect(page).to have_field 'q_shipped_gteq' }
       scenario('filters by creation time')   { expect(page).to have_field 'q_created_at_gteq' }
       scenario('filters by update time')     { expect(page).to have_field 'q_updated_at_gteq' }

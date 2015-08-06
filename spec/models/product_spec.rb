@@ -6,6 +6,8 @@ RSpec.describe Product, type: :model do
   it { expect(product).to have_db_column(:stock).of_type(:integer) }
   it { expect(product).to have_db_column(:image_file_name).of_type(:string) }
   it { expect(product).to have_db_column(:description).of_type(:text) }
+  it { expect(product).to have_db_column(:shipped_count).of_type(:integer).with_options(null: false) }
+  it { expect(product).to have_db_column(:unshipped_count).of_type(:integer).with_options(null: false) }
   it { expect(product).to have_db_index(:name).unique }
   it { expect(product).to have_many(:offer_products) }
   it { expect(product).to accept_nested_attributes_for(:offer_products) }

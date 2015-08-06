@@ -1,8 +1,12 @@
 ActiveAdmin.register ProductOrder do
   actions :index, :show
 
-  preserve_default_filters!
-  filter :purchase, if: false
+  filter :customer
+  filter :product
+  filter :shipped_null, as: :boolean, label: 'Unshipped'
+  filter :shipped
+  filter :created_at
+  filter :updated_at
 
   index do
     selectable_column

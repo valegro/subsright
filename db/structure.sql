@@ -627,7 +627,9 @@ CREATE TABLE products (
     image_updated_at timestamp without time zone,
     description text,
     created_at timestamp without time zone NOT NULL,
-    updated_at timestamp without time zone NOT NULL
+    updated_at timestamp without time zone NOT NULL,
+    shipped_count integer DEFAULT 0 NOT NULL,
+    unshipped_count integer DEFAULT 0 NOT NULL
 );
 
 
@@ -1623,4 +1625,6 @@ INSERT INTO schema_migrations (version) VALUES ('20150731032533');
 INSERT INTO schema_migrations (version) VALUES ('20150731032559');
 
 INSERT INTO schema_migrations (version) VALUES ('20150805124852');
+
+INSERT INTO schema_migrations (version) VALUES ('20150806131113');
 

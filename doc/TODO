@@ -16,4 +16,4 @@
 * Add "wizards" that provide administrator workflow
 * Add JavaScript DateTime picker
 * Use Temporal gem to detect browser time zone
-* Add a scheduled task to call Publication.counter_culture_fix_counts regularly
+* Add a scheduled task to call ProductOrder.counter_culture_fix_counts and Subscription.counter_culture_fix_counts

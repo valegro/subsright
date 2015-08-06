@@ -27,10 +27,16 @@ RSpec.feature 'Administer publication', type: :feature do
       scenario('filter by description')         { expect(page).to have_field 'q_description' }
       scenario('filter by creation time')       { expect(page).to have_field 'q_created_at_gteq' }
       scenario('filter by update time')         { expect(page).to have_field 'q_updated_at_gteq' }
-      scenario 'shows publication thumbnails' do
+      scenario 'show publication thumbnails' do
         publication.update! image: File.new( Rails.root.join( *%w(app assets images subscriptus-logo.png) ) )
         visit admin_publications_path
         expect(page).to have_css 'img[alt="Subscriptus logo"]'
+      end
+      scenario 'show subscriptions count' do
+        create :subscription, publication: publication
+        Subscription.counter_culture_fix_counts
+        visit admin_publications_path
+        expect(page).to have_css 'td.col-subscriptions', text: '1'
       end
     end
 
@@ -39,7 +45,7 @@ RSpec.feature 'Administer publication', type: :feature do
       [ :name, :image, :website, :offers, :subscriptions, :description, :created_at, :updated_at ].each do |field|
         scenario { expect(page).to have_css :th, text: field.to_s.titlecase }
       end
-      scenario 'shows the publication image' do
+      scenario 'show the publication image' do
         publication.update! image: File.new( Rails.root.join( *%w(app assets images subscriptus-logo.png) ) )
         visit admin_publication_path(publication)
         expect(page).to have_css 'img[alt="Subscriptus logo"]'
