@@ -10,7 +10,6 @@ RSpec.feature 'Administer configuration', type: :feature do
     given(:admin_user) { create(:admin_user, confirmed_at: Time.zone.now) }
     background do
       login_as admin_user, scope: :admin_user
-      Configuration.ensure_created
       visit admin_configurations_path
     end
     Configuration.settings.each do |setting|

@@ -10,7 +10,6 @@ RSpec.describe Admin::ConfigurationsController, type: :controller do
   end
 
   describe 'PATCH #update' do
-    before { Configuration.ensure_created }
     context 'with valid attributes' do
       it 'changes the configuration attributes' do
         patch :update, id: 0, update_configuration: { provider_name: 'Test' }
