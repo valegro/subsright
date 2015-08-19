@@ -31,6 +31,7 @@ class Price < ActiveRecord::Base
     desc += "#{monthly_payments} monthly payments of " if monthly_payments
     desc += "#{amount} #{currency}"
     desc += ' each' if monthly_payments
+    desc += ' (' + discounts.order(:name).map(&:name).join(', ') + ')' if discounts.exists?
     desc
   end
 

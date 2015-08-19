@@ -1,8 +1,8 @@
 require 'rails_helper'
 
 RSpec.describe Price, type: :model do
-  let(:price) { build(:price, amount_cents: 123) }
-  let(:split_price) { build(:price, amount_cents: 456, initial_amount_cents: 123) }
+  let(:price) { build :price, amount_cents: 123 }
+  let(:split_price) { build :price, amount_cents: 456, initial_amount_cents: 123 }
   it { expect(price).to have_db_column(:currency).of_type(:string).with_options(null: false) }
   it { expect(price).to have_db_column(:name).of_type(:string).with_options(null: false) }
   it { expect(price).to have_db_column(:amount_cents).of_type(:integer).with_options(null: false) }
@@ -70,6 +70,16 @@ RSpec.describe Price, type: :model do
     it 'with monthly payments' do
       price.monthly_payments = 7
       expect(price.first_payment NIL).to eq 'starting now'
+    end
+  end
+
+  context 'with discounts' do
+    let(:discount1) { build :discount, name: 'Student' }
+    let(:discount2) { build :discount, name: 'Senior' }
+    it 'shows discount names in alphabetical order' do
+      create :discount_price, price: price, discount: discount1
+      create :discount_price, price: price, discount: discount2
+      expect(price.description).to eq '$1.23 AUD (Senior, Student)'
     end
   end
 end
