@@ -11,7 +11,7 @@
 	</page_setting>
 	<category_index>0</category_index>
 	<zoom>1.0</zoom>
-	<x>96</x>
+	<x>91</x>
 	<y>0</y>
 	<default_color>
 		<r>128</r>
@@ -135,7 +135,7 @@
 			</connections>
 			<display>false</display>
 			<creation_date>2014-10-28 17:22:05</creation_date>
-			<updated_date>2015-07-31 13:23:58</updated_date>
+			<updated_date>2015-08-19 17:49:00</updated_date>
 			<model_property>
 				<name>Project Name</name>
 				<value></value>
@@ -2507,8 +2507,8 @@
 					<referenced_complex_unique_key>null</referenced_complex_unique_key>
 				</relation>
 			</connections>
-			<physical_name>price_discount</physical_name>
-			<logical_name>price_discount</logical_name>
+			<physical_name>discount_price</physical_name>
+			<logical_name>discount_price</logical_name>
 			<description></description>
 			<constraint></constraint>
 			<primary_key_name></primary_key_name>
@@ -3655,8 +3655,8 @@
 					<referenced_complex_unique_key>null</referenced_complex_unique_key>
 				</relation>
 			</connections>
-			<physical_name>customer_subscriptions</physical_name>
-			<logical_name>customer_subscriptions</logical_name>
+			<physical_name>customer_subscription</physical_name>
+			<logical_name>customer_subscription</logical_name>
 			<description></description>
 			<constraint></constraint>
 			<primary_key_name></primary_key_name>
@@ -4840,7 +4840,7 @@
 					</sequence>
 				</normal_column>
 				<normal_column>
-					<word_id>34</word_id>
+					<word_id>33</word_id>
 					<id>87</id>
 					<description></description>
 					<unique_key_name></unique_key_name>
@@ -5016,7 +5016,7 @@
 					</sequence>
 				</normal_column>
 				<normal_column>
-					<word_id>33</word_id>
+					<word_id>34</word_id>
 					<id>91</id>
 					<description></description>
 					<unique_key_name></unique_key_name>
