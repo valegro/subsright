@@ -11,7 +11,10 @@ RSpec.describe Configuration, type: :model do
   it { expect(configuration).to validate_presence_of :key }
   it { expect(configuration).to validate_uniqueness_of :key }
   it { expect(configuration).to validate_presence_of :form_type }
-  it { expect(configuration).not_to allow_value('invalid').for(:provider_logo_content_type) }
+  it do
+    configuration.provider_logo_file_name = 'test'
+    expect(configuration).not_to allow_value('invalid').for(:provider_logo_content_type)
+  end
   it { expect(configuration).to be_valid }
   it 'returns the provider logo as an attachment' do
     expect(Configuration.provider_logo).to be_a Paperclip::Attachment
