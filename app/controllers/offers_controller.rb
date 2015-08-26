@@ -57,6 +57,7 @@ class OffersController < InheritedResources::Base
       price = Price.find(params[:price_id])
       @purchase.amount_cents = price.amount_cents
       @purchase.currency = price.currency
+      @purchase.receipt = params[:stripeToken]
       purchase_publications!(price.name)
       purchase_products!
     end

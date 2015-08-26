@@ -2,17 +2,63 @@
 <%= semantic_form_for [@offer, @purchase] do |f| %>
   <%= f.fields_for @customer do |fc| %>
     <%= fc.inputs do %>
-      <%= fc.input :name %>
+      <%= fc.input :name, input_html: { 'data-stripe': 'name' } %>
       <%= fc.input :email %>
       <%= fc.input :phone %>
       <%= fc.input :address, required: true %>
-      <%= fc.input :country %>
-      <%= fc.input :postcode, required: true %>
+      <%= fc.input :country, input_html: { 'data-stripe': 'address_country' } %>
+      <%= fc.input :postcode, required: true, input_html: { 'data-stripe': 'address_zip' } %>
       <%  if optional_products.count > 0 %>
         <%= fc.input :product_id, as: :radio,
           collection: optional_products.map { |op| [op.product.name, op.product_id] } %>
       <%  end %>
     <% end %>
+    <fieldset class="payment">
+      <div class="alert alert-danger payment-errors" role="alert" style="display: none;">
+        <span class="glyphicon glyphicon-alert" aria-hidden="true"></span>
+        <span class="sr-only">Error:</span>
+        <span class="payment-errors"></span>
+      </div>
+      <div class="string input required stringish form-group">
+        <span class="form-label">
+          <%= label_tag :card_number, class: 'control-label' do %>
+            Card number<abbr title="required">*</abbr>
+          <% end %>
+        </span>
+        <div class="form-inline">
+          <span class="form-wrapper">
+            <input id="card_number" class="form-control" type="text" size="20" maxlength="20" data-stripe="number"
+              required="required" />
+          </span>
+          <div class="number input required stringish form-group" style="margin-left: 1em;">
+            <span class="form-label">
+              <%= label_tag :cvc, class: 'control-label' do %>
+                CVC<abbr title="required">*</abbr>
+              <% end %>
+            </span>
+            <span class="form-wrapper">
+              <input id="cvc" class="form-control" type="text" size="4" maxlength="4" data-stripe="cvc"
+                required="required" />
+            </span>
+          </div>
+          <div class="number input required stringish form-group" style="margin-left: 1em;">
+            <span class="form-label">
+              <label class="control-label">Exp</label>
+            </span>
+            <span class="form-wrapper">
+              <%= select_month 0, { use_short_month: true },
+                { name: nil, class: 'form-control', 'data-stripe': 'exp-month' } %>
+            </span>
+            <span class="form-wrapper">
+              <% start_year = Time.zone.today.year %>
+              <%= select_year 0, { start_year: start_year, end_year: start_year + 9 },
+                { name: nil, class: 'form-control', 'data-stripe': 'exp-year' } %>
+            </span>
+          </div>
+        </div>
+      </div>
+    </fieldset>
+    <input id="price_id" type="hidden" name="price_id" />
     <%= f.actions  do %>
       <% @offer.prices.each do |p| %>
         <% label = "<span class='price-name'>#{p.name}</span><br /><span class='price-desc'>#{p.description}</span>" %>
@@ -23,3 +69,44 @@
     <% end %>
   <% end %>
 <% end %>
+
+<script type="text/javascript" src="https://js.stripe.com/v2/"></script>
+<script type="text/javascript">
+  Stripe.setPublishableKey('<%= Rails.configuration.stripe[:publishable_key] %>');
+  jQuery(function($) {
+    $('#new_purchase button').click(function(event) {
+      // Transfer the button value to the hidden field
+      $('#price_id').val(event.target.value);
+    });
+  });
+
+  jQuery(function($) {
+    $('#new_purchase').submit(function(event) {
+      var $form = $(this);
+
+      // Disable the submit buttons to prevent repeated clicks
+      $form.find('button').prop('disabled', true);
+
+      Stripe.card.createToken($form, stripeResponseHandler);
+
+      // Prevent the form from submitting with the default action
+      return false;
+    });
+  });
+
+  function stripeResponseHandler(status, response) {
+    var $form = $('#new_purchase');
+
+    if (response.error) {
+      // Show the errors on the form
+      $form.find('span.payment-errors').text(response.error.message);
+      $form.find('div.payment-errors').show();
+      $form.find('button').prop('disabled', false);
+    } else {
+      // response contains id and card, which contains additional card details
+      // Insert the token into the form so it gets submitted to the server
+      $form.append($('<input type="hidden" name="stripeToken" />').val(response.id));
+      $form.get(0).submit();
+    }
+  };
+</script>

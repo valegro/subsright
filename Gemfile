@@ -67,6 +67,9 @@ gem 'tinymce-rails'
 # Improved counter caches
 gem 'counter_culture'
 
+# Use Stripe to process payments and fetch directly from their secure server
+gem 'stripe', git: 'https://github.com/stripe/stripe-ruby'
+
 # Use Rubocop in development to check Ruby and Rails style
 gem 'rubocop', group: :development, require: false
 
