@@ -15,7 +15,10 @@ RSpec.describe Configuration, type: :model do
     configuration.provider_logo_file_name = 'test'
     expect(configuration).not_to allow_value('invalid').for(:provider_logo_content_type)
   end
-  it { expect(configuration).to be_valid }
+  it do
+    configuration.provider_logo_file_name = nil # Beware of hidden state!
+    expect(configuration).to be_valid
+  end
   it 'returns the provider logo as an attachment' do
     expect(Configuration.provider_logo).to be_a Paperclip::Attachment
   end
