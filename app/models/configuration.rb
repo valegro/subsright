@@ -57,6 +57,7 @@ class Configuration < ActiveRecord::Base
     config.provider_logo = attachment
     config.value = @@provider_logo_file_name
     config.save!
+    @@provider_logo = config # rubocop:disable Style/ClassVars
   end
 
   # Define settings by listing them here
