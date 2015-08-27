@@ -11,6 +11,9 @@ AllCops:
 Metrics/AbcSize:
   Max: 25
 
+Metrics/ClassLength:
+  Max: 200
+
 # Configuration parameters: AllowURI, URISchemes.
 Metrics/LineLength:
   Max: 120
