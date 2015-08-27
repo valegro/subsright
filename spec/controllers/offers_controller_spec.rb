@@ -37,6 +37,19 @@ RSpec.describe OffersController, type: :controller do
       it('responds successfully') { expect(response).to be_success }
       it('assigns the requested offer to @offer') { expect(assigns(:offer)).to eq offer }
       it('assigns offer products to @products') { expect(assigns(:products)).to eq [offer_product] }
+    end
+  end
+
+  describe 'POST #purchase' do
+    let(:offer) { create(:offer) }
+    context 'when there is no offer' do
+      before { post :purchase, id: '' }
+      it('redirects to the index page') { expect(response).to redirect_to offers_path }
+    end
+    context 'when there is no price' do
+      before { post :purchase, id: offer, purchase: { customer: { name: 'Test' } } }
+      it('assigns the requested offer to @offer') { expect(assigns(:offer)).to eq offer }
+      it('assigns the customer params to @customer') { expect(assigns(:customer).name).to eq 'Test' }
       it('renders the show template') { expect(response).to render_template('show') }
     end
   end

@@ -23,7 +23,7 @@ class OffersController < InheritedResources::Base
 
   def purchase
     if params[:id].present?
-      purchase_offer!(params[:id])
+      purchase_offer!(params[:id]) || ( return reshow )
       flash.alert = nil
       flash.notice = 'Transaction complete.  Thank you!'
     end
@@ -37,9 +37,7 @@ class OffersController < InheritedResources::Base
     return redirect_to action: :index if @offer.prices.empty?
 
     flash.alert = exception.message
-    @products = @offer.offer_products.by_name
-    @customer = Customer.new(customer_params)
-    render :show
+    reshow
   end
 
   private
@@ -52,15 +50,22 @@ class OffersController < InheritedResources::Base
   def purchase_offer!(id)
     @offer = Offer.find(id)
     @purchase = Purchase.new(offer: @offer)
-    if customer_params && params[:price_id].present?
-      update_or_create_customer!
+
+    begin
       price = Price.find(params[:price_id])
+    rescue ActiveRecord::RecordNotFound
+      return
+    end
+
+    if customer_params
+      update_or_create_customer!
       @purchase.amount_cents = price.amount_cents
       @purchase.currency = price.currency
       @purchase.receipt = params[:stripeToken]
       purchase_publications!(price.name)
       purchase_products!
     end
+
     @purchase.save!
   end
 
@@ -94,6 +99,12 @@ class OffersController < InheritedResources::Base
       CustomerSubscription.find_or_create_by(customer: @customer, subscription: subscription).save!
       Payment.new(purchase: @purchase, subscription: subscription, price_name: price_name).save!
     end
+  end
+
+  def reshow
+    @products = @offer.offer_products.by_name
+    @customer = Customer.new(customer_params)
+    render :show
   end
 
   def update_or_create_customer!
