@@ -2,12 +2,12 @@
 <%= semantic_form_for [@offer, @purchase] do |f| %>
   <%= f.fields_for @customer do |fc| %>
     <%= fc.inputs do %>
-      <%= fc.input :name, input_html: { 'data-stripe': 'name' } %>
+      <%= fc.input :name, input_html: { 'data-stripe' => 'name' } %>
       <%= fc.input :email %>
       <%= fc.input :phone %>
       <%= fc.input :address, required: true %>
-      <%= fc.input :country, input_html: { 'data-stripe': 'address_country' } %>
-      <%= fc.input :postcode, required: true, input_html: { 'data-stripe': 'address_zip' } %>
+      <%= fc.input :country, input_html: { 'data-stripe' => 'address_country' } %>
+      <%= fc.input :postcode, required: true, input_html: { 'data-stripe' => 'address_zip' } %>
       <%  if optional_products.count > 0 %>
         <%= fc.input :product_id, as: :radio,
           collection: optional_products.map { |op| [op.product.name, op.product_id] } %>
@@ -47,12 +47,12 @@
             </span>
             <span class="form-wrapper">
               <%= select_month 0, { use_short_month: true },
-                { name: nil, class: 'form-control', 'data-stripe': 'exp-month' } %>
+                { name: nil, class: 'form-control', 'data-stripe' => 'exp-month' } %>
             </span>
             <span class="form-wrapper">
               <% start_year = Time.zone.today.year %>
               <%= select_year 0, { start_year: start_year, end_year: start_year + 9 },
-                { name: nil, class: 'form-control', 'data-stripe': 'exp-year' } %>
+                { name: nil, class: 'form-control', 'data-stripe' => 'exp-year' } %>
             </span>
           </div>
         </div>
