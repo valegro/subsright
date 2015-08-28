@@ -75,7 +75,7 @@
   jQuery(function($) {
     $('#new_purchase button').click(function(event) {
       // Transfer the button value to the hidden field
-      $('#price_id').val(event.target.value || $(event.target).parent().val());
+      $('#price_id').val(this.value);
     });
   });
 
