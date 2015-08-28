@@ -14,9 +14,13 @@ class OffersController < InheritedResources::Base
     @offer = Offer.find(params[:id])
     return redirect_to action: :index if @offer.prices.empty?
 
+    @customer = Customer.new
     @products = @offer.offer_products.by_name
     @purchase = Purchase.new(offer: @offer)
-    @customer = Customer.new(price_id: @offer.prices.first.id)
+    if current_user
+      @purchase.currency = current_user.currency
+      @customer = Customer.find_by(email: current_user.email, name: current_user.name)
+    end
     first_op = @offer.offer_products.optional_in_stock.order('products.stock DESC').first
     @customer.product_id = first_op.product_id if first_op
   end

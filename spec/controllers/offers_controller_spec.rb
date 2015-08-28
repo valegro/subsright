@@ -38,6 +38,20 @@ RSpec.describe OffersController, type: :controller do
       it('assigns the requested offer to @offer') { expect(assigns(:offer)).to eq offer }
       it('assigns offer products to @products') { expect(assigns(:products)).to eq [offer_product] }
     end
+    context 'when signed in' do
+      let(:price) { create(:price) }
+      let(:offer_price) { create(:offer_price, offer: offer, price: price) }
+      let(:user) { create(:user, confirmed_at: Time.zone.now, currency: 'BTC') }
+      let(:customer) { create(:customer, email: user.email, name: user.name) }
+      before do
+        offer_price
+        customer
+        sign_in user
+        get :show, id: offer
+      end
+      it("assigns the user's currency") { expect(assigns(:purchase).currency).to eq 'BTC' }
+      it('assigns the matching customer') { expect(assigns(:customer)).to eq customer }
+    end
   end
 
   describe 'POST #purchase' do
