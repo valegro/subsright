@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150806131113) do
+ActiveRecord::Schema.define(version: 20150828042621) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -128,6 +128,7 @@ ActiveRecord::Schema.define(version: 20150806131113) do
   end
 
   add_index "discount_prices", ["discount_id", "price_id"], name: "index_discount_prices_on_discount_id_and_price_id", unique: true, using: :btree
+  add_index "discount_prices", ["price_id", "discount_id"], name: "index_discount_prices_on_price_id_and_discount_id", unique: true, using: :btree
 
   create_table "discounts", force: :cascade do |t|
     t.string   "name",        null: false

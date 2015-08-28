@@ -1250,6 +1250,13 @@ CREATE UNIQUE INDEX index_discount_prices_on_discount_id_and_price_id ON discoun
 
 
 --
+-- Name: index_discount_prices_on_price_id_and_discount_id; Type: INDEX; Schema: public; Owner: -; Tablespace: 
+--
+
+CREATE UNIQUE INDEX index_discount_prices_on_price_id_and_discount_id ON discount_prices USING btree (price_id, discount_id);
+
+
+--
 -- Name: index_discounts_on_name; Type: INDEX; Schema: public; Owner: -; Tablespace: 
 --
 
@@ -1627,4 +1634,6 @@ INSERT INTO schema_migrations (version) VALUES ('20150731032559');
 INSERT INTO schema_migrations (version) VALUES ('20150805124852');
 
 INSERT INTO schema_migrations (version) VALUES ('20150806131113');
+
+INSERT INTO schema_migrations (version) VALUES ('20150828042621');
 

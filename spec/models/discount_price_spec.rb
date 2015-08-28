@@ -5,5 +5,6 @@ RSpec.describe DiscountPrice, type: :model do
   it { expect(discount_price).to belong_to(:discount) }
   it { expect(discount_price).to belong_to(:price) }
   it { expect(discount_price).to have_db_index([:discount_id, :price_id]).unique }
+  it { expect(discount_price).to have_db_index([:price_id, :discount_id]).unique }
   it { expect(discount_price).to be_valid }
 end
