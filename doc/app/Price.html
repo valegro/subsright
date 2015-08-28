@@ -246,6 +246,7 @@
   <span class="ruby-identifier">desc</span> <span class="ruby-operator">+=</span> <span class="ruby-node">&quot;#{monthly_payments} monthly payments of &quot;</span> <span class="ruby-keyword">if</span> <span class="ruby-identifier">monthly_payments</span>
   <span class="ruby-identifier">desc</span> <span class="ruby-operator">+=</span> <span class="ruby-node">&quot;#{amount} #{currency}&quot;</span>
   <span class="ruby-identifier">desc</span> <span class="ruby-operator">+=</span> <span class="ruby-string">&#39; each&#39;</span> <span class="ruby-keyword">if</span> <span class="ruby-identifier">monthly_payments</span>
+  <span class="ruby-identifier">desc</span> <span class="ruby-operator">+=</span> <span class="ruby-string">&#39; (&#39;</span> <span class="ruby-operator">+</span> <span class="ruby-identifier">discounts</span>.<span class="ruby-identifier">order</span>(<span class="ruby-value">:name</span>).<span class="ruby-identifier">map</span>(<span class="ruby-operator">&amp;</span><span class="ruby-value">:name</span>).<span class="ruby-identifier">join</span>(<span class="ruby-string">&#39;, &#39;</span>) <span class="ruby-operator">+</span> <span class="ruby-string">&#39;)&#39;</span> <span class="ruby-keyword">if</span> <span class="ruby-identifier">discounts</span>.<span class="ruby-identifier">exists?</span>
   <span class="ruby-identifier">desc</span>
 <span class="ruby-keyword">end</span></pre>
           </div>
@@ -277,7 +278,7 @@
 
           
           <div class="method-source-code" id="first_payment-source">
-            <pre><span class="ruby-comment"># File app/models/price.rb, line 50</span>
+            <pre><span class="ruby-comment"># File app/models/price.rb, line 51</span>
 <span class="ruby-keyword">def</span> <span class="ruby-identifier">first_payment</span>(<span class="ruby-identifier">trial_period</span>)
   <span class="ruby-keyword">if</span> <span class="ruby-identifier">trial_period</span> <span class="ruby-operator">||</span> <span class="ruby-identifier">initial_amount_cents</span>
     <span class="ruby-identifier">text</span> = <span class="ruby-string">&#39;on &#39;</span> <span class="ruby-operator">+</span>
@@ -316,7 +317,7 @@
 
           
           <div class="method-source-code" id="initial_amount-source">
-            <pre><span class="ruby-comment"># File app/models/price.rb, line 37</span>
+            <pre><span class="ruby-comment"># File app/models/price.rb, line 38</span>
 <span class="ruby-keyword">def</span> <span class="ruby-identifier">initial_amount</span>
   <span class="ruby-constant">Money</span>.<span class="ruby-identifier">new</span>(<span class="ruby-identifier">initial_amount_cents</span>, <span class="ruby-identifier">currency</span>).<span class="ruby-identifier">format</span> <span class="ruby-keyword">if</span> <span class="ruby-identifier">initial_amount_cents</span>
 <span class="ruby-keyword">end</span></pre>
@@ -349,7 +350,7 @@
 
           
           <div class="method-source-code" id="initial_amount-3D-source">
-            <pre><span class="ruby-comment"># File app/models/price.rb, line 41</span>
+            <pre><span class="ruby-comment"># File app/models/price.rb, line 42</span>
 <span class="ruby-keyword">def</span> <span class="ruby-identifier">initial_amount=</span>(<span class="ruby-identifier">initial_amount</span>)
   <span class="ruby-identifier">initial_amount</span>.<span class="ruby-identifier">tr!</span>(<span class="ruby-string">&#39;^0-9&#39;</span>, <span class="ruby-string">&#39;&#39;</span>)
   <span class="ruby-keyword">self</span>.<span class="ruby-identifier">initial_amount_cents</span> = <span class="ruby-identifier">initial_amount</span>.<span class="ruby-identifier">to_i</span> <span class="ruby-operator">&gt;</span> <span class="ruby-value">0</span> <span class="ruby-operator">?</span> <span class="ruby-identifier">initial_amount</span> <span class="ruby-operator">:</span> <span class="ruby-keyword">nil</span>
@@ -383,7 +384,7 @@
 
           
           <div class="method-source-code" id="to_s-source">
-            <pre><span class="ruby-comment"># File app/models/price.rb, line 46</span>
+            <pre><span class="ruby-comment"># File app/models/price.rb, line 47</span>
 <span class="ruby-keyword">def</span> <span class="ruby-identifier">to_s</span>
   <span class="ruby-node">&quot;#{name}: #{description}&quot;</span>
 <span class="ruby-keyword">end</span></pre>

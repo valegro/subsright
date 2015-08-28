@@ -135,7 +135,8 @@ https://[username]@github.com/valegro/subsright.git</code></p>
 
 <p><code>$ rake spec</code></p>
 
-<p><code>$ rails s</code></p>
+<p><code>$ STRIPE_PUBLISHABLE_KEY=&#39;<em>test pk</em>&#39;
+STRIPE_SECRET_KEY=&#39;<em>test sk</em>&#39; rails s</code></p>
 
 <p>You can then log at <a
 href="http://localhost:3000/admin">localhost:3000/admin</a> as
@@ -157,9 +158,11 @@ RAILS_ENV=production rake assets:precompile</code></p>
 
 <p><code>$ rake secret</code></p>
 
-<p><code>$ SECRET_KEY_BASE=&#39;<em>secret</em>
-SUBSRIGHT_DATABASE_PASSWORD=&#39;<em>password</em>&#39;
-RAILS_ENV=production bundle exec rackup -E production</code></p>
+<p>&lt;tt&gt;$ STRIPE_PUBLISHABLE_KEY=&#39;<em>live pk</em>&#39;
+STRIPE_SECRET_KEY=&#39;<em>live sk</em>&#39;
+SECRET_KEY_BASE=&#39;<em>secret</em>&#39;</p>
+
+<pre>SUBSRIGHT_DATABASE_PASSWORD=&#39;&lt;em&gt;password&lt;/em&gt;&#39; RAILS_ENV=production bundle exec rackup -E production&lt;/tt&gt;</pre>
 
 <p>You can then log at <a
 href="http://localhost:9292/admin">localhost:9292/admin</a> as
