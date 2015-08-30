@@ -62,11 +62,12 @@ class OffersController < InheritedResources::Base
       return
     end
 
-    @purchase = Purchase.new(offer: @offer, currency: price.currency, amount_cents: price.total_cents)
+    due_date = Time.zone.today + (@offer.trial_period || 0).days
+    @purchase = Purchase.new(offer: @offer, payment_due: due_date, token: params[:stripeToken])
+    %w(currency amount_cents monthly_payments initial_amount_cents).each { |m| @purchase.send "#{m}=", price.send(m) }
 
     if customer_params
       update_or_create_customer!
-      @purchase.receipt = params[:stripeToken]
       purchase_publications!(price.name)
       purchase_products!
     end

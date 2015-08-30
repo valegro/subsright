@@ -9,7 +9,7 @@ class Purchase < ActiveRecord::Base
   attr_accessor :timestamp
 
   validates :offer, presence: true
-  validates :receipt, presence: true, uniqueness: { allow_blank: true }, unless: 'completed_at.nil?'
+  validates :token, uniqueness: { allow_blank: true }
 
   def amount
     Money.new( amount_cents, currency ).format
@@ -20,15 +20,28 @@ class Purchase < ActiveRecord::Base
     "#{m.name} (#{m.iso_code})"
   end
 
+  def initial_amount
+    Money.new(initial_amount_cents, currency).format if initial_amount_cents
+  end
+
+  def initial_amount=(initial_amount)
+    initial_amount.tr!('^0-9', '')
+    self.initial_amount_cents = initial_amount.to_i > 0 ? initial_amount : nil
+  end
+
   def to_s
     if cancelled_at
-      status = ( completed_at ? 'reversed' : 'cancelled' ) + ' at ' + I18n.l(cancelled_at, format: :long)
-    elsif completed_at
-      status = 'completed at ' + I18n.l(completed_at, format: :long)
+      status = ( payment_due ? 'cancelled' : 'reversed' ) + ' at ' + I18n.l(cancelled_at, format: :long)
+    elsif payment_due
+      status = 'payment due ' + I18n.l(payment_due, format: :long)
     else
-      status = 'pending'
+      status = 'completed'
     end
 
     "#{currency} #{amount} (#{status})"
+  end
+
+  def total_cents
+    (initial_amount_cents || 0) + amount_cents * (monthly_payments ? monthly_payments : 1)
   end
 end

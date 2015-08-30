@@ -18,7 +18,7 @@ ActiveAdmin.register ProductOrder do
     column :created_at
     column :updated_at
     actions defaults: true do |po|
-      if po.purchase.completed_at
+      unless po.purchase.payment_due
         link_to po.shipped ? 'Reship' : 'Shipped', { action: po.shipped ? :reship : :shipped, id: po }, method: :patch
       end
     end
@@ -32,7 +32,7 @@ ActiveAdmin.register ProductOrder do
       row :shipped
       row :created_at
       row :updated_at
-      if product_order.purchase.completed_at
+      unless product_order.purchase.payment_due
         form_for product_order, url: { action: product_order.shipped ? :reship : :shipped }, method: :patch do |f|
           f.submit value: product_order.shipped ? 'Reship' : 'Shipped'
         end
@@ -42,7 +42,7 @@ ActiveAdmin.register ProductOrder do
   end
 
   member_action :shipped, method: :patch do
-    unless resource.purchase.completed_at
+    if resource.purchase.payment_due
       return redirect_to :admin_product_orders, flash: { error: 'Purchase not completed' }
     end
 
@@ -72,7 +72,7 @@ ActiveAdmin.register ProductOrder do
     count = 0
 
     ProductOrder.find(ids).each do |po|
-      next if po.shipped || !po.purchase.completed_at || po.product.stock == 0
+      next if po.shipped || po.purchase.payment_due || po.product.stock == 0
       po.product.update! stock: po.product.stock - 1 if po.product.stock
       po.update! shipped: Time.zone.today
       count += 1

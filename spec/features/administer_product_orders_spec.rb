@@ -24,7 +24,7 @@ RSpec.feature 'Administer product order', type: :feature do
       end
       context 'when purchase is complete' do
         background do
-          product_order.purchase.update! completed_at: Time.zone.now, receipt: rand(1000)
+          product_order.purchase.update! payment_due: nil
           visit admin_product_orders_path
         end
         scenario('shows Shipped action') { expect(page).to have_css '.table_actions a', text: 'Shipped' }
@@ -47,7 +47,7 @@ RSpec.feature 'Administer product order', type: :feature do
       end
       context 'when purchase is complete' do
         background do
-          product_order.purchase.update! completed_at: Time.zone.now, receipt: rand(1000)
+          product_order.purchase.update! payment_due: nil
           visit admin_product_order_path(product_order)
         end
         scenario('shows Shipped button') { expect(page).to have_css 'form.edit_product_order' }

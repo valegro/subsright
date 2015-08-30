@@ -16,15 +16,17 @@ RSpec.feature 'Administer purchase', type: :feature do
 
     context 'when showing index' do
       background { visit admin_purchases_path }
-      [ :offer, :currency, :amount, :completed_at, :receipt, :created_at, :updated_at ].each do |field|
+      [ :offer, :currency, :amount, :monthly_payments, :initial_amount, :payment_due, :cancelled_at,
+        :created_at, :updated_at ].each do |field|
         scenario { expect(page).to have_css :th, text: field.to_s.titlecase }
       end
       scenario('filter by offer')             { expect(page).to have_field 'q_offer_id' }
       scenario('filter by products')          { expect(page).to have_field 'q_product_ids' }
       scenario('filter by currency')          { expect(page).to have_field 'q_currency' }
       scenario('filter by amount')            { expect(page).to have_field 'q_amount_cents' }
-      scenario('filter by completion time')   { expect(page).to have_field 'q_completed_at_gteq' }
-      scenario('filter by receipt')           { expect(page).to have_field 'q_receipt' }
+      scenario('filter by monthly payments')  { expect(page).to have_field 'q_monthly_payments' }
+      scenario('filter by initial amount')    { expect(page).to have_field 'q_initial_amount_cents' }
+      scenario('filter by payment due')       { expect(page).to have_field 'q_payment_due_gteq' }
       scenario('filter by cancellation time') { expect(page).to have_field 'q_cancelled_at_gteq' }
       scenario('filter by creation time')     { expect(page).to have_field 'q_created_at_gteq' }
       scenario('filter by update time')       { expect(page).to have_field 'q_updated_at_gteq' }
@@ -34,26 +36,23 @@ RSpec.feature 'Administer purchase', type: :feature do
       given(:customer) { create :customer }
       given(:product) { create :product }
       background { visit admin_purchase_path(purchase) }
-      [ :offer, :currency, :amount, :subscriptions, :products, :created_at, :updated_at ].each do |field|
+      [ :offer, :currency, :amount, :monthly_payments, :initial_amount, :payment_due, :subscriptions, :products,
+        :created_at, :updated_at ].each do |field|
         scenario { expect(page).to have_css :th, text: field.to_s.titlecase }
       end
 
       context 'when not completed or cancelled' do
         scenario { expect(page).to have_field :purchase_timestamp }
-        scenario { expect(page).to have_field :purchase_receipt }
         scenario { expect(page).to have_css 'input[type=submit][value="Complete purchase"]' }
         scenario { expect(page).to have_css 'input[type=submit][value="Cancel purchase"]' }
       end
 
       context 'when completed' do
         background do
-          purchase.update! completed_at: Time.zone.now, receipt: 'test'
+          purchase.update! payment_due: nil
           visit admin_purchase_path(purchase)
         end
-        scenario { expect(page).to have_css :th, text: 'Completed At' }
-        scenario { expect(page).to have_css :th, text: 'Receipt' }
         scenario { expect(page).to have_field :purchase_timestamp }
-        scenario { expect(page).not_to have_field :purchase_receipt }
         scenario { expect(page).not_to have_css 'input[type=submit][value="Complete purchase"]' }
         scenario { expect(page).to have_css 'input[type=submit][value="Reverse purchase"]' }
       end
@@ -92,7 +91,6 @@ RSpec.feature 'Administer purchase', type: :feature do
     context 'when completing purchase' do
       scenario 'redirects back to record' do
         visit admin_purchase_path(purchase)
-        fill_in 'Receipt', with: 'test'
         click_on 'Complete purchase'
         expect(current_path).to eq admin_purchase_path(purchase)
       end

@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150828042621) do
+ActiveRecord::Schema.define(version: 20150830085327) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -245,18 +245,19 @@ ActiveRecord::Schema.define(version: 20150828042621) do
   add_index "publications", ["name"], name: "index_publications_on_name", unique: true, using: :btree
 
   create_table "purchases", force: :cascade do |t|
-    t.integer  "offer_id",     null: false
-    t.string   "currency",     null: false
-    t.integer  "amount_cents", null: false
-    t.datetime "completed_at"
-    t.string   "receipt"
-    t.datetime "created_at",   null: false
-    t.datetime "updated_at",   null: false
+    t.integer  "offer_id",             null: false
+    t.string   "currency",             null: false
+    t.integer  "amount_cents",         null: false
+    t.string   "token"
+    t.datetime "created_at",           null: false
+    t.datetime "updated_at",           null: false
     t.datetime "cancelled_at"
+    t.integer  "monthly_payments"
+    t.integer  "initial_amount_cents"
+    t.date     "payment_due"
   end
 
   add_index "purchases", ["offer_id"], name: "index_purchases_on_offer_id", using: :btree
-  add_index "purchases", ["receipt"], name: "index_purchases_on_receipt", using: :btree
 
   create_table "subscriptions", force: :cascade do |t|
     t.integer  "publication_id",      null: false
@@ -271,6 +272,14 @@ ActiveRecord::Schema.define(version: 20150828042621) do
 
   add_index "subscriptions", ["publication_id"], name: "index_subscriptions_on_publication_id", using: :btree
   add_index "subscriptions", ["user_id"], name: "index_subscriptions_on_user_id", using: :btree
+
+  create_table "transactions", force: :cascade do |t|
+    t.integer "purchase_id",  null: false
+    t.integer "amount_cents"
+    t.string  "message",      null: false
+  end
+
+  add_index "transactions", ["message"], name: "index_transactions_on_message", using: :btree
 
   create_table "users", force: :cascade do |t|
     t.string   "name",                                null: false
@@ -325,4 +334,5 @@ ActiveRecord::Schema.define(version: 20150828042621) do
   add_foreign_key "purchases", "offers"
   add_foreign_key "subscriptions", "publications"
   add_foreign_key "subscriptions", "users"
+  add_foreign_key "transactions", "purchases"
 end

@@ -24,9 +24,8 @@ RSpec.describe Admin::PurchasesController, type: :controller do
   end
 
   describe 'PATCH #update' do
-    let(:purchase_params) { { timestamp: Time.zone.now, receipt: 'test' } }
-    let(:cancel_params) { { cancelled_at: purchase_params[:timestamp], receipt: 'test' } }
-    let(:complete_params) { { completed_at: purchase_params[:timestamp], receipt: 'test' } }
+    let(:purchase_params) { { timestamp: Time.zone.now } }
+    let(:cancel_params) { { cancelled_at: purchase_params[:timestamp] } }
 
     it('ignores invalid actions') { expect(patch :update, id: purchase).to redirect_to :admin_purchase }
 
@@ -46,21 +45,15 @@ RSpec.describe Admin::PurchasesController, type: :controller do
 
     context 'when completing a purchase' do
       it 'reports an error when already complete' do
-        purchase.update! complete_params
+        purchase.update! payment_due: nil
         patch :update, commit: 'Complete purchase', id: purchase, purchase: purchase_params
         expect(flash).to include [ 'error', 'Purchase already complete' ]
-      end
-
-      it 'reports an error on duplicate receipt' do
-        create :purchase, complete_params
-        patch :update, commit: 'Complete purchase', id: purchase, purchase: purchase_params
-        expect(flash).to include [ 'error', 'Validation failed: Receipt has already been taken' ]
       end
 
       it 'completes a purchase' do
         patch :update, commit: 'Complete purchase', id: purchase, purchase: purchase_params
         purchase.reload
-        expect(purchase.receipt).to eq 'test'
+        expect(purchase.payment_due).to be nil
       end
     end
 
@@ -96,7 +89,7 @@ RSpec.describe Admin::PurchasesController, type: :controller do
         end
 
         it 'does not delete completed payments' do
-          purchase.update! completed_at: Time.zone.now, receipt: 'test'
+          purchase.update! payment_due: nil
           patch :update, commit: 'Reverse purchase', id: purchase, purchase: purchase_params
           expect(Payment.exists? payment.id).to be true
         end

@@ -160,19 +160,26 @@ product order created for each product included in the purchase.  Customers who 
 existing subscriptions to the included publications will get new subscriptions with an expiry date
 set to the end of the offer trial period.
 
-When a purchase has been completed, which requires a unique receipt, the subscription expiry date
-for each associated payment record will be extended by the subscription period in the offer, or if
-the expiry date is equal to the subscription date plus the offer trial period it will simply be
-set to the subscription date plus the subscription period in the offer.
+The payment_due date will initially be set to the purchase creation date plus any trial period
+specified in the associated offer.  A scheduled task will attempt to raise a charge for the
+initial amount (if there is one and the paid balance is zero) or otherwise the regular amount when
+there is a Stripe token and the payment_due date is the current date or the two following days.
+This will create a transaction record and if successful will either advance the payment_due date
+by one month or if the paid balance equals the total amount will remove the payment_due date.
 
-If a purchase is cancelled rather than completed, all associated payment records and unshipped
-product orders will be deleted.  If a purchase is cancelled (reversed) after it has already been
-completed, the subscription expiry date for each associated payment record will be reduced by the
-subscription period in the offer and all associated unshipped product orders will then be deleted.
-Note that subscriptions with no expiry date will not be affected and will remain active.
+When a purchase first reaches a positive balance as a result of a transaction, the subscription
+expiry date for each associated payment record will be extended by the subscription period in the
+offer, or if the expiry date is equal to the subscription date plus the offer trial period it will
+simply be set to the subscription date plus the subscription period in the offer.
 
-Purchases cannot deleted until they have been archived along with the associated payment records,
-subscriptions and product orders.
+If a purchase is cancelled while the paid balance is zero, all associated payment records and
+unshipped product orders will be deleted.  If a purchase is cancelled or reversed once the paid
+balance is nonzero, the subscription expiry date for each associated payment record will be reduced
+by the subscription period in the offer and all associated unshipped product orders will then be
+deleted.  Note that subscriptions with no expiry date will not be affected and will remain active.
+
+Purchases cannot deleted until they have been archived along with the associated transaction and
+payment records, subscriptions and product orders.
 
 == Subscriptions
 
@@ -181,6 +188,13 @@ included in the offer purchased.  Subscriptions default to a single customer, bu
 group subscription with a specified maximum number of customers.  Subscriptions cannot be deleted
 until they have been archived along with the associated payment records, purchases and product
 orders, and can not be archived until they have expired or been cancelled.
+
+== Transactions
+
+Transactions with no amount record failed billing attempts or other errors.  Transactions with a
+positive amount record successful charges and with a negative amount record successful refunds,
+both of which require a unique receipt ID.  Transactions cannot be deleted until they have been
+archived along with the associated purchases.
 
 == Users
 

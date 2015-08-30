@@ -699,11 +699,13 @@ CREATE TABLE purchases (
     offer_id integer NOT NULL,
     currency character varying NOT NULL,
     amount_cents integer NOT NULL,
-    completed_at timestamp without time zone,
-    receipt character varying,
+    token character varying,
     created_at timestamp without time zone NOT NULL,
     updated_at timestamp without time zone NOT NULL,
-    cancelled_at timestamp without time zone
+    cancelled_at timestamp without time zone,
+    monthly_payments integer,
+    initial_amount_cents integer,
+    payment_due date
 );
 
 
@@ -769,6 +771,37 @@ CREATE SEQUENCE subscriptions_id_seq
 --
 
 ALTER SEQUENCE subscriptions_id_seq OWNED BY subscriptions.id;
+
+
+--
+-- Name: transactions; Type: TABLE; Schema: public; Owner: -; Tablespace: 
+--
+
+CREATE TABLE transactions (
+    id integer NOT NULL,
+    purchase_id integer NOT NULL,
+    amount_cents integer,
+    message character varying NOT NULL
+);
+
+
+--
+-- Name: transactions_id_seq; Type: SEQUENCE; Schema: public; Owner: -
+--
+
+CREATE SEQUENCE transactions_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+--
+-- Name: transactions_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: -
+--
+
+ALTER SEQUENCE transactions_id_seq OWNED BY transactions.id;
 
 
 --
@@ -972,6 +1005,13 @@ ALTER TABLE ONLY subscriptions ALTER COLUMN id SET DEFAULT nextval('subscription
 -- Name: id; Type: DEFAULT; Schema: public; Owner: -
 --
 
+ALTER TABLE ONLY transactions ALTER COLUMN id SET DEFAULT nextval('transactions_id_seq'::regclass);
+
+
+--
+-- Name: id; Type: DEFAULT; Schema: public; Owner: -
+--
+
 ALTER TABLE ONLY users ALTER COLUMN id SET DEFAULT nextval('users_id_seq'::regclass);
 
 
@@ -1141,6 +1181,14 @@ ALTER TABLE ONLY purchases
 
 ALTER TABLE ONLY subscriptions
     ADD CONSTRAINT subscriptions_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: transactions_pkey; Type: CONSTRAINT; Schema: public; Owner: -; Tablespace: 
+--
+
+ALTER TABLE ONLY transactions
+    ADD CONSTRAINT transactions_pkey PRIMARY KEY (id);
 
 
 --
@@ -1334,13 +1382,6 @@ CREATE INDEX index_purchases_on_offer_id ON purchases USING btree (offer_id);
 
 
 --
--- Name: index_purchases_on_receipt; Type: INDEX; Schema: public; Owner: -; Tablespace: 
---
-
-CREATE INDEX index_purchases_on_receipt ON purchases USING btree (receipt);
-
-
---
 -- Name: index_subscriptions_on_publication_id; Type: INDEX; Schema: public; Owner: -; Tablespace: 
 --
 
@@ -1352,6 +1393,13 @@ CREATE INDEX index_subscriptions_on_publication_id ON subscriptions USING btree 
 --
 
 CREATE INDEX index_subscriptions_on_user_id ON subscriptions USING btree (user_id);
+
+
+--
+-- Name: index_transactions_on_message; Type: INDEX; Schema: public; Owner: -; Tablespace: 
+--
+
+CREATE INDEX index_transactions_on_message ON transactions USING btree (message);
 
 
 --
@@ -1403,6 +1451,14 @@ ALTER TABLE ONLY discount_prices
 
 ALTER TABLE ONLY product_orders
     ADD CONSTRAINT fk_rails_14f14aa898 FOREIGN KEY (product_id) REFERENCES products(id);
+
+
+--
+-- Name: fk_rails_15c3f2b07b; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY transactions
+    ADD CONSTRAINT fk_rails_15c3f2b07b FOREIGN KEY (purchase_id) REFERENCES purchases(id);
 
 
 --
@@ -1636,4 +1692,8 @@ INSERT INTO schema_migrations (version) VALUES ('20150805124852');
 INSERT INTO schema_migrations (version) VALUES ('20150806131113');
 
 INSERT INTO schema_migrations (version) VALUES ('20150828042621');
+
+INSERT INTO schema_migrations (version) VALUES ('20150830080231');
+
+INSERT INTO schema_migrations (version) VALUES ('20150830085327');
 

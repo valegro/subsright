@@ -7,8 +7,9 @@ ActiveAdmin.register Purchase do
   filter :products
   filter :currency, as: :select, collection: Configuration::CURRENCY_OPTIONS
   filter :amount_cents
-  filter :completed_at
-  filter :receipt
+  filter :monthly_payments
+  filter :initial_amount_cents
+  filter :payment_due
   filter :cancelled_at
   filter :created_at
   filter :updated_at
@@ -28,8 +29,9 @@ ActiveAdmin.register Purchase do
     column :offer
     column :currency
     column :amount
-    column :completed_at
-    column :receipt
+    column :monthly_payments
+    column :initial_amount
+    column :payment_due
     column :cancelled_at
     column :created_at
     column :updated_at
@@ -41,10 +43,9 @@ ActiveAdmin.register Purchase do
       row :offer
       row :currency
       row :amount
-      if purchase.completed_at
-        row :completed_at
-        row :receipt
-      end
+      row :monthly_payments
+      row :initial_amount
+      row :payment_due
       row :cancelled_at if purchase.cancelled_at
       row :subscriptions do
         ( purchase.payments.map { |p| link_to p, admin_subscription_path(p.subscription) } ).join(', ').html_safe
@@ -84,7 +85,7 @@ ActiveAdmin.register Purchase do
 end
 
 def purchase_params
-  params.require(:purchase).permit([:commit, :timestamp, :receipt])
+  params.require(:purchase).permit([:commit, :timestamp])
 end
 
 def cancel_payment!(p)
@@ -92,7 +93,7 @@ def cancel_payment!(p)
     offer_publication = @purchase.offer.offer_publications.where(publication_id: p.subscription.publication).first
     p.subscription.update! expiry: offer_publication.reduce_date(p.subscription.expiry)
   end
-  p.destroy unless @purchase.completed_at
+  p.destroy if @purchase.payment_due
 end
 
 def cancel_purchase!
@@ -100,7 +101,7 @@ def cancel_purchase!
 
   @purchase.payments.each { |p| cancel_payment!(p) }
   @purchase.product_orders.each { |po| po.destroy unless po.shipped }
-  @purchase.update! cancelled_at: purchase_params[:timestamp]
+  @purchase.update! payment_due: nil, cancelled_at: purchase_params[:timestamp]
   flash[:notice] = 'Purchase cancelled'
 end
 
@@ -114,9 +115,9 @@ def complete_payment!(p)
 end
 
 def complete_purchase!
-  return flash[:error] = 'Purchase already complete' if @purchase.completed_at
+  return flash[:error] = 'Purchase already complete' unless @purchase.payment_due
 
   @purchase.payments.each { |p| complete_payment!(p) }
-  @purchase.update! completed_at: purchase_params[:timestamp], receipt: purchase_params[:receipt]
+  @purchase.update! payment_due: nil
   flash[:notice] = 'Purchase complete'
 end

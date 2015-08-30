@@ -33,7 +33,7 @@ RSpec.describe Admin::ProductOrdersController, type: :controller do
       end
     end
     context 'when purchase is complete' do
-      before { product_order.purchase.update! completed_at: Time.zone.now, receipt: rand(1000) }
+      before { product_order.purchase.update! payment_due: nil }
       it 'locates the requested product_order' do
         patch :shipped, id: product_order
         expect(assigns(:product_order)).to eq product_order
@@ -91,7 +91,7 @@ RSpec.describe Admin::ProductOrdersController, type: :controller do
     let :post_params do
       [ batch_action: :shipped, collection_selection_toggle_all: 'on', collection_selection: product_orders ]
     end
-    before { product_orders[1].purchase.update! completed_at: Time.zone.now, receipt: rand(1000) }
+    before { product_orders[1].purchase.update! payment_due: nil }
     it 'does not ship any product_orders with pending purchases' do
       post :batch_action, *post_params
       expect(ProductOrder.first.shipped).to eq nil
@@ -122,7 +122,7 @@ RSpec.describe Admin::ProductOrdersController, type: :controller do
       expect(flash).to include [ 'error', 'Product orders could not be shipped' ]
     end
     it 'reports success if all selected products were shipped' do
-      product_orders[0].purchase.update! completed_at: Time.zone.now, receipt: rand(1000)
+      product_orders[0].purchase.update! payment_due: nil
       post :batch_action, *post_params
       expect(flash).to include [ 'notice', 'Selected product orders shipped' ]
     end

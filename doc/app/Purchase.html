@@ -220,11 +220,11 @@
             <pre><span class="ruby-comment"># File app/models/purchase.rb, line 23</span>
 <span class="ruby-keyword">def</span> <span class="ruby-identifier">to_s</span>
   <span class="ruby-keyword">if</span> <span class="ruby-identifier">cancelled_at</span>
-    <span class="ruby-identifier">status</span> = ( <span class="ruby-identifier">completed_at</span> <span class="ruby-operator">?</span> <span class="ruby-string">&#39;reversed&#39;</span> <span class="ruby-operator">:</span> <span class="ruby-string">&#39;cancelled&#39;</span> ) <span class="ruby-operator">+</span> <span class="ruby-string">&#39; at &#39;</span> <span class="ruby-operator">+</span> <span class="ruby-constant">I18n</span>.<span class="ruby-identifier">l</span>(<span class="ruby-identifier">cancelled_at</span>, <span class="ruby-identifier">format</span><span class="ruby-operator">:</span> <span class="ruby-value">:long</span>)
-  <span class="ruby-keyword">elsif</span> <span class="ruby-identifier">completed_at</span>
-    <span class="ruby-identifier">status</span> = <span class="ruby-string">&#39;completed at &#39;</span> <span class="ruby-operator">+</span> <span class="ruby-constant">I18n</span>.<span class="ruby-identifier">l</span>(<span class="ruby-identifier">completed_at</span>, <span class="ruby-identifier">format</span><span class="ruby-operator">:</span> <span class="ruby-value">:long</span>)
+    <span class="ruby-identifier">status</span> = ( <span class="ruby-identifier">payment_due</span> <span class="ruby-operator">?</span> <span class="ruby-string">&#39;cancelled&#39;</span> <span class="ruby-operator">:</span> <span class="ruby-string">&#39;reversed&#39;</span> ) <span class="ruby-operator">+</span> <span class="ruby-string">&#39; at &#39;</span> <span class="ruby-operator">+</span> <span class="ruby-constant">I18n</span>.<span class="ruby-identifier">l</span>(<span class="ruby-identifier">cancelled_at</span>, <span class="ruby-identifier">format</span><span class="ruby-operator">:</span> <span class="ruby-value">:long</span>)
+  <span class="ruby-keyword">elsif</span> <span class="ruby-identifier">payment_due</span>
+    <span class="ruby-identifier">status</span> = <span class="ruby-string">&#39;payment due &#39;</span> <span class="ruby-operator">+</span> <span class="ruby-constant">I18n</span>.<span class="ruby-identifier">l</span>(<span class="ruby-identifier">payment_due</span>, <span class="ruby-identifier">format</span><span class="ruby-operator">:</span> <span class="ruby-value">:long</span>)
   <span class="ruby-keyword">else</span>
-    <span class="ruby-identifier">status</span> = <span class="ruby-string">&#39;pending&#39;</span>
+    <span class="ruby-identifier">status</span> = <span class="ruby-string">&#39;completed&#39;</span>
   <span class="ruby-keyword">end</span>
 
   <span class="ruby-node">&quot;#{currency} #{amount} (#{status})&quot;</span>
