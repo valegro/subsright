@@ -63,4 +63,8 @@ RSpec.configure do |config|
   config.include Warden::Test::Helpers
   config.before(:suite) { Warden.test_mode! }
   config.after(:each) { Warden.test_reset! }
+
+  # Save failures to speed up debugging
+  config.example_status_persistence_file_path = Rails.root.join(*%w( tmp examples.txt ))
+  config.run_all_when_everything_filtered = true
 end
