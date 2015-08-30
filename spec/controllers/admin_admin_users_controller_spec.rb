@@ -9,7 +9,7 @@ RSpec.describe Admin::AdminUsersController, type: :controller do
     it('responds successfully') { expect(get :index).to be_success }
     it 'assigns @admin_users' do
       get :index
-      expect(assigns(:admin_users)).to eq [admin_user]
+      expect(assigns(:admin_users)).to include admin_user
     end
     it('renders the index template') { expect(get :index).to render_template('index') }
   end
