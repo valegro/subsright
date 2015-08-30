@@ -48,6 +48,10 @@ class Price < ActiveRecord::Base
     "#{name}: #{description}"
   end
 
+  def total_cents
+    (initial_amount_cents || 0) + amount_cents * (monthly_payments ? monthly_payments : 1)
+  end
+
   def first_payment(trial_period)
     if trial_period || initial_amount_cents
       text = 'on ' +

@@ -1,4 +1,4 @@
-Fri, 28 Aug 2015 15:42:18 +1000
+Sun, 30 Aug 2015 16:00:57 +1000
 README.rdoc	Wed, 26 Aug 2015 18:28:28 +1000
 app/admin/admin_user.rb	Fri, 31 Jul 2015 13:53:44 +1000
 app/admin/campaign.rb	Mon, 06 Jul 2015 18:16:51 +1000
@@ -19,7 +19,7 @@ app/controllers/campaigns_controller.rb	Fri, 31 Jul 2015 14:50:31 +1000
 app/controllers/confirmations_controller.rb	Mon, 27 Jul 2015 20:05:28 +1000
 app/controllers/customers_controller.rb	Thu, 04 Jun 2015 19:13:35 +1000
 app/controllers/discounts_controller.rb	Mon, 18 May 2015 16:47:32 +1000
-app/controllers/offers_controller.rb	Fri, 28 Aug 2015 14:07:57 +1000
+app/controllers/offers_controller.rb	Sun, 30 Aug 2015 15:34:19 +1000
 app/controllers/prices_controller.rb	Tue, 14 Apr 2015 20:23:02 +1000
 app/controllers/products_controller.rb	Mon, 18 May 2015 16:47:32 +1000
 app/controllers/publications_controller.rb	Sun, 05 Apr 2015 12:53:22 +1000
@@ -48,7 +48,7 @@ app/models/offer_price.rb	Mon, 18 May 2015 21:50:35 +1000
 app/models/offer_product.rb	Wed, 24 Jun 2015 18:31:06 +1000
 app/models/offer_publication.rb	Thu, 16 Jul 2015 21:51:13 +1000
 app/models/payment.rb	Thu, 06 Aug 2015 23:33:58 +1000
-app/models/price.rb	Wed, 26 Aug 2015 15:34:48 +1000
+app/models/price.rb	Sun, 30 Aug 2015 15:59:23 +1000
 app/models/product.rb	Thu, 23 Jul 2015 23:06:57 +1000
 app/models/product_order.rb	Fri, 07 Aug 2015 02:28:58 +1000
 app/models/publication.rb	Wed, 05 Aug 2015 19:57:22 +1000

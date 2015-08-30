@@ -17,10 +17,12 @@ class OffersController < InheritedResources::Base
     @customer = Customer.new
     @products = @offer.offer_products.by_name
     @purchase = Purchase.new(offer: @offer)
+
     if current_user
-      @purchase.currency = current_user.currency
       @customer = Customer.find_by(email: current_user.email, name: current_user.name)
+      @purchase.currency = current_user.currency
     end
+
     first_op = @offer.offer_products.optional_in_stock.order('products.stock DESC').first
     @customer.product_id = first_op.product_id if first_op
   end
@@ -53,7 +55,6 @@ class OffersController < InheritedResources::Base
 
   def purchase_offer!(id)
     @offer = Offer.find(id)
-    @purchase = Purchase.new(offer: @offer)
 
     begin
       price = Price.find(params[:price_id])
@@ -61,10 +62,10 @@ class OffersController < InheritedResources::Base
       return
     end
 
+    @purchase = Purchase.new(offer: @offer, currency: price.currency, amount_cents: price.total_cents)
+
     if customer_params
       update_or_create_customer!
-      @purchase.amount_cents = price.amount_cents
-      @purchase.currency = price.currency
       @purchase.receipt = params[:stripeToken]
       purchase_publications!(price.name)
       purchase_products!
