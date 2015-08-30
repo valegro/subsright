@@ -9,7 +9,7 @@ AllCops:
     - 'db/**/*'
 
 Metrics/AbcSize:
-  Max: 25
+  Max: 30
 
 Metrics/ClassLength:
   Max: 200
