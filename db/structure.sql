@@ -781,7 +781,9 @@ CREATE TABLE transactions (
     id integer NOT NULL,
     purchase_id integer NOT NULL,
     amount_cents integer,
-    message character varying NOT NULL
+    message character varying NOT NULL,
+    created_at timestamp without time zone NOT NULL,
+    updated_at timestamp without time zone NOT NULL
 );
 
 

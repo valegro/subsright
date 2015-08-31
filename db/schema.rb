@@ -274,9 +274,11 @@ ActiveRecord::Schema.define(version: 20150830085327) do
   add_index "subscriptions", ["user_id"], name: "index_subscriptions_on_user_id", using: :btree
 
   create_table "transactions", force: :cascade do |t|
-    t.integer "purchase_id",  null: false
-    t.integer "amount_cents"
-    t.string  "message",      null: false
+    t.integer  "purchase_id",  null: false
+    t.integer  "amount_cents"
+    t.string   "message",      null: false
+    t.datetime "created_at",   null: false
+    t.datetime "updated_at",   null: false
   end
 
   add_index "transactions", ["message"], name: "index_transactions_on_message", using: :btree
