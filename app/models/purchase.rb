@@ -5,6 +5,7 @@ class Purchase < ActiveRecord::Base
   has_many :subscriptions, through: :payments
   has_many :product_orders
   has_many :products, through: :product_orders
+  has_many :transactions
 
   attr_accessor :timestamp
 

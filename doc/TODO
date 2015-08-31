@@ -17,7 +17,6 @@
 * Use Temporal gem to detect browser time zone
 * Add a scheduled task to call ProductOrder.counter_culture_fix_counts and Subscription.counter_culture_fix_counts
 * Correct error handling for invalid timestamp in admin Purchase update
-* Create a Transaction model and validate unique message where amount_cents is not nil
 * Change admin "Complete Purchase" action to "Make Payment" which creates a Transaction
 * Show Transactions in admin interface
 * Show total due and paid in Purchases admin interface
