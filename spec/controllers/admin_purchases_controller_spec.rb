@@ -63,10 +63,10 @@ RSpec.describe Admin::PurchasesController, type: :controller do
       let(:offer_publication) { create :offer_publication, offer: offer, publication: publication }
       let(:expiry) { Time.zone.tomorrow + rand(365) }
       let(:subscription) { create :subscription, publication: publication, expiry: expiry }
-      let(:payment) { create :payment, purchase: purchase, subscription: subscription }
+      let(:renewal) { create :renewal, purchase: purchase, subscription: subscription }
       before do
         offer_publication
-        payment
+        renewal
         purchase.update! offer: offer
       end
 
@@ -83,15 +83,15 @@ RSpec.describe Admin::PurchasesController, type: :controller do
             .not_to raise_error
         end
 
-        it 'deletes payments' do
+        it 'deletes renewals' do
           patch :update, commit: 'Cancel purchase', id: purchase, purchase: purchase_params
-          expect(Payment.exists? payment.id).to be false
+          expect(Renewal.exists? renewal.id).to be false
         end
 
-        it 'does not delete completed payments' do
+        it 'does not delete completed renewals' do
           purchase.update! payment_due: nil
           patch :update, commit: 'Reverse purchase', id: purchase, purchase: purchase_params
-          expect(Payment.exists? payment.id).to be true
+          expect(Renewal.exists? renewal.id).to be true
         end
 
         it 'deletes unshipped product orders' do

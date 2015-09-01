@@ -511,40 +511,6 @@ ALTER SEQUENCE offers_id_seq OWNED BY offers.id;
 
 
 --
--- Name: payments; Type: TABLE; Schema: public; Owner: -; Tablespace: 
---
-
-CREATE TABLE payments (
-    id integer NOT NULL,
-    purchase_id integer,
-    subscription_id integer,
-    price_name character varying NOT NULL,
-    discount_name character varying,
-    created_at timestamp without time zone NOT NULL,
-    updated_at timestamp without time zone NOT NULL
-);
-
-
---
--- Name: payments_id_seq; Type: SEQUENCE; Schema: public; Owner: -
---
-
-CREATE SEQUENCE payments_id_seq
-    START WITH 1
-    INCREMENT BY 1
-    NO MINVALUE
-    NO MAXVALUE
-    CACHE 1;
-
-
---
--- Name: payments_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: -
---
-
-ALTER SEQUENCE payments_id_seq OWNED BY payments.id;
-
-
---
 -- Name: prices; Type: TABLE; Schema: public; Owner: -; Tablespace: 
 --
 
@@ -726,6 +692,40 @@ CREATE SEQUENCE purchases_id_seq
 --
 
 ALTER SEQUENCE purchases_id_seq OWNED BY purchases.id;
+
+
+--
+-- Name: renewals; Type: TABLE; Schema: public; Owner: -; Tablespace: 
+--
+
+CREATE TABLE renewals (
+    id integer NOT NULL,
+    purchase_id integer,
+    subscription_id integer,
+    price_name character varying NOT NULL,
+    discount_name character varying,
+    created_at timestamp without time zone NOT NULL,
+    updated_at timestamp without time zone NOT NULL
+);
+
+
+--
+-- Name: renewals_id_seq; Type: SEQUENCE; Schema: public; Owner: -
+--
+
+CREATE SEQUENCE renewals_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+--
+-- Name: renewals_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: -
+--
+
+ALTER SEQUENCE renewals_id_seq OWNED BY renewals.id;
 
 
 --
@@ -958,13 +958,6 @@ ALTER TABLE ONLY offers ALTER COLUMN id SET DEFAULT nextval('offers_id_seq'::reg
 -- Name: id; Type: DEFAULT; Schema: public; Owner: -
 --
 
-ALTER TABLE ONLY payments ALTER COLUMN id SET DEFAULT nextval('payments_id_seq'::regclass);
-
-
---
--- Name: id; Type: DEFAULT; Schema: public; Owner: -
---
-
 ALTER TABLE ONLY prices ALTER COLUMN id SET DEFAULT nextval('prices_id_seq'::regclass);
 
 
@@ -994,6 +987,13 @@ ALTER TABLE ONLY publications ALTER COLUMN id SET DEFAULT nextval('publications_
 --
 
 ALTER TABLE ONLY purchases ALTER COLUMN id SET DEFAULT nextval('purchases_id_seq'::regclass);
+
+
+--
+-- Name: id; Type: DEFAULT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY renewals ALTER COLUMN id SET DEFAULT nextval('renewals_id_seq'::regclass);
 
 
 --
@@ -1130,14 +1130,6 @@ ALTER TABLE ONLY offers
 
 
 --
--- Name: payments_pkey; Type: CONSTRAINT; Schema: public; Owner: -; Tablespace: 
---
-
-ALTER TABLE ONLY payments
-    ADD CONSTRAINT payments_pkey PRIMARY KEY (id);
-
-
---
 -- Name: prices_pkey; Type: CONSTRAINT; Schema: public; Owner: -; Tablespace: 
 --
 
@@ -1175,6 +1167,14 @@ ALTER TABLE ONLY publications
 
 ALTER TABLE ONLY purchases
     ADD CONSTRAINT purchases_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: renewals_pkey; Type: CONSTRAINT; Schema: public; Owner: -; Tablespace: 
+--
+
+ALTER TABLE ONLY renewals
+    ADD CONSTRAINT renewals_pkey PRIMARY KEY (id);
 
 
 --
@@ -1335,13 +1335,6 @@ CREATE UNIQUE INDEX index_offer_publications_on_offer_id_and_publication_id ON o
 
 
 --
--- Name: index_payments_on_subscription_id_and_purchase_id; Type: INDEX; Schema: public; Owner: -; Tablespace: 
---
-
-CREATE UNIQUE INDEX index_payments_on_subscription_id_and_purchase_id ON payments USING btree (subscription_id, purchase_id);
-
-
---
 -- Name: index_prices_on_currency_and_name; Type: INDEX; Schema: public; Owner: -; Tablespace: 
 --
 
@@ -1381,6 +1374,13 @@ CREATE UNIQUE INDEX index_publications_on_name ON publications USING btree (name
 --
 
 CREATE INDEX index_purchases_on_offer_id ON purchases USING btree (offer_id);
+
+
+--
+-- Name: index_renewals_on_subscription_id_and_purchase_id; Type: INDEX; Schema: public; Owner: -; Tablespace: 
+--
+
+CREATE UNIQUE INDEX index_renewals_on_subscription_id_and_purchase_id ON renewals USING btree (subscription_id, purchase_id);
 
 
 --
@@ -1499,7 +1499,7 @@ ALTER TABLE ONLY campaign_offers
 -- Name: fk_rails_72c5382ba8; Type: FK CONSTRAINT; Schema: public; Owner: -
 --
 
-ALTER TABLE ONLY payments
+ALTER TABLE ONLY renewals
     ADD CONSTRAINT fk_rails_72c5382ba8 FOREIGN KEY (purchase_id) REFERENCES purchases(id);
 
 
@@ -1619,7 +1619,7 @@ ALTER TABLE ONLY offer_products
 -- Name: fk_rails_fd6be2115b; Type: FK CONSTRAINT; Schema: public; Owner: -
 --
 
-ALTER TABLE ONLY payments
+ALTER TABLE ONLY renewals
     ADD CONSTRAINT fk_rails_fd6be2115b FOREIGN KEY (subscription_id) REFERENCES subscriptions(id);
 
 
@@ -1698,4 +1698,6 @@ INSERT INTO schema_migrations (version) VALUES ('20150828042621');
 INSERT INTO schema_migrations (version) VALUES ('20150830080231');
 
 INSERT INTO schema_migrations (version) VALUES ('20150830085327');
+
+INSERT INTO schema_migrations (version) VALUES ('20150901062907');
 

@@ -5,7 +5,7 @@ RSpec.describe Subscription, type: :model do
   it { expect(subscription).to belong_to(:publication) }
   it { expect(subscription).to accept_nested_attributes_for(:publication) }
   it { expect(subscription).to belong_to(:user) }
-  it { expect(subscription).to have_many(:payments) }
+  it { expect(subscription).to have_many(:renewals) }
   it { expect(subscription).to have_many(:customer_subscriptions) }
   it { expect(subscription).to have_many(:customers).through(:customer_subscriptions) }
   it { expect(subscription).to have_db_column(:subscribers).of_type(:integer).with_options(null: false) }

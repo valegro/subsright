@@ -4,7 +4,7 @@ ActiveAdmin.register Subscription do
 
   preserve_default_filters!
   filter :customer_subscriptions, if: false
-  filter :payments, if: false
+  filter :renewals, if: false
 
   index do
     selectable_column
@@ -35,7 +35,7 @@ ActiveAdmin.register Subscription do
       end
       row :purchases do
         ul do
-          subscription.payments.order(:purchase_id)
+          subscription.renewals.order(:purchase_id)
             .each { |p| li p.price_name.html_safe + ' ' + link_to(p.purchase, admin_purchase_path(p.purchase)) }
         end
       end

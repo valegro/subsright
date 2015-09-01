@@ -48,7 +48,7 @@ ActiveAdmin.register Purchase do
       row :payment_due
       row :cancelled_at if purchase.cancelled_at
       row :subscriptions do
-        ( purchase.payments.map { |p| link_to p, admin_subscription_path(p.subscription) } ).join(', ').html_safe
+        ( purchase.renewals.map { |p| link_to p, admin_subscription_path(p.subscription) } ).join(', ').html_safe
       end
       row :products do
         ul do
@@ -99,7 +99,7 @@ end
 def cancel_purchase!
   return flash[:error] = 'Purchase already cancelled' if @purchase.cancelled_at
 
-  @purchase.payments.each { |p| cancel_payment!(p) }
+  @purchase.renewals.each { |p| cancel_payment!(p) }
   @purchase.product_orders.each { |po| po.destroy unless po.shipped }
   @purchase.update! payment_due: nil, cancelled_at: purchase_params[:timestamp]
   flash[:notice] = 'Purchase cancelled'
@@ -117,7 +117,7 @@ end
 def complete_purchase!
   return flash[:error] = 'Purchase already complete' unless @purchase.payment_due
 
-  @purchase.payments.each { |p| complete_payment!(p) }
+  @purchase.renewals.each { |p| complete_payment!(p) }
   @purchase.update! payment_due: nil
   flash[:notice] = 'Purchase complete'
 end

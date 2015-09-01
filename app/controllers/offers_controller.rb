@@ -103,7 +103,7 @@ class OffersController < InheritedResources::Base
       end
       subscription.save!
       CustomerSubscription.find_or_create_by(customer: @customer, subscription: subscription).save!
-      Payment.new(purchase: @purchase, subscription: subscription, price_name: price_name).save!
+      Renewal.new(purchase: @purchase, subscription: subscription, price_name: price_name).save!
     end
   end
 

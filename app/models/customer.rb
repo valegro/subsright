@@ -12,8 +12,8 @@ class Customer < ActiveRecord::Base
   has_many :publications, through: :subscriptions
   accepts_nested_attributes_for :publications
 
-  has_many :payments, through: :subscriptions
-  has_many :purchases, through: :payments
+  has_many :renewals, through: :subscriptions
+  has_many :purchases, through: :renewals
 
   has_many :product_orders
 

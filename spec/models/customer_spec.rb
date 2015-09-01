@@ -20,8 +20,8 @@ RSpec.describe Customer, type: :model do
   it { expect(customer).to have_many(:publications).through(:subscriptions) }
   it { expect(customer).to accept_nested_attributes_for(:publications) }
   it { expect(customer).to have_many(:subscriptions) }
-  it { expect(customer).to have_many(:payments).through(:subscriptions) }
-  it { expect(customer).to have_many(:purchases).through(:payments) }
+  it { expect(customer).to have_many(:renewals).through(:subscriptions) }
+  it { expect(customer).to have_many(:purchases).through(:renewals) }
   it { expect(customer).to have_many(:product_orders) }
   it { expect(customer).to validate_presence_of(:name) }
   it { expect(customer).to be_valid }

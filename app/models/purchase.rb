@@ -1,8 +1,8 @@
 class Purchase < ActiveRecord::Base
   belongs_to :offer
 
-  has_many :payments
-  has_many :subscriptions, through: :payments
+  has_many :renewals
+  has_many :subscriptions, through: :renewals
   has_many :product_orders
   has_many :products, through: :product_orders
   has_many :transactions

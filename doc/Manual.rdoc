@@ -92,9 +92,9 @@ associated customers in a single transaction.
 Offers that have associated purchases cannot be deleted until all associated purchases have been
 archived.
 
-== Payment records
+== Renewals
 
-Payment records are created as part of a completed purchase for each publication included in the
+Renewal records are created as part of a completed purchase for each publication included in the
 offer purchased for each customer as a record of the creation or renewal of the associated
 subscription. They can not be manually edited or deleted and will be automatically archived along
 with their associated subscriptions.
@@ -155,7 +155,7 @@ records of expired subscriptions and will require confirmation.
 
 In order to purchase an offer that includes any publications or products, all associated customers
 must have a postal address.  Purchases are created when an offer is accepted, and each associated
-customer will have a payment record created for each publication included in the offer and a
+customer will have a renewal record created for each publication included in the offer and a
 product order created for each product included in the purchase.  Customers who do not have
 existing subscriptions to the included publications will get new subscriptions with an expiry date
 set to the end of the offer trial period.
@@ -168,25 +168,25 @@ This will create a transaction record and if successful will either advance the 
 by one month or if the paid balance equals the total amount will remove the payment_due date.
 
 When a purchase first reaches a positive balance as a result of a transaction, the subscription
-expiry date for each associated payment record will be extended by the subscription period in the
+expiry date for each associated renewal record will be extended by the subscription period in the
 offer, or if the expiry date is equal to the subscription date plus the offer trial period it will
 simply be set to the subscription date plus the subscription period in the offer.
 
-If a purchase is cancelled while the paid balance is zero, all associated payment records and
+If a purchase is cancelled while the paid balance is zero, all associated renewal records and
 unshipped product orders will be deleted.  If a purchase is cancelled or reversed once the paid
-balance is nonzero, the subscription expiry date for each associated payment record will be reduced
+balance is nonzero, the subscription expiry date for each associated renewal record will be reduced
 by the subscription period in the offer and all associated unshipped product orders will then be
 deleted.  Note that subscriptions with no expiry date will not be affected and will remain active.
 
 Purchases cannot deleted until they have been archived along with the associated transaction and
-payment records, subscriptions and product orders.
+renewal records, subscriptions and product orders.
 
 == Subscriptions
 
 Subscriptions are created or their expiry date extended as part of a purchase for each publication
 included in the offer purchased.  Subscriptions default to a single customer, but can also be a
 group subscription with a specified maximum number of customers.  Subscriptions cannot be deleted
-until they have been archived along with the associated payment records, purchases and product
+until they have been archived along with the associated renewal records, purchases and product
 orders, and can not be archived until they have expired or been cancelled.
 
 == Transactions

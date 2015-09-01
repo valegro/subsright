@@ -102,7 +102,7 @@ RSpec.feature 'Take an offer', type: :feature do
       fill_in :purchase_customer_address, with: address
       fill_in :purchase_customer_postcode, with: Faker::Address.postcode
     end
-    scenario('create payments') { expect { click_on price.id }.to change(Payment, :count).by(1) }
+    scenario('create renewals') { expect { click_on price.id }.to change(Renewal, :count).by(1) }
     scenario('create new subscriptions') { expect { click_on price.id }.to change(Subscription, :count).by(1) }
     scenario 'set trial period on new subscriptions' do
       offer.trial_period = Faker::Number.number(2)

@@ -11,8 +11,8 @@ RSpec.describe Purchase, type: :model do
   it { expect(purchase).to have_db_column(:payment_due).of_type(:date) }
   it { expect(purchase).to have_db_column(:cancelled_at).of_type(:datetime) }
   it { expect(purchase).to have_db_column(:token).of_type(:string) }
-  it { expect(purchase).to have_many(:payments) }
-  it { expect(purchase).to have_many(:subscriptions).through(:payments) }
+  it { expect(purchase).to have_many(:renewals) }
+  it { expect(purchase).to have_many(:subscriptions).through(:renewals) }
   it { expect(purchase).to have_many(:product_orders) }
   it { expect(purchase).to have_many(:products).through(:product_orders) }
   it { expect(purchase).to validate_presence_of :offer }

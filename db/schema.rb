@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150830085327) do
+ActiveRecord::Schema.define(version: 20150901062907) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -178,17 +178,6 @@ ActiveRecord::Schema.define(version: 20150830085327) do
     t.datetime "updated_at",   null: false
   end
 
-  create_table "payments", force: :cascade do |t|
-    t.integer  "purchase_id"
-    t.integer  "subscription_id"
-    t.string   "price_name",      null: false
-    t.string   "discount_name"
-    t.datetime "created_at",      null: false
-    t.datetime "updated_at",      null: false
-  end
-
-  add_index "payments", ["subscription_id", "purchase_id"], name: "index_payments_on_subscription_id_and_purchase_id", unique: true, using: :btree
-
   create_table "prices", force: :cascade do |t|
     t.string   "currency",             null: false
     t.string   "name",                 null: false
@@ -259,6 +248,17 @@ ActiveRecord::Schema.define(version: 20150830085327) do
 
   add_index "purchases", ["offer_id"], name: "index_purchases_on_offer_id", using: :btree
 
+  create_table "renewals", force: :cascade do |t|
+    t.integer  "purchase_id"
+    t.integer  "subscription_id"
+    t.string   "price_name",      null: false
+    t.string   "discount_name"
+    t.datetime "created_at",      null: false
+    t.datetime "updated_at",      null: false
+  end
+
+  add_index "renewals", ["subscription_id", "purchase_id"], name: "index_renewals_on_subscription_id_and_purchase_id", unique: true, using: :btree
+
   create_table "subscriptions", force: :cascade do |t|
     t.integer  "publication_id",      null: false
     t.integer  "user_id"
@@ -328,12 +328,12 @@ ActiveRecord::Schema.define(version: 20150830085327) do
   add_foreign_key "offer_products", "products"
   add_foreign_key "offer_publications", "offers"
   add_foreign_key "offer_publications", "publications"
-  add_foreign_key "payments", "purchases"
-  add_foreign_key "payments", "subscriptions"
   add_foreign_key "product_orders", "customers"
   add_foreign_key "product_orders", "products"
   add_foreign_key "product_orders", "purchases"
   add_foreign_key "purchases", "offers"
+  add_foreign_key "renewals", "purchases"
+  add_foreign_key "renewals", "subscriptions"
   add_foreign_key "subscriptions", "publications"
   add_foreign_key "subscriptions", "users"
   add_foreign_key "transactions", "purchases"
