@@ -1,9 +1,9 @@
 require 'rails_helper'
 
 RSpec.describe Admin::PurchasesController, type: :controller do
-  let(:admin_user) { create(:admin_user, confirmed_at: Time.zone.now) }
+  let(:admin_user) { create :admin_user, confirmed_at: Time.zone.now }
   before { sign_in admin_user }
-  let(:purchase) { create(:purchase) }
+  let(:purchase) { create :purchase, amount_cents: 123 }
 
   describe 'GET #index' do
     it('responds successfully') { expect(get :index).to be_success }
@@ -24,7 +24,7 @@ RSpec.describe Admin::PurchasesController, type: :controller do
   end
 
   describe 'PATCH #update' do
-    let(:purchase_params) { { timestamp: Time.zone.now } }
+    let(:purchase_params) { { timestamp: Time.zone.now.iso8601, transaction_amount: purchase.total, receipt: 'Test' } }
     let(:cancel_params) { { cancelled_at: purchase_params[:timestamp] } }
 
     it('ignores invalid actions') { expect(patch :update, id: purchase).to redirect_to :admin_purchase }
@@ -43,17 +43,63 @@ RSpec.describe Admin::PurchasesController, type: :controller do
       end
     end
 
-    context 'when completing a purchase' do
+    context 'when creating a transaction' do
       it 'reports an error when already complete' do
         purchase.update! payment_due: nil
-        patch :update, commit: 'Complete purchase', id: purchase, purchase: purchase_params
+        patch :update, commit: 'Create transaction', id: purchase, purchase: purchase_params
         expect(flash).to include [ 'error', 'Purchase already complete' ]
       end
 
+      it 'reports an error when no amount' do
+        patch :update, commit: 'Create transaction', id: purchase, purchase: purchase_params.except(:transaction_amount)
+        expect(flash).to include [ 'error', 'Validation failed: Amount can\'t be blank' ]
+      end
+
+      it 'reports an error when amount invalid' do
+        purchase_params[:transaction_amount] = 'test'
+        patch :update, commit: 'Create transaction', id: purchase, purchase: purchase_params
+        expect(flash).to include [ 'error', 'Validation failed: Amount must be numeric' ]
+      end
+
+      it 'reports an error when timestamp invalid' do
+        purchase_params[:timestamp] = 'test'
+        patch :update, commit: 'Create transaction', id: purchase, purchase: purchase_params
+        expect(flash).to include [ 'error', 'Validation failed: Timestamp must be a valid date and time' ]
+      end
+
+      it 'reports an error when timestamp too early' do
+        purchase_params[:timestamp] = purchase.created_at - 1.second
+        patch :update, commit: 'Create transaction', id: purchase, purchase: purchase_params
+        expect(flash).to include [ 'error', 'Validation failed: Timestamp must be after purchase created' ]
+      end
+
+      it 'reports an error when timestamp in future' do
+        purchase_params[:timestamp] = Time.zone.now + 1.day
+        patch :update, commit: 'Create transaction', id: purchase, purchase: purchase_params
+        expect(flash).to include [ 'error', 'Validation failed: Timestamp must not be in the future' ]
+      end
+
       it 'completes a purchase' do
-        patch :update, commit: 'Complete purchase', id: purchase, purchase: purchase_params
+        patch :update, commit: 'Create transaction', id: purchase, purchase: purchase_params
         purchase.reload
         expect(purchase.payment_due).to be nil
+      end
+
+      it 'advances the payment due date' do
+        new_due_date = purchase.payment_due + 1.month
+        purchase_params[:transaction_amount] = 1
+        patch :update, commit: 'Create transaction', id: purchase, purchase: purchase_params
+        purchase.reload
+        expect(purchase.payment_due).to eq new_due_date
+      end
+
+      it 'does not advance a future payment due date' do
+        new_due_date = purchase.payment_due + 1.month
+        purchase.update! payment_due: new_due_date
+        purchase_params[:transaction_amount] = 1
+        patch :update, commit: 'Create transaction', id: purchase, purchase: purchase_params
+        purchase.reload
+        expect(purchase.payment_due).to eq new_due_date
       end
     end
 
@@ -109,7 +155,7 @@ RSpec.describe Admin::PurchasesController, type: :controller do
 
       context 'when completing a purchase' do
         it 'extends expiry date' do
-          patch :update, commit: 'Complete purchase', id: purchase, purchase: purchase_params
+          patch :update, commit: 'Create transaction', id: purchase, purchase: purchase_params
           subscription.reload
           expect(subscription.expiry).to eq offer_publication.extend_date(expiry)
         end
@@ -122,7 +168,7 @@ RSpec.describe Admin::PurchasesController, type: :controller do
           end
 
           it 'extends expiry date from subscribed date' do
-            patch :update, commit: 'Complete purchase', id: purchase, purchase: purchase_params
+            patch :update, commit: 'Create transaction', id: purchase, purchase: purchase_params
             subscription.reload
             expect(subscription.expiry).to eq offer_publication.extend_date(Time.zone.today)
           end

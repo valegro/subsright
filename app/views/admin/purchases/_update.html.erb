@@ -1,13 +1,17 @@
 <%= semantic_form_for @purchase, builder: Formtastic::FormBuilder, url: admin_purchase_path(@purchase) do |form| %>
   <%= form.inputs do %>
     <%= form.input :timestamp, as: :datetime_picker, required: true %>
+    <% if @purchase.payment_due %>
+      <%= form.input :transaction_amount, label: 'Amount' %>
+      <%= form.input :receipt %>
+    <% end %>
   <% end %>
   <%= form.actions do %>
     <% if @purchase.payment_due %>
-      <%=  form.submit "Complete purchase" %>
-      <%=  form.submit "Cancel purchase" %>
+      <%=  form.submit 'Create transaction' %>
+      <%=  form.submit 'Cancel purchase' %>
     <% else %>
-      <%=  form.submit "Reverse purchase" %>
+      <%=  form.submit 'Reverse purchase' %>
     <% end %>
   <% end %>
 <% end %>

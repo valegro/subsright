@@ -23,3 +23,8 @@
 }
 
 .mce-tinymce { margin-top: 2em !important }
+
+.row-transactions {
+  table { max-width: 45em; }
+  .col-amount { max-width: 10em; }
+}

@@ -7,8 +7,9 @@ ActiveAdmin.register Purchase do
   filter :products
   filter :currency, as: :select, collection: Configuration::CURRENCY_OPTIONS
   filter :amount_cents
-  filter :monthly_payments
-  filter :initial_amount_cents
+  # filter :total_cents
+  # filter :paid_cents
+  # filter :balance_cents
   filter :payment_due
   filter :cancelled_at
   filter :created_at
@@ -20,7 +21,7 @@ ActiveAdmin.register Purchase do
     protected
 
     def show_errors(exception)
-      redirect_to :admin_purchase, flash: { error: exception.message }
+      redirect_to :admin_purchase, flash: { error: exception.message.sub(/Message/, 'Receipt') }
     end
   end
 
@@ -29,8 +30,9 @@ ActiveAdmin.register Purchase do
     column :offer
     column :currency
     column :amount
-    column :monthly_payments
-    column :initial_amount
+    column :total
+    column :paid
+    column :balance
     column :payment_due
     column :cancelled_at
     column :created_at
@@ -45,6 +47,9 @@ ActiveAdmin.register Purchase do
       row :amount
       row :monthly_payments
       row :initial_amount
+      row :total
+      row :paid
+      row :balance
       row :payment_due
       row :cancelled_at if purchase.cancelled_at
       row :subscriptions do
@@ -64,8 +69,19 @@ ActiveAdmin.register Purchase do
       end
       row :created_at
       row :updated_at
+      if purchase.transactions.exists?
+        row :transactions do
+          table_for purchase.transactions do
+            column(:timestamp) { |t| I18n.l t.created_at, format: :long }
+            column :amount
+            column :message
+          end
+        end
+      end
       unless purchase.cancelled_at
         purchase.timestamp = Time.zone.now
+        purchase.transaction_amount =
+          purchase.balance_cents < purchase.amount_cents ? purchase.balance : purchase.amount
         render 'update', locals: { purchase: purchase }
       end
     end
@@ -77,15 +93,15 @@ ActiveAdmin.register Purchase do
     case params[:commit]
     when 'Cancel purchase', 'Reverse purchase'
       cancel_purchase!
-    when 'Complete purchase'
-      complete_purchase!
+    when 'Create transaction'
+      create_transaction!
     end
     redirect_to :admin_purchase
   end
 end
 
 def purchase_params
-  params.require(:purchase).permit([:commit, :timestamp])
+  params.require(:purchase).permit([:receipt, :timestamp, :transaction_amount])
 end
 
 def cancel_payment!(p)
@@ -115,9 +131,44 @@ def complete_payment!(p)
 end
 
 def complete_purchase!
-  return flash[:error] = 'Purchase already complete' unless @purchase.payment_due
-
   @purchase.renewals.each { |p| complete_payment!(p) }
   @purchase.update! payment_due: nil
   flash[:notice] = 'Purchase complete'
+end
+
+def create_transaction!
+  @purchase.assign_attributes(purchase_params)
+  ( error = transaction_error ) && ( return flash[:error] = error )
+
+  transaction = Transaction.new(
+    purchase: @purchase,
+    amount: @purchase.transaction_amount,
+    message: @purchase.receipt,
+    created_at: @purchase.timestamp
+  )
+  transaction.save!
+
+  return complete_purchase! if @purchase.balance_cents <= 0
+
+  if @purchase.payment_due <= Time.zone.today && transaction.amount_cents > 0
+    @purchase.update! payment_due: @purchase.payment_due + 1.month
+  end
+
+  flash[:notice] = ( transaction.amount_cents < 0 ? 'Refund' : 'Payment' ) + ' processed'
+end
+
+def transaction_error # rubocop:disable Metrics/CyclomaticComplexity
+  return 'Purchase already complete' unless @purchase.payment_due
+
+  amount = @purchase.transaction_amount
+  error = 'Validation failed: '
+  return error + 'Amount can\'t be blank' if amount.blank?
+  return error + 'Amount must be numeric' unless amount.match(/\d/)
+
+  timestamp = Time.zone.parse @purchase.timestamp
+  return error + 'Timestamp must be a valid date and time' if timestamp.nil?
+  return error + 'Timestamp must be after purchase created' if timestamp.to_i < @purchase.created_at.to_i
+  return error + 'Timestamp must not be in the future' if timestamp.to_i > Time.zone.now.to_i
+
+  false
 end
