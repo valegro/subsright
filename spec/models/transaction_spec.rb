@@ -12,9 +12,13 @@ RSpec.describe Transaction, type: :model do
     transaction.amount_cents = 2
     expect(transaction).not_to allow_value('test').for(:message).with_message(:taken)
   end
-  it 'formats amounts' do
+  it 'parses and formats amounts' do
     transaction.amount = '123:456'
     expect(transaction.amount).to eq '$1,234.56'
+  end
+  it 'parses and formats negative amounts' do
+    transaction.amount = '$-123,456'
+    expect(transaction.amount).to eq '$-1,234.56'
   end
   it('without amount') { expect(transaction.to_s).to eq "#{I18n.l transaction.created_at, format: :long} MyString" }
   it 'with amount' do

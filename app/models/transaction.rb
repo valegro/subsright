@@ -9,6 +9,7 @@ class Transaction < ActiveRecord::Base
 
   def amount=(amount)
     self.amount_cents = amount.tr('^0-9', '')
+    self.amount_cents *= -1 if amount.match(/\A\D*-/)
   end
 
   def to_s
