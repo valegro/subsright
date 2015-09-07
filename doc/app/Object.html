@@ -329,10 +329,11 @@
           
           <div class="method-source-code" id="create_transaction-21-source">
             <pre><span class="ruby-comment"># File app/admin/purchase.rb, line 139</span>
-<span class="ruby-keyword">def</span> <span class="ruby-identifier">create_transaction!</span>
+<span class="ruby-keyword">def</span> <span class="ruby-identifier">create_transaction!</span> <span class="ruby-comment"># rubocop:disable Metrics/AbcSize</span>
   <span class="ruby-ivar">@purchase</span>.<span class="ruby-identifier">assign_attributes</span>(<span class="ruby-identifier">purchase_params</span>)
   ( <span class="ruby-identifier">error</span> = <span class="ruby-identifier">transaction_error</span> ) <span class="ruby-operator">&amp;&amp;</span> ( <span class="ruby-keyword">return</span> <span class="ruby-identifier">flash</span>[<span class="ruby-value">:error</span>] = <span class="ruby-identifier">error</span> )
 
+  <span class="ruby-identifier">balance_cents</span> = <span class="ruby-ivar">@purchase</span>.<span class="ruby-identifier">balance_cents</span>
   <span class="ruby-identifier">transaction</span> = <span class="ruby-constant">Transaction</span>.<span class="ruby-identifier">new</span>(
     <span class="ruby-identifier">purchase</span><span class="ruby-operator">:</span> <span class="ruby-ivar">@purchase</span>,
     <span class="ruby-identifier">amount</span><span class="ruby-operator">:</span> <span class="ruby-ivar">@purchase</span>.<span class="ruby-identifier">transaction_amount</span>,
@@ -341,7 +342,7 @@
   )
   <span class="ruby-identifier">transaction</span>.<span class="ruby-identifier">save!</span>
 
-  <span class="ruby-keyword">return</span> <span class="ruby-identifier">complete_purchase!</span> <span class="ruby-keyword">if</span> <span class="ruby-ivar">@purchase</span>.<span class="ruby-identifier">balance_cents</span> <span class="ruby-operator">&lt;=</span> <span class="ruby-value">0</span>
+  <span class="ruby-keyword">return</span> <span class="ruby-identifier">complete_purchase!</span> <span class="ruby-keyword">if</span> <span class="ruby-identifier">balance_cents</span> <span class="ruby-operator">-</span> <span class="ruby-identifier">transaction</span>.<span class="ruby-identifier">amount_cents</span> <span class="ruby-operator">&lt;=</span> <span class="ruby-value">0</span>
 
   <span class="ruby-keyword">if</span> <span class="ruby-ivar">@purchase</span>.<span class="ruby-identifier">payment_due</span> <span class="ruby-operator">&lt;=</span> <span class="ruby-constant">Time</span>.<span class="ruby-identifier">zone</span>.<span class="ruby-identifier">today</span> <span class="ruby-operator">&amp;&amp;</span> <span class="ruby-identifier">transaction</span>.<span class="ruby-identifier">amount_cents</span> <span class="ruby-operator">&gt;</span> <span class="ruby-value">0</span>
     <span class="ruby-ivar">@purchase</span>.<span class="ruby-identifier">update!</span> <span class="ruby-identifier">payment_due</span><span class="ruby-operator">:</span> <span class="ruby-ivar">@purchase</span>.<span class="ruby-identifier">payment_due</span> <span class="ruby-operator">+</span> <span class="ruby-value">1</span>.<span class="ruby-identifier">month</span>
@@ -478,7 +479,7 @@
 
           
           <div class="method-source-code" id="transaction_error-source">
-            <pre><span class="ruby-comment"># File app/admin/purchase.rb, line 160</span>
+            <pre><span class="ruby-comment"># File app/admin/purchase.rb, line 161</span>
 <span class="ruby-keyword">def</span> <span class="ruby-identifier">transaction_error</span> <span class="ruby-comment"># rubocop:disable Metrics/CyclomaticComplexity</span>
   <span class="ruby-keyword">return</span> <span class="ruby-string">&#39;Purchase already complete&#39;</span> <span class="ruby-keyword">unless</span> <span class="ruby-ivar">@purchase</span>.<span class="ruby-identifier">payment_due</span>
 

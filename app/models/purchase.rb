@@ -42,10 +42,6 @@ class Purchase < ActiveRecord::Base
     Money.new( paid_cents, currency ).format
   end
 
-  def paid_cents
-    transactions.all.reduce(0) { |a, e| a + (e.amount_cents || 0) }
-  end
-
   def to_s
     if cancelled_at
       status = ( payment_due ? 'cancelled' : 'reversed' ) + ' at ' + I18n.l(cancelled_at, format: :long)
@@ -63,6 +59,6 @@ class Purchase < ActiveRecord::Base
   end
 
   def total_cents
-    (initial_amount_cents || 0) + amount_cents * (monthly_payments ? monthly_payments : 1)
+    (initial_amount_cents || 0) + amount_cents * (monthly_payments || 1)
   end
 end

@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150901062907) do
+ActiveRecord::Schema.define(version: 20150907045123) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -234,20 +234,20 @@ ActiveRecord::Schema.define(version: 20150901062907) do
   add_index "publications", ["name"], name: "index_publications_on_name", unique: true, using: :btree
 
   create_table "purchases", force: :cascade do |t|
-    t.integer  "offer_id",             null: false
-    t.string   "currency",             null: false
-    t.integer  "amount_cents",         null: false
+    t.integer  "offer_id",                         null: false
+    t.string   "currency",                         null: false
+    t.integer  "amount_cents",                     null: false
     t.string   "token"
-    t.datetime "created_at",           null: false
-    t.datetime "updated_at",           null: false
+    t.datetime "created_at",                       null: false
+    t.datetime "updated_at",                       null: false
     t.datetime "cancelled_at"
     t.integer  "monthly_payments"
     t.integer  "initial_amount_cents"
     t.date     "payment_due"
+    t.integer  "paid_cents",           default: 0, null: false
   end
 
   add_index "purchases", ["offer_id"], name: "index_purchases_on_offer_id", using: :btree
-  add_index "purchases", ["token"], name: "index_purchases_on_token", using: :btree
 
   create_table "renewals", force: :cascade do |t|
     t.integer  "purchase_id"

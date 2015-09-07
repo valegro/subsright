@@ -1,5 +1,6 @@
 class Transaction < ActiveRecord::Base
   belongs_to :purchase
+  counter_culture :purchase, column_name: :paid_cents, delta_column: :amount_cents
   validates :message, presence: true
   validates :message, uniqueness: true, unless: 'amount_cents.nil?'
 

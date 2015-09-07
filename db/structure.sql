@@ -671,7 +671,8 @@ CREATE TABLE purchases (
     cancelled_at timestamp without time zone,
     monthly_payments integer,
     initial_amount_cents integer,
-    payment_due date
+    payment_due date,
+    paid_cents integer DEFAULT 0 NOT NULL
 );
 
 
@@ -1700,4 +1701,6 @@ INSERT INTO schema_migrations (version) VALUES ('20150830080231');
 INSERT INTO schema_migrations (version) VALUES ('20150830085327');
 
 INSERT INTO schema_migrations (version) VALUES ('20150901062907');
+
+INSERT INTO schema_migrations (version) VALUES ('20150907045123');
 

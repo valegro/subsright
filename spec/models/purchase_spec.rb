@@ -77,17 +77,4 @@ RSpec.describe Purchase, type: :model do
     purchase.amount_cents = '123456'
     expect(purchase.total).to eq '$1,234.56'
   end
-
-  it 'computes paid' do
-    create :transaction, purchase: purchase, amount_cents: 123, message: 1
-    create :transaction, purchase: purchase, amount_cents: 456, message: 2
-    expect(purchase.paid_cents).to eq 123 + 456
-    expect(purchase.paid).to eq '$5.79'
-  end
-
-  it 'computes balance' do
-    create :transaction, purchase: purchase, amount_cents: 12
-    expect(purchase.balance_cents).to eq 123 - 12
-    expect(purchase.balance).to eq '$1.11'
-  end
 end

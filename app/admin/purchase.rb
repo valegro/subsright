@@ -136,10 +136,11 @@ def complete_purchase!
   flash[:notice] = 'Purchase complete'
 end
 
-def create_transaction!
+def create_transaction! # rubocop:disable Metrics/AbcSize
   @purchase.assign_attributes(purchase_params)
   ( error = transaction_error ) && ( return flash[:error] = error )
 
+  balance_cents = @purchase.balance_cents
   transaction = Transaction.new(
     purchase: @purchase,
     amount: @purchase.transaction_amount,
@@ -148,7 +149,7 @@ def create_transaction!
   )
   transaction.save!
 
-  return complete_purchase! if @purchase.balance_cents <= 0
+  return complete_purchase! if balance_cents - transaction.amount_cents <= 0
 
   if @purchase.payment_due <= Time.zone.today && transaction.amount_cents > 0
     @purchase.update! payment_due: @purchase.payment_due + 1.month

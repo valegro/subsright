@@ -84,8 +84,6 @@
     
     <li ><a href="#method-i-paid">#paid</a>
     
-    <li ><a href="#method-i-paid_cents">#paid_cents</a>
-    
     <li ><a href="#method-i-to_s">#to_s</a>
     
     <li ><a href="#method-i-total">#total</a>
@@ -406,39 +404,6 @@
       </div>
 
     
-      <div id="method-i-paid_cents" class="method-detail ">
-        
-        <div class="method-heading">
-          <span class="method-name">paid_cents</span><span
-            class="method-args">()</span>
-          
-          <span class="method-click-advice">click to toggle source</span>
-          
-        </div>
-        
-
-        <div class="method-description">
-          
-          
-          
-          
-
-          
-          <div class="method-source-code" id="paid_cents-source">
-            <pre><span class="ruby-comment"># File app/models/purchase.rb, line 45</span>
-<span class="ruby-keyword">def</span> <span class="ruby-identifier">paid_cents</span>
-  <span class="ruby-identifier">transactions</span>.<span class="ruby-identifier">all</span>.<span class="ruby-identifier">reduce</span>(<span class="ruby-value">0</span>) { <span class="ruby-operator">|</span><span class="ruby-identifier">a</span>, <span class="ruby-identifier">e</span><span class="ruby-operator">|</span> <span class="ruby-identifier">a</span> <span class="ruby-operator">+</span> (<span class="ruby-identifier">e</span>.<span class="ruby-identifier">amount_cents</span> <span class="ruby-operator">||</span> <span class="ruby-value">0</span>) }
-<span class="ruby-keyword">end</span></pre>
-          </div>
-          
-        </div>
-
-        
-
-        
-      </div>
-
-    
       <div id="method-i-to_s" class="method-detail ">
         
         <div class="method-heading">
@@ -458,7 +423,7 @@
 
           
           <div class="method-source-code" id="to_s-source">
-            <pre><span class="ruby-comment"># File app/models/purchase.rb, line 49</span>
+            <pre><span class="ruby-comment"># File app/models/purchase.rb, line 45</span>
 <span class="ruby-keyword">def</span> <span class="ruby-identifier">to_s</span>
   <span class="ruby-keyword">if</span> <span class="ruby-identifier">cancelled_at</span>
     <span class="ruby-identifier">status</span> = ( <span class="ruby-identifier">payment_due</span> <span class="ruby-operator">?</span> <span class="ruby-string">&#39;cancelled&#39;</span> <span class="ruby-operator">:</span> <span class="ruby-string">&#39;reversed&#39;</span> ) <span class="ruby-operator">+</span> <span class="ruby-string">&#39; at &#39;</span> <span class="ruby-operator">+</span> <span class="ruby-constant">I18n</span>.<span class="ruby-identifier">l</span>(<span class="ruby-identifier">cancelled_at</span>, <span class="ruby-identifier">format</span><span class="ruby-operator">:</span> <span class="ruby-value">:long</span>)
@@ -499,7 +464,7 @@
 
           
           <div class="method-source-code" id="total-source">
-            <pre><span class="ruby-comment"># File app/models/purchase.rb, line 61</span>
+            <pre><span class="ruby-comment"># File app/models/purchase.rb, line 57</span>
 <span class="ruby-keyword">def</span> <span class="ruby-identifier">total</span>
   <span class="ruby-constant">Money</span>.<span class="ruby-identifier">new</span>( <span class="ruby-identifier">total_cents</span>, <span class="ruby-identifier">currency</span> ).<span class="ruby-identifier">format</span>
 <span class="ruby-keyword">end</span></pre>
@@ -532,9 +497,9 @@
 
           
           <div class="method-source-code" id="total_cents-source">
-            <pre><span class="ruby-comment"># File app/models/purchase.rb, line 65</span>
+            <pre><span class="ruby-comment"># File app/models/purchase.rb, line 61</span>
 <span class="ruby-keyword">def</span> <span class="ruby-identifier">total_cents</span>
-  (<span class="ruby-identifier">initial_amount_cents</span> <span class="ruby-operator">||</span> <span class="ruby-value">0</span>) <span class="ruby-operator">+</span> <span class="ruby-identifier">amount_cents</span> <span class="ruby-operator">*</span> (<span class="ruby-identifier">monthly_payments</span> <span class="ruby-operator">?</span> <span class="ruby-identifier">monthly_payments</span> <span class="ruby-operator">:</span> <span class="ruby-value">1</span>)
+  (<span class="ruby-identifier">initial_amount_cents</span> <span class="ruby-operator">||</span> <span class="ruby-value">0</span>) <span class="ruby-operator">+</span> <span class="ruby-identifier">amount_cents</span> <span class="ruby-operator">*</span> (<span class="ruby-identifier">monthly_payments</span> <span class="ruby-operator">||</span> <span class="ruby-value">1</span>)
 <span class="ruby-keyword">end</span></pre>
           </div>
           
