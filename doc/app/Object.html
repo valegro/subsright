@@ -80,11 +80,15 @@
     
     <li ><a href="#method-i-complete_purchase-21">#complete_purchase!</a>
     
+    <li ><a href="#method-i-create_transaction-21">#create_transaction!</a>
+    
     <li ><a href="#method-i-index">#index</a>
     
     <li ><a href="#method-i-purchase_params">#purchase_params</a>
     
     <li ><a href="#method-i-show_errors">#show_errors</a>
+    
+    <li ><a href="#method-i-transaction_error">#transaction_error</a>
     
     <li ><a href="#method-i-update">#update</a>
     
@@ -141,7 +145,7 @@
 
           
           <div class="method-source-code" id="cancel_payment-21-source">
-            <pre><span class="ruby-comment"># File app/admin/purchase.rb, line 91</span>
+            <pre><span class="ruby-comment"># File app/admin/purchase.rb, line 107</span>
 <span class="ruby-keyword">def</span> <span class="ruby-identifier">cancel_payment!</span>(<span class="ruby-identifier">p</span>)
   <span class="ruby-keyword">if</span> <span class="ruby-identifier">p</span>.<span class="ruby-identifier">subscription</span>.<span class="ruby-identifier">expiry</span>
     <span class="ruby-identifier">offer_publication</span> = <span class="ruby-ivar">@purchase</span>.<span class="ruby-identifier">offer</span>.<span class="ruby-identifier">offer_publications</span>.<span class="ruby-identifier">where</span>(<span class="ruby-identifier">publication_id</span><span class="ruby-operator">:</span> <span class="ruby-identifier">p</span>.<span class="ruby-identifier">subscription</span>.<span class="ruby-identifier">publication</span>).<span class="ruby-identifier">first</span>
@@ -178,7 +182,7 @@
 
           
           <div class="method-source-code" id="cancel_purchase-21-source">
-            <pre><span class="ruby-comment"># File app/admin/purchase.rb, line 99</span>
+            <pre><span class="ruby-comment"># File app/admin/purchase.rb, line 115</span>
 <span class="ruby-keyword">def</span> <span class="ruby-identifier">cancel_purchase!</span>
   <span class="ruby-keyword">return</span> <span class="ruby-identifier">flash</span>[<span class="ruby-value">:error</span>] = <span class="ruby-string">&#39;Purchase already cancelled&#39;</span> <span class="ruby-keyword">if</span> <span class="ruby-ivar">@purchase</span>.<span class="ruby-identifier">cancelled_at</span>
 
@@ -251,7 +255,7 @@
 
           
           <div class="method-source-code" id="complete_payment-21-source">
-            <pre><span class="ruby-comment"># File app/admin/purchase.rb, line 108</span>
+            <pre><span class="ruby-comment"># File app/admin/purchase.rb, line 124</span>
 <span class="ruby-keyword">def</span> <span class="ruby-identifier">complete_payment!</span>(<span class="ruby-identifier">p</span>)
   <span class="ruby-identifier">expiry</span> = <span class="ruby-identifier">p</span>.<span class="ruby-identifier">subscription</span>.<span class="ruby-identifier">expiry</span>
   <span class="ruby-identifier">subscribed</span> = <span class="ruby-identifier">p</span>.<span class="ruby-identifier">subscription</span>.<span class="ruby-identifier">subscribed</span>
@@ -289,13 +293,61 @@
 
           
           <div class="method-source-code" id="complete_purchase-21-source">
-            <pre><span class="ruby-comment"># File app/admin/purchase.rb, line 117</span>
+            <pre><span class="ruby-comment"># File app/admin/purchase.rb, line 133</span>
 <span class="ruby-keyword">def</span> <span class="ruby-identifier">complete_purchase!</span>
-  <span class="ruby-keyword">return</span> <span class="ruby-identifier">flash</span>[<span class="ruby-value">:error</span>] = <span class="ruby-string">&#39;Purchase already complete&#39;</span> <span class="ruby-keyword">unless</span> <span class="ruby-ivar">@purchase</span>.<span class="ruby-identifier">payment_due</span>
-
   <span class="ruby-ivar">@purchase</span>.<span class="ruby-identifier">renewals</span>.<span class="ruby-identifier">each</span> { <span class="ruby-operator">|</span><span class="ruby-identifier">p</span><span class="ruby-operator">|</span> <span class="ruby-identifier">complete_payment!</span>(<span class="ruby-identifier">p</span>) }
   <span class="ruby-ivar">@purchase</span>.<span class="ruby-identifier">update!</span> <span class="ruby-identifier">payment_due</span><span class="ruby-operator">:</span> <span class="ruby-keyword">nil</span>
   <span class="ruby-identifier">flash</span>[<span class="ruby-value">:notice</span>] = <span class="ruby-string">&#39;Purchase complete&#39;</span>
+<span class="ruby-keyword">end</span></pre>
+          </div>
+          
+        </div>
+
+        
+
+        
+      </div>
+
+    
+      <div id="method-i-create_transaction-21" class="method-detail ">
+        
+        <div class="method-heading">
+          <span class="method-name">create_transaction!</span><span
+            class="method-args">()</span>
+          
+          <span class="method-click-advice">click to toggle source</span>
+          
+        </div>
+        
+
+        <div class="method-description">
+          
+          
+          
+          
+
+          
+          <div class="method-source-code" id="create_transaction-21-source">
+            <pre><span class="ruby-comment"># File app/admin/purchase.rb, line 139</span>
+<span class="ruby-keyword">def</span> <span class="ruby-identifier">create_transaction!</span>
+  <span class="ruby-ivar">@purchase</span>.<span class="ruby-identifier">assign_attributes</span>(<span class="ruby-identifier">purchase_params</span>)
+  ( <span class="ruby-identifier">error</span> = <span class="ruby-identifier">transaction_error</span> ) <span class="ruby-operator">&amp;&amp;</span> ( <span class="ruby-keyword">return</span> <span class="ruby-identifier">flash</span>[<span class="ruby-value">:error</span>] = <span class="ruby-identifier">error</span> )
+
+  <span class="ruby-identifier">transaction</span> = <span class="ruby-constant">Transaction</span>.<span class="ruby-identifier">new</span>(
+    <span class="ruby-identifier">purchase</span><span class="ruby-operator">:</span> <span class="ruby-ivar">@purchase</span>,
+    <span class="ruby-identifier">amount</span><span class="ruby-operator">:</span> <span class="ruby-ivar">@purchase</span>.<span class="ruby-identifier">transaction_amount</span>,
+    <span class="ruby-identifier">message</span><span class="ruby-operator">:</span> <span class="ruby-ivar">@purchase</span>.<span class="ruby-identifier">receipt</span>,
+    <span class="ruby-identifier">created_at</span><span class="ruby-operator">:</span> <span class="ruby-ivar">@purchase</span>.<span class="ruby-identifier">timestamp</span>
+  )
+  <span class="ruby-identifier">transaction</span>.<span class="ruby-identifier">save!</span>
+
+  <span class="ruby-keyword">return</span> <span class="ruby-identifier">complete_purchase!</span> <span class="ruby-keyword">if</span> <span class="ruby-ivar">@purchase</span>.<span class="ruby-identifier">balance_cents</span> <span class="ruby-operator">&lt;=</span> <span class="ruby-value">0</span>
+
+  <span class="ruby-keyword">if</span> <span class="ruby-ivar">@purchase</span>.<span class="ruby-identifier">payment_due</span> <span class="ruby-operator">&lt;=</span> <span class="ruby-constant">Time</span>.<span class="ruby-identifier">zone</span>.<span class="ruby-identifier">today</span> <span class="ruby-operator">&amp;&amp;</span> <span class="ruby-identifier">transaction</span>.<span class="ruby-identifier">amount_cents</span> <span class="ruby-operator">&gt;</span> <span class="ruby-value">0</span>
+    <span class="ruby-ivar">@purchase</span>.<span class="ruby-identifier">update!</span> <span class="ruby-identifier">payment_due</span><span class="ruby-operator">:</span> <span class="ruby-ivar">@purchase</span>.<span class="ruby-identifier">payment_due</span> <span class="ruby-operator">+</span> <span class="ruby-value">1</span>.<span class="ruby-identifier">month</span>
+  <span class="ruby-keyword">end</span>
+
+  <span class="ruby-identifier">flash</span>[<span class="ruby-value">:notice</span>] = ( <span class="ruby-identifier">transaction</span>.<span class="ruby-identifier">amount_cents</span> <span class="ruby-operator">&lt;</span> <span class="ruby-value">0</span> <span class="ruby-operator">?</span> <span class="ruby-string">&#39;Refund&#39;</span> <span class="ruby-operator">:</span> <span class="ruby-string">&#39;Payment&#39;</span> ) <span class="ruby-operator">+</span> <span class="ruby-string">&#39; processed&#39;</span>
 <span class="ruby-keyword">end</span></pre>
           </div>
           
@@ -360,9 +412,9 @@
 
           
           <div class="method-source-code" id="purchase_params-source">
-            <pre><span class="ruby-comment"># File app/admin/purchase.rb, line 87</span>
+            <pre><span class="ruby-comment"># File app/admin/purchase.rb, line 103</span>
 <span class="ruby-keyword">def</span> <span class="ruby-identifier">purchase_params</span>
-  <span class="ruby-identifier">params</span>.<span class="ruby-identifier">require</span>(<span class="ruby-value">:purchase</span>).<span class="ruby-identifier">permit</span>([<span class="ruby-value">:commit</span>, <span class="ruby-value">:timestamp</span>])
+  <span class="ruby-identifier">params</span>.<span class="ruby-identifier">require</span>(<span class="ruby-value">:purchase</span>).<span class="ruby-identifier">permit</span>([<span class="ruby-value">:receipt</span>, <span class="ruby-value">:timestamp</span>, <span class="ruby-value">:transaction_amount</span>])
 <span class="ruby-keyword">end</span></pre>
           </div>
           
@@ -393,9 +445,54 @@
 
           
           <div class="method-source-code" id="show_errors-source">
-            <pre><span class="ruby-comment"># File app/admin/purchase.rb, line 22</span>
+            <pre><span class="ruby-comment"># File app/admin/purchase.rb, line 23</span>
 <span class="ruby-keyword">def</span> <span class="ruby-identifier">show_errors</span>(<span class="ruby-identifier">exception</span>)
-  <span class="ruby-identifier">redirect_to</span> <span class="ruby-value">:admin_purchase</span>, <span class="ruby-identifier">flash</span><span class="ruby-operator">:</span> { <span class="ruby-identifier">error</span><span class="ruby-operator">:</span> <span class="ruby-identifier">exception</span>.<span class="ruby-identifier">message</span> }
+  <span class="ruby-identifier">redirect_to</span> <span class="ruby-value">:admin_purchase</span>, <span class="ruby-identifier">flash</span><span class="ruby-operator">:</span> { <span class="ruby-identifier">error</span><span class="ruby-operator">:</span> <span class="ruby-identifier">exception</span>.<span class="ruby-identifier">message</span>.<span class="ruby-identifier">sub</span>(<span class="ruby-regexp">/Message/</span>, <span class="ruby-string">&#39;Receipt&#39;</span>) }
+<span class="ruby-keyword">end</span></pre>
+          </div>
+          
+        </div>
+
+        
+
+        
+      </div>
+
+    
+      <div id="method-i-transaction_error" class="method-detail ">
+        
+        <div class="method-heading">
+          <span class="method-name">transaction_error</span><span
+            class="method-args">()</span>
+          
+          <span class="method-click-advice">click to toggle source</span>
+          
+        </div>
+        
+
+        <div class="method-description">
+          
+          
+          
+          
+
+          
+          <div class="method-source-code" id="transaction_error-source">
+            <pre><span class="ruby-comment"># File app/admin/purchase.rb, line 160</span>
+<span class="ruby-keyword">def</span> <span class="ruby-identifier">transaction_error</span> <span class="ruby-comment"># rubocop:disable Metrics/CyclomaticComplexity</span>
+  <span class="ruby-keyword">return</span> <span class="ruby-string">&#39;Purchase already complete&#39;</span> <span class="ruby-keyword">unless</span> <span class="ruby-ivar">@purchase</span>.<span class="ruby-identifier">payment_due</span>
+
+  <span class="ruby-identifier">amount</span> = <span class="ruby-ivar">@purchase</span>.<span class="ruby-identifier">transaction_amount</span>
+  <span class="ruby-identifier">error</span> = <span class="ruby-string">&#39;Validation failed: &#39;</span>
+  <span class="ruby-keyword">return</span> <span class="ruby-identifier">error</span> <span class="ruby-operator">+</span> <span class="ruby-string">&#39;Amount can\t be blank&#39;</span> <span class="ruby-keyword">if</span> <span class="ruby-identifier">amount</span>.<span class="ruby-identifier">blank?</span>
+  <span class="ruby-keyword">return</span> <span class="ruby-identifier">error</span> <span class="ruby-operator">+</span> <span class="ruby-string">&#39;Amount must be numeric&#39;</span> <span class="ruby-keyword">unless</span> <span class="ruby-identifier">amount</span>.<span class="ruby-identifier">match</span>(<span class="ruby-regexp">/\d/</span>)
+
+  <span class="ruby-identifier">timestamp</span> = <span class="ruby-constant">Time</span>.<span class="ruby-identifier">zone</span>.<span class="ruby-identifier">parse</span> <span class="ruby-ivar">@purchase</span>.<span class="ruby-identifier">timestamp</span>
+  <span class="ruby-keyword">return</span> <span class="ruby-identifier">error</span> <span class="ruby-operator">+</span> <span class="ruby-string">&#39;Timestamp must be a valid date and time&#39;</span> <span class="ruby-keyword">if</span> <span class="ruby-identifier">timestamp</span>.<span class="ruby-identifier">nil?</span>
+  <span class="ruby-keyword">return</span> <span class="ruby-identifier">error</span> <span class="ruby-operator">+</span> <span class="ruby-string">&#39;Timestamp must be after purchase created&#39;</span> <span class="ruby-keyword">if</span> <span class="ruby-identifier">timestamp</span>.<span class="ruby-identifier">to_i</span> <span class="ruby-operator">&lt;</span> <span class="ruby-ivar">@purchase</span>.<span class="ruby-identifier">created_at</span>.<span class="ruby-identifier">to_i</span>
+  <span class="ruby-keyword">return</span> <span class="ruby-identifier">error</span> <span class="ruby-operator">+</span> <span class="ruby-string">&#39;Timestamp must not be in the future&#39;</span> <span class="ruby-keyword">if</span> <span class="ruby-identifier">timestamp</span>.<span class="ruby-identifier">to_i</span> <span class="ruby-operator">&gt;</span> <span class="ruby-constant">Time</span>.<span class="ruby-identifier">zone</span>.<span class="ruby-identifier">now</span>.<span class="ruby-identifier">to_i</span>
+
+  <span class="ruby-keyword">false</span>
 <span class="ruby-keyword">end</span></pre>
           </div>
           

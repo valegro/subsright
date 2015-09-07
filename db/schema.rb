@@ -247,6 +247,7 @@ ActiveRecord::Schema.define(version: 20150901062907) do
   end
 
   add_index "purchases", ["offer_id"], name: "index_purchases_on_offer_id", using: :btree
+  add_index "purchases", ["token"], name: "index_purchases_on_token", using: :btree
 
   create_table "renewals", force: :cascade do |t|
     t.integer  "purchase_id"

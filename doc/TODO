@@ -16,6 +16,5 @@
 * Add JavaScript DateTime picker
 * Use Temporal gem to detect browser time zone
 * Add a scheduled task to call ProductOrder.counter_culture_fix_counts and Subscription.counter_culture_fix_counts
-* Correct error handling for invalid timestamp in admin Purchase update
 * Add a scheduled task to create Stripe charges for Purchases where payment_due
 * Add balance_cents, paid_cents and total_cents counter_culture columns to Purchases
