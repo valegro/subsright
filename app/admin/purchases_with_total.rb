@@ -1,19 +1,7 @@
-ActiveAdmin.register Purchase do
+ActiveAdmin.register PurchasesWithTotal, as: 'Purchase' do
   actions :index, :show
   config.batch_actions = false
   config.clear_action_items!
-
-  filter :offer
-  filter :products
-  filter :currency, as: :select, collection: Configuration::CURRENCY_OPTIONS
-  # filter :total_cents
-  filter :paid_cents
-  # filter :balance_cents
-  filter :amount_cents
-  filter :payment_due
-  filter :cancelled_at
-  filter :created_at
-  filter :updated_at
 
   controller do
     rescue_from ActiveRecord::RecordInvalid, with: :show_errors
@@ -25,13 +13,25 @@ ActiveAdmin.register Purchase do
     end
   end
 
-  index do
+  filter :offer
+  filter :products
+  filter :currency, as: :select, collection: Configuration::CURRENCY_OPTIONS
+  filter :total_cents
+  filter :paid_cents
+  filter :balance_cents
+  filter :amount_cents
+  filter :payment_due
+  filter :cancelled_at
+  filter :created_at
+  filter :updated_at
+
+  index title: 'Purchases' do
     id_column
     column :offer
     column :currency
-    column :total
+    column :total, sortable: :total_cents
     column :paid, sortable: :paid_cents
-    column :balance
+    column :balance, sortable: :balance_cents
     column :amount, sortable: :amount_cents
     column :payment_due
     column :cancelled_at
@@ -40,7 +40,7 @@ ActiveAdmin.register Purchase do
     actions
   end
 
-  show do
+  show title: :to_s do
     attributes_table do
       row :offer
       row :currency
@@ -100,8 +100,8 @@ ActiveAdmin.register Purchase do
   end
 end
 
-def purchase_params
-  params.require(:purchase).permit([:receipt, :timestamp, :transaction_amount])
+def purchases_with_total_params
+  params.require(:purchases_with_total).permit([:receipt, :timestamp, :transaction_amount])
 end
 
 def cancel_payment!(p)
@@ -117,7 +117,7 @@ def cancel_purchase!
 
   @purchase.renewals.each { |p| cancel_payment!(p) }
   @purchase.product_orders.each { |po| po.destroy unless po.shipped }
-  @purchase.update! payment_due: nil, cancelled_at: purchase_params[:timestamp]
+  @purchase.update! payment_due: nil, cancelled_at: purchases_with_total_params[:timestamp]
   flash[:notice] = 'Purchase cancelled'
 end
 
@@ -137,15 +137,12 @@ def complete_purchase!
 end
 
 def create_transaction! # rubocop:disable Metrics/AbcSize
-  @purchase.assign_attributes(purchase_params)
-  ( error = transaction_error ) && ( return flash[:error] = error )
+  pp = purchases_with_total_params
+  ( error = transaction_error(pp) ) && ( return flash[:error] = error )
 
-  balance_cents = @purchase.balance_cents
+  balance_cents = PurchasesWithTotal.find(@purchase.id).balance_cents
   transaction = Transaction.new(
-    purchase: @purchase,
-    amount: @purchase.transaction_amount,
-    message: @purchase.receipt,
-    created_at: @purchase.timestamp
+    purchase: @purchase, amount: pp[:transaction_amount], message: pp[:receipt], created_at: pp[:timestamp]
   )
   transaction.save!
 
@@ -158,15 +155,15 @@ def create_transaction! # rubocop:disable Metrics/AbcSize
   flash[:notice] = ( transaction.amount_cents < 0 ? 'Refund' : 'Payment' ) + ' processed'
 end
 
-def transaction_error # rubocop:disable Metrics/CyclomaticComplexity
+def transaction_error(pp) # rubocop:disable Metrics/CyclomaticComplexity
   return 'Purchase already complete' unless @purchase.payment_due
 
-  amount = @purchase.transaction_amount
+  amount = pp[:transaction_amount]
   error = 'Validation failed: '
   return error + 'Amount can\'t be blank' if amount.blank?
   return error + 'Amount must be numeric' unless amount.match(/\d/)
 
-  timestamp = Time.zone.parse @purchase.timestamp
+  timestamp = Time.zone.parse pp[:timestamp]
   return error + 'Timestamp must be a valid date and time' if timestamp.nil?
   return error + 'Timestamp must be after purchase created' if timestamp.to_i < @purchase.created_at.to_i
   return error + 'Timestamp must not be in the future' if timestamp.to_i > Time.zone.now.to_i

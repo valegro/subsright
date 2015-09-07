@@ -50,7 +50,7 @@ RSpec.feature 'Administer purchase', type: :feature do
       end
 
       context 'when not completed or cancelled' do
-        scenario { expect(page).to have_field :purchase_timestamp }
+        scenario { expect(page).to have_field :purchases_with_total_timestamp }
         scenario { expect(page).to have_css 'input[type=submit][value="Create transaction"]' }
         scenario { expect(page).to have_css 'input[type=submit][value="Cancel purchase"]' }
       end
@@ -60,7 +60,7 @@ RSpec.feature 'Administer purchase', type: :feature do
           purchase.update! payment_due: nil
           visit admin_purchase_path(purchase)
         end
-        scenario { expect(page).to have_field :purchase_timestamp }
+        scenario { expect(page).to have_field :purchases_with_total_timestamp }
         scenario { expect(page).not_to have_css 'input[type=submit][value="Create transaction"]' }
         scenario { expect(page).to have_css 'input[type=submit][value="Reverse purchase"]' }
       end
@@ -70,7 +70,7 @@ RSpec.feature 'Administer purchase', type: :feature do
           purchase.update! cancelled_at: Time.zone.now
           visit admin_purchase_path(purchase)
         end
-        scenario { expect(page).not_to have_field :purchase_timestamp }
+        scenario { expect(page).not_to have_field :purchases_with_total_timestamp }
         scenario { expect(page).not_to have_css 'input[type=submit][value="Cancel purchase"]' }
         scenario { expect(page).not_to have_css 'input[type=submit][value="Reverse purchase"]' }
       end

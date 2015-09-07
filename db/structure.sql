@@ -13,14 +13,16 @@ SET client_min_messages = warning;
 -- Name: plpgsql; Type: EXTENSION; Schema: -; Owner: -
 --
 
-CREATE EXTENSION IF NOT EXISTS plpgsql WITH SCHEMA pg_catalog;
+-- The following was commented out by rake db:structure:fix_plpgsql
+-- CREATE EXTENSION IF NOT EXISTS plpgsql WITH SCHEMA pg_catalog;
 
 
 --
 -- Name: EXTENSION plpgsql; Type: COMMENT; Schema: -; Owner: -
 --
 
-COMMENT ON EXTENSION plpgsql IS 'PL/pgSQL procedural language';
+-- The following was commented out by rake db:structure:fix_plpgsql
+-- COMMENT ON EXTENSION plpgsql IS 'PL/pgSQL procedural language';
 
 
 SET search_path = public, pg_catalog;
@@ -28,6 +30,37 @@ SET search_path = public, pg_catalog;
 SET default_tablespace = '';
 
 SET default_with_oids = false;
+
+--
+-- Name: purchases; Type: TABLE; Schema: public; Owner: -; Tablespace: 
+--
+
+CREATE TABLE purchases (
+    id integer NOT NULL,
+    offer_id integer NOT NULL,
+    currency character varying NOT NULL,
+    amount_cents integer NOT NULL,
+    token character varying,
+    created_at timestamp without time zone NOT NULL,
+    updated_at timestamp without time zone NOT NULL,
+    cancelled_at timestamp without time zone,
+    monthly_payments integer,
+    initial_amount_cents integer,
+    payment_due date,
+    paid_cents integer DEFAULT 0 NOT NULL
+);
+
+
+--
+-- Name: total_cents(purchases); Type: FUNCTION; Schema: public; Owner: -
+--
+
+CREATE FUNCTION total_cents(purchases) RETURNS integer
+    LANGUAGE sql STABLE
+    AS $_$
+      SELECT COALESCE($1.initial_amount_cents, 0) + ($1.amount_cents * COALESCE($1.monthly_payments, 1))
+      $_$;
+
 
 --
 -- Name: active_admin_comments; Type: TABLE; Schema: public; Owner: -; Tablespace: 
@@ -657,26 +690,6 @@ ALTER SEQUENCE publications_id_seq OWNED BY publications.id;
 
 
 --
--- Name: purchases; Type: TABLE; Schema: public; Owner: -; Tablespace: 
---
-
-CREATE TABLE purchases (
-    id integer NOT NULL,
-    offer_id integer NOT NULL,
-    currency character varying NOT NULL,
-    amount_cents integer NOT NULL,
-    token character varying,
-    created_at timestamp without time zone NOT NULL,
-    updated_at timestamp without time zone NOT NULL,
-    cancelled_at timestamp without time zone,
-    monthly_payments integer,
-    initial_amount_cents integer,
-    payment_due date,
-    paid_cents integer DEFAULT 0 NOT NULL
-);
-
-
---
 -- Name: purchases_id_seq; Type: SEQUENCE; Schema: public; Owner: -
 --
 
@@ -693,6 +706,29 @@ CREATE SEQUENCE purchases_id_seq
 --
 
 ALTER SEQUENCE purchases_id_seq OWNED BY purchases.id;
+
+
+--
+-- Name: purchases_with_totals; Type: VIEW; Schema: public; Owner: -
+--
+
+CREATE VIEW purchases_with_totals AS
+ SELECT purchases.id,
+    purchases.offer_id,
+    purchases.currency,
+    purchases.amount_cents,
+    purchases.token,
+    purchases.created_at,
+    purchases.updated_at,
+    purchases.cancelled_at,
+    purchases.monthly_payments,
+    purchases.initial_amount_cents,
+    purchases.payment_due,
+    purchases.paid_cents,
+    purchases.id AS purchase_id,
+    total_cents(purchases.*) AS total_cents,
+    (total_cents(purchases.*) - purchases.paid_cents) AS balance_cents
+   FROM purchases;
 
 
 --
@@ -1703,4 +1739,6 @@ INSERT INTO schema_migrations (version) VALUES ('20150830085327');
 INSERT INTO schema_migrations (version) VALUES ('20150901062907');
 
 INSERT INTO schema_migrations (version) VALUES ('20150907045123');
+
+INSERT INTO schema_migrations (version) VALUES ('20150907092415');
 

@@ -4,7 +4,7 @@
 <head>
 <meta charset="utf-8">
 
-<title>class Purchase - Rails Application Documentation</title>
+<title>class PurchasesWithTotal - Rails Application Documentation</title>
 
 <script type="text/javascript">
   var rdoc_rel_prefix = "./";
@@ -72,13 +72,13 @@
     
     <li ><a href="#method-i-amount">#amount</a>
     
-    <li ><a href="#method-i-currency_name">#currency_name</a>
+    <li ><a href="#method-i-balance">#balance</a>
     
-    <li ><a href="#method-i-initial_amount">#initial_amount</a>
-    
-    <li ><a href="#method-i-initial_amount-3D">#initial_amount=</a>
+    <li ><a href="#method-i-paid">#paid</a>
     
     <li ><a href="#method-i-to_s">#to_s</a>
+    
+    <li ><a href="#method-i-total">#total</a>
     
   </ul>
 </div>
@@ -86,9 +86,9 @@
   </div>
 </nav>
 
-<main role="main" aria-labelledby="class-Purchase">
-  <h1 id="class-Purchase" class="class">
-    class Purchase
+<main role="main" aria-labelledby="class-PurchasesWithTotal">
+  <h1 id="class-PurchasesWithTotal" class="class">
+    class PurchasesWithTotal
   </h1>
 
   <section class="description">
@@ -105,6 +105,53 @@
 
     
 
+    
+    <section class="attribute-method-details" class="method-section">
+      <header>
+        <h3>Attributes</h3>
+      </header>
+
+      
+      <div id="attribute-i-receipt" class="method-detail">
+        <div class="method-heading attribute-method-heading">
+          <span class="method-name">receipt</span><span
+            class="attribute-access-type">[RW]</span>
+        </div>
+
+        <div class="method-description">
+        
+        
+        
+        </div>
+      </div>
+      
+      <div id="attribute-i-timestamp" class="method-detail">
+        <div class="method-heading attribute-method-heading">
+          <span class="method-name">timestamp</span><span
+            class="attribute-access-type">[RW]</span>
+        </div>
+
+        <div class="method-description">
+        
+        
+        
+        </div>
+      </div>
+      
+      <div id="attribute-i-transaction_amount" class="method-detail">
+        <div class="method-heading attribute-method-heading">
+          <span class="method-name">transaction_amount</span><span
+            class="attribute-access-type">[RW]</span>
+        </div>
+
+        <div class="method-description">
+        
+        
+        
+        </div>
+      </div>
+      
+    </section>
     
 
     
@@ -133,7 +180,7 @@
 
           
           <div class="method-source-code" id="amount-source">
-            <pre><span class="ruby-comment"># File app/models/purchase.rb, line 15</span>
+            <pre><span class="ruby-comment"># File app/models/purchases_with_total.rb, line 15</span>
 <span class="ruby-keyword">def</span> <span class="ruby-identifier">amount</span>
   <span class="ruby-constant">Money</span>.<span class="ruby-identifier">new</span>( <span class="ruby-identifier">amount_cents</span>, <span class="ruby-identifier">currency</span> ).<span class="ruby-identifier">format</span>
 <span class="ruby-keyword">end</span></pre>
@@ -147,10 +194,10 @@
       </div>
 
     
-      <div id="method-i-currency_name" class="method-detail ">
+      <div id="method-i-balance" class="method-detail ">
         
         <div class="method-heading">
-          <span class="method-name">currency_name</span><span
+          <span class="method-name">balance</span><span
             class="method-args">()</span>
           
           <span class="method-click-advice">click to toggle source</span>
@@ -165,11 +212,10 @@
           
 
           
-          <div class="method-source-code" id="currency_name-source">
-            <pre><span class="ruby-comment"># File app/models/purchase.rb, line 19</span>
-<span class="ruby-keyword">def</span> <span class="ruby-identifier">currency_name</span>
-  <span class="ruby-identifier">m</span> = <span class="ruby-constant">Money</span><span class="ruby-operator">::</span><span class="ruby-constant">Currency</span>.<span class="ruby-identifier">new</span>(<span class="ruby-identifier">currency</span>)
-  <span class="ruby-node">&quot;#{m.name} (#{m.iso_code})&quot;</span>
+          <div class="method-source-code" id="balance-source">
+            <pre><span class="ruby-comment"># File app/models/purchases_with_total.rb, line 19</span>
+<span class="ruby-keyword">def</span> <span class="ruby-identifier">balance</span>
+  <span class="ruby-constant">Money</span>.<span class="ruby-identifier">new</span>( <span class="ruby-identifier">balance_cents</span>, <span class="ruby-identifier">currency</span> ).<span class="ruby-identifier">format</span>
 <span class="ruby-keyword">end</span></pre>
           </div>
           
@@ -181,10 +227,10 @@
       </div>
 
     
-      <div id="method-i-initial_amount" class="method-detail ">
+      <div id="method-i-paid" class="method-detail ">
         
         <div class="method-heading">
-          <span class="method-name">initial_amount</span><span
+          <span class="method-name">paid</span><span
             class="method-args">()</span>
           
           <span class="method-click-advice">click to toggle source</span>
@@ -199,44 +245,10 @@
           
 
           
-          <div class="method-source-code" id="initial_amount-source">
-            <pre><span class="ruby-comment"># File app/models/purchase.rb, line 24</span>
-<span class="ruby-keyword">def</span> <span class="ruby-identifier">initial_amount</span>
-  <span class="ruby-constant">Money</span>.<span class="ruby-identifier">new</span>(<span class="ruby-identifier">initial_amount_cents</span>, <span class="ruby-identifier">currency</span>).<span class="ruby-identifier">format</span> <span class="ruby-keyword">if</span> <span class="ruby-identifier">initial_amount_cents</span>
-<span class="ruby-keyword">end</span></pre>
-          </div>
-          
-        </div>
-
-        
-
-        
-      </div>
-
-    
-      <div id="method-i-initial_amount-3D" class="method-detail ">
-        
-        <div class="method-heading">
-          <span class="method-name">initial_amount=</span><span
-            class="method-args">(initial_amount)</span>
-          
-          <span class="method-click-advice">click to toggle source</span>
-          
-        </div>
-        
-
-        <div class="method-description">
-          
-          
-          
-          
-
-          
-          <div class="method-source-code" id="initial_amount-3D-source">
-            <pre><span class="ruby-comment"># File app/models/purchase.rb, line 28</span>
-<span class="ruby-keyword">def</span> <span class="ruby-identifier">initial_amount=</span>(<span class="ruby-identifier">initial_amount</span>)
-  <span class="ruby-identifier">initial_amount</span>.<span class="ruby-identifier">tr!</span>(<span class="ruby-string">&#39;^0-9&#39;</span>, <span class="ruby-string">&#39;&#39;</span>)
-  <span class="ruby-keyword">self</span>.<span class="ruby-identifier">initial_amount_cents</span> = <span class="ruby-identifier">initial_amount</span>.<span class="ruby-identifier">to_i</span> <span class="ruby-operator">&gt;</span> <span class="ruby-value">0</span> <span class="ruby-operator">?</span> <span class="ruby-identifier">initial_amount</span> <span class="ruby-operator">:</span> <span class="ruby-keyword">nil</span>
+          <div class="method-source-code" id="paid-source">
+            <pre><span class="ruby-comment"># File app/models/purchases_with_total.rb, line 23</span>
+<span class="ruby-keyword">def</span> <span class="ruby-identifier">paid</span>
+  <span class="ruby-constant">Money</span>.<span class="ruby-identifier">new</span>( <span class="ruby-identifier">paid_cents</span>, <span class="ruby-identifier">currency</span> ).<span class="ruby-identifier">format</span>
 <span class="ruby-keyword">end</span></pre>
           </div>
           
@@ -267,17 +279,42 @@
 
           
           <div class="method-source-code" id="to_s-source">
-            <pre><span class="ruby-comment"># File app/models/purchase.rb, line 33</span>
+            <pre><span class="ruby-comment"># File app/models/purchases_with_total.rb, line 31</span>
 <span class="ruby-keyword">def</span> <span class="ruby-identifier">to_s</span>
-  <span class="ruby-keyword">if</span> <span class="ruby-identifier">cancelled_at</span>
-    <span class="ruby-identifier">status</span> = ( <span class="ruby-identifier">payment_due</span> <span class="ruby-operator">?</span> <span class="ruby-string">&#39;cancelled&#39;</span> <span class="ruby-operator">:</span> <span class="ruby-string">&#39;reversed&#39;</span> ) <span class="ruby-operator">+</span> <span class="ruby-string">&#39; at &#39;</span> <span class="ruby-operator">+</span> <span class="ruby-constant">I18n</span>.<span class="ruby-identifier">l</span>(<span class="ruby-identifier">cancelled_at</span>, <span class="ruby-identifier">format</span><span class="ruby-operator">:</span> <span class="ruby-value">:long</span>)
-  <span class="ruby-keyword">elsif</span> <span class="ruby-identifier">payment_due</span>
-    <span class="ruby-identifier">status</span> = <span class="ruby-string">&#39;payment due &#39;</span> <span class="ruby-operator">+</span> <span class="ruby-constant">I18n</span>.<span class="ruby-identifier">l</span>(<span class="ruby-identifier">payment_due</span>, <span class="ruby-identifier">format</span><span class="ruby-operator">:</span> <span class="ruby-value">:long</span>)
-  <span class="ruby-keyword">else</span>
-    <span class="ruby-identifier">status</span> = <span class="ruby-string">&#39;completed&#39;</span>
-  <span class="ruby-keyword">end</span>
+  <span class="ruby-node">&quot;Purchase ##{id}&quot;</span>
+<span class="ruby-keyword">end</span></pre>
+          </div>
+          
+        </div>
 
-  <span class="ruby-node">&quot;#{currency} #{amount} (#{status})&quot;</span>
+        
+
+        
+      </div>
+
+    
+      <div id="method-i-total" class="method-detail ">
+        
+        <div class="method-heading">
+          <span class="method-name">total</span><span
+            class="method-args">()</span>
+          
+          <span class="method-click-advice">click to toggle source</span>
+          
+        </div>
+        
+
+        <div class="method-description">
+          
+          
+          
+          
+
+          
+          <div class="method-source-code" id="total-source">
+            <pre><span class="ruby-comment"># File app/models/purchases_with_total.rb, line 27</span>
+<span class="ruby-keyword">def</span> <span class="ruby-identifier">total</span>
+  <span class="ruby-constant">Money</span>.<span class="ruby-identifier">new</span>( <span class="ruby-identifier">total_cents</span>, <span class="ruby-identifier">currency</span> ).<span class="ruby-identifier">format</span>
 <span class="ruby-keyword">end</span></pre>
           </div>
           

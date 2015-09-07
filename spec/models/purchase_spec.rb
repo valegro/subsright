@@ -2,7 +2,6 @@ require 'rails_helper'
 
 RSpec.describe Purchase, type: :model do
   let(:purchase) { build :purchase, amount_cents: 123 }
-  let(:split_purchase) { build :purchase, amount_cents: 456, initial_amount_cents: 123 }
   it { expect(purchase).to belong_to :offer }
   it { expect(purchase).to have_db_column(:currency).of_type(:string).with_options(null: false) }
   it { expect(purchase).to have_db_column(:amount_cents).of_type(:integer).with_options(null: false) }
@@ -51,30 +50,5 @@ RSpec.describe Purchase, type: :model do
     purchase.cancelled_at = Time.zone.now
     expect(purchase.to_s).to eq "#{purchase.currency} #{purchase.amount} (reversed at " +
       I18n.l(purchase.cancelled_at, format: :long) + ')'
-  end
-
-  context 'without initial amount' do
-    context 'without monthly payments' do
-      it { expect(purchase.total_cents).to eq 123 }
-    end
-    context 'with monthly payments' do
-      before { purchase.monthly_payments = 4 }
-      it { expect(purchase.total_cents).to eq 123 * 4 }
-    end
-  end
-
-  context 'with initial amount' do
-    context 'without monthly payments' do
-      it { expect(split_purchase.total_cents).to eq 123 + 456 }
-    end
-    context 'with monthly payments' do
-      before { split_purchase.monthly_payments = 7 }
-      it { expect(split_purchase.total_cents).to eq 123 + 456 * 7 }
-    end
-  end
-
-  it 'formats totals' do
-    purchase.amount_cents = '123456'
-    expect(purchase.total).to eq '$1,234.56'
   end
 end

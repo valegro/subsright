@@ -23,6 +23,9 @@ module Subsright
     # Opt in to the new default
     config.active_record.raise_in_transactional_callbacks = true
 
+    # create a db specific dump in structure.sql file rather than schema.rb
+    config.active_record.schema_format = :sql
+
     config.generators do |g|
       g.test_framework :rspec,
         fixtures: true,
