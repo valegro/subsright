@@ -6,10 +6,10 @@ ActiveAdmin.register Purchase do
   filter :offer
   filter :products
   filter :currency, as: :select, collection: Configuration::CURRENCY_OPTIONS
-  filter :amount_cents
   # filter :total_cents
-  # filter :paid_cents
+  filter :paid_cents
   # filter :balance_cents
+  filter :amount_cents
   filter :payment_due
   filter :cancelled_at
   filter :created_at
@@ -29,10 +29,10 @@ ActiveAdmin.register Purchase do
     id_column
     column :offer
     column :currency
-    column :amount
     column :total
-    column :paid
+    column :paid, sortable: :paid_cents
     column :balance
+    column :amount, sortable: :amount_cents
     column :payment_due
     column :cancelled_at
     column :created_at

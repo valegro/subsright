@@ -24,6 +24,7 @@ RSpec.feature 'Administer purchase', type: :feature do
       scenario('filter by products')          { expect(page).to have_field 'q_product_ids' }
       scenario('filter by currency')          { expect(page).to have_field 'q_currency' }
       scenario('filter by amount')            { expect(page).to have_field 'q_amount_cents' }
+      scenario('filter by paid')              { expect(page).to have_field 'q_paid_cents' }
       scenario('filter by payment due')       { expect(page).to have_field 'q_payment_due_gteq' }
       scenario('filter by cancellation time') { expect(page).to have_field 'q_cancelled_at_gteq' }
       scenario('filter by creation time')     { expect(page).to have_field 'q_created_at_gteq' }
