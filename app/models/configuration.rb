@@ -63,6 +63,7 @@ class Configuration < ActiveRecord::Base
   # Define settings by listing them here
   setting :provider_name, "'Organisation Name'", :string
   settings << 'provider_logo'
+  setting :provider_terms_url, "''", :string
 
   # Ensure all the defaults are created when the class file is read
   ensure_created
