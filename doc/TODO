@@ -20,3 +20,8 @@
 * Add a scheduled task to create Stripe charges for Purchases where payment_due
 * Add JSON API for WordPress plugin with authentication key
 * Process subscriptions and product orders on receipt of first payment, not final payment
+* Add offer image
+* Add campaign banner image
+* Add provider brand colour and font
+* Add social media share buttons (top right?)
+* Add default terms and FAQ, option to to override with URL
