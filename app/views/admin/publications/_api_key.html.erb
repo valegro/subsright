@@ -1,0 +1,6 @@
+<%= @publication.api_key %>
+<%= semantic_form_for @publication, builder: Formtastic::FormBuilder, url: new_key_admin_publication_path(@publication) do |form| %>
+  <%= form.actions do %>
+    <%=  form.submit 'Regenerate key' %>
+  <% end %>
+<% end %>

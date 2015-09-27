@@ -19,7 +19,6 @@
   and Purchases.counter_culture_fix_counts
 * Add a scheduled task to create Stripe charges for Purchases where payment_due
 * Add JSON API for WordPress plugin with authentication key
-* Add "regenerate" button to Publication admin view to create new api_key
 * Process subscriptions and product orders on receipt of first payment, not final payment
 * Add offer image
 * Add campaign banner image

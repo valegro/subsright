@@ -52,7 +52,7 @@ ActiveAdmin.register Publication do
         end
       end
       row(:website) { link_to publication.website, publication.website }
-      row :api_key
+      row(:api_key) { render 'api_key', locals: { publication: publication } }
       row :offers do
         ( publication.offers.order(:name).map { |offer| link_to offer.name, admin_offer_path(offer) }
         ).join(', ').html_safe
@@ -77,5 +77,12 @@ ActiveAdmin.register Publication do
       f.input :description, input_html: { class: 'tinymce' }
     end
     f.actions
+  end
+
+  member_action :new_key, method: :patch do
+    @publication = Publication.find params[:id]
+    @publication.update! api_key: Devise.friendly_token
+    flash[:notice] = 'API key regenerated'
+    redirect_to :admin_publication
   end
 end

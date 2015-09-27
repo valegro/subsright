@@ -16,6 +16,14 @@
 //
 //   .status_tag { background: #6090DB; }
 
+// Show Publication API key regeneration button inline
+#edit_publication_1 {
+  display: inline-block;
+  margin-left: 2em;
+  vertical-align: middle;
+  .actions { margin: 0; padding: 0; }
+}
+
 // Show radio buttons horizontally
 .formtastic fieldset > ol > li.radio fieldset ol li {
   margin: 0.1em 0.5em 0.5em 0;

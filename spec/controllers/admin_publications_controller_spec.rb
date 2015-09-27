@@ -54,6 +54,15 @@ RSpec.describe Admin::PublicationsController, type: :controller do
     it('renders the show template') { expect(get :show, id: publication).to render_template :show }
   end
 
+  describe 'PATCH #new_key' do
+    it "changes the publication's api_key" do
+      api_key = publication.api_key
+      patch :new_key, id: publication
+      publication.reload
+      expect(publication.api_key).not_to eq api_key
+    end
+  end
+
   describe 'PATCH #update' do
     before { publication }
     context 'with valid attributes' do
