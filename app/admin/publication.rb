@@ -1,4 +1,5 @@
 ActiveAdmin.register Publication do
+  before_create { |publication| publication.api_key = Devise.friendly_token }
   permit_params :name, :image, :website, :description
 
   filter :name
@@ -51,6 +52,7 @@ ActiveAdmin.register Publication do
         end
       end
       row(:website) { link_to publication.website, publication.website }
+      row :api_key
       row :offers do
         ( publication.offers.order(:name).map { |offer| link_to offer.name, admin_offer_path(offer) }
         ).join(', ').html_safe

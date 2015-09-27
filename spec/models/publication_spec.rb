@@ -4,6 +4,7 @@ RSpec.describe Publication, type: :model do
   let(:publication) { build(:publication) }
   it { expect(publication).to have_db_column(:name).of_type(:string).with_options(null: false) }
   it { expect(publication).to have_db_column(:website).of_type(:string).with_options(null: false) }
+  it { expect(publication).to have_db_column(:api_key).of_type(:string).with_options(null: false) }
   it { expect(publication).to have_db_column(:image_file_name).of_type(:string) }
   it { expect(publication).to have_db_column(:description).of_type(:text) }
   it { expect(publication).to have_db_column(:subscriptions_count).of_type(:integer).with_options(null: false) }

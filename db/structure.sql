@@ -666,7 +666,8 @@ CREATE TABLE publications (
     description text,
     created_at timestamp without time zone NOT NULL,
     updated_at timestamp without time zone NOT NULL,
-    subscriptions_count integer DEFAULT 0 NOT NULL
+    subscriptions_count integer DEFAULT 0 NOT NULL,
+    api_key character varying NOT NULL
 );
 
 
@@ -1741,4 +1742,6 @@ INSERT INTO schema_migrations (version) VALUES ('20150901062907');
 INSERT INTO schema_migrations (version) VALUES ('20150907045123');
 
 INSERT INTO schema_migrations (version) VALUES ('20150907092415');
+
+INSERT INTO schema_migrations (version) VALUES ('20150927092737');
 
