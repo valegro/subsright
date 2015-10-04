@@ -4,13 +4,13 @@ class Api::V1::SubscribersController < Api::ApiController
 
   def index
     @subscribers = Customer.includes(:subscriptions).joins(:subscriptions)
-      .merge(Subscription.where publication: @publication)
+      .merge(Subscription.where(publication: @publication).order(expiry: :desc))
     respond_with @subscribers.map { |subscriber| subscriber_data subscriber, subscriber.subscriptions.first }
   end
 
   def show
     subscriber = Customer.find params[:id]
-    subscription = subscriber.subscriptions.where(publication: @publication).first
+    subscription = subscriber.subscriptions.where(publication: @publication).order(expiry: :desc).first
     if subscription
       respond_with subscriber_data subscriber, subscription
     else
