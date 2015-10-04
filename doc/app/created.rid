@@ -1,4 +1,4 @@
-Tue, 08 Sep 2015 02:56:32 +1000
+Sun, 04 Oct 2015 22:05:21 +1100
 README.rdoc	Wed, 26 Aug 2015 18:28:28 +1000
 app/admin/admin_user.rb	Fri, 31 Jul 2015 13:53:44 +1000
 app/admin/campaign.rb	Mon, 06 Jul 2015 18:16:51 +1000
@@ -10,10 +10,12 @@ app/admin/offer.rb	Mon, 06 Jul 2015 01:00:49 +1000
 app/admin/price.rb	Wed, 08 Jul 2015 19:00:48 +1000
 app/admin/product.rb	Fri, 07 Aug 2015 01:38:14 +1000
 app/admin/product_order.rb	Sun, 30 Aug 2015 19:39:52 +1000
-app/admin/publication.rb	Fri, 07 Aug 2015 01:52:31 +1000
-app/admin/purchases_with_total.rb	Tue, 08 Sep 2015 02:55:52 +1000
+app/admin/publication.rb	Sun, 04 Oct 2015 18:25:12 +1100
+app/admin/purchases_with_total.rb	Tue, 08 Sep 2015 03:36:00 +1000
 app/admin/subscription.rb	Wed, 02 Sep 2015 00:49:43 +1000
 app/admin/user.rb	Fri, 31 Jul 2015 13:53:52 +1000
+app/controllers/api/api_controller.rb	Sun, 04 Oct 2015 19:16:58 +1100
+app/controllers/api/v1/subscribers_controller.rb	Sun, 04 Oct 2015 22:00:10 +1100
 app/controllers/application_controller.rb	Fri, 28 Aug 2015 01:34:43 +1000
 app/controllers/campaigns_controller.rb	Fri, 31 Jul 2015 14:50:31 +1000
 app/controllers/confirmations_controller.rb	Mon, 27 Jul 2015 20:05:28 +1000
@@ -25,6 +27,8 @@ app/controllers/products_controller.rb	Mon, 18 May 2015 16:47:32 +1000
 app/controllers/publications_controller.rb	Sun, 05 Apr 2015 12:53:22 +1000
 app/controllers/users_controller.rb	Sun, 02 Aug 2015 21:49:32 +1000
 app/controllers/welcome_controller.rb	Fri, 31 Jul 2015 14:51:17 +1000
+app/helpers/api/api_helper.rb	Sun, 04 Oct 2015 13:32:40 +1100
+app/helpers/api/v1/subscribers_helper.rb	Sun, 04 Oct 2015 13:31:49 +1100
 app/helpers/application_helper.rb	Mon, 27 Oct 2014 16:28:23 +1100
 app/helpers/campaigns_helper.rb	Sun, 15 Mar 2015 17:40:18 +1100
 app/helpers/customers_helper.rb	Wed, 08 Apr 2015 18:03:05 +1000
@@ -37,8 +41,8 @@ app/helpers/welcome_helper.rb	Mon, 10 Nov 2014 20:08:32 +1100
 app/models/admin_user.rb	Wed, 03 Jun 2015 18:51:33 +1000
 app/models/campaign.rb	Mon, 06 Jul 2015 18:49:02 +1000
 app/models/campaign_offer.rb	Mon, 18 May 2015 21:50:35 +1000
-app/models/configuration.rb	Thu, 27 Aug 2015 21:31:44 +1000
-app/models/customer.rb	Wed, 02 Sep 2015 00:49:43 +1000
+app/models/configuration.rb	Fri, 18 Sep 2015 01:09:59 +1000
+app/models/customer.rb	Sun, 04 Oct 2015 17:13:31 +1100
 app/models/customer_discount.rb	Mon, 18 May 2015 19:46:36 +1000
 app/models/customer_subscription.rb	Sun, 21 Jun 2015 14:26:33 +1000
 app/models/discount.rb	Mon, 18 May 2015 20:34:18 +1000
@@ -50,7 +54,7 @@ app/models/offer_publication.rb	Thu, 16 Jul 2015 21:51:13 +1000
 app/models/price.rb	Sun, 30 Aug 2015 23:26:28 +1000
 app/models/product.rb	Thu, 23 Jul 2015 23:06:57 +1000
 app/models/product_order.rb	Fri, 07 Aug 2015 02:28:58 +1000
-app/models/publication.rb	Wed, 05 Aug 2015 19:57:22 +1000
+app/models/publication.rb	Sun, 04 Oct 2015 18:26:08 +1100
 app/models/purchase.rb	Tue, 08 Sep 2015 02:41:23 +1000
 app/models/purchases_with_total.rb	Tue, 08 Sep 2015 01:58:17 +1000
 app/models/renewal.rb	Wed, 02 Sep 2015 00:49:43 +1000

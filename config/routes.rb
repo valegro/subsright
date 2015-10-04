@@ -24,4 +24,12 @@ Rails.application.routes.draw do
 
   devise_for :admin_users, ActiveAdmin::Devise.config
   ActiveAdmin.routes(self)
+
+  namespace :api, defaults: { format: :json } do
+    get 'version' => 'api#version'
+    namespace :v1 do
+      get 'subscribers' => 'subscribers#index'
+      get 'subscribers/:id' => 'subscribers#show'
+    end
+  end
 end
