@@ -80,8 +80,7 @@ ActiveAdmin.register Publication do
   end
 
   member_action :new_key, method: :patch do
-    @publication = Publication.find params[:id]
-    @publication.update! api_key: Devise.friendly_token
+    Publication.find(params[:id]).update! api_key: Devise.friendly_token
     flash[:notice] = 'API key regenerated'
     redirect_to :admin_publication
   end

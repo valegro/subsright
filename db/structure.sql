@@ -1401,6 +1401,13 @@ CREATE UNIQUE INDEX index_products_on_name ON products USING btree (name);
 
 
 --
+-- Name: index_publications_on_api_key; Type: INDEX; Schema: public; Owner: -; Tablespace: 
+--
+
+CREATE UNIQUE INDEX index_publications_on_api_key ON publications USING btree (api_key);
+
+
+--
 -- Name: index_publications_on_name; Type: INDEX; Schema: public; Owner: -; Tablespace: 
 --
 
