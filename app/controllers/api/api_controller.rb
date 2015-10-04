@@ -8,7 +8,7 @@ class Api::ApiController < ActionController::Base
   private
 
   def authenticate
-    authenticate_or_request_with_http_token do |token|
+    authenticate_or_request_with_http_token('Subscriptus 2') do |token|
       @publication = Publication.where(api_key: token).first
     end
   end
