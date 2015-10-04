@@ -55,6 +55,17 @@ default password "password".  You can now create and edit admin users and the si
 
 You can then visit http://localhost:3000 to see the public interface.
 
+=== API development
+
+In order to test the API, you must provide a valid publication API key as an HTTP Authorization header.
+For example:
+
+<tt>$ curl -H 'Authorization: Token token=[api_key]' [URL]</tt>
+
+or
+
+<tt>$ wget --header='Authorization: Token token=[api_key]' [URL]</tt>
+
 === Production
 
 <tt>$ sudo -u postgres createuser -d -P subsright</tt>
