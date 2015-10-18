@@ -83,4 +83,4 @@ production:
   host: localhost
   database: subsright_production
   username: subsright
-  password: <%= ENV['SUBSRIGHT_DATABASE_PASSWORD'] %>
+  password: zxnm9014
