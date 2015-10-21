@@ -25,11 +25,6 @@ gem 'active_link_to'
 gem 'tabs_on_rails'
 
 
-#Wildcart subdomains
-gem 'subdomainitis'
-gem 'subdomain-fu'
-
-
 # Data visualization for admin dashboard
 gem 'chartkick'
 gem 'ruby-graphviz'
