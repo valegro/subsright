@@ -11,7 +11,7 @@ gem 'uglifier', '>= 1.3.0'
 # Use CoffeeScript for .js.coffee assets and views
 gem 'coffee-rails', '~> 4.1.0'
 # See https://github.com/sstephenson/execjs#readme for more supported runtimes
-# gem 'therubyracer',  platforms: :ruby
+gem 'therubyracer',  platforms: :ruby
 
 # Use SASS port of bootstrap
 gem 'bootstrap-sass'
@@ -24,6 +24,8 @@ gem 'simple-navigation'
 gem 'active_link_to'
 gem 'tabs_on_rails'
 
+#Time Zone
+gem 'tzinfo-data'
 
 # Data visualization for admin dashboard
 gem 'chartkick'
@@ -46,6 +48,7 @@ gem 'spring', group: :development
 
 # Use ActiveModel has_secure_password
 gem 'bcrypt', '~> 3.1.9'
+gem "bcrypt-ruby", :require => "bcrypt"
 
 # Use Rails Html Sanitizer for HTML sanitization
 gem 'rails-html-sanitizer', '~> 1.0'
@@ -64,7 +67,7 @@ gem 'two_factor_authentication'
 
 
 # Use ActiveAdmin 1.0 for Rails 4 support
-gem 'activeadmin', '~> 1.0.0pre1'
+gem 'activeadmin', '~> 1.0.0pre2'
 
 # Use country_select plugin
 gem 'country_select'
@@ -81,8 +84,14 @@ gem 'money'
 # Use debugger
 # gem 'debugger', group: [:development, :test]
 
-# Use Paperclip for images
-gem 'paperclip', '~> 4.2'
+# Use mime types
+gem 'mime-types', '~> 2.6', '>= 2.6.2'
+
+# Use Paperclip for file uploads
+gem 'paperclip', '~> 4.3', '>= 4.3.1'
+
+# Use rmagick for image resizing
+gem 'rmagick', '~> 2.15', '>= 2.15.4'
 
 # Use TinyMCE for rich text fields
 gem 'tinymce-rails'
@@ -95,6 +104,9 @@ gem 'stripe', git: 'https://github.com/stripe/stripe-ruby'
 
 # Use Rubocop in development to check Ruby and Rails style
 gem 'rubocop', group: :development, require: false
+
+# Add mailchimp support
+gem 'mailchimp-api', require: 'mailchimp'
 
 # Use RSpec for testing
 group :development, :test do
@@ -111,4 +123,3 @@ group :test do
   gem 'capybara'
   gem 'simplecov', require: false
 end
-
