@@ -1,5 +1,4 @@
 # PostgreSQL. Versions 8.2 and up are supported.
-#
 # Install the pg driver:
 #   gem install pg
 # On OS X with Homebrew:
@@ -83,4 +82,4 @@ production:
   host: localhost
   database: subsright_production
   username: subsright
-  password: <%= ENV['SUBSRIGHT_DATABASE_PASSWORD'] %>
+  password: zxnm()14
