@@ -20,3 +20,8 @@
 
 # Ignore coverage output
 /coverage
+
+#Ignore Gemfile lock
+/Gemfile.lock
+#Ignore database config
+/config/database.yml
